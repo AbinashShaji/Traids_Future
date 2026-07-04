@@ -1,24 +1,24 @@
-/**
- * Mock articles (insights) data simulating CMS blog collection.
- * Replace with API call to /api/articles when backend is ready.
- */
+// This file stores mock (fake) blog articles (also called "insights") that visitors can read on our website.
+// It holds the article title, body content, tags, category, and author details, along with search helpers.
 
+// Article defines the details that go into a single blog post.
 export interface Article {
   id: string;
   slug: string;
   title: string;
   excerpt: string;
-  content: string;
+  content: string; // The full text of the article in markdown format.
   author: string;
   authorRole: string;
   coverImage: string;
   category: string;
   tags: string[];
-  readingTime: number; // minutes
-  publishedAt: string; // ISO date string
-  featured: boolean;
+  readingTime: number; // Estimated minutes it takes for a person to read the article.
+  publishedAt: string; // The date the article was written.
+  featured: boolean; // Determines if this article is shown prominently at the top of the insights page.
 }
 
+// List of blog categories.
 export const categories = [
   "Business Strategy",
   "Technology",
@@ -27,6 +27,7 @@ export const categories = [
   "Growth",
 ];
 
+// The actual mock database of blog posts.
 export const articles: Article[] = [
   {
     id: "art-001",
@@ -219,14 +220,18 @@ That is your brand.
   },
 ];
 
+// getArticleBySlug looks up a single blog post using its URL slug (like "why-most-business-websites-fail").
 export const getArticleBySlug = (slug: string): Article | undefined =>
   articles.find((a) => a.slug === slug);
 
+// getFeaturedArticle returns the single post marked as "featured" to highlight on the page.
 export const getFeaturedArticle = (): Article | undefined =>
   articles.find((a) => a.featured);
 
+// getArticlesByCategory returns all blog posts matching a chosen category.
 export const getArticlesByCategory = (category: string): Article[] =>
   articles.filter((a) => a.category === category);
 
+// getRelatedArticles returns a list of other blog posts, excluding the one currently being read, to suggest to the reader.
 export const getRelatedArticles = (currentSlug: string, limit = 2): Article[] =>
   articles.filter((a) => a.slug !== currentSlug).slice(0, limit);

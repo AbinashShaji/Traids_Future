@@ -1,3 +1,5 @@
+// This file controls the detailed "About" page layout.
+// It explains who Triads Future is, our core principles, service capabilities (Strategy, Design, Code, Marketing), our methodology steps, and displays an interactive FAQ collapsible block.
 "use client";
 
 import * as React from "react";
@@ -28,9 +30,7 @@ import { ImageWrapper } from "../../components/image-wrapper";
 import { CTA } from "../../components/cta";
 import { cn } from "../../utils/cn";
 import { faqs, type FAQ } from "../../mock/faq";
-import { motion } from "framer-motion";
-import { riseVariants } from "../../animations/presets";
-import { useViewportReveal } from "../../animations/viewport";
+import { Reveal } from "../../components/reveal";
 
 type Capability = {
   title: string;
@@ -154,6 +154,9 @@ const clientReasons = [
   "Execution is treated as a craft, with strong attention to detail and maintainability.",
 ];
 
+// FAQItem renders an interactive accordion row that toggles open or closed when the visitor clicks the question.
+// Inputs: "faq" (the question & answer content), "isOpen" (boolean indicating if the answer is visible), "onToggle" (function triggered when clicked).
+// Outputs: Renders a collapsible border card with a rotated arrow indicator.
 function FAQItem({ faq, isOpen, onToggle }: { faq: FAQ; isOpen: boolean; onToggle: () => void }) {
   return (
     <div className="border border-[#E8E8E8] rounded-sm bg-[#FAF9F6] overflow-hidden transition-all duration-300">
@@ -186,11 +189,15 @@ function FAQItem({ faq, isOpen, onToggle }: { faq: FAQ; isOpen: boolean; onToggl
   );
 }
 
+// AboutPageContent sets up the entire visual hierarchy of the About page.
+// Inputs: None.
+// Outputs: Renders a fully detailed page including interactive capabilities list tab, belief cards grid, process timeline, and FAQ columns.
 export default function AboutPageContent() {
+  // selectedCapability is a React State that stores the capability section currently clicked in the tab grid (defaults to the first option).
   const [selectedCapability, setSelectedCapability] = React.useState<Capability>(capabilities[0]);
+  // openFaq is a React State holding the ID of the FAQ row currently expanded (defaults to the second FAQ).
   const [openFaq, setOpenFaq] = React.useState<string | null>("faq-002");
-  const reveal = useViewportReveal();
-
+  // Limit shown FAQs to the first 6 entries.
   const faqsForPage = faqs.slice(0, 6);
 
   return (
@@ -198,33 +205,29 @@ export default function AboutPageContent() {
       <SectionWrapper animate={false} className="pt-20 pb-12 md:pt-28 md:pb-16 bg-[#FAF9F6]">
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
-            <motion.div
-              initial={reveal.containerMotion.initial}
-              whileInView={reveal.containerMotion.whileInView}
-              viewport={reveal.containerMotion.viewport}
-              variants={reveal.containerMotion.variants}
+            <div
               className="lg:col-span-6 flex flex-col gap-8 relative z-10"
             >
               {/* Eyebrow / Thin HR rule */}
-              <motion.div variants={riseVariants} custom={0} className="flex items-center gap-4 text-[#5F5F5F]">
+              <div className="flex items-center gap-4 text-[#5F5F5F]">
                 <span className="h-[1px] w-8 bg-[#111111]/20 inline-block" />
                 <span className="font-sans text-xs uppercase tracking-[0.2em] font-semibold">
                   Who We Are
                 </span>
-              </motion.div>
+              </div>
 
               {/* Heading with 01 background */}
-              <motion.div variants={riseVariants} custom={1} className="relative">
+              <div className="relative">
                 <span className="absolute -top-16 -left-6 font-sans text-[10rem] font-black text-[#111111]/[0.02] leading-none select-none pointer-events-none">
                   01
                 </span>
                 <SectionHeading tag="h1" className="relative z-10">
                   We build the systems behind serious growth.
                 </SectionHeading>
-              </motion.div>
+              </div>
 
               {/* Paragraphs */}
-              <motion.div variants={riseVariants} custom={2} className="flex flex-col gap-5">
+              <div className="flex flex-col gap-5">
                 <p className="font-sans text-lg md:text-xl text-[#111111] leading-relaxed max-w-2xl">
                   Triads Future exists to help businesses turn operational friction into a competitive advantage.
                 </p>
@@ -232,10 +235,10 @@ export default function AboutPageContent() {
                   We combine strategy, design, software, automation, and growth thinking so companies can move
                   with more clarity, less waste, and a stronger sense of ownership over the systems that matter.
                 </p>
-              </motion.div>
+              </div>
 
               {/* CTA buttons */}
-              <motion.div variants={riseVariants} custom={3} className="flex flex-wrap gap-4 pt-2">
+              <div className="flex flex-wrap gap-4 pt-2">
                 <Link href="/contact">
                   <Button variant="primary" size="lg">
                     Book a strategy call
@@ -246,20 +249,14 @@ export default function AboutPageContent() {
                     Explore capabilities
                   </Button>
                 </Link>
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
 
-            <motion.div
-              initial={reveal.containerMotion.initial}
-              whileInView={reveal.containerMotion.whileInView}
-              viewport={reveal.containerMotion.viewport}
-              variants={reveal.containerMotion.variants}
+            <div
               className="lg:col-span-6 relative mt-12 lg:mt-0"
             >
               <div className="grid grid-cols-12 gap-6 items-start">
-                <motion.div
-                  variants={riseVariants}
-                  custom={1}
+                <div
                   className="col-span-7 md:col-span-8 aspect-[3/4] relative lg:translate-y-6"
                 >
                   <ImageWrapper
@@ -270,13 +267,11 @@ export default function AboutPageContent() {
                     sizes="(max-width: 1024px) 60vw, 30vw"
                     containerClassName="w-full h-full shadow-[0_4px_24px_rgba(0,0,0,0.03)] rounded-sm"
                   />
-                </motion.div>
+                </div>
 
                 <div className="col-span-5 md:col-span-4 flex flex-col gap-6 lg:-translate-y-6">
                   {/* Mission Card */}
-                  <motion.div
-                    variants={riseVariants}
-                    custom={2}
+                  <div
                     className="aspect-[1/1.1] rounded-sm border border-[#E8E8E8] bg-[#FAF9F6] p-4 md:p-5 flex flex-col justify-between shadow-[0_4px_16px_rgba(0,0,0,0.01)] hover:border-[#111111] hover:bg-[#111111]/[0.01] hover:scale-[1.015] hover:-translate-y-px transition-all duration-300 ease-out"
                   >
                     <div>
@@ -290,12 +285,10 @@ export default function AboutPageContent() {
                     <div className="w-10 h-10 rounded-sm bg-[#111111]/5 flex items-center justify-center">
                       <Workflow className="w-4 h-4 text-[#111111]" />
                     </div>
-                  </motion.div>
+                  </div>
 
                   {/* Promise Card */}
-                  <motion.div
-                    variants={riseVariants}
-                    custom={3}
+                  <div
                     className="aspect-[1/1.1] rounded-sm bg-[#111111] text-[#FAF9F6] p-4 md:p-5 flex flex-col justify-between shadow-[0_4px_16px_rgba(0,0,0,0.02)] hover:scale-[1.015] hover:-translate-y-px transition-all duration-300 ease-out"
                   >
                     <div>
@@ -310,10 +303,10 @@ export default function AboutPageContent() {
                       <ShieldCheck className="w-3.5 h-3.5 shrink-0" />
                       <span className="truncate">Trusted, standard, maintainable</span>
                     </div>
-                  </motion.div>
+                  </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </Container>
       </SectionWrapper>
@@ -396,17 +389,14 @@ export default function AboutPageContent() {
               Principles that shape how we work.
             </SectionHeading>
           </div>
-          <motion.div
-            initial={reveal.containerMotion.initial}
-            whileInView={reveal.containerMotion.whileInView}
-            viewport={reveal.containerMotion.viewport}
-            variants={reveal.containerMotion.variants}
+          <div
             className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-5"
           >
             {principles.map((principle, index) => (
-              <motion.div
+              <Reveal
                 key={principle.title}
-                variants={riseVariants}
+                variant="fadeUp"
+                delay={index}
                 className={cn(
                   "flex flex-col min-h-[210px]",
                   index === 0 && "md:col-span-2 xl:col-span-1"
@@ -431,9 +421,9 @@ export default function AboutPageContent() {
                     {principle.description}
                   </p>
                 </Card>
-              </motion.div>
+              </Reveal>
             ))}
-          </motion.div>
+          </div>
         </Container>
       </SectionWrapper>
 
@@ -552,20 +542,17 @@ export default function AboutPageContent() {
               </div>
             </div>
             <div className="lg:col-span-8">
-              <motion.div
-                initial={reveal.containerMotion.initial}
-                whileInView={reveal.containerMotion.whileInView}
-                viewport={reveal.containerMotion.viewport}
-                variants={reveal.containerMotion.variants}
+              <div
                 className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"
               >
-                {capabilities.map((capability) => {
+                {capabilities.map((capability, index) => {
                   const isActive = selectedCapability.title === capability.title;
                   const Icon = capability.icon;
                   return (
-                    <motion.div
+                    <Reveal
                       key={capability.title}
-                      variants={riseVariants}
+                      variant="fadeIn"
+                      delay={index}
                       className="w-full h-full flex"
                     >
                       <button
@@ -605,10 +592,10 @@ export default function AboutPageContent() {
                           ))}
                         </ul>
                       </button>
-                    </motion.div>
+                    </Reveal>
                   );
                 })}
-              </motion.div>
+              </div>
             </div>
           </div>
         </Container>

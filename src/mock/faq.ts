@@ -1,18 +1,19 @@
-/**
- * Mock FAQ data simulating CMS FAQ collection.
- * Replace with API call to /api/faq when backend is ready.
- */
+// This file holds mock (fake) frequently asked questions (FAQs) and answers about our services.
+// It also provides helper functions to sort and retrieve FAQs by category.
 
+// FAQ defines the structure of a single question-and-answer item.
 export interface FAQ {
   id: string;
   question: string;
   answer: string;
-  category: string;
-  displayOrder: number;
+  category: string; // The topic category like "General" or "Pricing".
+  displayOrder: number; // A number used to sort which question shows first.
 }
 
+// A list of the categories used to group our questions.
 export const faqCategories = ["General", "Process", "Pricing", "Working Together"];
 
+// The list of questions and answers we show on the FAQ page.
 export const faqs: FAQ[] = [
   {
     id: "faq-001",
@@ -64,8 +65,10 @@ export const faqs: FAQ[] = [
   },
 ];
 
+// getFaqsByCategory filters the list to return only the questions from a specific category, sorted by display order.
 export const getFaqsByCategory = (category: string): FAQ[] =>
   faqs.filter((f) => f.category === category).sort((a, b) => a.displayOrder - b.displayOrder);
 
+// getAllFaqs returns all questions, sorted so they display in the correct order.
 export const getAllFaqs = (): FAQ[] =>
   faqs.sort((a, b) => a.displayOrder - b.displayOrder);

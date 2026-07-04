@@ -1,46 +1,20 @@
+// This file defines the PageTransition wrapper component. It is a container that envelopes our webpage layouts to ensure clean height filling and stretch alignment during navigation.
 "use client";
 
 import * as React from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { usePathname } from "next/navigation";
 
-const pageTransitionVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      duration: 0.25,
-      ease: "easeOut" as const,
-    },
-  },
-  exit: {
-    opacity: 0,
-    transition: {
-      duration: 0.25,
-      ease: "easeIn" as const,
-    },
-  },
-};
-
+// PageTransitionProps outlines the content wrapped inside the page container.
 interface PageTransitionProps {
   children: React.ReactNode;
 }
 
+// PageTransition sets up a solid layout container for web pages.
+// Inputs: "children" (the page elements nested inside this wrapper).
+// Outputs: Renders a container <div> that takes up all available vertical space.
 export const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
-  const pathname = usePathname();
-
   return (
-    <AnimatePresence mode="wait" initial={false}>
-      <motion.div
-        key={pathname}
-        variants={pageTransitionVariants}
-        initial="hidden"
-        animate="visible"
-        exit="exit"
-        className="w-full flex flex-col flex-1"
-      >
-        {children}
-      </motion.div>
-    </AnimatePresence>
+    <div className="w-full flex flex-col flex-1">
+      {children}
+    </div>
   );
 };

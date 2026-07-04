@@ -1,6 +1,9 @@
+/* This file sets the global styling rules for the entire website.
+   It defines custom design variables like base font families, standard text colors, and background colors. */
 @import "tailwindcss";
 
 :root {
+  /* Set standard theme colors (background, dark ink text, gray secondary text, and red validation errors) */
   --background: #FAF9F6;
   --foreground: #111111;
   --secondary: #5F5F5F;
@@ -9,6 +12,7 @@
 }
 
 @theme {
+  /* Link CSS variables to Tailwind CSS custom colors and custom fonts (Inter for body, Outfit for headings) */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-secondary: var(--secondary);
@@ -20,6 +24,7 @@
 }
 
 body {
+  /* Apply global background color, base fonts, and strip default margins so content aligns perfectly to edges */
   background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);

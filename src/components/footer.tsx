@@ -1,23 +1,23 @@
+// This file contains the Footer component. The footer sits at the very bottom of every page on the website, displaying office address details, site navigation links, and copyright notices.
 import * as React from "react";
 import Link from "next/link";
 import { Container } from "./container";
 import { Divider } from "./divider";
 import { footerNav } from "../mock/navigation";
 
-/**
- * Global Footer Component.
- * Implements:
- * - Simple typographic layout
- * - Monochrome social links (no official brand colors)
- * - Clear links to legal pages
- */
+// Footer component displays company bio, contact info, navigation mapping, and legal compliance links.
+// Inputs: None (no props needed).
+// Outputs: Renders a structured HTML <footer> container.
 export const Footer: React.FC = () => {
+  // We use JavaScript's Date tool to grab the current year automatically.
   const currentYear = new Date().getFullYear();
 
   return (
     <footer className="w-full bg-[#FAF9F6] border-t border-[#E8E8E8] pt-16 pb-24 md:pb-16 mt-auto">
       <Container>
+        {/* Main Columns Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 mb-12">
+          
           {/* Brand & Mission column */}
           <div className="flex flex-col gap-4">
             <span className="font-heading font-bold text-lg tracking-tight text-[#111111]">
@@ -28,7 +28,7 @@ export const Footer: React.FC = () => {
             </p>
           </div>
 
-          {/* Directory Links column */}
+          {/* Directory Links column - loops through footer links */}
           <div className="flex flex-col gap-4">
             <span className="font-heading text-sm font-semibold text-[#111111]">
               Navigation
@@ -80,8 +80,10 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
+        {/* Separator rule */}
         <Divider className="mb-8" />
 
+        {/* Copyright and Legal policies bar */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 font-sans text-xs text-[#5F5F5F]">
           <span>
             &copy; {currentYear} Triads Future. All rights reserved.

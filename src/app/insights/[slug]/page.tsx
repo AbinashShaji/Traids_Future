@@ -1,3 +1,4 @@
+// This file controls the Article Detail page (single blog post view). It retrieves the article using its URL slug, parses its Markdown body content into styled HTML elements, and draws related posts at the bottom.
 import * as React from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -15,20 +16,23 @@ import { CTA } from "../../../components/cta";
 // Mock data imports
 import { articles, getArticleBySlug, getRelatedArticles } from "../../../mock/articles";
 
+// ArticleDetailPageProps defines the inputs passed by Next.js routers.
+// "params" is a Promise wrapper containing the "slug" URL parameter.
 interface ArticleDetailPageProps {
   params: Promise<{ slug: string }>;
 }
 
+// generateStaticParams is a Next.js helper that tells the build server which URLs to compile in advance (e.g. pre-generating all static blog post routes).
+// Outputs: Returns an array of slug parameter objects.
 export async function generateStaticParams() {
   return articles.map((article) => ({
     slug: article.slug,
   }));
 }
 
-/**
- * A simple helper to parse and render basic Markdown paragraphs, 
- * list items, and headers into clean React elements.
- */
+// renderContent parses raw Markdown strings from the mock articles and converts them into React elements.
+// Inputs: "content" (the raw string).
+// Outputs: Returns an array of formatted React JSX elements (like headings, paragraphs, and bulleted lists).
 function renderContent(content: string) {
   const lines = content.split("\n");
   const listItems: string[] = [];
@@ -93,10 +97,16 @@ function renderContent(content: string) {
   return elements;
 }
 
+// ArticleDetailPage renders a single blog post.
+// Inputs: "params" (contains the slug URL).
+// Outputs: Renders a structured blog post layout with details, cover photo, parsed content, and related cards.
 export default async function ArticleDetailPage({ params }: ArticleDetailPageProps) {
+  // Resolve the asynchronous URL parameter promise.
   const resolvedParams = await params;
+  // Look up the matching blog details from our mock article database.
   const article = getArticleBySlug(resolvedParams.slug);
 
+  // If no article matches, trigger Next.js's 404 page routing.
   if (!article) {
     notFound();
   }

@@ -1,3 +1,4 @@
+// This file controls the Project Detail page (single case study view). It fetches case study data based on its URL slug, displays project metrics in a highlight banner, lists challenges, strategies, solutions, and shows client testimonials and project images.
 import * as React from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -14,24 +15,35 @@ import { CTA } from "../../../components/cta";
 import { projects, getProjectBySlug } from "../../../mock/projects";
 import { getTestimonialById } from "../../../mock/testimonials";
 
+// ProjectDetailPageProps configures the input parameters passed by the router.
+// "params" is a Promise wrapper containing the case study's unique URL name (slug).
 interface ProjectDetailPageProps {
   params: Promise<{ slug: string }>;
 }
 
+// generateStaticParams is a Next.js helper that pre-generates all case study dynamic page URLs during compilation.
+// Outputs: Returns an array of slug parameter objects.
 export async function generateStaticParams() {
   return projects.map((project) => ({
     slug: project.slug,
   }));
 }
 
+// ProjectDetailPage renders the details of a single case study.
+// Inputs: "params" (contains URL slug).
+// Outputs: Renders a structured case study layout with banner metrics, text stories, and testimonial cards.
 export default async function ProjectDetailPage({ params }: ProjectDetailPageProps) {
+  // Resolve the asynchronous URL parameter promise.
   const resolvedParams = await params;
+  // Load the matching project from our mock projects array.
   const project = getProjectBySlug(resolvedParams.slug);
 
+  // If no case study matches, redirect the visitor to our 404 page.
   if (!project) {
     notFound();
   }
 
+  // Load the testimonial details associated with this project.
   const testimonial = project.testimonialId 
     ? getTestimonialById(project.testimonialId) 
     : undefined;

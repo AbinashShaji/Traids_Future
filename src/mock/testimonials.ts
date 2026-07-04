@@ -1,8 +1,7 @@
-/**
- * Mock testimonials data simulating CMS client reviews.
- * Replace with API call to /api/testimonials when backend is ready.
- */
+// This file holds mock (fake) customer reviews (testimonials) about Triads Future's services.
+// It also provides small helper functions to search or filter these reviews so they can be displayed on the pages.
 
+// Testimonial defines all the details of a single customer review, such as who wrote it, their role, company, review text, and photo.
 export interface Testimonial {
   id: string;
   clientName: string;
@@ -11,10 +10,11 @@ export interface Testimonial {
   review: string;
   rating: number;
   photo: string;
-  featured: boolean;
+  featured: boolean; // "featured" determines if the review shows up on the main home page.
   projectId?: string;
 }
 
+// The list of customer reviews we want to display on our website.
 export const testimonials: Testimonial[] = [
   {
     id: "test-001",
@@ -54,8 +54,10 @@ export const testimonials: Testimonial[] = [
   },
 ];
 
+// getTestimonialById is a helper function that takes a testimonial ID and returns the review details matching that ID.
 export const getTestimonialById = (id: string): Testimonial | undefined =>
   testimonials.find((t) => t.id === id);
 
+// getFeaturedTestimonials is a helper function that filters and returns only the reviews marked as "featured".
 export const getFeaturedTestimonials = (): Testimonial[] =>
   testimonials.filter((t) => t.featured);

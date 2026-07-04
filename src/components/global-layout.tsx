@@ -1,9 +1,11 @@
+// This file contains the GlobalLayout component. It is the master shell that wraps all webpages on the site, placing the header navigation at the top, the main page content in the middle, and the footer at the bottom.
 import * as React from "react";
 import { Navigation } from "../components/navigation";
 import { Footer } from "../components/footer";
 import { PageTransition } from "./page-transition";
 import { cn } from "../utils/cn";
 
+// GlobalLayoutProps defines parameters for the master shell wrapper.
 interface GlobalLayoutProps {
   children: React.ReactNode;
   className?: string;
@@ -11,32 +13,27 @@ interface GlobalLayoutProps {
   withSideRail?: boolean;
 }
 
-/**
- * GlobalLayout
- * Wraps every public page with Navigation, content, and Footer.
- * Applies correct padding offsets for each device experience:
- * - Desktop: top padding for sticky nav bar
- * - Tablet: left padding for nav rail
- * - Mobile: bottom padding for bottom nav bar
- */
+// GlobalLayout renders navigation menus, page content, and footer layout columns.
+// Inputs: "children" (nested webpage content), "className" (custom styles).
+// Outputs: Renders a styled wrapper containing <Navigation>, <main> content body, and <Footer>.
 export const GlobalLayout: React.FC<GlobalLayoutProps> = ({
   children,
   className,
 }) => {
   return (
     <div className="flex flex-col min-h-screen bg-[#FAF9F6]">
-      {/* Navigation renders the correct experience per device */}
+      {/* Navigation renders the correct menu bar (top nav for computer, side nav for tablet, bottom nav for phone) */}
       <Navigation />
 
-      {/* Main content — offset per device nav */}
+      {/* Main content body area */}
       <main
         className={cn(
           "flex-1 w-full flex flex-col",
-          // Desktop: the fixed header now sits visually on top of the hero
+          // Computer (Desktop): no top offset padding.
           "lg:pt-0",
-          // Tablet: offset left nav rail (~80px wide)
+          // Tablet: shift content right by 20 units (80 pixels) to clear the side navigation bar.
           "md:pl-20 lg:pl-0",
-          // Mobile: offset bottom nav bar (~64px)
+          // Phone (Mobile): shift content up by 36 units to clear the bottom navigation menu.
           "pb-36 md:pb-0",
           className
         )}
@@ -44,6 +41,7 @@ export const GlobalLayout: React.FC<GlobalLayoutProps> = ({
         <PageTransition>{children}</PageTransition>
       </main>
 
+      {/* Footer block at the bottom of the page */}
       <Footer />
     </div>
   );

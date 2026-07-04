@@ -1,3 +1,4 @@
+// This file controls the Thank You page. When a visitor submits the contact form successfully, they are redirected here to see a confirmation message and details about the next steps.
 import * as React from "react";
 import Link from "next/link";
 import { CheckCircle, House, LayoutGrid, BookOpen } from "lucide-react";
@@ -8,30 +9,39 @@ import { SectionHeading } from "../../components/section-heading";
 import { Button } from "../../components/button";
 import { Card } from "../../components/card";
 
+// ThankYouPage displays the confirmation view after booking a call.
+// Inputs: None.
+// Outputs: Renders a friendly "thank you" message and instructions list wrapped in <GlobalLayout>.
 export default function ThankYouPage() {
   return (
     <GlobalLayout>
+      {/* Centered section layout */}
       <SectionWrapper animate={true} className="min-h-[70vh] flex items-center justify-center pt-32 pb-16">
         <Container className="max-w-2xl text-center flex flex-col items-center gap-6">
+          {/* Confirmed check icon */}
           <div className="w-16 h-16 rounded-full bg-[#111111]/5 flex items-center justify-center mb-2">
             <CheckCircle className="w-8 h-8 text-[#111111] stroke-[1.5]" />
           </div>
 
+          {/* Heading */}
           <SectionHeading tag="h1" subtitle="Booking confirmed" className="text-center">
             Thank you for scheduling a call
           </SectionHeading>
 
+          {/* Detailed timeline subtext */}
           <p className="font-sans text-[#5F5F5F] text-base md:text-lg leading-relaxed max-w-md">
             We have received your details. One of our founding partners will review your message 
             and contact you within 24 business hours to confirm the time slot and share the meeting link.
           </p>
 
+          {/* Instruction Card detailing "What happens next?" */}
           <Card className="w-full text-left p-6 md:p-8 bg-[#FAF9F6] border border-[#E8E8E8] mt-4">
             <h3 className="font-heading text-sm font-semibold uppercase tracking-wider text-[#111111] mb-4">
               What happens next?
             </h3>
             
             <ul className="space-y-4">
+              {/* Step 1: Pre-call review */}
               <li className="flex gap-4">
                 <span className="font-heading text-base font-bold text-[#111111] w-5 h-5 rounded-full bg-[#111111]/5 flex items-center justify-center shrink-0">1</span>
                 <div>
@@ -42,6 +52,7 @@ export default function ThankYouPage() {
                 </div>
               </li>
 
+              {/* Step 2: Meeting links */}
               <li className="flex gap-4">
                 <span className="font-heading text-base font-bold text-[#111111] w-5 h-5 rounded-full bg-[#111111]/5 flex items-center justify-center shrink-0">2</span>
                 <div>
@@ -52,6 +63,7 @@ export default function ThankYouPage() {
                 </div>
               </li>
 
+              {/* Step 3: Meeting agenda */}
               <li className="flex gap-4">
                 <span className="font-heading text-base font-bold text-[#111111] w-5 h-5 rounded-full bg-[#111111]/5 flex items-center justify-center shrink-0">3</span>
                 <div>
@@ -64,6 +76,7 @@ export default function ThankYouPage() {
             </ul>
           </Card>
 
+          {/* Navigation redirect buttons */}
           <div className="flex flex-col sm:flex-row gap-4 pt-6 w-full justify-center">
             <Link href="/">
               <Button variant="primary" className="w-full sm:w-auto gap-2">

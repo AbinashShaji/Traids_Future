@@ -1,3 +1,4 @@
+// This file controls the Work page directory. It pulls our mock case studies database, listing completed projects with stats panels, project tag elements, and cover photo displays.
 "use client";
 
 import * as React from "react";
@@ -12,14 +13,15 @@ import { Divider } from "../../components/divider";
 import { ImageWrapper } from "../../components/image-wrapper";
 import { CTA } from "../../components/cta";
 import { Badge } from "../../components/badge";
-import { motion } from "framer-motion";
-import { useViewportReveal } from "../../animations/viewport";
+import { Reveal } from "../../components/reveal";
 
 // Mock data imports
 import { projects } from "../../mock/projects";
 
+// WorkPage renders the projects index page.
+// Inputs: None.
+// Outputs: Renders a listing page containing lists of case studies wrapped in <GlobalLayout>.
 export default function WorkPage() {
-  const reveal = useViewportReveal();
 
   return (
     <GlobalLayout>
@@ -43,17 +45,14 @@ export default function WorkPage() {
       {/* 2. Projects Listing */}
       <SectionWrapper animate={true} className="py-16 md:py-24">
         <Container>
-          <motion.div
-            initial={reveal.containerMotion.initial}
-            whileInView={reveal.containerMotion.whileInView}
-            viewport={reveal.containerMotion.viewport}
-            variants={reveal.containerMotion.variants}
-            className="space-y-24"
-          >
+          <div className="space-y-24">
+            {/* Loop through each project in our case studies mock data array */}
             {projects.map((project, index) => (
-              <motion.div
+              <Reveal
                 key={project.id}
-                variants={reveal.itemMotion.variants}
+                variant="fadeUp"
+                delay={index}
+                // Alternate order of image and text panels (left vs right) depending on whether index is odd or even.
                 className={`grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center ${
                   index % 2 === 1 ? "lg:flex-row-reverse" : ""
                 }`}
@@ -122,9 +121,9 @@ export default function WorkPage() {
                     </Link>
                   </div>
                 </div>
-              </motion.div>
+              </Reveal>
             ))}
-          </motion.div>
+          </div>
         </Container>
       </SectionWrapper>
 

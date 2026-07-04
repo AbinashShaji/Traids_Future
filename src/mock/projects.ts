@@ -1,13 +1,13 @@
-/**
- * Mock projects (case studies) data simulating CMS work collection.
- * Replace with API call to /api/projects when backend is ready.
- */
+// This file holds mock (fake) data representing case studies (completed projects) that Triads Future has done for its clients.
+// It also provides small helper functions to find a project by its URL nickname (slug) or filter the featured ones.
 
+// ProjectResult describes a single numerical or text success metric from a completed project.
 export interface ProjectResult {
   metric: string;
   value: string;
 }
 
+// Project outlines all the fields representing a case study: who the client was, the challenge, strategy, solution, results, and cover image.
 export interface Project {
   id: string;
   slug: string;
@@ -26,6 +26,7 @@ export interface Project {
   testimonialId?: string;
 }
 
+// The list of case studies we display to show prospects what we can build.
 export const projects: Project[] = [
   {
     id: "proj-001",
@@ -114,8 +115,10 @@ export const projects: Project[] = [
   },
 ];
 
+// getProjectBySlug searches our project list for a case study matching a specific URL name (slug).
 export const getProjectBySlug = (slug: string): Project | undefined =>
   projects.find((p) => p.slug === slug);
 
+// getFeaturedProjects returns only the case studies marked as "featured".
 export const getFeaturedProjects = (): Project[] =>
   projects.filter((p) => p.featured);

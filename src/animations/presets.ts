@@ -1,104 +1,60 @@
-/**
- * Framer Motion animation presets for Triads Future.
- *
- * This file centralizes the shared motion language so sections can use the same
- * timing, easing, and viewport behavior without duplicating inline config.
- */
-import type { Variants, ViewportOptions } from "framer-motion";
+// This file contains the instructions (called "variants") for how different parts of the website should animate (like fading in or sliding up) when they appear on the screen.
+import type { Variants } from "framer-motion";
 
+// This is a custom speed setting (called "easing") that makes animations start fast and slow down smoothly at the end.
 export const revealEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-export const revealViewport: ViewportOptions = {
-  once: true,
-  amount: 0.28,
-  margin: "0px 0px -12% 0px",
-};
-
-export const riseVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: (custom: number = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: revealEase,
-      delay: custom * 0.08,
-    },
-  }),
-};
-
-export const fadeVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: (custom: number = 0) => ({
-    opacity: 1,
-    transition: {
-      duration: 0.6,
-      ease: revealEase,
-      delay: custom * 0.08,
-    },
-  }),
-};
-
-export const imageSettleVariants: Variants = {
-  hidden: { opacity: 0, scale: 1.02 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: {
-      duration: 0.6,
-      ease: revealEase,
-    },
+// This is a collection of different animation styles that can be applied to website elements.
+export const variants: Record<string, Variants> = {
+  // fadeUp makes an element start invisible and slightly lower down, then fade in and slide up to its normal position.
+  fadeUp: {
+    hidden: { opacity: 0, y: 20 },
+    visible: (custom: number = 0) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6, // The animation takes 0.6 seconds to complete.
+        ease: revealEase,
+        delay: custom * 0.08, // Extra delay so multiple items animate one after the other in a sequence.
+      },
+    }),
   },
-};
-
-export const containerStagger: Variants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.02,
-    },
+  // fadeIn makes an element start invisible and smoothly become fully visible in place.
+  fadeIn: {
+    hidden: { opacity: 0 },
+    visible: (custom: number = 0) => ({
+      opacity: 1,
+      transition: {
+        duration: 0.6,
+        ease: revealEase,
+        delay: custom * 0.08,
+      },
+    }),
   },
-};
-
-export const processSequenceVariants: Variants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.2,
-      delayChildren: 0.02,
-    },
+  // scaleIn makes an element start invisible and slightly shrunk, then grow to normal size while fading in.
+  scaleIn: {
+    hidden: { opacity: 0, scale: 0.95 },
+    visible: (custom: number = 0) => ({
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.6,
+        ease: revealEase,
+        delay: custom * 0.08,
+      },
+    }),
   },
-};
-
-export const processCardVariants: Variants = {
-  hidden: {
-    opacity: 0,
-    x: 80,
-    scale: 0.98,
-    filter: "blur(8px)",
-  },
-  visible: {
-    opacity: 1,
-    x: 0,
-    scale: 1,
-    filter: "blur(0px)",
-    transition: {
-      duration: 0.6,
-      ease: revealEase,
-    },
-  },
-};
-
-export const processNumberVariants: Variants = {
-  hidden: {
-    scale: 1,
-  },
-  visible: {
-    scale: [1, 1.06, 1],
-    transition: {
-      duration: 0.6,
-      ease: revealEase,
-    },
+  // slideLeft makes an element start invisible and shifted to the right, then fade in and slide left into place.
+  slideLeft: {
+    hidden: { opacity: 0, x: 30 },
+    visible: (custom: number = 0) => ({
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.6,
+        ease: revealEase,
+        delay: custom * 0.08,
+      },
+    }),
   },
 };

@@ -1,3 +1,5 @@
+// This file controls the Solutions listing page. It lists the capabilities, outcomes, sub-services, and client challenges that Triads Future addresses.
+// It maps mock solutions data into visual layout cards and lists the four operational delivery phases.
 "use client";
 
 import * as React from "react";
@@ -13,13 +15,12 @@ import { Divider } from "../../components/divider";
 import { CTA } from "../../components/cta";
 import { Badge } from "../../components/badge";
 import { ImageWrapper } from "../../components/image-wrapper";
-import { motion } from "framer-motion";
-import { useViewportReveal } from "../../animations/viewport";
-
+import { Reveal } from "../../components/reveal";
 // Mock data imports
 import { solutions } from "../../mock/solutions";
 import { getFeaturedProjects } from "../../mock/projects";
 
+// Maps text icon identifiers (from mock data) to visual Lucide graphics.
 const iconMap: Record<string, LucideIcon> = {
   Globe,
   Monitor,
@@ -28,9 +29,12 @@ const iconMap: Record<string, LucideIcon> = {
   TrendingUp,
 };
 
+// SolutionsPage compiles lists of service solutions, target problems, process phases, and relevant project case studies.
+// Inputs: None.
+// Outputs: Renders a structured services catalog page wrapped in <GlobalLayout>.
 export default function SolutionsPage() {
+  // Load featured case studies to show as examples.
   const featuredProjects = getFeaturedProjects();
-  const reveal = useViewportReveal();
 
   return (
     <GlobalLayout>
@@ -126,11 +130,12 @@ export default function SolutionsPage() {
           </div>
 
           <div className="space-y-24">
-            {solutions.map((solution) => {
+            {/* Loop through each service solution in our catalog and draw a detailed layout row */}
+            {solutions.map((solution, idx) => {
               const Icon = iconMap[solution.icon] || Globe;
               return (
                 <div key={solution.id} id={solution.id} className="scroll-mt-24 border-t border-[#E8E8E8] pt-12">
-                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+                  <Reveal variant="fadeUp" delay={idx} className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
                     {/* Left: Solution Identity & Description */}
                     <div className="lg:col-span-5 flex flex-col gap-6">
                       <div className="flex items-center gap-4">
@@ -189,7 +194,7 @@ export default function SolutionsPage() {
                         </ul>
                       </div>
                     </div>
-                  </div>
+                  </Reveal>
                 </div>
               );
             })}
@@ -211,13 +216,8 @@ export default function SolutionsPage() {
             </p>
           </div>
 
-          <motion.div
-            initial={reveal.containerMotion.initial}
-            whileInView={reveal.containerMotion.whileInView}
-            viewport={reveal.containerMotion.viewport}
-            variants={reveal.containerMotion.variants}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
-          >
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* Loop through the structured phases representing our client partnership pipeline */}
             {[
               {
                 step: "Phase 01",
@@ -244,9 +244,10 @@ export default function SolutionsPage() {
                 details: "We manage the transition, train your team, deploy analytics, and monitor performance. All code, repository ownership, and licenses transfer to you.",
               },
             ].map((phase, index) => (
-              <motion.div
+              <Reveal
                 key={index}
-                variants={reveal.itemMotion.variants}
+                variant="scaleIn"
+                delay={index}
                 className="w-full h-full flex flex-col"
               >
                 <Card className="flex flex-col justify-between p-6 w-full h-full">
@@ -265,9 +266,9 @@ export default function SolutionsPage() {
                     </p>
                   </div>
                 </Card>
-              </motion.div>
+              </Reveal>
             ))}
-          </motion.div>
+          </div>
         </Container>
       </SectionWrapper>
 
@@ -288,6 +289,7 @@ export default function SolutionsPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Loop through and display the first two featured project case studies */}
             {featuredProjects.slice(0, 2).map((project) => (
               <Card key={project.id} className="p-0 overflow-hidden flex flex-col justify-between">
                 <div>

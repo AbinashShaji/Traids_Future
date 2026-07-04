@@ -1,3 +1,5 @@
+// This file handles the interactive layout of the Contact page, containing a validated booking form and a list of frequently asked questions.
+// It uses libraries like react-hook-form to collect and validate user inputs, and Zod to enforce input rules (like requiring names and valid phone numbers).
 "use client";
 
 import * as React from "react";
@@ -35,16 +37,22 @@ type ContactFormValues = z.infer<typeof contactSchema>;
 // ─────────────────────────────────────────────
 // Inner client component — uses useSearchParams
 // ─────────────────────────────────────────────
+// ContactPageContent manages the booking form state, URL parameter checking, and FAQ expand states.
+// Inputs: None (reads parameters from URL search query instead).
+// Outputs: Renders a dual-column contact details & booking form grid, followed by an FAQ list.
 function ContactPageContent() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  const router = useRouter(); // Next.js router used to redirect pages (e.g. to the thank-you page).
+  const searchParams = useSearchParams(); // Reads parameters passed in the URL (like ?interest=branding).
   const interest = searchParams.get("interest");
+  
+  // activeFaq tracks which FAQ item is expanded. It starts as null (none expanded).
   const [activeFaq, setActiveFaq] = React.useState<string | null>(null);
 
+  // useForm initializes the form controller with Zod validation.
   const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
+    register, // register binds input fields to the form manager.
+    handleSubmit, // handleSubmit triggers validation and wraps form submissions.
+    formState: { errors, isSubmitting }, // errors stores field alerts; isSubmitting tracks loading states.
     setValue,
   } = useForm<ContactFormValues>({
     resolver: zodResolver(contactSchema),
@@ -63,6 +71,8 @@ function ContactPageContent() {
     }
   }, [interest, setValue]);
 
+  // onSubmit is called when the form passes validation and is submitted.
+  // It triggers a visual loader alert, waits 1.5 seconds, then redirects the visitor to the thank-you screen.
   const onSubmit = async () => {
     const promise = () => new Promise((resolve) => setTimeout(resolve, 1500));
     toast.promise(promise(), {

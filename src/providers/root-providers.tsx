@@ -1,3 +1,4 @@
+// This file acts as the primary container setup (Root Providers) for the website. It nests multiple context containers around our website to enable global features like screen width detection and popup messages.
 "use client";
 
 import * as React from "react";
@@ -5,18 +6,18 @@ import { MotionProvider } from "./motion-provider";
 import { DeviceExperienceManager } from "./device-experience-manager";
 import { Toaster } from "sonner";
 
-/**
- * RootProviders wraps the entire application with all necessary context providers.
- * Order matters:
- * 1. DeviceExperienceManager — must be outermost to inform all children.
- * 2. MotionProvider — wraps Framer Motion globally.
- * 3. Toaster — mounts the Sonner notification system.
- */
+// RootProviders wraps the entire website with essential settings.
+// Inputs: "children" (the entire application's page nodes).
+// Outputs: Renders the nested contexts and displays toaster notifications styled to match our design.
 export const RootProviders: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
+    // First, we set up device width listening.
     <DeviceExperienceManager>
+      {/* Next, we include the animation setup. */}
       <MotionProvider>
+        {/* Render our pages inside. */}
         {children}
+        {/* Mount a notification popup tool (Toaster) at the bottom-right corner. */}
         <Toaster
           position="bottom-right"
           toastOptions={{

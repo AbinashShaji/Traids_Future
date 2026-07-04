@@ -1,19 +1,19 @@
-/**
- * Mock solutions data simulating CMS outcomes.
- * Replace with API call to /api/solutions when backend is ready.
- */
+// This file holds mock (fake) data describing the different service areas (called "solutions") that Triads Future offers.
+// We write these here so the site layout has data to show immediately before connecting to a live backend data source.
 
+// Solution defines the outline for a single service area, containing its description, commercial impact details, and list of sub-services.
 export interface Solution {
   id: string;
   title: string;
   description: string;
-  businessValue: string;
-  services: string[];
-  idealFor: string;
-  ctaText: string;
-  icon: string;
+  businessValue: string; // The real-world business reason why a client would want this.
+  services: string[]; // List of specific sub-tasks included under this solution.
+  idealFor: string; // Describes the type of business that needs this specific solution.
+  ctaText: string; // The text on the clickable button (Call to Action) for this item.
+  icon: string; // The name of the icon to draw next to the title.
 }
 
+// The list of solutions we present on the website.
 export const solutions: Solution[] = [
   {
     id: "digital-presence",

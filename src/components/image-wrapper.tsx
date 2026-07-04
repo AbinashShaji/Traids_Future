@@ -1,31 +1,27 @@
+// This file contains the ImageWrapper component. It wraps Next.js's optimized Image tags in a stylized outer box, fading the image in smoothly once it completes loading to avoid sudden shifts.
 "use client";
 
 import * as React from "react";
 import Image, { type ImageProps } from "next/image";
-import { motion } from "framer-motion";
 import { cn } from "../utils/cn";
-import { imageSettleVariants } from "../animations/presets";
 
+// ImageWrapperProps defines custom sizing classes for the image block.
 export interface ImageWrapperProps extends Omit<ImageProps, "ref"> {
   containerClassName?: string;
   animateSettle?: boolean;
 }
 
-/**
- * ImageWrapper component wrapping Next.js Image.
- * Enforces:
- * - Proper WebP / AVIF compression configurations (handled via loader/props).
- * - "Image Settle" animation preset: scales from 102% to 100% while fading.
- * - Responsive aspect ratios without distortion.
- */
+// ImageWrapper displays a next/image Image with styled border frame guidelines.
+// Inputs: "containerClassName" (styles for outer frame), "alt" (accessibility text), "src" (image URL source), and normal Image props.
+// Outputs: Renders a framed <div> wrapper containing the styled <Image> component.
 export const ImageWrapper: React.FC<ImageWrapperProps> = ({
   className,
   containerClassName,
-  animateSettle = true,
   alt,
   src,
   ...props
 }) => {
+  // isLoaded is a React State boolean. It stays "false" until the browser finishes downloading the image, then turns "true".
   const [isLoaded, setIsLoaded] = React.useState(false);
 
   return (
@@ -35,24 +31,21 @@ export const ImageWrapper: React.FC<ImageWrapperProps> = ({
         containerClassName
       )}
     >
-      <motion.div
-        className="w-full h-full"
-        initial={animateSettle ? "hidden" : "visible"}
-        animate={isLoaded ? "visible" : animateSettle ? "hidden" : "visible"}
-        variants={imageSettleVariants}
-      >
+      <div className="w-full h-full">
         <Image
           className={cn(
             "object-cover transition-opacity duration-300",
+            // If the image is fully loaded, make it fully visible (opacity-100). Otherwise, keep it hidden (opacity-0).
             isLoaded ? "opacity-100" : "opacity-0",
             className
           )}
           src={src}
           alt={alt || ""}
+          // When the image finishes loading, trigger a state update to change isLoaded to true.
           onLoad={() => setIsLoaded(true)}
           {...props}
         />
-      </motion.div>
+      </div>
     </div>
   );
 };

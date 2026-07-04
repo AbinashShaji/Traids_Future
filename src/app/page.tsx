@@ -1,3 +1,5 @@
+// This file controls the Home page (the landing page) of our website. It is the first screen visitors see.
+// It structures the page into several blocks: a bold hero introduction, our philosophical quote, our core solutions, case studies, operational steps, testimonials, and a booking call-to-action.
 "use client";
 
 import * as React from "react";
@@ -13,16 +15,14 @@ import { Badge } from "../components/badge";
 import { ImageWrapper } from "../components/image-wrapper";
 import { Divider } from "../components/divider";
 import { CTA } from "../components/cta";
-import { motion } from "framer-motion";
-import { useViewportReveal } from "../animations/viewport";
-
+import { Reveal } from "../components/reveal";
 // Mock data imports
 import { solutions } from "../mock/solutions";
 import { getFeaturedProjects } from "../mock/projects";
 import { getFeaturedTestimonials } from "../mock/testimonials";
 import { getFeaturedArticle } from "../mock/articles";
 
-// Mapping icons by name
+// iconMap connects icon string names from the mock data to the actual Lucide graphics.
 const iconMap: Record<string, LucideIcon> = {
   Globe,
   Monitor,
@@ -31,11 +31,14 @@ const iconMap: Record<string, LucideIcon> = {
   TrendingUp,
 };
 
+// The Home component compiles all sections of the landing page layout.
+// Inputs: None (this is a page entry point).
+// Outputs: Renders a fully formatted landing page layout wrapped inside our GlobalLayout layout wrapper.
 export default function Home() {
+  // Load data for projects, testimonials, and articles marked as featured.
   const featuredProjects = getFeaturedProjects();
   const featuredTestimonials = getFeaturedTestimonials();
   const featuredArticle = getFeaturedArticle();
-  const reveal = useViewportReveal();
 
   return (
     <GlobalLayout>
@@ -68,14 +71,16 @@ export default function Home() {
             </div>
 
             <div className="lg:col-span-5 w-full aspect-[4/3] lg:aspect-[1/1] relative">
-              <ImageWrapper
-                src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80"
-                alt="Modern, clean workspace with natural lighting"
-                fill
-                priority
-                sizes="(max-width: 1024px) 100vw, 40vw"
-                containerClassName="w-full h-full shadow-[0_4px_20px_rgba(0,0,0,0.02)]"
-              />
+              <Reveal variant="scaleIn" className="w-full h-full">
+                <ImageWrapper
+                  src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80"
+                  alt="Modern, clean workspace with natural lighting"
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 40vw"
+                  containerClassName="w-full h-full shadow-[0_4px_20px_rgba(0,0,0,0.02)]"
+                />
+              </Reveal>
             </div>
           </div>
         </Container>
@@ -119,22 +124,15 @@ export default function Home() {
             </Link>
           </div>
 
-          <motion.div
-            initial={reveal.containerMotion.initial}
-            whileInView={reveal.containerMotion.whileInView}
-            viewport={reveal.containerMotion.viewport}
-            variants={reveal.containerMotion.variants}
-            className="grid grid-cols-1 md:grid-cols-3 gap-8"
-          >
-            {solutions.slice(0, 3).map((solution) => {
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Loop through the first 3 solutions and display them as feature cards */}
+            {solutions.slice(0, 3).map((solution, idx) => {
               const Icon = iconMap[solution.icon] || Globe;
               return (
-                <motion.div
+                <Reveal
                   key={solution.id}
-                  initial={reveal.itemMotion.initial}
-                  whileInView={reveal.itemMotion.whileInView}
-                  viewport={reveal.itemMotion.viewport}
-                  variants={reveal.itemMotion.variants}
+                  variant="fadeUp"
+                  delay={idx}
                   className="w-full h-full flex flex-col"
                 >
                   <Card hoverEffect className="flex flex-col justify-between min-h-[300px] w-full h-full">
@@ -168,10 +166,10 @@ export default function Home() {
                       </Link>
                     </div>
                   </Card>
-                </motion.div>
+                </Reveal>
               );
             })}
-          </motion.div>
+          </div>
         </Container>
       </SectionWrapper>
 
@@ -192,6 +190,7 @@ export default function Home() {
           </div>
 
           <div className="space-y-16">
+            {/* Loop through and display each featured case study project */}
             {featuredProjects.map((project, index) => (
               <div 
                 key={project.id} 
@@ -275,13 +274,7 @@ export default function Home() {
             </p>
           </div>
 
-          <motion.div
-            initial={reveal.containerMotion.initial}
-            whileInView={reveal.containerMotion.whileInView}
-            viewport={reveal.containerMotion.viewport}
-            variants={reveal.containerMotion.variants}
-            className="grid grid-cols-1 md:grid-cols-4 gap-8"
-          >
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {[
               {
                 step: "01",
@@ -303,46 +296,28 @@ export default function Home() {
                 title: "Optimization",
                 description: "We monitor production usage, gather client and team feedback, and refine workflows to maximize scale.",
               },
+            {/* Loop through and render each operational step with its list index number */}
             ].map((p, idx) => (
-              <motion.div
+              <Reveal
                 key={idx}
-                initial={reveal.itemMotion.initial}
-                whileInView={reveal.itemMotion.whileInView}
-                viewport={reveal.itemMotion.viewport}
-                variants={reveal.itemMotion.variants}
+                variant="slideLeft"
+                delay={idx}
                 className="flex flex-col border-t border-[#E8E8E8] pt-6 gap-4"
               >
-                <motion.span
-                  initial={reveal.motionEnabled ? "hidden" : false}
-                  whileInView={reveal.motionEnabled ? "visible" : undefined}
-                  viewport={reveal.itemMotion.viewport}
-                  variants={
-                    reveal.motionEnabled
-                      ? {
-                          hidden: { scale: 1 },
-                          visible: {
-                            scale: [1, 1.06, 1],
-                            transition: {
-                              duration: reveal.breakpoint === "tablet" ? 0.42 : 0.5,
-                              ease: [0.22, 1, 0.36, 1],
-                            },
-                          },
-                        }
-                      : undefined
-                  }
+                <span
                   className="origin-left font-heading text-5xl md:text-6xl font-semibold text-[#111111]/20 block tracking-tight leading-none select-none"
                 >
                   {p.step}
-                </motion.span>
+                </span>
                 <h4 className="font-heading text-lg font-semibold text-[#111111]">
                   {p.title}
                 </h4>
                 <p className="font-sans text-sm text-[#5F5F5F] leading-relaxed">
                   {p.description}
                 </p>
-              </motion.div>
+              </Reveal>
             ))}
-          </motion.div>
+          </div>
         </Container>
       </SectionWrapper>
 
@@ -407,20 +382,13 @@ export default function Home() {
             </SectionHeading>
           </div>
 
-          <motion.div
-            initial={reveal.containerMotion.initial}
-            whileInView={reveal.containerMotion.whileInView}
-            viewport={reveal.containerMotion.viewport}
-            variants={reveal.containerMotion.variants}
-            className="grid grid-cols-1 md:grid-cols-2 gap-8"
-          >
-            {featuredTestimonials.map((t) => (
-              <motion.div
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Loop through and display featured testimonials in a responsive grid */}
+            {featuredTestimonials.map((t, idx) => (
+              <Reveal
                 key={t.id}
-                initial={reveal.itemMotion.initial}
-                whileInView={reveal.itemMotion.whileInView}
-                viewport={reveal.itemMotion.viewport}
-                variants={reveal.itemMotion.variants}
+                variant="fadeIn"
+                delay={idx}
                 className="w-full h-full flex flex-col"
               >
                 <Card className="flex flex-col justify-between p-8 bg-[#FAF9F6] min-h-[250px] w-full h-full">
@@ -447,9 +415,9 @@ export default function Home() {
                     </div>
                   </div>
                 </Card>
-              </motion.div>
+              </Reveal>
             ))}
-          </motion.div>
+          </div>
         </Container>
       </SectionWrapper>
 

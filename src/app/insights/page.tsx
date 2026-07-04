@@ -1,3 +1,4 @@
+// This file controls the Insights list view. It lists mock blog articles (insights) with real-time text searching, category tag filters, and a newsletter subscription block.
 "use client";
 
 import * as React from "react";
@@ -14,22 +15,25 @@ import { ImageWrapper } from "../../components/image-wrapper";
 import { FormInput } from "../../components/form-input";
 import { Tag } from "../../components/tag";
 import { toast } from "sonner";
-import { motion } from "framer-motion";
-import { useViewportReveal } from "../../animations/viewport";
 
 // Mock data imports
 import { articles, categories } from "../../mock/articles";
 
+// InsightsPage manages the list filters and displays the main insights directory.
+// Inputs: None.
+// Outputs: Renders a header banner, a large featured article row, a search and categories filter bar, and the filtered articles grid.
 export default function InsightsPage() {
+  // searchQuery stores the text currently typed in the search bar.
   const [searchQuery, setSearchQuery] = React.useState("");
+  // selectedCategory tracks the category tag currently active (null means show all).
   const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null);
+  // email holds input value for the newsletter input.
   const [email, setEmail] = React.useState("");
-  const reveal = useViewportReveal();
 
-  // Get featured article
+  // Find the single mock article marked as featured to display prominently.
   const featuredArticle = articles.find((a) => a.featured);
 
-  // Filter articles based on search query and category
+  // Filter the articles array dynamically based on search keywords and active category tags.
   const filteredArticles = articles.filter((article) => {
     const matchesSearch = 
       article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -43,8 +47,11 @@ export default function InsightsPage() {
     return matchesSearch && matchesCategory;
   });
 
+  // handleSubscribe is called when the newsletter form is submitted.
+  // Inputs: "e" (React form event). It stops page reloading, validates the email string format, and triggers toast alerts.
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
+    // Real-world email validation condition
     if (!email || !email.includes("@")) {
       toast.error("Please enter a valid email address.");
       return;
@@ -200,17 +207,10 @@ export default function InsightsPage() {
               </Button>
             </div>
           ) : (
-            <motion.div
-              initial={reveal.containerMotion.initial}
-              whileInView={reveal.containerMotion.whileInView}
-              viewport={reveal.containerMotion.viewport}
-              variants={reveal.containerMotion.variants}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-            >
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredArticles.map((article) => (
-                <motion.div
+                <div
                   key={article.id}
-                  variants={reveal.itemMotion.variants}
                   className="w-full h-full flex flex-col"
                 >
                   <Card hoverEffect className="flex flex-col justify-between p-0 overflow-hidden w-full h-full">
@@ -251,9 +251,9 @@ export default function InsightsPage() {
                       </Link>
                     </div>
                   </Card>
-                </motion.div>
+                </div>
               ))}
-            </motion.div>
+            </div>
           )}
 
           {/* 5. Pagination Placeholder */}
