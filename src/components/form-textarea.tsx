@@ -1,53 +1,48 @@
-// This file defines the FormTextArea component. It is a multi-line input box (like for writing a custom message or project description) that has a floating label and red error states.
+// FormTextarea component styled with 2px radius, hairline borders, and signal error states.
 import * as React from "react";
 import { cn } from "../utils/cn";
 
-// FormTextAreaProps defines options for the textarea.
-// "label" sets the text above the field.
-// "error" displays validation warning messages if something is wrong.
-export interface FormTextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+export interface FormTextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   label: string;
   error?: string;
+  helperText?: string;
 }
 
-// FormTextArea renders a multi-line textarea input element.
-// Inputs: "label", "error", "id", "rows" (default 4 lines tall), "className", and textarea props.
-// Outputs: Renders a wrapping <div> containing the label, textarea element, and optional error red subtext.
-export const FormTextArea = React.forwardRef<HTMLTextAreaElement, FormTextAreaProps>(
-  ({ className, label, error, id, rows = 4, ...props }, ref) => {
-    // Generate a unique ID to link the label and textarea for screen readers.
+export const FormTextarea = React.forwardRef<HTMLTextAreaElement, FormTextareaProps>(
+  ({ className, label, error, helperText, id, rows = 4, ...props }, ref) => {
     const generatedId = React.useId();
     const textareaId = id || generatedId;
 
     return (
       <div className="flex flex-col gap-2 w-full">
-        {/* Label title tag */}
         <label
           htmlFor={textareaId}
-          className="font-sans text-sm font-medium text-[#111111]"
+          className="font-sans text-xs font-semibold uppercase tracking-[0.06em] text-[#57564C]"
         >
           {label}
         </label>
-        
-        {/* Text area input field */}
         <textarea
           ref={ref}
           id={textareaId}
           rows={rows}
           className={cn(
-            "w-full px-4 py-3 bg-transparent border rounded-sm font-sans text-[#111111] transition-all duration-200 outline-none resize-y",
-            // Style border with red outline if validation error is present. Otherwise, use normal gray border.
-            error 
-              ? "border-[var(--color-error)] focus:border-[var(--color-error)] focus:ring-1 focus:ring-[var(--color-error)]" 
-              : "border-[#E8E8E8] focus:border-[#111111] focus:ring-1 focus:ring-[#111111]",
+            "w-full px-4 py-3.5 bg-[#F0F0EB] border rounded-[2px] font-sans text-sm text-[#14140F] placeholder:text-[#57564C]/60 transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] focus:outline-none focus:border-[#14140F] focus:ring-1 focus:ring-[#14140F] resize-y",
+            error
+              ? "border-[#B3261E] focus:border-[#B3261E] focus:ring-[#B3261E]"
+              : "border-[#DEDDD3]",
             className
           )}
+          aria-invalid={error ? "true" : "false"}
+          aria-describedby={error ? `${textareaId}-error` : helperText ? `${textareaId}-helper` : undefined}
           {...props}
         />
-        
-        {/* If an error message is set, display it in red text under the box */}
+        {helperText && !error && (
+          <span id={`${textareaId}-helper`} className="font-sans text-xs text-[#57564C]">
+            {helperText}
+          </span>
+        )}
         {error && (
-          <span className="font-sans text-xs text-[var(--color-error)] mt-1">
+          <span id={`${textareaId}-error`} className="font-sans text-xs font-medium text-[#B3261E]">
             {error}
           </span>
         )}
@@ -56,4 +51,4 @@ export const FormTextArea = React.forwardRef<HTMLTextAreaElement, FormTextAreaPr
   }
 );
 
-FormTextArea.displayName = "FormTextArea";
+FormTextarea.displayName = "FormTextarea";

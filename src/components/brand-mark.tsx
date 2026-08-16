@@ -8,6 +8,16 @@ import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion
 import { useDevice } from "../providers/device-experience-manager";
 import { cn } from "../utils/cn";
 
+// Helper for client mount detection without cascading setState renders
+const emptySubscribe = () => () => {};
+function useIsMounted() {
+  return React.useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
+}
+
 // BrandMarkProps defines customization classes and accessibility labels for screen readers.
 interface BrandMarkProps {
   className?: string;
@@ -16,8 +26,6 @@ interface BrandMarkProps {
 }
 
 // BrandMark displays the company logo inside a clickable link.
-// Inputs: "className" (outer wrapper class), "imageClassName" (inner image class), "ariaLabel" (screen reader text description).
-// Outputs: Renders a Next.js <Link> surrounding a dynamic/animated logo container.
 export const BrandMark: React.FC<BrandMarkProps> = ({
   className,
   imageClassName,
@@ -26,11 +34,7 @@ export const BrandMark: React.FC<BrandMarkProps> = ({
   const { isTablet } = useDevice();
   const prefersReducedMotion = useReducedMotion();
   const { scrollY } = useScroll();
-  const [mounted, setMounted] = React.useState(false);
-
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = useIsMounted();
 
   // On the Tablet vertical side rail (which is narrow), we display the compact logo statically.
   // We also respect prefers-reduced-motion by rendering only the compact logo statically.
@@ -53,7 +57,6 @@ export const BrandMark: React.FC<BrandMarkProps> = ({
   const fullScale = useTransform(scrollY, [0, 200], [1, 0.65], { ease: cubicEaseOut });
 
   // - Compact Icon: opacity 0 -> 1, scale 0.55 -> 0.65 over first 200px of scroll
-  // (Note: at scale 0.65, height of the compact logo is 44 * 0.65 = 28.6px, which matches the target compact logo height)
   const compactOpacity = useTransform(scrollY, [0, 200], [0, 1], { ease: quadraticEaseInOut });
   const compactScale = useTransform(scrollY, [0, 200], [0.55, 0.65], { ease: cubicEaseOut });
 
@@ -118,4 +121,3 @@ export const BrandMark: React.FC<BrandMarkProps> = ({
     </Link>
   );
 };
-

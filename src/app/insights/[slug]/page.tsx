@@ -1,38 +1,29 @@
-// This file controls the Article Detail page (single blog post view). It retrieves the article using its URL slug, parses its Markdown body content into styled HTML elements, and draws related posts at the bottom.
+// Article detail template with Editorial serif body copy, Archivo headings, and alternating layout rhythm.
 import * as React from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Calendar, Clock, ArrowRight } from "lucide-react";
 import { GlobalLayout } from "../../../components/global-layout";
-import { SectionWrapper } from "../../../components/section-wrapper";
 import { Container } from "../../../components/container";
 import { SectionHeading } from "../../../components/section-heading";
 import { Button } from "../../../components/button";
 import { Card } from "../../../components/card";
-import { Divider } from "../../../components/divider";
+import { Badge } from "../../../components/badge";
 import { ImageWrapper } from "../../../components/image-wrapper";
 import { CTA } from "../../../components/cta";
-
-// Mock data imports
+import { ScrollWorldContainer } from "../../../components/scroll-world-container";
 import { articles, getArticleBySlug, getRelatedArticles } from "../../../mock/articles";
 
-// ArticleDetailPageProps defines the inputs passed by Next.js routers.
-// "params" is a Promise wrapper containing the "slug" URL parameter.
 interface ArticleDetailPageProps {
   params: Promise<{ slug: string }>;
 }
 
-// generateStaticParams is a Next.js helper that tells the build server which URLs to compile in advance (e.g. pre-generating all static blog post routes).
-// Outputs: Returns an array of slug parameter objects.
 export async function generateStaticParams() {
   return articles.map((article) => ({
     slug: article.slug,
   }));
 }
 
-// renderContent parses raw Markdown strings from the mock articles and converts them into React elements.
-// Inputs: "content" (the raw string).
-// Outputs: Returns an array of formatted React JSX elements (like headings, paragraphs, and bulleted lists).
 function renderContent(content: string) {
   const lines = content.split("\n");
   const listItems: string[] = [];
@@ -41,7 +32,7 @@ function renderContent(content: string) {
   const flushList = (key: string) => {
     if (listItems.length > 0) {
       elements.push(
-        <ul key={key} className="list-disc pl-6 mb-6 space-y-2 text-[#5F5F5F] font-sans text-base md:text-lg">
+        <ul key={key} className="list-disc pl-6 mb-6 space-y-2 text-[#57564C] font-editorial text-lg md:text-xl">
           {listItems.map((item, idx) => (
             <li key={idx}>{item}</li>
           ))}
@@ -54,36 +45,29 @@ function renderContent(content: string) {
   lines.forEach((line, index) => {
     const trimmed = line.trim();
     
-    // Header 2 (##)
     if (trimmed.startsWith("##")) {
       flushList(`list-before-h2-${index}`);
       elements.push(
-        <h3 key={`h2-${index}`} className="font-heading text-xl md:text-2xl font-semibold text-[#111111] mt-8 mb-4 border-b border-[#E8E8E8] pb-2">
+        <h3 key={`h2-${index}`} className="font-heading text-2xl md:text-3xl font-bold text-[#14140F] mt-10 mb-4 border-b border-[#DEDDD3] pb-3">
           {trimmed.replace(/^##\s*/, "")}
         </h3>
       );
-    }
-    // Header 3 (###)
-    else if (trimmed.startsWith("###")) {
+    } else if (trimmed.startsWith("###")) {
       flushList(`list-before-h3-${index}`);
       elements.push(
-        <h4 key={`h3-${index}`} className="font-heading text-lg md:text-xl font-semibold text-[#111111] mt-6 mb-3">
+        <h4 key={`h3-${index}`} className="font-heading text-xl md:text-2xl font-bold text-[#14140F] mt-8 mb-3">
           {trimmed.replace(/^###\s*/, "")}
         </h4>
       );
-    }
-    // List Items (* or -)
-    else if (trimmed.startsWith("*") || trimmed.startsWith("-")) {
+    } else if (trimmed.startsWith("*") || trimmed.startsWith("-")) {
       listItems.push(trimmed.replace(/^[\*\-]\s*/, ""));
-    }
-    // Regular paragraphs or spacers
-    else {
+    } else {
       if (trimmed === "") {
         flushList(`list-before-empty-${index}`);
       } else {
         flushList(`list-before-p-${index}`);
         elements.push(
-          <p key={`p-${index}`} className="font-sans text-[#5F5F5F] text-base md:text-lg leading-relaxed mb-6 whitespace-pre-line">
+          <p key={`p-${index}`} className="font-editorial text-[#14140F] text-lg md:text-xl leading-[1.7] mb-6 whitespace-pre-line">
             {trimmed}
           </p>
         );
@@ -91,22 +75,14 @@ function renderContent(content: string) {
     }
   });
 
-  // Flush any remaining list items
   flushList("list-final");
-
   return elements;
 }
 
-// ArticleDetailPage renders a single blog post.
-// Inputs: "params" (contains the slug URL).
-// Outputs: Renders a structured blog post layout with details, cover photo, parsed content, and related cards.
 export default async function ArticleDetailPage({ params }: ArticleDetailPageProps) {
-  // Resolve the asynchronous URL parameter promise.
   const resolvedParams = await params;
-  // Look up the matching blog details from our mock article database.
   const article = getArticleBySlug(resolvedParams.slug);
 
-  // If no article matches, trigger Next.js's 404 page routing.
   if (!article) {
     notFound();
   }
@@ -118,124 +94,161 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
     day: "numeric",
   });
 
+  const articleSlides = [
+    { id: "hero", label: "Overview" },
+    { id: "cover", label: "Cover" },
+    { id: "body", label: "Article" },
+    ...(relatedArticles.length > 0 ? [{ id: "related", label: "Related" }] : []),
+    { id: "cta", label: "Next Step" },
+  ];
+
   return (
     <GlobalLayout>
-      {/* 1. Header & Back Button */}
-      <SectionWrapper animate={true} className="pt-24 pb-8 md:pt-32 md:pb-12 bg-[#FAF9F6]">
-        <Container>
-          <div className="mb-8">
-            <Link href="/insights" className="inline-flex items-center gap-2 text-sm text-[#5F5F5F] hover:text-[#111111] transition-colors">
-              <ArrowLeft className="w-4 h-4" />
-              <span>Back to all insights</span>
-            </Link>
-          </div>
-
-          <div className="max-w-3xl flex flex-col gap-4">
-            <div className="flex flex-wrap items-center gap-4 text-xs text-[#5F5F5F] font-semibold">
-              <span>{article.category}</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#E8E8E8]" />
-              <span className="flex items-center gap-1">
-                <Calendar className="w-3.5 h-3.5 stroke-[1.5]" />
-                {formattedDate}
-              </span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#E8E8E8]" />
-              <span className="flex items-center gap-1">
-                <Clock className="w-3.5 h-3.5 stroke-[1.5]" />
-                {article.readingTime} min read
-              </span>
+      <ScrollWorldContainer slides={articleSlides}>
+        {/* 1. HERO SLIDE (Split: Title Left / Meta Right — 100vh narrative) */}
+        <section
+          id="hero"
+          className="slide-section min-h-[100dvh] flex items-center pt-24 pb-16 md:pt-28 md:pb-20 border-b border-[#DEDDD3]"
+        >
+          <Container>
+            <div className="mb-8">
+              <Link
+                href="/insights"
+                className="inline-flex items-center gap-2 font-sans text-xs font-semibold uppercase tracking-wider text-[#57564C] hover:text-[#14140F] transition-colors"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>Back to All Insights</span>
+              </Link>
             </div>
 
-            <SectionHeading tag="h1" className="leading-tight">
-              {article.title}
-            </SectionHeading>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+              <div className="lg:col-span-8 flex flex-col gap-5">
+                <div className="flex flex-wrap items-center gap-3">
+                  <Badge variant="filled">{article.category}</Badge>
+                  <span className="w-1 h-1 rounded-full bg-[#DEDDD3]" />
+                  <span className="flex items-center gap-1.5 font-sans text-xs text-[#57564C]">
+                    <Calendar className="w-3.5 h-3.5 stroke-[1.5]" />
+                    {formattedDate}
+                  </span>
+                  <span className="w-1 h-1 rounded-full bg-[#DEDDD3]" />
+                  <span className="flex items-center gap-1.5 font-sans text-xs text-[#57564C]">
+                    <Clock className="w-3.5 h-3.5 stroke-[1.5]" />
+                    {article.readingTime} min read
+                  </span>
+                </div>
 
-            <p className="font-sans text-[#5F5F5F] text-lg md:text-xl leading-relaxed mt-2 border-l-2 border-[#111111] pl-4">
-              {article.excerpt}
-            </p>
+                <SectionHeading tag="h1" className="leading-[1.08]">
+                  {article.title}
+                </SectionHeading>
 
-            <div className="flex items-center gap-3 mt-4 pt-4 border-t border-[#E8E8E8]">
-              <div>
-                <span className="font-sans text-xs text-[#5F5F5F] block">Written by</span>
-                <cite className="font-sans text-sm font-semibold text-[#111111] not-italic block">
-                  {article.author}
-                </cite>
-                <span className="font-sans text-xs text-[#5F5F5F] block">
-                  {article.authorRole}
-                </span>
+                <p className="font-editorial italic text-[#57564C] text-xl md:text-2xl leading-relaxed border-l-2 border-[#14140F] pl-5 mt-2">
+                  {article.excerpt}
+                </p>
               </div>
-            </div>
-          </div>
-        </Container>
-      </SectionWrapper>
 
-      {/* 2. Cover Photo */}
-      <SectionWrapper animate={true} padded={false} className="py-0">
-        <div className="w-full aspect-[21/9] min-h-[300px] relative">
-          <ImageWrapper
-            src={article.coverImage}
-            alt={article.title}
-            fill
-            sizes="100vw"
-            priority
-            containerClassName="w-full h-full border-y border-[#E8E8E8] rounded-none"
-          />
-        </div>
-      </SectionWrapper>
-
-      {/* 3. Article Content */}
-      <SectionWrapper animate={true} className="py-16 md:py-24">
-        <Container>
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-            {/* Left Column: Author card & Tags */}
-            <div className="lg:col-span-4 flex flex-col gap-6 lg:sticky lg:top-24">
-              <div className="border-t border-[#E8E8E8] pt-6">
-                <span className="font-sans text-xs text-[#5F5F5F] uppercase tracking-wider block mb-2 font-semibold">
-                  Topics
-                </span>
-                <div className="flex flex-wrap gap-2">
-                  {article.tags.map((tag, idx) => (
-                    <span key={idx} className="font-sans text-xs text-[#111111] bg-[#111111]/5 px-2 py-1 rounded-sm">
-                      {tag}
+              <div className="lg:col-span-4">
+                <Card variant="bone" className="p-6 flex flex-col gap-4">
+                  <span className="font-sans text-xs font-semibold text-[#57564C] uppercase tracking-wider">
+                    Author
+                  </span>
+                  <div>
+                    <cite className="font-sans text-base font-bold text-[#14140F] not-italic block">
+                      {article.author}
+                    </cite>
+                    <span className="font-editorial text-sm text-[#57564C] block mt-0.5">
+                      {article.authorRole}
                     </span>
-                  ))}
-                </div>
-              </div>
-
-              <div className="border-t border-[#E8E8E8] pt-6">
-                <span className="font-sans text-xs text-[#5F5F5F] uppercase tracking-wider block mb-2 font-semibold">
-                  Share article
-                </span>
-                <div className="flex gap-4 font-sans text-xs text-[#5F5F5F]">
-                  <button className="hover:text-[#111111] transition-colors">Copy link</button>
-                  <button className="hover:text-[#111111] transition-colors">LinkedIn</button>
-                  <button className="hover:text-[#111111] transition-colors">Twitter</button>
-                </div>
+                  </div>
+                </Card>
               </div>
             </div>
+          </Container>
+        </section>
 
-            {/* Right Column: Parsed text */}
-            <div className="lg:col-span-8 max-w-2xl">
-              {renderContent(article.content)}
-            </div>
+        {/* 2. COVER PHOTO SLIDE (Full-Width Aspect 21/9) */}
+        <section
+          id="cover"
+          className="slide-section py-0 border-b border-[#DEDDD3]"
+        >
+          <div className="w-full aspect-[21/9] min-h-[340px] relative">
+            <ImageWrapper
+              src={article.coverImage}
+              alt={article.title}
+              fill
+              sizes="100vw"
+              priority
+              containerClassName="w-full h-full border-none rounded-none"
+            />
           </div>
-        </Container>
-      </SectionWrapper>
+        </section>
 
-      {/* 4. Related Articles Section */}
-      {relatedArticles.length > 0 && (
-        <>
-          <Divider />
-          <SectionWrapper animate={true} className="py-16 bg-[#FAF9F6]/50">
+        {/* 3. ARTICLE CONTENT SLIDE (Split: Meta Left / Newsreader Body Right) */}
+        <section
+          id="body"
+          className="slide-section py-20 md:py-28 border-b border-[#DEDDD3]"
+        >
+          <Container>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+              {/* Left Column: Topics */}
+              <div className="lg:col-span-4 flex flex-col gap-6 lg:sticky lg:top-28">
+                <div className="border-t border-[#DEDDD3] pt-6">
+                  <span className="font-sans text-xs font-semibold text-[#57564C] uppercase tracking-wider block mb-3">
+                    Topics
+                  </span>
+                  <div className="flex flex-wrap gap-2">
+                    {article.tags.map((tag, idx) => (
+                      <span key={idx} className="font-sans text-xs text-[#14140F] bg-[#E4E3DB] px-2.5 py-1 rounded-[2px]">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="border-t border-[#DEDDD3] pt-6">
+                  <span className="font-sans text-xs font-semibold text-[#57564C] uppercase tracking-wider block mb-3">
+                    Author
+                  </span>
+                  <div className="font-sans text-sm font-semibold text-[#14140F]">
+                    {article.author}
+                    <span className="block font-editorial text-xs text-[#57564C] mt-0.5">
+                      {article.authorRole}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Column: Newsreader Long-Form Editorial Body */}
+              <div className="lg:col-span-8 max-w-3xl">
+                {renderContent(article.content)}
+              </div>
+            </div>
+          </Container>
+        </section>
+
+        {/* 4. RELATED ARTICLES SLIDE (2-Column Grid) */}
+        {relatedArticles.length > 0 && (
+          <section
+            id="related"
+            className="slide-section py-20 md:py-28 border-b border-[#DEDDD3]"
+          >
             <Container>
               <div className="mb-12">
-                <SectionHeading tag="h2" subtitle="More strategy">
-                  Related insights
+                <SectionHeading
+                  tag="h2"
+                  subtitle="Related Writing"
+                  withTriadMark
+                >
+                  Continue exploring strategy
                 </SectionHeading>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {relatedArticles.map((rel) => (
-                  <Card key={rel.id} hoverEffect className="flex flex-col justify-between p-0 overflow-hidden">
+                  <Card
+                    key={rel.id}
+                    hoverEffect
+                    className="flex flex-col justify-between p-0 overflow-hidden border border-[#DEDDD3]"
+                  >
                     <div>
                       <div className="aspect-[16/10] relative">
                         <ImageWrapper
@@ -248,24 +261,24 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
                       </div>
                       <div className="p-6">
                         <div className="flex items-center gap-3 mb-3">
-                          <span className="font-sans text-xs text-[#5F5F5F] font-semibold">{rel.category}</span>
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#E8E8E8]" />
-                          <span className="font-sans text-xs text-[#5F5F5F]">{rel.readingTime} min read</span>
+                          <span className="font-sans text-xs font-semibold text-[#14140F]">{rel.category}</span>
+                          <span className="w-1 h-1 rounded-full bg-[#DEDDD3]" />
+                          <span className="font-sans text-xs text-[#57564C]">{rel.readingTime} min read</span>
                         </div>
-                        <h3 className="font-heading text-lg font-semibold text-[#111111] mb-2 leading-snug">
+                        <h3 className="font-heading text-lg font-bold text-[#14140F] mb-2 leading-snug">
                           <Link href={`/insights/${rel.slug}`} className="hover:underline">
                             {rel.title}
                           </Link>
                         </h3>
-                        <p className="font-sans text-sm text-[#5F5F5F] leading-relaxed">
+                        <p className="font-editorial text-sm text-[#57564C] leading-relaxed">
                           {rel.excerpt}
                         </p>
                       </div>
                     </div>
-                    <div className="px-6 pb-6 pt-2 border-t border-[#E8E8E8]/40">
+                    <div className="px-6 pb-6 pt-3 border-t border-[#DEDDD3]">
                       <Link href={`/insights/${rel.slug}`}>
-                        <Button variant="text" className="group w-full justify-between">
-                          <span>Read article</span>
+                        <Button variant="text" size="sm" className="group w-full justify-between">
+                          <span>Read perspective</span>
                           <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                         </Button>
                       </Link>
@@ -274,26 +287,34 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
                 ))}
               </div>
             </Container>
-          </SectionWrapper>
-        </>
-      )}
+          </section>
+        )}
 
-      {/* 5. General strategy call CTA */}
-      <CTA
-        headline="Want custom advice for your business?"
-        description="Book a free, 30-minute diagnosis call. We will review your operations pipelines, software, and marketing stack and offer clear recommendations."
-      >
-        <Link href="/contact">
-          <Button variant="primary" size="lg">
-            Book a strategy call
-          </Button>
-        </Link>
-        <Link href="/insights">
-          <Button variant="outline" size="lg">
-            Back to insights
-          </Button>
-        </Link>
-      </CTA>
+        {/* 5. FINAL CTA SLIDE (Centered Action Block — 100vh narrative) */}
+        <section
+          id="cta"
+          className="slide-section min-h-[100dvh] flex items-center justify-center py-20"
+        >
+          <Container>
+            <CTA
+              eyebrow="Direct Advisory"
+              headline="Want tailored perspective for your business systems?"
+              description="Book a 30-minute diagnosis call with our senior engineering and strategy team. We will review your architecture and discuss practical paths forward."
+            >
+              <Link href="/contact">
+                <Button variant="primary" size="lg">
+                  Book a Strategy Call
+                </Button>
+              </Link>
+              <Link href="/insights">
+                <Button variant="outline" size="lg">
+                  Back to Insights
+                </Button>
+              </Link>
+            </CTA>
+          </Container>
+        </section>
+      </ScrollWorldContainer>
     </GlobalLayout>
   );
 }

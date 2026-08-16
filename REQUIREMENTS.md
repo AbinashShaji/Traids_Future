@@ -181,7 +181,7 @@ pnpm install
 ### Run Development Server
 
 ```bash
-pnpm dev
+pnpm install
 ```
 
 ### Build

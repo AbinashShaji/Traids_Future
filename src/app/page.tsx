@@ -1,28 +1,26 @@
-// This file controls the Home page (the landing page) of our website. It is the first screen visitors see.
-// It structures the page into several blocks: a bold hero introduction, our philosophical quote, our core solutions, case studies, operational steps, testimonials, and a booking call-to-action.
+// Homepage implementing Design System v2: Minimal, bold, centered, editorial statement hero and 9-slide desktop scroll-world.
 "use client";
 
 import * as React from "react";
 import Link from "next/link";
-import { ArrowRight, Globe, Monitor, Layers, Zap, TrendingUp, Check, type LucideIcon } from "lucide-react";
+import { ArrowDown, ArrowRight, Globe, Monitor, Layers, Zap, TrendingUp, type LucideIcon } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
 import { GlobalLayout } from "../components/global-layout";
-import { SectionWrapper } from "../components/section-wrapper";
 import { Container } from "../components/container";
 import { SectionHeading } from "../components/section-heading";
 import { Button } from "../components/button";
 import { Card } from "../components/card";
 import { Badge } from "../components/badge";
 import { ImageWrapper } from "../components/image-wrapper";
-import { Divider } from "../components/divider";
 import { CTA } from "../components/cta";
 import { Reveal } from "../components/reveal";
-// Mock data imports
+import { TriadMark, TriadPanel } from "../components/triad-mark";
+import { ScrollWorldContainer } from "../components/scroll-world-container";
 import { solutions } from "../mock/solutions";
 import { getFeaturedProjects } from "../mock/projects";
 import { getFeaturedTestimonials } from "../mock/testimonials";
 import { getFeaturedArticle } from "../mock/articles";
 
-// iconMap connects icon string names from the mock data to the actual Lucide graphics.
 const iconMap: Record<string, LucideIcon> = {
   Globe,
   Monitor,
@@ -31,473 +29,511 @@ const iconMap: Record<string, LucideIcon> = {
   TrendingUp,
 };
 
-// The Home component compiles all sections of the landing page layout.
-// Inputs: None (this is a page entry point).
-// Outputs: Renders a fully formatted landing page layout wrapped inside our GlobalLayout layout wrapper.
+const homeSlides = [
+  { id: "hero", label: "Overview" },
+  { id: "reality", label: "Philosophy" },
+  { id: "approach", label: "Triad Model" },
+  { id: "solutions", label: "Capabilities" },
+  { id: "work", label: "Selected Work" },
+  { id: "edge", label: "Why Us" },
+  { id: "testimonials", label: "Client Voice" },
+  { id: "insights", label: "Perspectives" },
+  { id: "cta", label: "Next Step" },
+];
+
 export default function Home() {
-  // Load data for projects, testimonials, and articles marked as featured.
+  const prefersReducedMotion = useReducedMotion();
   const featuredProjects = getFeaturedProjects();
   const featuredTestimonials = getFeaturedTestimonials();
   const featuredArticle = getFeaturedArticle();
 
   return (
     <GlobalLayout>
-      {/* 1. Hero Section */}
-      <SectionWrapper animate={true} delay={0} className="pt-24 pb-16 md:pt-32 md:pb-24">
-        <Container>
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-            <div className="lg:col-span-7 flex flex-col gap-6">
-              <SectionHeading tag="h1" subtitle="Triads Future — Business Growth & Technology Partner">
-                We build the systems and digital presence growing businesses need to scale.
-              </SectionHeading>
-              
-              <p className="font-sans text-[#5F5F5F] text-lg md:text-xl leading-relaxed max-w-2xl">
-                No complex jargon, no custom frameworks you cannot maintain, and no aesthetic shortcuts. 
-                Just practical strategy, clean code, and business automation that removes friction from your operations.
+      <ScrollWorldContainer slides={homeSlides}>
+        {/* 1. HERO SLIDE (Centered, Bold, Editorial Statement with Generous Negative Space — 100vh narrative) */}
+        <section
+          id="hero"
+          className="slide-section min-h-[100dvh] flex flex-col justify-between pt-28 pb-10 md:pt-36 md:pb-12 border-b border-[#DEDDD3] relative overflow-hidden"
+        >
+          {/* Main Centered Content */}
+          <Container className="my-auto">
+            <div className="max-w-5xl mx-auto text-center flex flex-col items-center gap-8 md:gap-10">
+              {/* Eyebrow with Triad Mark */}
+              <div className="flex items-center justify-center gap-3">
+                <TriadMark size="sm" />
+                <span className="font-sans text-xs md:text-sm font-semibold uppercase tracking-[0.18em] text-[#57564C]">
+                  Business Growth & Technology Partner
+                </span>
+              </div>
+
+              {/* Massive Centered Headline in Canela */}
+              <h1 className="font-hero text-5xl sm:text-6xl md:text-7xl lg:text-[88px] xl:text-[94px] font-normal md:font-medium tracking-[-0.025em] leading-[1.03] text-[#14140F]">
+                Build Smarter.<br />
+                Grow Faster.
+              </h1>
+
+              {/* Short Supporting Statement */}
+              <p className="font-editorial text-[#57564C] text-lg sm:text-xl md:text-2xl lg:text-[26px] leading-relaxed max-w-2xl font-normal">
+                Strategy. Technology. Execution.<br className="hidden sm:inline" />
+                All working together as one cohesive system.
               </p>
 
-              <div className="flex flex-wrap gap-4 pt-2">
+              {/* Restrained Dual CTAs */}
+              <div className="flex flex-wrap items-center justify-center gap-5 pt-2">
                 <Link href="/contact">
                   <Button variant="primary" size="lg">
-                    Book a strategy call
+                    Book a Strategy Call
                   </Button>
                 </Link>
                 <Link href="/work">
-                  <Button variant="outline" size="lg">
-                    See our work
+                  <Button variant="outline" size="lg" className="group">
+                    Explore Our Work
+                    <ArrowRight className="inline-block w-4 h-4 ml-1.5 transition-transform duration-300 group-hover:translate-x-1" />
                   </Button>
                 </Link>
               </div>
             </div>
+          </Container>
 
-            <div className="lg:col-span-5 w-full aspect-[4/3] lg:aspect-[1/1] relative">
-              <Reveal variant="scaleIn" className="w-full h-full">
-                <ImageWrapper
-                  src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80"
-                  alt="Modern, clean workspace with natural lighting"
-                  fill
-                  priority
-                  sizes="(max-width: 1024px) 100vw, 40vw"
-                  containerClassName="w-full h-full shadow-[0_4px_20px_rgba(0,0,0,0.02)]"
-                />
-              </Reveal>
+          {/* Subtle Bottom-Centered Scroll Indicator */}
+          <div className="w-full flex flex-col items-center justify-center gap-2 text-[#57564C] select-none pt-4">
+            <motion.div
+              animate={prefersReducedMotion ? {} : { y: [0, 4, 0] }}
+              transition={prefersReducedMotion ? {} : { repeat: Infinity, duration: 2.2, ease: "easeInOut" }}
+              className="flex flex-col items-center gap-1.5"
+            >
+              <ArrowDown className="w-3.5 h-3.5 stroke-[1.5]" />
+              <span className="font-sans text-[10px] font-semibold uppercase tracking-[0.24em] text-[#57564C]/80">
+                Scroll
+              </span>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* 2. BUSINESS REALITY SLIDE (Asymmetric Bold Statement — 100vh narrative) */}
+        <section
+          id="reality"
+          className="slide-section min-h-[100dvh] flex items-center py-20 md:py-28 border-b border-[#DEDDD3]"
+        >
+          <Container>
+            <div className="max-w-4xl mx-auto">
+              <div className="flex items-center gap-2 text-[#57564C] mb-8">
+                <TriadMark size="sm" />
+                <span className="font-sans text-xs font-semibold uppercase tracking-[0.14em]">
+                  Operating Reality
+                </span>
+              </div>
+
+              <blockquote className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-[52px] font-bold text-[#14140F] leading-[1.12] tracking-tight mb-10">
+                &ldquo;Most agencies sell complexity because it justifies retainers. We do the opposite. The best commercial system is the simplest one that solves the bottleneck.&rdquo;
+              </blockquote>
+
+              <div className="flex items-center gap-4 pt-4 border-t border-[#DEDDD3]">
+                <div className="w-8 h-[2px] bg-[#14140F]" />
+                <p className="font-editorial text-base md:text-lg text-[#57564C]">
+                  Triads Future — Architecture & Strategy Leadership
+                </p>
+              </div>
             </div>
-          </div>
-        </Container>
-      </SectionWrapper>
+          </Container>
+        </section>
 
-      <Divider />
+        {/* 3. OUR APPROACH SLIDE (Split: 3-Part Triad Visual Model Left / Perspective Right — 100vh narrative) */}
+        <section
+          id="approach"
+          className="slide-section min-h-[100dvh] flex items-center py-20 md:py-28 border-b border-[#DEDDD3]"
+        >
+          <Container>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+              <div className="lg:col-span-6">
+                <TriadPanel />
+              </div>
 
-      {/* 2. Business Intro Section */}
-      <SectionWrapper animate={true} delay={1}>
-        <Container>
-          <div className="max-w-3xl">
-            <span className="font-sans text-xs uppercase tracking-wider text-[#5F5F5F] block mb-4">
-              Our philosophy
-            </span>
-            <blockquote className="font-heading text-2xl md:text-3xl lg:text-4xl font-medium text-[#111111] leading-snug">
-              &ldquo;Most agencies sell complexity because it makes them look smart. We do the opposite. We believe the best solution is always the simplest one that solves the business problem.&rdquo;
-            </blockquote>
-            <div className="mt-6 flex items-center gap-3">
-              <div className="w-8 h-[1px] bg-[#111111]" />
-              <p className="font-sans text-sm text-[#111111] font-medium">
-                The founders, Triads Future
-              </p>
-            </div>
-          </div>
-        </Container>
-      </SectionWrapper>
-
-      <Divider />
-
-      {/* 3. Solutions Outcome Highlights (3 of 5) */}
-      <SectionWrapper animate={true}>
-        <Container>
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
-            <SectionHeading tag="h2" subtitle="Our capabilities">
-              How we help you grow
-            </SectionHeading>
-            <Link href="/solutions">
-              <Button variant="text" className="group">
-                View all solutions <ArrowRight className="inline-block w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" />
-              </Button>
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Loop through the first 3 solutions and display them as feature cards */}
-            {solutions.slice(0, 3).map((solution, idx) => {
-              const Icon = iconMap[solution.icon] || Globe;
-              return (
-                <Reveal
-                  key={solution.id}
-                  variant="fadeUp"
-                  delay={idx}
-                  className="w-full h-full flex flex-col"
+              <div className="lg:col-span-6 flex flex-col gap-6">
+                <SectionHeading
+                  tag="h2"
+                  subtitle="Signature Model"
+                  withTriadMark
                 >
-                  <Card hoverEffect className="flex flex-col justify-between min-h-[300px] w-full h-full">
-                    <div>
-                      <div className="w-10 h-10 rounded-sm bg-[#111111]/5 flex items-center justify-center mb-6">
-                        <Icon className="w-5 h-5 text-[#111111] stroke-[1.5]" />
-                      </div>
-                      <h3 className="font-heading text-xl font-semibold text-[#111111] mb-3">
-                        {solution.title}
-                      </h3>
-                      <p className="font-sans text-[#5F5F5F] text-sm leading-relaxed mb-6">
-                        {solution.description}
-                      </p>
-                    </div>
-                    <div className="pt-4 border-t border-[#E8E8E8]/60 mt-auto">
-                      <p className="font-sans text-xs uppercase tracking-wider text-[#5F5F5F] mb-3">
-                        Core services
-                      </p>
-                      <ul className="space-y-1.5 mb-6">
-                        {solution.services.slice(0, 3).map((service, idx) => (
-                          <li key={idx} className="font-sans text-xs text-[#111111] flex items-center gap-2">
-                            <Check className="w-3.5 h-3.5 text-[#5F5F5F]" />
-                            <span>{service}</span>
-                          </li>
-                        ))}
-                      </ul>
-                      <Link href={`/solutions#${solution.id}`}>
-                        <Button variant="text" size="sm">
-                          {solution.ctaText}
-                        </Button>
-                      </Link>
-                    </div>
-                  </Card>
-                </Reveal>
-              );
-            })}
-          </div>
-        </Container>
-      </SectionWrapper>
+                  Three disciplines. One unified execution.
+                </SectionHeading>
 
-      <Divider />
+                <p className="font-editorial text-[#14140F] text-lg md:text-xl leading-relaxed">
+                  Working with Triads Future means gaining a dedicated technology and operations arm directly inside your executive team.
+                </p>
 
-      {/* 4. Selected Work Showcase */}
-      <SectionWrapper animate={true}>
-        <Container>
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
-            <SectionHeading tag="h2" subtitle="Case studies">
-              Selected work
-            </SectionHeading>
-            <Link href="/work">
-              <Button variant="text" className="group">
-                View all case studies <ArrowRight className="inline-block w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" />
-              </Button>
-            </Link>
-          </div>
+                <p className="font-editorial text-[#57564C] text-base md:text-lg leading-relaxed">
+                  We eliminate disconnected agency handoffs. Senior operators design your strategy, write your production code, and deploy your workflows.
+                </p>
 
-          <div className="space-y-16">
-            {/* Loop through and display each featured case study project */}
-            {featuredProjects.map((project, index) => (
-              <div 
-                key={project.id} 
-                className={`grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center ${
-                  index % 2 === 1 ? "lg:flex-row-reverse" : ""
-                }`}
+                <div className="pt-2">
+                  <Link href="/about">
+                    <Button variant="text" size="md">
+                      Read about our operating model →
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </Container>
+        </section>
+
+        {/* 4. SOLUTIONS SLIDE (Asymmetric 2x2 Outcome-Focused Grid — 100vh narrative) */}
+        <section
+          id="solutions"
+          className="slide-section min-h-[100dvh] flex items-center py-20 md:py-28 border-b border-[#DEDDD3]"
+        >
+          <Container>
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+              <SectionHeading
+                tag="h2"
+                subtitle="Commercial Solutions"
+                withTriadMark
               >
-                {/* Image panel */}
-                <div className={`lg:col-span-6 ${index % 2 === 1 ? "lg:order-2" : ""}`}>
-                  <Link href={`/work/${project.slug}`}>
-                    <div className="aspect-[16/10] w-full relative overflow-hidden group">
+                Engineered for compound growth
+              </SectionHeading>
+              <Link href="/solutions">
+                <Button variant="text" size="sm">
+                  Explore all solutions →
+                </Button>
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {solutions.slice(0, 4).map((solution, idx) => {
+                const Icon = iconMap[solution.icon] || Globe;
+                return (
+                  <Reveal
+                    key={solution.id}
+                    variant="fadeUp"
+                    delay={idx}
+                    className="w-full h-full flex flex-col"
+                  >
+                    <Card
+                      hoverEffect
+                      className="flex flex-col justify-between h-full min-h-[340px]"
+                    >
+                      <div>
+                        <span className="font-sans text-[11px] font-semibold uppercase tracking-[0.1em] text-[#57564C] block mb-4">
+                          Outcome 0{idx + 1}
+                        </span>
+                        <div className="w-10 h-10 rounded-[2px] bg-[#E4E3DB] flex items-center justify-center mb-5">
+                          <Icon className="w-5 h-5 text-[#14140F] stroke-[1.5]" />
+                        </div>
+                        <h3 className="font-heading text-xl font-bold text-[#14140F] mb-3 leading-snug">
+                          {solution.title}
+                        </h3>
+                        <p className="font-editorial text-sm text-[#57564C] leading-relaxed mb-6">
+                          {solution.description}
+                        </p>
+                      </div>
+
+                      <div className="pt-4 border-t border-[#DEDDD3] mt-auto">
+                        <Link href={`/solutions#${solution.id}`}>
+                          <span className="font-sans text-xs font-semibold text-[#14140F] inline-flex items-center gap-1.5 hover:gap-2.5 transition-all">
+                            Explore Outcome →
+                          </span>
+                        </Link>
+                      </div>
+                    </Card>
+                  </Reveal>
+                );
+              })}
+            </div>
+          </Container>
+        </section>
+
+        {/* 5. FEATURED WORK SLIDE (Alternating Cards: Image Left/Right) */}
+        <section
+          id="work"
+          className="slide-section min-h-[100dvh] flex items-center py-20 md:py-28 border-b border-[#DEDDD3]"
+        >
+          <Container>
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+              <SectionHeading
+                tag="h2"
+                subtitle="Case Studies"
+                withTriadMark
+              >
+                Selected client outcomes
+              </SectionHeading>
+              <Link href="/work">
+                <Button variant="text" size="sm">
+                  View all case studies →
+                </Button>
+              </Link>
+            </div>
+
+            <div className="space-y-12">
+              {featuredProjects.slice(0, 2).map((project, index) => (
+                <Card
+                  key={project.id}
+                  hoverEffect
+                  className="p-0 overflow-hidden border border-[#DEDDD3]"
+                >
+                  <div
+                    className={`grid grid-cols-1 lg:grid-cols-12 items-center ${
+                      index % 2 === 1 ? "lg:flex-row-reverse" : ""
+                    }`}
+                  >
+                    {/* Image Container */}
+                    <div className={`lg:col-span-6 relative aspect-[16/10] w-full ${index % 2 === 1 ? "lg:order-2" : ""}`}>
                       <ImageWrapper
                         src={project.coverImage}
                         alt={project.title}
                         fill
                         sizes="(max-width: 1024px) 100vw, 50vw"
-                        containerClassName="w-full h-full"
-                        className="transition-transform duration-500 group-hover:scale-[1.02]"
+                        containerClassName="w-full h-full border-none rounded-none"
                       />
                     </div>
-                  </Link>
-                </div>
 
-                {/* Text and stats panel */}
-                <div className={`lg:col-span-6 flex flex-col gap-6 ${index % 2 === 1 ? "lg:order-1" : ""}`}>
-                  <div className="flex items-center gap-3">
-                    <span className="font-sans text-xs text-[#5F5F5F] font-semibold">{project.client}</span>
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#E8E8E8]" />
-                    <Badge variant="outline">{project.industry}</Badge>
-                  </div>
-
-                  <h3 className="font-heading text-2xl md:text-3xl font-semibold text-[#111111] leading-tight">
-                    <Link href={`/work/${project.slug}`} className="hover:underline">
-                      {project.title}
-                    </Link>
-                  </h3>
-
-                  <p className="font-sans text-[#5F5F5F] text-base leading-relaxed">
-                    {project.summary}
-                  </p>
-
-                  <div className="grid grid-cols-2 gap-6 py-4 border-y border-[#E8E8E8]/80 my-2">
-                    {project.results.slice(0, 2).map((res, idx) => (
-                      <div key={idx} className="flex flex-col gap-1">
-                        <span className="font-heading text-2xl md:text-3xl font-bold text-[#111111] tracking-tight">
-                          {res.value}
+                    {/* Content Panel */}
+                    <div className={`lg:col-span-6 p-8 lg:p-12 flex flex-col gap-5 ${index % 2 === 1 ? "lg:order-1" : ""}`}>
+                      <div className="flex items-center gap-3">
+                        <span className="font-sans text-xs font-semibold text-[#14140F] uppercase tracking-wider">
+                          {project.client}
                         </span>
-                        <span className="font-sans text-xs text-[#5F5F5F] leading-tight">
-                          {res.metric}
-                        </span>
+                        <span className="w-1 h-1 rounded-full bg-[#DEDDD3]" />
+                        <Badge variant="filled">{project.industry}</Badge>
                       </div>
-                    ))}
+
+                      <h3 className="font-heading text-2xl md:text-3xl font-bold text-[#14140F] leading-tight">
+                        <Link href={`/work/${project.slug}`} className="hover:underline">
+                          {project.title}
+                        </Link>
+                      </h3>
+
+                      <p className="font-editorial text-[#57564C] text-base leading-relaxed">
+                        {project.summary}
+                      </p>
+
+                      <div className="grid grid-cols-2 gap-6 py-4 border-y border-[#DEDDD3] my-1">
+                        {project.results.slice(0, 2).map((res, idx) => (
+                          <div key={idx} className="flex flex-col gap-1">
+                            <span className="font-heading text-2xl md:text-3xl font-bold text-[#14140F] tracking-tight">
+                              {res.value}
+                            </span>
+                            <span className="font-sans text-xs text-[#57564C] leading-tight font-medium">
+                              {res.metric}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div>
+                        <Link href={`/work/${project.slug}`}>
+                          <Button variant="text" size="sm">
+                            Read full case study →
+                          </Button>
+                        </Link>
+                      </div>
+                    </div>
                   </div>
-
-                  <div>
-                    <Link href={`/work/${project.slug}`}>
-                      <Button variant="text" className="group">
-                        Read case study <ArrowRight className="inline-block w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" />
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </Container>
-      </SectionWrapper>
-
-      <Divider />
-
-      {/* 5. Process Section */}
-      <SectionWrapper animate={true}>
-        <Container>
-          <div className="max-w-3xl mb-16">
-            <SectionHeading tag="h2" subtitle="Our method">
-              How we work with you
-            </SectionHeading>
-            <p className="font-sans text-[#5F5F5F] text-base md:text-lg leading-relaxed mt-4">
-              We do not believe in long discovery phases that lead to thick slide decks. We work in sprints, 
-              focusing on delivering visible progress every single week.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {[
-              {
-                step: "01",
-                title: "Diagnosis",
-                description: "We audit your current tech, map your bottlenecks, and interview your team to uncover the real operational friction.",
-              },
-              {
-                step: "02",
-                title: "Strategy",
-                description: "We design a clean, practical roadmap specifying the exact outcomes, technology stacks, and timeline.",
-              },
-              {
-                step: "03",
-                title: "Execution",
-                description: "We build. Clean code, visible progress in weekly demos, and integration with your existing CRM or tools.",
-              },
-              {
-                step: "04",
-                title: "Optimization",
-                description: "We monitor production usage, gather client and team feedback, and refine workflows to maximize scale.",
-              },
-            {/* Loop through and render each operational step with its list index number */}
-            ].map((p, idx) => (
-              <Reveal
-                key={idx}
-                variant="slideLeft"
-                delay={idx}
-                className="flex flex-col border-t border-[#E8E8E8] pt-6 gap-4"
-              >
-                <span
-                  className="origin-left font-heading text-5xl md:text-6xl font-semibold text-[#111111]/20 block tracking-tight leading-none select-none"
-                >
-                  {p.step}
-                </span>
-                <h4 className="font-heading text-lg font-semibold text-[#111111]">
-                  {p.title}
-                </h4>
-                <p className="font-sans text-sm text-[#5F5F5F] leading-relaxed">
-                  {p.description}
-                </p>
-              </Reveal>
-            ))}
-          </div>
-        </Container>
-      </SectionWrapper>
-
-      <Divider />
-
-      {/* 6. Why Choose Us Section */}
-      <SectionWrapper animate={true}>
-        <Container>
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-            <div className="lg:col-span-5">
-              <SectionHeading tag="h2" subtitle="Our edge">
-                Why businesses choose Triads Future
-              </SectionHeading>
-              <p className="font-sans text-[#5F5F5F] text-base leading-relaxed mt-4">
-                We are business operators who write code, not just developers following specifications. 
-                We design systems around the commercials of your business.
-              </p>
-            </div>
-            
-            <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-8 lg:pt-2">
-              {[
-                {
-                  title: "No agency layers",
-                  description: "You work directly with the seniors doing the work. No account managers, no translation errors, and no communication lags.",
-                },
-                {
-                  title: "Practical technology",
-                  description: "We use standard, widely-adopted tools and languages. We write clean code so any competent developer can maintain it later.",
-                },
-                {
-                  title: "Focus on outcomes",
-                  description: "We measure success by business results — hours saved, client portal satisfaction, or increases in enterprise leads.",
-                },
-                {
-                  title: "Monochrome, clean style",
-                  description: "Our designs do not rely on passing trends or flashy animations. We build clean, professional interfaces that build trust.",
-                },
-              ].map((item, idx) => (
-                <div key={idx} className="flex flex-col gap-2">
-                  <h4 className="font-heading text-base font-semibold text-[#111111] flex items-center gap-2">
-                    <Check className="w-4 h-4 text-[#111111]" />
-                    <span>{item.title}</span>
-                  </h4>
-                  <p className="font-sans text-sm text-[#5F5F5F] leading-relaxed pl-6">
-                    {item.description}
-                  </p>
-                </div>
+                </Card>
               ))}
             </div>
-          </div>
-        </Container>
-      </SectionWrapper>
+          </Container>
+        </section>
 
-      <Divider />
-
-      {/* 7. Testimonials Section */}
-      <SectionWrapper animate={true}>
-        <Container>
-          <div className="mb-12">
-            <SectionHeading tag="h2" subtitle="Client voices">
-              What our clients say
-            </SectionHeading>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Loop through and display featured testimonials in a responsive grid */}
-            {featuredTestimonials.map((t, idx) => (
-              <Reveal
-                key={t.id}
-                variant="fadeIn"
-                delay={idx}
-                className="w-full h-full flex flex-col"
+        {/* 6. WHY BUSINESSES GROW WITH US (4-Column Comparison Grid) */}
+        <section
+          id="edge"
+          className="slide-section min-h-[100dvh] flex items-center py-20 md:py-28 border-b border-[#DEDDD3]"
+        >
+          <Container>
+            <div className="max-w-3xl mb-14">
+              <SectionHeading
+                tag="h2"
+                subtitle="The Triad Advantage"
+                withTriadMark
               >
-                <Card className="flex flex-col justify-between p-8 bg-[#FAF9F6] min-h-[250px] w-full h-full">
-                  <blockquote className="font-sans text-base text-[#111111] italic leading-relaxed mb-6">
+                Why ambitious businesses choose us
+              </SectionHeading>
+              <p className="font-editorial text-[#57564C] text-lg leading-relaxed mt-4">
+                We operate as commercial partners who build technology, not just contractors executing brief tickets.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[
+                {
+                  step: "01",
+                  title: "Direct Senior Access",
+                  description: "You partner directly with senior operators who design and build the work. Zero account layers, zero translation loss.",
+                },
+                {
+                  step: "02",
+                  title: "Maintainable Tech",
+                  description: "We use robust, modern, and open web standards. No proprietary lock-in; any skilled engineering team can maintain our code.",
+                },
+                {
+                  step: "03",
+                  title: "Commercial Focus",
+                  description: "We measure project success by commercial outcomes: operational hours saved, client portal retention, and qualified pipeline growth.",
+                },
+                {
+                  step: "04",
+                  title: "Monochrome Restraint",
+                  description: "Our design avoids fleeting visual trends. We craft quiet, timeless interfaces that establish enduring brand authority.",
+                },
+              ].map((item, idx) => (
+                <Card
+                  key={idx}
+                  variant="bone"
+                  className="flex flex-col justify-between min-h-[260px]"
+                >
+                  <span className="font-heading text-4xl font-bold text-[#14140F]/30 select-none">
+                    {item.step}
+                  </span>
+                  <div className="mt-4">
+                    <h4 className="font-heading text-lg font-bold text-[#14140F] mb-2">
+                      {item.title}
+                    </h4>
+                    <p className="font-editorial text-sm text-[#57564C] leading-relaxed">
+                      {item.description}
+                    </p>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </Container>
+        </section>
+
+        {/* 7. TESTIMONIALS SLIDE (Full-Width Editorial Pull-Quote) */}
+        <section
+          id="testimonials"
+          className="slide-section min-h-[100dvh] flex items-center py-20 md:py-28 border-b border-[#DEDDD3]"
+        >
+          <Container>
+            <div className="max-w-4xl mx-auto">
+              <span className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-[#57564C] flex items-center gap-2 mb-8">
+                <TriadMark size="sm" /> Partner Testimonial
+              </span>
+
+              {featuredTestimonials.slice(0, 1).map((t) => (
+                <div
+                  key={t.id}
+                  className="bg-[#E4E3DB] rounded-[2px] p-8 md:p-14 border border-[#DEDDD3]"
+                >
+                  <blockquote className="font-editorial italic text-2xl md:text-3xl lg:text-[34px] leading-snug text-[#14140F] mb-8">
                     &ldquo;{t.review}&rdquo;
                   </blockquote>
-                  <div className="flex items-center gap-4 border-t border-[#E8E8E8]/60 pt-4 mt-auto">
-                    <div className="w-10 h-10 rounded-full overflow-hidden relative">
+                  <div className="flex items-center gap-4 border-t border-[#DEDDD3] pt-6">
+                    <div className="w-12 h-12 rounded-full overflow-hidden relative border border-[#DEDDD3]">
                       <ImageWrapper
                         src={t.photo}
                         alt={t.clientName}
                         fill
-                        sizes="40px"
+                        sizes="48px"
                         containerClassName="w-full h-full border-none"
                       />
                     </div>
                     <div>
-                      <cite className="font-sans text-sm font-semibold text-[#111111] not-italic block">
+                      <cite className="font-sans text-sm font-semibold text-[#14140F] not-italic block">
                         {t.clientName}
                       </cite>
-                      <span className="font-sans text-xs text-[#5F5F5F] block">
+                      <span className="font-sans text-xs text-[#57564C] block mt-0.5">
                         {t.clientRole}, {t.company}
                       </span>
                     </div>
                   </div>
-                </Card>
-              </Reveal>
-            ))}
-          </div>
-        </Container>
-      </SectionWrapper>
-
-      <Divider />
-
-      {/* 8. Insights Section (Teaser of Featured Article) */}
-      {featuredArticle && (
-        <SectionWrapper animate={true}>
-          <Container>
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
-              <SectionHeading tag="h2" subtitle="Insights">
-                Strategy & thinking
-              </SectionHeading>
-              <Link href="/insights">
-                <Button variant="text" className="group">
-                  Read all articles <ArrowRight className="inline-block w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" />
-                </Button>
-              </Link>
-            </div>
-
-            <Card className="p-0 overflow-hidden">
-              <div className="grid grid-cols-1 lg:grid-cols-12">
-                <div className="lg:col-span-7 relative min-h-[300px] aspect-[16/9] lg:aspect-auto">
-                  <ImageWrapper
-                    src={featuredArticle.coverImage}
-                    alt={featuredArticle.title}
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 60vw"
-                    containerClassName="w-full h-full border-none"
-                  />
                 </div>
-                <div className="lg:col-span-5 p-8 md:p-12 flex flex-col justify-between gap-6">
-                  <div className="flex flex-col gap-4">
-                    <div className="flex items-center gap-3">
-                      <span className="font-sans text-xs text-[#5F5F5F] font-semibold">{featuredArticle.category}</span>
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#E8E8E8]" />
-                      <span className="font-sans text-xs text-[#5F5F5F]">{featuredArticle.readingTime} min read</span>
+              ))}
+            </div>
+          </Container>
+        </section>
+
+        {/* 8. INSIGHTS SLIDE (Split: Image Left / Article Preview Right) */}
+        {featuredArticle && (
+          <section
+            id="insights"
+            className="slide-section min-h-[100dvh] flex items-center py-20 md:py-28 border-b border-[#DEDDD3]"
+          >
+            <Container>
+              <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+                <SectionHeading
+                  tag="h2"
+                  subtitle="Strategic Insights"
+                  withTriadMark
+                >
+                  Perspectives on technology and growth
+                </SectionHeading>
+                <Link href="/insights">
+                  <Button variant="text" size="sm">
+                    Read all articles →
+                  </Button>
+                </Link>
+              </div>
+
+              <Card className="p-0 overflow-hidden border border-[#DEDDD3]">
+                <div className="grid grid-cols-1 lg:grid-cols-12 items-center">
+                  <div className="lg:col-span-6 relative aspect-[16/10] lg:aspect-auto lg:h-[420px] w-full">
+                    <ImageWrapper
+                      src={featuredArticle.coverImage}
+                      alt={featuredArticle.title}
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                      containerClassName="w-full h-full border-none rounded-none"
+                    />
+                  </div>
+                  <div className="lg:col-span-6 p-8 lg:p-12 flex flex-col justify-between gap-6">
+                    <div className="flex flex-col gap-4">
+                      <div className="flex items-center gap-3">
+                        <Badge variant="filled">{featuredArticle.category}</Badge>
+                        <span className="w-1 h-1 rounded-full bg-[#DEDDD3]" />
+                        <span className="font-sans text-xs text-[#57564C]">{featuredArticle.readingTime} min read</span>
+                      </div>
+
+                      <h3 className="font-heading text-2xl md:text-3xl font-bold text-[#14140F] leading-tight">
+                        <Link href={`/insights/${featuredArticle.slug}`} className="hover:underline">
+                          {featuredArticle.title}
+                        </Link>
+                      </h3>
+
+                      <p className="font-editorial text-[#57564C] text-base leading-relaxed">
+                        {featuredArticle.excerpt}
+                      </p>
                     </div>
 
-                    <h3 className="font-heading text-xl md:text-2xl font-semibold text-[#111111] leading-snug">
-                      <Link href={`/insights/${featuredArticle.slug}`} className="hover:underline">
-                        {featuredArticle.title}
+                    <div>
+                      <Link href={`/insights/${featuredArticle.slug}`}>
+                        <Button variant="text" size="sm">
+                          Read full article →
+                        </Button>
                       </Link>
-                    </h3>
-
-                    <p className="font-sans text-[#5F5F5F] text-sm leading-relaxed">
-                      {featuredArticle.excerpt}
-                    </p>
-                  </div>
-
-                  <div>
-                    <Link href={`/insights/${featuredArticle.slug}`}>
-                      <Button variant="text" className="group">
-                        Read article <ArrowRight className="inline-block w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" />
-                      </Button>
-                    </Link>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Card>
-          </Container>
-        </SectionWrapper>
-      )}
+              </Card>
+            </Container>
+          </section>
+        )}
 
-      {/* 9. Strategy Call CTA */}
-      <CTA 
-        headline="Ready to scale your business?"
-        description="Book a brief, 30-minute consultation call. We will discuss your current technology bottlenecks and map out a practical solution strategy. No pushy sales pitch, just real feedback."
-      >
-        <Link href="/contact">
-          <Button variant="primary" size="lg">
-            Book a strategy call
-          </Button>
-        </Link>
-        <Link href="/solutions">
-          <Button variant="outline" size="lg">
-            Explore our solutions
-          </Button>
-        </Link>
-      </CTA>
+        {/* 9. FINAL STRATEGY CTA SLIDE (Centered Action Block — 100vh narrative) */}
+        <section
+          id="cta"
+          className="slide-section min-h-[100dvh] flex items-center justify-center py-20"
+        >
+          <Container>
+            <CTA
+              eyebrow="Initiate Partnership"
+              headline="Ready to scale your business operations?"
+              description="Book a confidential, 30-minute consultation call. We will review your current technical bottlenecks and provide a practical roadmap. No pushy sales pitch, just real feedback."
+            >
+              <Link href="/contact">
+                <Button variant="primary" size="lg">
+                  Book a Strategy Call
+                </Button>
+              </Link>
+              <Link href="/solutions">
+                <Button variant="outline" size="lg">
+                  Explore Solutions
+                </Button>
+              </Link>
+            </CTA>
+          </Container>
+        </section>
+      </ScrollWorldContainer>
     </GlobalLayout>
   );
 }

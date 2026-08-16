@@ -1,56 +1,52 @@
-// This file controls the "Page Not Found" (404 Error) display. If a visitor types an invalid URL, Next.js displays this screen to guide them back to working areas.
+// 404 page styled with Design System v2 tokens and typography.
 import * as React from "react";
 import Link from "next/link";
 import { House, LayoutGrid, BriefcaseBusiness } from "lucide-react";
 import { GlobalLayout } from "../components/global-layout";
-import { SectionWrapper } from "../components/section-wrapper";
 import { Container } from "../components/container";
 import { SectionHeading } from "../components/section-heading";
 import { Button } from "../components/button";
 
-// NotFound is the component loaded when Next.js receives a 404 error routing request.
-// Inputs: None.
-// Outputs: Renders a friendly "not found" page wrapped inside <GlobalLayout>.
 export default function NotFound() {
   return (
     <GlobalLayout>
-      {/* Set up a section wrapper that centers content vertically and horizontally */}
-      <SectionWrapper animate={true} className="min-h-[60vh] flex items-center justify-center pt-32 pb-16">
+      <section className="min-h-[70vh] flex items-center justify-center pt-32 pb-20">
         <Container className="max-w-2xl text-center flex flex-col items-center gap-6">
-          {/* Main Error Heading and Subtitle */}
-          <SectionHeading tag="h1" subtitle="Error 404" className="text-center">
+          <SectionHeading
+            tag="h1"
+            subtitle="Error 404"
+            withTriadMark
+            className="text-center"
+          >
             Page not found
           </SectionHeading>
           
-          {/* Explanatory description paragraph */}
-          <p className="font-sans text-[#5F5F5F] text-base md:text-lg leading-relaxed max-w-md">
-            The page you are looking for does not exist, was removed, or had its address changed. 
-            Use the links below to navigate back to our main sections.
+          <p className="font-editorial text-[#57564C] text-lg md:text-xl leading-relaxed max-w-md">
+            The page you are looking for does not exist, was relocated, or is no longer available. Return to one of our main sections below.
           </p>
 
-          {/* Navigation redirect buttons: Home, Solutions, and Work Case Studies */}
           <div className="flex flex-col sm:flex-row gap-4 pt-4 w-full justify-center">
             <Link href="/">
               <Button variant="primary" className="w-full sm:w-auto gap-2">
                 <House className="w-4 h-4 stroke-[1.5]" />
-                Go to home
+                Return to Home
               </Button>
             </Link>
             <Link href="/solutions">
               <Button variant="outline" className="w-full sm:w-auto gap-2">
                 <LayoutGrid className="w-4 h-4 stroke-[1.5]" />
-                Our solutions
+                Explore Solutions
               </Button>
             </Link>
             <Link href="/work">
               <Button variant="outline" className="w-full sm:w-auto gap-2">
                 <BriefcaseBusiness className="w-4 h-4 stroke-[1.5]" />
-                See our work
+                View Success Stories
               </Button>
             </Link>
           </div>
         </Container>
-      </SectionWrapper>
+      </section>
     </GlobalLayout>
   );
 }

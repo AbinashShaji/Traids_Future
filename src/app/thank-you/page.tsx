@@ -1,104 +1,99 @@
-// This file controls the Thank You page. When a visitor submits the contact form successfully, they are redirected here to see a confirmation message and details about the next steps.
+// Thank you page confirming strategy call scheduling in Design System v2.
 import * as React from "react";
 import Link from "next/link";
 import { CheckCircle, House, LayoutGrid, BookOpen } from "lucide-react";
 import { GlobalLayout } from "../../components/global-layout";
-import { SectionWrapper } from "../../components/section-wrapper";
 import { Container } from "../../components/container";
 import { SectionHeading } from "../../components/section-heading";
 import { Button } from "../../components/button";
 import { Card } from "../../components/card";
+import { TriadMark } from "../../components/triad-mark";
 
-// ThankYouPage displays the confirmation view after booking a call.
-// Inputs: None.
-// Outputs: Renders a friendly "thank you" message and instructions list wrapped in <GlobalLayout>.
 export default function ThankYouPage() {
   return (
     <GlobalLayout>
-      {/* Centered section layout */}
-      <SectionWrapper animate={true} className="min-h-[70vh] flex items-center justify-center pt-32 pb-16">
+      <section className="min-h-[80vh] flex items-center justify-center pt-32 pb-20">
         <Container className="max-w-2xl text-center flex flex-col items-center gap-6">
-          {/* Confirmed check icon */}
-          <div className="w-16 h-16 rounded-full bg-[#111111]/5 flex items-center justify-center mb-2">
-            <CheckCircle className="w-8 h-8 text-[#111111] stroke-[1.5]" />
+          <div className="w-14 h-14 rounded-full bg-[#E4E3DB] flex items-center justify-center mb-1">
+            <CheckCircle className="w-7 h-7 text-[#14140F] stroke-[1.5]" />
           </div>
 
-          {/* Heading */}
-          <SectionHeading tag="h1" subtitle="Booking confirmed" className="text-center">
-            Thank you for scheduling a call
+          <SectionHeading
+            tag="h1"
+            subtitle="Consultation Confirmed"
+            withTriadMark
+            className="text-center"
+          >
+            Thank you for booking a call
           </SectionHeading>
 
-          {/* Detailed timeline subtext */}
-          <p className="font-sans text-[#5F5F5F] text-base md:text-lg leading-relaxed max-w-md">
-            We have received your details. One of our founding partners will review your message 
-            and contact you within 24 business hours to confirm the time slot and share the meeting link.
+          <p className="font-editorial text-[#57564C] text-lg md:text-xl leading-relaxed max-w-md">
+            We have received your details. A senior partner will review your business context and reach out within 24 business hours with calendar details.
           </p>
 
-          {/* Instruction Card detailing "What happens next?" */}
-          <Card className="w-full text-left p-6 md:p-8 bg-[#FAF9F6] border border-[#E8E8E8] mt-4">
-            <h3 className="font-heading text-sm font-semibold uppercase tracking-wider text-[#111111] mb-4">
-              What happens next?
-            </h3>
+          <Card variant="bone" className="w-full text-left p-6 md:p-8 border border-[#DEDDD3] mt-2">
+            <div className="flex items-center gap-2 mb-4">
+              <TriadMark size="sm" />
+              <h3 className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-[#14140F]">
+                What Happens Next
+              </h3>
+            </div>
             
-            <ul className="space-y-4">
-              {/* Step 1: Pre-call review */}
+            <ul className="space-y-4 font-sans">
               <li className="flex gap-4">
-                <span className="font-heading text-base font-bold text-[#111111] w-5 h-5 rounded-full bg-[#111111]/5 flex items-center justify-center shrink-0">1</span>
+                <span className="font-heading text-sm font-bold text-[#14140F] w-6 h-6 rounded-full bg-[#F0F0EB] border border-[#DEDDD3] flex items-center justify-center shrink-0">1</span>
                 <div>
-                  <h4 className="font-heading text-sm font-semibold text-[#111111]">Review & Audit</h4>
-                  <p className="font-sans text-xs text-[#5F5F5F] mt-0.5 leading-relaxed">
-                    We will do a preliminary review of your website and business sector to prepare contextual ideas.
+                  <h4 className="font-heading text-sm font-bold text-[#14140F]">Preliminary Audit</h4>
+                  <p className="font-editorial text-sm text-[#57564C] mt-0.5 leading-relaxed">
+                    We conduct a brief review of your public assets, sector, and digital workflows.
                   </p>
                 </div>
               </li>
 
-              {/* Step 2: Meeting links */}
               <li className="flex gap-4">
-                <span className="font-heading text-base font-bold text-[#111111] w-5 h-5 rounded-full bg-[#111111]/5 flex items-center justify-center shrink-0">2</span>
+                <span className="font-heading text-sm font-bold text-[#14140F] w-6 h-6 rounded-full bg-[#F0F0EB] border border-[#DEDDD3] flex items-center justify-center shrink-0">2</span>
                 <div>
-                  <h4 className="font-heading text-sm font-semibold text-[#111111]">Call Invitation</h4>
-                  <p className="font-sans text-xs text-[#5F5F5F] mt-0.5 leading-relaxed">
-                    You will receive a calendar invitation via email with the Google Meet or Zoom link.
+                  <h4 className="font-heading text-sm font-bold text-[#14140F]">Calendar Invitation</h4>
+                  <p className="font-editorial text-sm text-[#57564C] mt-0.5 leading-relaxed">
+                    You will receive a Google Meet invitation with a confirmed time slot.
                   </p>
                 </div>
               </li>
 
-              {/* Step 3: Meeting agenda */}
               <li className="flex gap-4">
-                <span className="font-heading text-base font-bold text-[#111111] w-5 h-5 rounded-full bg-[#111111]/5 flex items-center justify-center shrink-0">3</span>
+                <span className="font-heading text-sm font-bold text-[#14140F] w-6 h-6 rounded-full bg-[#F0F0EB] border border-[#DEDDD3] flex items-center justify-center shrink-0">3</span>
                 <div>
-                  <h4 className="font-heading text-sm font-semibold text-[#111111]">Strategy Diagnosis</h4>
-                  <p className="font-sans text-xs text-[#5F5F5F] mt-0.5 leading-relaxed">
-                    A 30-minute conversation to isolate operational bottlenecks and map technology stacks. No pushy sales pitching.
+                  <h4 className="font-heading text-sm font-bold text-[#14140F]">Strategy Diagnosis</h4>
+                  <p className="font-editorial text-sm text-[#57564C] mt-0.5 leading-relaxed">
+                    A focused 30-minute conversation to isolate friction and map technology architecture.
                   </p>
                 </div>
               </li>
             </ul>
           </Card>
 
-          {/* Navigation redirect buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 pt-6 w-full justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 pt-4 w-full justify-center">
             <Link href="/">
               <Button variant="primary" className="w-full sm:w-auto gap-2">
                 <House className="w-4 h-4 stroke-[1.5]" />
-                Go to home
+                Return to Home
               </Button>
             </Link>
             <Link href="/solutions">
               <Button variant="outline" className="w-full sm:w-auto gap-2">
                 <LayoutGrid className="w-4 h-4 stroke-[1.5]" />
-                View our solutions
+                Explore Solutions
               </Button>
             </Link>
             <Link href="/insights">
               <Button variant="outline" className="w-full sm:w-auto gap-2">
                 <BookOpen className="w-4 h-4 stroke-[1.5]" />
-                Read our insights
+                Read Insights
               </Button>
             </Link>
           </div>
         </Container>
-      </SectionWrapper>
+      </section>
     </GlobalLayout>
   );
 }

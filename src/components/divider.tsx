@@ -1,26 +1,33 @@
-// This file defines the Divider component. It renders a subtle separator line (horizontal or vertical) to help separate different sections on a page.
+// Divider component rendering hairline section rules.
 import * as React from "react";
 import { cn } from "../utils/cn";
 
-// DividerProps defines customization parameters.
-// "vertical" decides if the line goes straight up-and-down rather than left-to-right.
 export interface DividerProps extends React.HTMLAttributes<HTMLHRElement> {
-  vertical?: boolean;
+  withTriadMark?: boolean;
 }
 
-// Divider renders a thin line on the screen.
-// Inputs: "vertical" (defaults to false), "className" (custom styles).
-// Outputs: Renders a styled <hr> separator line element.
-export const Divider: React.FC<DividerProps> = ({ className, vertical = false, ...props }) => {
+export const Divider: React.FC<DividerProps> = ({
+  className,
+  withTriadMark = false,
+  ...props
+}) => {
+  if (withTriadMark) {
+    return (
+      <div className={cn("w-full flex items-center justify-center my-8 gap-3", className)}>
+        <div className="flex-1 h-[1px] bg-[#DEDDD3]" />
+        <span className="triad-mark inline-flex items-center gap-1 opacity-70">
+          <span className="w-2 h-[2px] bg-[#14140F] opacity-35" />
+          <span className="w-2 h-[2px] bg-[#14140F] opacity-65" />
+          <span className="w-2 h-[2px] bg-[#14140F] opacity-100" />
+        </span>
+        <div className="flex-1 h-[1px] bg-[#DEDDD3]" />
+      </div>
+    );
+  }
+
   return (
     <hr
-      className={cn(
-        // If vertical is true, make it tall and thin. Otherwise, make it wide and flat.
-        vertical 
-          ? "h-full w-[1px] bg-[#E8E8E8] border-none" 
-          : "w-full h-[1px] bg-[#E8E8E8] border-none",
-        className
-      )}
+      className={cn("w-full border-0 h-[1px] bg-[#DEDDD3]", className)}
       {...props}
     />
   );

@@ -1,174 +1,64 @@
-// This file controls the detailed "About" page layout.
-// It explains who Triads Future is, our core principles, service capabilities (Strategy, Design, Code, Marketing), our methodology steps, and displays an interactive FAQ collapsible block.
+// About page content implementing Design System v2 tokens, desktop slide-scroll world, and alternating layout rhythm.
 "use client";
 
 import * as React from "react";
 import Link from "next/link";
 import {
-  BrainCircuit,
-  Code2,
-  Gauge,
-  Layers3,
-  Megaphone,
-  MessageSquareQuote,
-  ShieldCheck,
   Sparkles,
-  Target,
-  Workflow,
-  Zap,
-  Check,
   ChevronDown,
 } from "lucide-react";
 import { GlobalLayout } from "../../components/global-layout";
-import { SectionWrapper } from "../../components/section-wrapper";
 import { Container } from "../../components/container";
 import { SectionHeading } from "../../components/section-heading";
 import { Button } from "../../components/button";
 import { Card } from "../../components/card";
-import { Divider } from "../../components/divider";
 import { ImageWrapper } from "../../components/image-wrapper";
 import { CTA } from "../../components/cta";
 import { cn } from "../../utils/cn";
 import { faqs, type FAQ } from "../../mock/faq";
 import { Reveal } from "../../components/reveal";
-
-type Capability = {
-  title: string;
-  eyebrow: string;
-  description: string;
-  icon: React.ComponentType<{ className?: string }>;
-  outcome: string;
-  details: string[];
-};
+import { TriadMark, TriadPanel } from "../../components/triad-mark";
+import { ScrollWorldContainer } from "../../components/scroll-world-container";
 
 const principles = [
   {
     title: "Business first, always",
-    description: "We start with commercial friction, not with the tool stack. Every recommendation must improve revenue, margin, time, or clarity.",
+    description: "We begin with commercial leverage, not tool trends. Every technical decision must directly improve margin, turnaround time, or customer conversion.",
   },
   {
     title: "Standard beats clever",
-    description: "We prefer proven patterns that can be maintained by a competent team over bespoke solutions that trap you in future dependency.",
+    description: "We build with proven, open-source architecture that your internal developers can comfortably maintain. Zero bespoke vendor lock-in.",
   },
   {
-    title: "Visible progress every week",
-    description: "Engagements are structured to show working output early, so you can validate direction and course-correct before waste compounds.",
+    title: "Visible weekly progress",
+    description: "Engagements are delivered in rapid weekly sprints. You review working software on staging with recorded walkthroughs every Friday.",
   },
   {
-    title: "Own the asset",
-    description: "You keep control of your code, content, data, and infrastructure. The work should strengthen your business, not lock it away.",
+    title: "Complete client IP ownership",
+    description: "You retain 100% ownership of your source repositories, design systems, data pipelines, and cloud accounts from day one.",
   },
   {
-    title: "Measure the result",
-    description: "We define success in concrete terms like lead quality, admin hours saved, conversion lift, or reduced operational risk.",
+    title: "Measurable commercial metrics",
+    description: "We track project success through business outcomes: pipeline velocity, operational hours saved, and client portal retention.",
   },
   {
-    title: "Design earns trust",
-    description: "A calm, precise interface tells users you are competent before they read a single word. We treat visual discipline as part of the product.",
+    title: "Quiet design builds trust",
+    description: "A calm, structured interface signals competence before a visitor reads a single sentence. Restraint is a commercial asset.",
   },
 ];
 
-const process = [
-  {
-    step: "01",
-    title: "Discover",
-    description:
-      "We audit your current website, workflows, systems, and bottlenecks to understand the real problem beneath the request.",
-  },
-  {
-    step: "02",
-    title: "Strategy",
-    description:
-      "We define the shortest practical route to the outcome, with priorities, milestones, risks, and success criteria.",
-  },
-  {
-    step: "03",
-    title: "Build",
-    description:
-      "We design and ship in small, visible increments so the work stays grounded in reality and the end result is easier to maintain.",
-  },
-  {
-    step: "04",
-    title: "Optimize",
-    description:
-      "We refine after launch using feedback, performance data, and commercial signals to improve what matters most.",
-  },
-];
-
-const capabilities: Capability[] = [
-  {
-    title: "Strategy",
-    eyebrow: "Direction and clarity",
-    description: "We turn vague growth goals into a practical plan that teams can execute without confusion.",
-    icon: Target,
-    outcome: "A clearer roadmap, fewer misfires, and stronger decisions.",
-    details: ["Market and offer framing", "Prioritized roadmap", "Operational review"],
-  },
-  {
-    title: "Branding",
-    eyebrow: "Trust and positioning",
-    description: "We shape a brand system that feels credible, calm, and consistent across every touchpoint.",
-    icon: Sparkles,
-    outcome: "A sharper first impression that supports pricing and trust.",
-    details: ["Messaging refinement", "Visual language", "Identity alignment"],
-  },
-  {
-    title: "Websites",
-    eyebrow: "High-conviction presence",
-    description: "We build fast, editorial websites that communicate value without looking templated.",
-    icon: Layers3,
-    outcome: "A site that looks considered and converts with less friction.",
-    details: ["Design systems", "Next.js builds", "Performance tuning"],
-  },
-  {
-    title: "AI Automation",
-    eyebrow: "Time saved at scale",
-    description: "We reduce repetitive work with practical automation that fits the way your business already operates.",
-    icon: BrainCircuit,
-    outcome: "More leverage, fewer manual handoffs, and less busywork.",
-    details: ["Workflow automation", "Assistive AI tools", "Internal operations"],
-  },
-  {
-    title: "Software",
-    eyebrow: "Systems that stick",
-    description: "We design and ship software that solves a specific operational problem without becoming a maintenance burden.",
-    icon: Code2,
-    outcome: "Stable tools that your team can actually use and own.",
-    details: ["Internal tools", "Client portals", "Process systems"],
-  },
-  {
-    title: "Growth Marketing",
-    eyebrow: "Demand with discipline",
-    description: "We support acquisition with a measured system that improves visibility without noise or gimmicks.",
-    icon: Megaphone,
-    outcome: "Better qualified attention and more consistent demand.",
-    details: ["Content strategy", "SEO direction", "Conversion support"],
-  },
-];
-
-const clientReasons = [
-  "We focus on measurable business outcomes, not activity for its own sake.",
-  "You get direct, transparent communication from the people doing the work.",
-  "We build for long-term partnership, not a one-time handoff.",
-  "We use modern technology where it is genuinely useful and stable.",
-  "Execution is treated as a craft, with strong attention to detail and maintainability.",
-];
-
-// FAQItem renders an interactive accordion row that toggles open or closed when the visitor clicks the question.
-// Inputs: "faq" (the question & answer content), "isOpen" (boolean indicating if the answer is visible), "onToggle" (function triggered when clicked).
-// Outputs: Renders a collapsible border card with a rotated arrow indicator.
 function FAQItem({ faq, isOpen, onToggle }: { faq: FAQ; isOpen: boolean; onToggle: () => void }) {
   return (
-    <div className="border border-[#E8E8E8] rounded-sm bg-[#FAF9F6] overflow-hidden transition-all duration-300">
+    <div className="border border-[#DEDDD3] rounded-[2px] bg-[#F0F0EB] overflow-hidden transition-all duration-300">
       <button
         type="button"
         onClick={onToggle}
-        className="w-full px-5 md:px-6 py-4 flex items-center justify-between gap-4 text-left font-sans font-medium text-[#111111] hover:bg-[#FAF9F6]/40 transition-all duration-300 hover:translate-x-0.5"
+        className="w-full px-6 py-4 flex items-center justify-between gap-4 text-left font-sans font-semibold text-[#14140F] hover:bg-[#E4E3DB]/40 transition-colors"
       >
         <span className="text-sm md:text-base leading-snug">{faq.question}</span>
         <ChevronDown
           className={cn(
-            "w-4 h-4 text-[#5F5F5F] transition-transform duration-300 shrink-0",
+            "w-4 h-4 text-[#57564C] transition-transform duration-300 shrink-0",
             isOpen && "rotate-180"
           )}
         />
@@ -176,11 +66,11 @@ function FAQItem({ faq, isOpen, onToggle }: { faq: FAQ; isOpen: boolean; onToggl
       <div
         className={cn(
           "grid transition-all duration-300 ease-in-out",
-          isOpen ? "grid-rows-[1fr] opacity-100 border-t border-[#E8E8E8]" : "grid-rows-[0fr] opacity-0"
+          isOpen ? "grid-rows-[1fr] opacity-100 border-t border-[#DEDDD3]" : "grid-rows-[0fr] opacity-0"
         )}
       >
         <div className="overflow-hidden">
-          <div className="p-5 md:p-6 font-sans text-sm md:text-base text-[#5F5F5F] leading-relaxed bg-[#FAF9F6]/10">
+          <div className="p-6 font-editorial text-base text-[#57564C] leading-relaxed bg-[#E4E3DB]/30">
             {faq.answer}
           </div>
         </div>
@@ -189,463 +79,257 @@ function FAQItem({ faq, isOpen, onToggle }: { faq: FAQ; isOpen: boolean; onToggl
   );
 }
 
-// AboutPageContent sets up the entire visual hierarchy of the About page.
-// Inputs: None.
-// Outputs: Renders a fully detailed page including interactive capabilities list tab, belief cards grid, process timeline, and FAQ columns.
+const aboutSlides = [
+  { id: "hero", label: "Manifesto" },
+  { id: "story", label: "Foundations" },
+  { id: "approach", label: "Triad Model" },
+  { id: "principles", label: "Operating Principles" },
+  { id: "faq", label: "Common Questions" },
+  { id: "cta", label: "Next Step" },
+];
+
 export default function AboutPageContent() {
-  // selectedCapability is a React State that stores the capability section currently clicked in the tab grid (defaults to the first option).
-  const [selectedCapability, setSelectedCapability] = React.useState<Capability>(capabilities[0]);
-  // openFaq is a React State holding the ID of the FAQ row currently expanded (defaults to the second FAQ).
-  const [openFaq, setOpenFaq] = React.useState<string | null>("faq-002");
-  // Limit shown FAQs to the first 6 entries.
-  const faqsForPage = faqs.slice(0, 6);
+  const [openFaq, setOpenFaq] = React.useState<string | null>("faq-001");
+  const faqsForPage = faqs.slice(0, 5);
 
   return (
     <GlobalLayout>
-      <SectionWrapper animate={false} className="pt-20 pb-12 md:pt-28 md:pb-16 bg-[#FAF9F6]">
-        <Container>
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
-            <div
-              className="lg:col-span-6 flex flex-col gap-8 relative z-10"
-            >
-              {/* Eyebrow / Thin HR rule */}
-              <div className="flex items-center gap-4 text-[#5F5F5F]">
-                <span className="h-[1px] w-8 bg-[#111111]/20 inline-block" />
-                <span className="font-sans text-xs uppercase tracking-[0.2em] font-semibold">
-                  Who We Are
+      <ScrollWorldContainer slides={aboutSlides}>
+        {/* 1. HERO SLIDE (Centered / Full-Width Manifesto — 100vh narrative) */}
+        <section
+          id="hero"
+          className="slide-section min-h-[100dvh] flex items-center pt-24 pb-16 md:pt-28 md:pb-20 border-b border-[#DEDDD3]"
+        >
+          <Container>
+            <div className="max-w-4xl mx-auto text-center flex flex-col items-center gap-6">
+              <div className="flex items-center gap-2 text-[#57564C]">
+                <TriadMark size="sm" />
+                <span className="font-sans text-xs uppercase tracking-[0.14em] font-semibold">
+                  Business Growth & Technology Partner
                 </span>
               </div>
 
-              {/* Heading with 01 background */}
-              <div className="relative">
-                <span className="absolute -top-16 -left-6 font-sans text-[10rem] font-black text-[#111111]/[0.02] leading-none select-none pointer-events-none">
-                  01
-                </span>
-                <SectionHeading tag="h1" className="relative z-10">
-                  We build the systems behind serious growth.
-                </SectionHeading>
-              </div>
+              <SectionHeading tag="h1" className="leading-[1.04]">
+                We build the systems that power serious business growth.
+              </SectionHeading>
 
-              {/* Paragraphs */}
-              <div className="flex flex-col gap-5">
-                <p className="font-sans text-lg md:text-xl text-[#111111] leading-relaxed max-w-2xl">
-                  Triads Future exists to help businesses turn operational friction into a competitive advantage.
-                </p>
-                <p className="font-sans text-[#5F5F5F] text-base md:text-lg leading-relaxed max-w-2xl">
-                  We combine strategy, design, software, automation, and growth thinking so companies can move
-                  with more clarity, less waste, and a stronger sense of ownership over the systems that matter.
-                </p>
-              </div>
+              <p className="font-editorial text-[#57564C] text-lg md:text-2xl leading-relaxed max-w-2xl">
+                Triads Future exists to help companies turn operational friction into competitive advantage through practical strategy, robust technology, and compounding execution.
+              </p>
 
-              {/* CTA buttons */}
-              <div className="flex flex-wrap gap-4 pt-2">
+              <div className="flex flex-wrap items-center justify-center gap-4 pt-3">
                 <Link href="/contact">
                   <Button variant="primary" size="lg">
-                    Book a strategy call
+                    Book a Strategy Call
                   </Button>
                 </Link>
-                <Link href="/solutions">
+                <a href="#story">
                   <Button variant="outline" size="lg">
-                    Explore capabilities
+                    Read Our Story
                   </Button>
-                </Link>
+                </a>
               </div>
             </div>
+          </Container>
+        </section>
 
-            <div
-              className="lg:col-span-6 relative mt-12 lg:mt-0"
-            >
-              <div className="grid grid-cols-12 gap-6 items-start">
-                <div
-                  className="col-span-7 md:col-span-8 aspect-[3/4] relative lg:translate-y-6"
+        {/* 2. OUR STORY SLIDE (Split: Text Left / Narrative Visual Panel Right) */}
+        <section
+          id="story"
+          className="slide-section py-20 md:py-28 border-b border-[#DEDDD3]"
+        >
+          <Container>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+              <div className="lg:col-span-6 flex flex-col gap-6">
+                <SectionHeading
+                  tag="h2"
+                  subtitle="Founding Thesis"
+                  withTriadMark
                 >
-                  <ImageWrapper
-                    src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=900&q=80"
-                    alt="Team collaborating around digital strategy and planning"
-                    fill
-                    priority
-                    sizes="(max-width: 1024px) 60vw, 30vw"
-                    containerClassName="w-full h-full shadow-[0_4px_24px_rgba(0,0,0,0.03)] rounded-sm"
-                  />
-                </div>
+                  Built because modern business needs more than cosmetic redesigns.
+                </SectionHeading>
 
-                <div className="col-span-5 md:col-span-4 flex flex-col gap-6 lg:-translate-y-6">
-                  {/* Mission Card */}
-                  <div
-                    className="aspect-[1/1.1] rounded-sm border border-[#E8E8E8] bg-[#FAF9F6] p-4 md:p-5 flex flex-col justify-between shadow-[0_4px_16px_rgba(0,0,0,0.01)] hover:border-[#111111] hover:bg-[#111111]/[0.01] hover:scale-[1.015] hover:-translate-y-px transition-all duration-300 ease-out"
-                  >
-                    <div>
-                      <span className="font-sans text-[10px] uppercase tracking-[0.2em] text-[#5F5F5F] font-semibold">
-                        Mission
-                      </span>
-                      <p className="font-heading text-base md:text-lg font-semibold text-[#111111] mt-3 leading-tight">
-                        Make growth easier to execute and harder to outgrow.
-                      </p>
-                    </div>
-                    <div className="w-10 h-10 rounded-sm bg-[#111111]/5 flex items-center justify-center">
-                      <Workflow className="w-4 h-4 text-[#111111]" />
-                    </div>
-                  </div>
+                <p className="font-editorial text-[#14140F] text-lg leading-relaxed">
+                  Triads Future was founded on a simple observation: growing businesses rarely need more agency jargon, disconnected freelancers, or fragile templates.
+                </p>
 
-                  {/* Promise Card */}
-                  <div
-                    className="aspect-[1/1.1] rounded-sm bg-[#111111] text-[#FAF9F6] p-4 md:p-5 flex flex-col justify-between shadow-[0_4px_16px_rgba(0,0,0,0.02)] hover:scale-[1.015] hover:-translate-y-px transition-all duration-300 ease-out"
-                  >
-                    <div>
-                      <span className="font-sans text-[10px] uppercase tracking-[0.2em] text-[#FAF9F6]/70 font-semibold">
-                        Promise
-                      </span>
-                      <p className="font-heading text-base md:text-lg font-semibold mt-3 leading-tight">
-                        Clear direction, visible progress, and work that lasts.
-                      </p>
-                    </div>
-                    <div className="flex items-center gap-2 text-[10px] text-[#FAF9F6]/80 mt-2">
-                      <ShieldCheck className="w-3.5 h-3.5 shrink-0" />
-                      <span className="truncate">Trusted, standard, maintainable</span>
-                    </div>
-                  </div>
+                <p className="font-editorial text-[#57564C] text-base leading-relaxed">
+                  They need a reliable technical partner who understands commercial operations and can build systems that withstand scale. We operate as senior leaders who design, code, and execute together.
+                </p>
+
+                <div className="pt-2">
+                  <Link href="/work">
+                    <Button variant="text" size="sm">
+                      Review our production work →
+                    </Button>
+                  </Link>
                 </div>
               </div>
-            </div>
-          </div>
-        </Container>
-      </SectionWrapper>
 
-      <Divider />
-
-      <SectionWrapper animate={true} className="py-16 md:py-24">
-        <Container>
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
-            <div className="lg:col-span-5 flex flex-col gap-5">
-              <SectionHeading tag="h2" subtitle="Our Story">
-                Built because business needed more than a prettier website.
-              </SectionHeading>
-              <p className="font-sans text-[#5F5F5F] text-base md:text-lg leading-relaxed">
-                Triads Future was created from a simple observation: many businesses do not need more noise,
-                more vendors, or more disconnected tools. They need someone who understands how the business
-                actually works and can use technology to make that business run better.
-              </p>
-              <p className="font-sans text-[#5F5F5F] text-base md:text-lg leading-relaxed">
-                Our approach is deliberately business-first. We begin with the commercial objective, then shape
-                the right digital presence, internal systems, automation, and growth support around it.
-              </p>
-            </div>
-
-            <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-12 gap-4">
-              <div className="md:col-span-5 aspect-[4/5] relative">
+              <div className="lg:col-span-6 aspect-[4/3] relative">
                 <ImageWrapper
                   src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?w=900&q=80"
-                  alt="Strategic planning session with documents and screens"
+                  alt="Strategic engineering and operational architecture planning"
                   fill
-                  sizes="(max-width: 768px) 100vw, 30vw"
-                  containerClassName="w-full h-full"
+                  sizes="(max-width: 1024px) 100vw, 45vw"
+                  containerClassName="w-full h-full shadow-[0_8px_30px_rgba(20,20,15,0.04)]"
                 />
               </div>
-              <div className="md:col-span-7 flex flex-col gap-4">
-                <Card className="p-6 md:p-8 bg-[#FAF9F6]">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-sm bg-[#111111]/5 flex items-center justify-center">
-                      <Gauge className="w-5 h-5 text-[#111111]" />
-                    </div>
-                    <h3 className="font-heading text-xl font-semibold text-[#111111]">Technology as a growth partner</h3>
-                  </div>
-                  <p className="font-sans text-[#5F5F5F] text-sm md:text-base leading-relaxed">
-                    We are not here to make technology feel impressive for its own sake. We are here to make it
-                    useful, readable, measurable, and aligned with the next stage of your business.
-                  </p>
-                </Card>
-                <Card className="p-6 md:p-8 bg-[#FAF9F6]">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-sm bg-[#111111]/5 flex items-center justify-center">
-                      <MessageSquareQuote className="w-5 h-5 text-[#111111]" />
-                    </div>
-                    <h3 className="font-heading text-xl font-semibold text-[#111111]">What that means in practice</h3>
-                  </div>
-                  <ul className="space-y-3">
-                    {[
-                      "We help owners make better decisions with less guesswork.",
-                      "We replace manual work with systems that reduce repeat effort.",
-                      "We make digital experiences feel calm, trustworthy, and polished.",
-                    ].map((item) => (
-                      <li key={item} className="flex items-start gap-2.5 text-sm md:text-base text-[#5F5F5F] leading-relaxed">
-                        <Check className="w-4 h-4 text-[#111111] mt-0.5 shrink-0" />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </Card>
+            </div>
+          </Container>
+        </section>
+
+        {/* 3. APPROACH SLIDE (Split: Triad Signature Panel Left / Narrative Right — 100vh narrative) */}
+        <section
+          id="approach"
+          className="slide-section min-h-[100dvh] flex items-center py-20 md:py-28 border-b border-[#DEDDD3]"
+        >
+          <Container>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+              <div className="lg:col-span-6">
+                <TriadPanel />
               </div>
-            </div>
-          </div>
-        </Container>
-      </SectionWrapper>
 
-      <Divider />
-
-      <SectionWrapper animate={true} className="bg-[#FAF9F6]/50">
-        <Container>
-          <div className="max-w-3xl mb-12">
-            <SectionHeading tag="h2" subtitle="What We Believe">
-              Principles that shape how we work.
-            </SectionHeading>
-          </div>
-          <div
-            className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-5"
-          >
-            {principles.map((principle, index) => (
-              <Reveal
-                key={principle.title}
-                variant="fadeUp"
-                delay={index}
-                className={cn(
-                  "flex flex-col min-h-[210px]",
-                  index === 0 && "md:col-span-2 xl:col-span-1"
-                )}
-              >
-                <Card
-                  hoverEffect
-                  className="p-6 md:p-7 flex flex-col gap-4 w-full h-full"
+              <div className="lg:col-span-6 flex flex-col gap-6">
+                <SectionHeading
+                  tag="h2"
+                  subtitle="Operating Model"
+                  withTriadMark
                 >
-                  <div className="flex items-center justify-between gap-4">
-                    <span className="font-sans text-xs uppercase tracking-[0.2em] text-[#5F5F5F] font-semibold">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    <div className="w-9 h-9 rounded-sm bg-[#111111]/5 flex items-center justify-center">
-                      <Sparkles className="w-4 h-4 text-[#111111]" />
-                    </div>
-                  </div>
-                  <h3 className="font-heading text-lg md:text-xl font-semibold text-[#111111] leading-tight">
-                    {principle.title}
-                  </h3>
-                  <p className="font-sans text-sm md:text-base text-[#5F5F5F] leading-relaxed">
-                    {principle.description}
-                  </p>
-                </Card>
-              </Reveal>
-            ))}
-          </div>
-        </Container>
-      </SectionWrapper>
+                  Strategy, technology, and execution unified.
+                </SectionHeading>
 
-      <Divider />
+                <p className="font-editorial text-[#14140F] text-lg leading-relaxed">
+                  Hiring Triads Future should feel less like hiring an agency and more like gaining an experienced technology arm for your executive team.
+                </p>
 
-      <SectionWrapper animate={true}>
-        <Container>
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
-            <div className="lg:col-span-5 flex flex-col gap-5">
-              <SectionHeading tag="h2" subtitle="How We Work">
-                A process designed to reduce risk and build confidence.
-              </SectionHeading>
-              <p className="font-sans text-[#5F5F5F] text-base md:text-lg leading-relaxed">
-                Every engagement follows a clear sequence. That keeps the work grounded, visible, and easier
-                to trust from start to finish.
-              </p>
-            </div>
-            <div className="lg:col-span-7">
-              <div className="relative">
-                <div className="absolute left-[18px] md:left-[20px] top-4 bottom-4 w-px bg-[#E8E8E8]" />
-                <div className="space-y-6">
-                  {process.map((step, index) => (
-                    <div key={step.step} className="relative pl-12 md:pl-16">
-                      <div className="absolute left-0 top-1 flex h-9 w-9 md:h-10 md:w-10 items-center justify-center rounded-sm border border-[#111111] bg-[#FAF9F6] text-[#111111] font-heading text-sm md:text-base font-semibold">
-                        {step.step}
-                      </div>
-                      <Card
-                        hoverEffect
-                        className={cn(
-                          "p-5 md:p-6",
-                          index % 2 === 1 ? "bg-[#FAF9F6]" : "bg-[#FAF9F6]"
-                        )}
-                      >
-                        <div className="flex flex-col gap-2">
-                          <h3 className="font-heading text-xl font-semibold text-[#111111]">
-                            {step.title}
-                          </h3>
-                          <p className="font-sans text-sm md:text-base text-[#5F5F5F] leading-relaxed max-w-2xl">
-                            {step.description}
-                          </p>
-                        </div>
-                      </Card>
-                    </div>
-                  ))}
+                <p className="font-editorial text-[#57564C] text-base leading-relaxed">
+                  We maintain zero account-management layers. You work directly with the senior strategists and engineers responsible for building and shipping your systems.
+                </p>
+
+                <div className="pt-2">
+                  <Link href="/solutions">
+                    <Button variant="outline" size="md">
+                      Explore Solutions
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </div>
-          </div>
-        </Container>
-      </SectionWrapper>
+          </Container>
+        </section>
 
-      <Divider />
-
-      <SectionWrapper animate={true} className="bg-[#FAF9F6]/50">
-        <Container>
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
-            <div className="lg:col-span-5">
-              <SectionHeading tag="h2" subtitle="Why Clients Choose Us">
-                The reasons are practical, not decorative.
+        {/* 4. OPERATING PRINCIPLES SLIDE (3-Column Grid) */}
+        <section
+          id="principles"
+          className="slide-section py-20 md:py-28 border-b border-[#DEDDD3]"
+        >
+          <Container>
+            <div className="max-w-3xl mb-14">
+              <SectionHeading
+                tag="h2"
+                subtitle="Core Principles"
+                withTriadMark
+              >
+                Principles that govern our engineering and advisory
               </SectionHeading>
+              <p className="font-editorial text-[#57564C] text-base md:text-lg leading-relaxed mt-3">
+                These six rules dictate how we scope projects, select software stacks, and communicate with partners.
+              </p>
             </div>
-            <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-4">
-              {clientReasons.map((reason, index) => (
-                <Card key={reason} hoverEffect className="p-5 md:p-6 bg-[#FAF9F6]">
-                  <div className="flex items-start gap-3">
-                    <div className="w-9 h-9 rounded-sm bg-[#111111]/5 flex items-center justify-center shrink-0">
-                      <Check className="w-4 h-4 text-[#111111]" />
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {principles.map((principle, index) => (
+                <Reveal
+                  key={principle.title}
+                  variant="fadeUp"
+                  delay={index}
+                >
+                  <Card
+                    hoverEffect
+                    variant="bone"
+                    className="p-7 flex flex-col justify-between h-full min-h-[220px]"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between gap-4 mb-4">
+                        <span className="font-sans text-xs uppercase tracking-[0.14em] text-[#57564C] font-semibold">
+                          0{index + 1}
+                        </span>
+                        <Sparkles className="w-4 h-4 text-[#14140F]" />
+                      </div>
+                      <h3 className="font-heading text-lg font-bold text-[#14140F] leading-tight mb-2">
+                        {principle.title}
+                      </h3>
                     </div>
-                    <div className="flex flex-col gap-1">
-                      <span className="font-sans text-xs uppercase tracking-[0.2em] text-[#5F5F5F] font-semibold">
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
-                      <p className="font-sans text-sm md:text-base text-[#5F5F5F] leading-relaxed">
-                        {reason}
-                      </p>
-                    </div>
-                  </div>
-                </Card>
+                    <p className="font-editorial text-sm text-[#57564C] leading-relaxed mt-2">
+                      {principle.description}
+                    </p>
+                  </Card>
+                </Reveal>
               ))}
             </div>
-          </div>
-        </Container>
-      </SectionWrapper>
+          </Container>
+        </section>
 
-      <Divider />
-
-      <SectionWrapper animate={true}>
-        <Container>
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
-            <div className="lg:col-span-4 flex flex-col gap-5">
-              <SectionHeading tag="h2" subtitle="Our Capabilities">
-                Select a capability to see how we think.
-              </SectionHeading>
-              <p className="font-sans text-[#5F5F5F] text-base md:text-lg leading-relaxed">
-                This is not a list of services to scan. It is a set of disciplines we combine depending on
-                the problem.
-              </p>
-              <div className="rounded-sm border border-[#E8E8E8] bg-[#FAF9F6] p-5 md:p-6 flex flex-col gap-4">
-                <span className="font-sans text-xs uppercase tracking-[0.2em] text-[#5F5F5F] font-semibold">
-                  Selected
-                </span>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-sm bg-[#111111]/5 flex items-center justify-center">
-                    <selectedCapability.icon className="w-5 h-5 text-[#111111]" />
-                  </div>
-                  <div>
-                    <h3 className="font-heading text-xl font-semibold text-[#111111]">
-                      {selectedCapability.title}
-                    </h3>
-                    <p className="font-sans text-sm text-[#5F5F5F]">{selectedCapability.eyebrow}</p>
-                  </div>
-                </div>
-                <p className="font-sans text-sm md:text-base text-[#5F5F5F] leading-relaxed">
-                  {selectedCapability.outcome}
+        {/* 5. FAQ SLIDE (Split: Header Left / Accordion Rows Right) */}
+        <section
+          id="faq"
+          className="slide-section py-20 md:py-28 border-b border-[#DEDDD3]"
+        >
+          <Container>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+              <div className="lg:col-span-5 flex flex-col gap-5">
+                <SectionHeading
+                  tag="h2"
+                  subtitle="Questions & Answers"
+                  withTriadMark
+                >
+                  Straightforward answers to key questions.
+                </SectionHeading>
+                <p className="font-editorial text-[#57564C] text-base md:text-lg leading-relaxed">
+                  These are the commercial questions clients ask before starting. We keep answers transparent so you can assess alignment immediately.
                 </p>
               </div>
-            </div>
-            <div className="lg:col-span-8">
-              <div
-                className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"
-              >
-                {capabilities.map((capability, index) => {
-                  const isActive = selectedCapability.title === capability.title;
-                  const Icon = capability.icon;
-                  return (
-                    <Reveal
-                      key={capability.title}
-                      variant="fadeIn"
-                      delay={index}
-                      className="w-full h-full flex"
-                    >
-                      <button
-                        type="button"
-                        onMouseEnter={() => setSelectedCapability(capability)}
-                        onFocus={() => setSelectedCapability(capability)}
-                        onClick={() => setSelectedCapability(capability)}
-                        className={cn(
-                          "text-left rounded-sm border p-5 md:p-6 transition-all duration-300 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#111111] w-full flex flex-col justify-between hover:scale-[1.015] hover:-translate-y-px",
-                          isActive
-                            ? "border-[#111111] bg-[#FAF9F6]"
-                            : "border-[#E8E8E8] bg-transparent hover:border-[#111111] hover:bg-[#111111]/[0.01]"
-                        )}
-                      >
-                        <div>
-                          <div className="flex items-start justify-between gap-4 mb-6">
-                            <div className="w-10 h-10 rounded-sm bg-[#111111]/5 flex items-center justify-center">
-                              <Icon className="w-5 h-5 text-[#111111]" />
-                            </div>
-                            <span className="font-sans text-[10px] uppercase tracking-[0.2em] text-[#5F5F5F] font-semibold">
-                              {capability.eyebrow}
-                            </span>
-                          </div>
-                          <h3 className="font-heading text-lg font-semibold text-[#111111] leading-tight mb-2">
-                            {capability.title}
-                          </h3>
-                          <p className="font-sans text-sm text-[#5F5F5F] leading-relaxed mb-5">
-                            {capability.description}
-                          </p>
-                        </div>
-                        <ul className="space-y-2 w-full pt-2">
-                          {capability.details.map((detail) => (
-                            <li key={detail} className="flex items-center gap-2 text-xs text-[#111111]">
-                              <Zap className="w-3.5 h-3.5 text-[#5F5F5F]" />
-                              <span>{detail}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </button>
-                    </Reveal>
-                  );
-                })}
+
+              <div className="lg:col-span-7 space-y-4">
+                {faqsForPage.map((faq) => (
+                  <FAQItem
+                    key={faq.id}
+                    faq={faq}
+                    isOpen={openFaq === faq.id}
+                    onToggle={() => setOpenFaq(openFaq === faq.id ? null : faq.id)}
+                  />
+                ))}
               </div>
             </div>
-          </div>
-        </Container>
-      </SectionWrapper>
+          </Container>
+        </section>
 
-      <Divider />
-
-      <SectionWrapper animate={true} className="bg-[#FAF9F6]/50">
-        <Container>
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
-            <div className="lg:col-span-4 flex flex-col gap-5">
-              <SectionHeading tag="h2" subtitle="FAQ">
-                Common questions, answered plainly.
-              </SectionHeading>
-              <p className="font-sans text-[#5F5F5F] text-base leading-relaxed">
-                These are the questions most clients ask before starting. We keep the answers direct so you
-                can decide quickly whether Triads Future is the right fit.
-              </p>
-            </div>
-            <div className="lg:col-span-8 space-y-4">
-              {faqsForPage.map((faq) => (
-                <FAQItem
-                  key={faq.id}
-                  faq={faq}
-                  isOpen={openFaq === faq.id}
-                  onToggle={() => setOpenFaq(openFaq === faq.id ? null : faq.id)}
-                />
-              ))}
-            </div>
-          </div>
-        </Container>
-      </SectionWrapper>
-
-      <Divider />
-
-      <CTA
-        headline="Ready to work with a partner that thinks like an operator?"
-        description="If you want a business-first team that can clarify direction, improve execution, and build systems that last, book a strategy call."
-      >
-        <Link href="/contact">
-          <Button variant="primary" size="lg">
-            Book a strategy call
-          </Button>
-        </Link>
-        <Link href="/solutions">
-          <Button variant="outline" size="lg">
-            Explore how we work
-          </Button>
-        </Link>
-      </CTA>
+        {/* 6. FINAL CTA SLIDE (Centered Action Block — 100vh narrative) */}
+        <section
+          id="cta"
+          className="slide-section min-h-[100dvh] flex items-center justify-center py-20"
+        >
+          <Container>
+            <CTA
+              eyebrow="Direct Collaboration"
+              headline="Ready to partner with senior operators?"
+              description="Schedule a 30-minute diagnosis call with our leadership. We will discuss your current technology bottlenecks and provide practical commercial feedback."
+            >
+              <Link href="/contact">
+                <Button variant="primary" size="lg">
+                  Book a Strategy Call
+                </Button>
+              </Link>
+              <Link href="/solutions">
+                <Button variant="outline" size="lg">
+                  Explore Solutions
+                </Button>
+              </Link>
+            </CTA>
+          </Container>
+        </section>
+      </ScrollWorldContainer>
     </GlobalLayout>
   );
 }

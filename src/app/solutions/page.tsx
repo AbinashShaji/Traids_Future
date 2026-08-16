@@ -1,26 +1,21 @@
-// This file controls the Solutions listing page. It lists the capabilities, outcomes, sub-services, and client challenges that Triads Future addresses.
-// It maps mock solutions data into visual layout cards and lists the four operational delivery phases.
+// Solutions page implementing outcome-focused capabilities, desktop-locked slide-scroll, and alternating layout rhythms.
 "use client";
 
 import * as React from "react";
 import Link from "next/link";
-import { ArrowRight, Globe, Monitor, Layers, Zap, TrendingUp, Check, HelpCircle, type LucideIcon } from "lucide-react";
+import { Globe, Monitor, Layers, Zap, TrendingUp, Check, HelpCircle, type LucideIcon } from "lucide-react";
 import { GlobalLayout } from "../../components/global-layout";
-import { SectionWrapper } from "../../components/section-wrapper";
 import { Container } from "../../components/container";
 import { SectionHeading } from "../../components/section-heading";
 import { Button } from "../../components/button";
 import { Card } from "../../components/card";
-import { Divider } from "../../components/divider";
-import { CTA } from "../../components/cta";
-import { Badge } from "../../components/badge";
 import { ImageWrapper } from "../../components/image-wrapper";
+import { CTA } from "../../components/cta";
 import { Reveal } from "../../components/reveal";
-// Mock data imports
+import { TriadMark } from "../../components/triad-mark";
+import { ScrollWorldContainer } from "../../components/scroll-world-container";
 import { solutions } from "../../mock/solutions";
-import { getFeaturedProjects } from "../../mock/projects";
 
-// Maps text icon identifiers (from mock data) to visual Lucide graphics.
 const iconMap: Record<string, LucideIcon> = {
   Globe,
   Monitor,
@@ -29,335 +24,316 @@ const iconMap: Record<string, LucideIcon> = {
   TrendingUp,
 };
 
-// SolutionsPage compiles lists of service solutions, target problems, process phases, and relevant project case studies.
-// Inputs: None.
-// Outputs: Renders a structured services catalog page wrapped in <GlobalLayout>.
-export default function SolutionsPage() {
-  // Load featured case studies to show as examples.
-  const featuredProjects = getFeaturedProjects();
+const solutionsSlides = [
+  { id: "hero", label: "Capabilities" },
+  { id: "catalog", label: "Outcomes" },
+  { id: "problems", label: "Bottlenecks" },
+  { id: "process", label: "Phases" },
+  { id: "cta", label: "Initiate" },
+];
 
+export default function SolutionsPage() {
   return (
     <GlobalLayout>
-      {/* 1. Hero Section */}
-      <SectionWrapper animate={true} className="pt-24 pb-12 md:pt-32 md:pb-16 bg-[#FAF9F6]">
-        <Container>
-          <div className="max-w-3xl flex flex-col gap-6">
-            <SectionHeading tag="h1" subtitle="Our capabilities">
-              Business-driven technology outcomes
-            </SectionHeading>
-            <p className="font-sans text-[#5F5F5F] text-lg md:text-xl leading-relaxed">
-              We do not sell billable hours or arbitrary features. We deliver specific digital systems 
-              designed to solve immediate operational bottlenecks and establish a foundation for commercial growth.
-            </p>
-          </div>
-        </Container>
-      </SectionWrapper>
+      <ScrollWorldContainer slides={solutionsSlides}>
+        {/* 1. HERO SLIDE (Split: Text Left / Visual Panel Right — 100vh narrative) */}
+        <section
+          id="hero"
+          className="slide-section min-h-[100dvh] flex items-center pt-24 pb-16 md:pt-28 md:pb-20 border-b border-[#DEDDD3]"
+        >
+          <Container>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+              <div className="lg:col-span-7 flex flex-col gap-6">
+                <SectionHeading
+                  tag="h1"
+                  subtitle="Commercial Capabilities"
+                  withTriadMark
+                >
+                  Solutions shaped by business outcomes, not billable hours.
+                </SectionHeading>
 
-      <Divider />
+                <p className="font-editorial text-[#57564C] text-lg md:text-2xl leading-relaxed max-w-2xl">
+                  We build digital tools, custom software, and brand infrastructure designed to remove operational bottlenecks and drive compound commercial growth.
+                </p>
 
-      {/* 2. Common Challenges / Why It Matters */}
-      <SectionWrapper animate={true} className="bg-[#FAF9F6]/50">
-        <Container>
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
-            <div className="lg:col-span-5">
-              <SectionHeading tag="h2" subtitle="The problem">
-                When systems fail to scale
+                <div className="flex flex-wrap items-center gap-4 pt-2">
+                  <Link href="/contact">
+                    <Button variant="primary" size="lg">
+                      Book a Strategy Call
+                    </Button>
+                  </Link>
+                  <a href="#catalog">
+                    <Button variant="outline" size="lg">
+                      Explore Solutions
+                    </Button>
+                  </a>
+                </div>
+              </div>
+
+              <div className="lg:col-span-5 w-full aspect-[4/3] lg:aspect-[1/1] relative">
+                <Reveal variant="scaleIn" className="w-full h-full">
+                  <ImageWrapper
+                    src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=900&q=80"
+                    alt="Engineered architecture representing structural technology and scale"
+                    fill
+                    priority
+                    sizes="(max-width: 1024px) 100vw, 42vw"
+                    containerClassName="w-full h-full shadow-[0_8px_30px_rgba(20,20,15,0.04)]"
+                  />
+                </Reveal>
+              </div>
+            </div>
+          </Container>
+        </section>
+
+        {/* 2. OUTCOMES CATALOG SLIDE (Grid: Outcome-Named Cards) */}
+        <section
+          id="catalog"
+          className="slide-section py-20 md:py-28 border-b border-[#DEDDD3]"
+        >
+          <Container>
+            <div className="max-w-3xl mb-16">
+              <SectionHeading
+                tag="h2"
+                subtitle="Outcome Catalog"
+                withTriadMark
+              >
+                Five core areas of commercial transformation
               </SectionHeading>
-              <p className="font-sans text-[#5F5F5F] text-base leading-relaxed mt-4">
-                Many growing businesses reach a point where manual workarounds and disconnected tools 
-                begin to limit their capacity. We help you transition to systematic, automated operations.
+              <p className="font-editorial text-[#57564C] text-base md:text-lg leading-relaxed mt-3">
+                Every solution is delivered as clean, documented code and open architecture that you own outright. Zero vendor lock-in.
               </p>
             </div>
-            <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="flex flex-col gap-2">
-                <h4 className="font-heading text-base font-semibold text-[#111111] flex items-center gap-2">
-                  <HelpCircle className="w-4.5 h-4.5 text-[#5F5F5F]" />
-                  <span>Drowning in administration</span>
-                </h4>
-                <p className="font-sans text-sm text-[#5F5F5F] leading-relaxed">
-                  Your team is spending hours copy-pasting data between spreadsheets and sending manual updates 
-                  to clients instead of focusing on high-value tasks.
-                </p>
-              </div>
-              <div className="flex flex-col gap-2">
-                <h4 className="font-heading text-base font-semibold text-[#111111] flex items-center gap-2">
-                  <HelpCircle className="w-4.5 h-4.5 text-[#5F5F5F]" />
-                  <span>Invisible online presence</span>
-                </h4>
-                <p className="font-sans text-sm text-[#5F5F5F] leading-relaxed">
-                  You deliver world-class service, but your website looks outdated. When enterprise prospects 
-                  research you, they find a layout that does not reflect your calibre.
-                </p>
-              </div>
-              <div className="flex flex-col gap-2">
-                <h4 className="font-heading text-base font-semibold text-[#111111] flex items-center gap-2">
-                  <HelpCircle className="w-4.5 h-4.5 text-[#5F5F5F]" />
-                  <span>Fragile off-the-shelf tools</span>
-                </h4>
-                <p className="font-sans text-sm text-[#5F5F5F] leading-relaxed">
-                  You are combining multiple general software products, but they do not talk to each other 
-                  properly. If one integration breaks, key customer data gets lost.
-                </p>
-              </div>
-              <div className="flex flex-col gap-2">
-                <h4 className="font-heading text-base font-semibold text-[#111111] flex items-center gap-2">
-                  <HelpCircle className="w-4.5 h-4.5 text-[#5F5F5F]" />
-                  <span>Fear of scaling complexities</span>
-                </h4>
-                <p className="font-sans text-sm text-[#5F5F5F] leading-relaxed">
-                  You have the demand to double your revenue, but your operations cannot support the extra load. 
-                  Taking on more clients threatens to break your delivery quality.
-                </p>
-              </div>
-            </div>
-          </div>
-        </Container>
-      </SectionWrapper>
 
-      <Divider />
-
-      {/* 3. Outcomes Catalog (The 5 Solutions) */}
-      <SectionWrapper animate={true} className="py-16 md:py-24">
-        <Container>
-          <div className="max-w-3xl mb-16">
-            <SectionHeading tag="h2" subtitle="Our catalog">
-              Outcome areas
-            </SectionHeading>
-            <p className="font-sans text-[#5F5F5F] text-base md:text-lg leading-relaxed mt-2">
-              Every outcome we deliver is fully documented, uses stable technologies, and belongs completely to you. 
-              We build no vendor-lock systems.
-            </p>
-          </div>
-
-          <div className="space-y-24">
-            {/* Loop through each service solution in our catalog and draw a detailed layout row */}
-            {solutions.map((solution, idx) => {
-              const Icon = iconMap[solution.icon] || Globe;
-              return (
-                <div key={solution.id} id={solution.id} className="scroll-mt-24 border-t border-[#E8E8E8] pt-12">
-                  <Reveal variant="fadeUp" delay={idx} className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
-                    {/* Left: Solution Identity & Description */}
-                    <div className="lg:col-span-5 flex flex-col gap-6">
-                      <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-sm bg-[#111111]/5 flex items-center justify-center">
-                          <Icon className="w-5 h-5 text-[#111111] stroke-[1.5]" />
+            <div className="space-y-16">
+              {solutions.map((solution, idx) => {
+                const Icon = iconMap[solution.icon] || Globe;
+                return (
+                  <div
+                    key={solution.id}
+                    id={solution.id}
+                    className="scroll-mt-24 border-t border-[#DEDDD3] pt-12"
+                  >
+                    <Reveal variant="fadeUp" delay={idx} className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+                      {/* Left: Outcome Definition */}
+                      <div className="lg:col-span-5 flex flex-col gap-5">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-[2px] bg-[#E4E3DB] flex items-center justify-center">
+                            <Icon className="w-5 h-5 text-[#14140F] stroke-[1.5]" />
+                          </div>
+                          <span className="font-sans text-xs font-semibold uppercase tracking-[0.1em] text-[#57564C]">
+                            Outcome 0{idx + 1}
+                          </span>
                         </div>
-                        <h3 className="font-heading text-2xl font-semibold text-[#111111]">
+
+                        <h3 className="font-heading text-2xl md:text-3xl font-bold text-[#14140F] leading-tight">
                           {solution.title}
                         </h3>
-                      </div>
-                      
-                      <p className="font-sans text-[#5F5F5F] text-base leading-relaxed">
-                        {solution.description}
-                      </p>
 
-                      <div className="pt-2">
-                        <Link href={`/contact?interest=${solution.id}`}>
-                          <Button variant="primary">
-                            {solution.ctaText}
-                          </Button>
-                        </Link>
-                      </div>
-                    </div>
-
-                    {/* Right: Technical Details & Business Value */}
-                    <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-8 bg-[#111111]/[0.01] border border-[#E8E8E8] rounded-sm p-6 md:p-8">
-                      <div className="flex flex-col gap-4">
-                        <h4 className="font-heading text-sm font-semibold uppercase tracking-wider text-[#111111]">
-                          Commercial impact
-                        </h4>
-                        <p className="font-sans text-sm text-[#5F5F5F] leading-relaxed">
-                          {solution.businessValue}
+                        <p className="font-editorial text-[#57564C] text-base leading-relaxed">
+                          {solution.description}
                         </p>
-                        
-                        <div className="mt-4 pt-4 border-t border-[#E8E8E8]">
-                          <h5 className="font-heading text-xs font-semibold uppercase tracking-wider text-[#111111] mb-2">
-                            Ideal situation
-                          </h5>
-                          <p className="font-sans text-xs text-[#5F5F5F] leading-relaxed">
-                            {solution.idealFor}
-                          </p>
+
+                        <div className="pt-2">
+                          <Link href={`/contact?interest=${solution.id}`}>
+                            <Button variant="primary" size="sm">
+                              {solution.ctaText}
+                            </Button>
+                          </Link>
                         </div>
                       </div>
 
-                      <div className="flex flex-col gap-4">
-                        <h4 className="font-heading text-sm font-semibold uppercase tracking-wider text-[#111111]">
-                          Services included
-                        </h4>
-                        <ul className="space-y-3">
-                          {solution.services.map((service, index) => (
-                            <li key={index} className="font-sans text-sm text-[#111111] flex items-start gap-2.5">
-                              <Check className="w-4 h-4 text-[#111111] mt-0.5 shrink-0" />
-                              <span>{service}</span>
-                            </li>
-                          ))}
-                        </ul>
+                      {/* Right: Commercial Impact & Services */}
+                      <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-8 bg-[#E4E3DB] border border-[#DEDDD3] rounded-[2px] p-6 md:p-8">
+                        <div className="flex flex-col gap-4">
+                          <h4 className="font-sans text-xs font-semibold uppercase tracking-[0.1em] text-[#14140F]">
+                            Commercial Impact
+                          </h4>
+                          <p className="font-editorial text-sm text-[#57564C] leading-relaxed">
+                            {solution.businessValue}
+                          </p>
+
+                          <div className="mt-2 pt-4 border-t border-[#DEDDD3]">
+                            <h5 className="font-sans text-xs font-semibold uppercase tracking-[0.1em] text-[#14140F] mb-1.5">
+                              Ideal Context
+                            </h5>
+                            <p className="font-editorial text-xs text-[#57564C] leading-relaxed">
+                              {solution.idealFor}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="flex flex-col gap-4">
+                          <h4 className="font-sans text-xs font-semibold uppercase tracking-[0.1em] text-[#14140F]">
+                            Capabilities Included
+                          </h4>
+                          <ul className="space-y-2.5">
+                            {solution.services.map((service, index) => (
+                              <li key={index} className="font-sans text-xs text-[#14140F] flex items-start gap-2">
+                                <Check className="w-3.5 h-3.5 text-[#14140F] mt-0.5 shrink-0" />
+                                <span>{service}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
                       </div>
-                    </div>
-                  </Reveal>
-                </div>
-              );
-            })}
-          </div>
-        </Container>
-      </SectionWrapper>
+                    </Reveal>
+                  </div>
+                );
+              })}
+            </div>
+          </Container>
+        </section>
 
-      <Divider />
+        {/* 3. BOTTLENECK ANALYSIS SLIDE (Centered / Full-Width Problem Breakdown) */}
+        <section
+          id="problems"
+          className="slide-section min-h-[100dvh] flex items-center py-20 md:py-28 border-b border-[#DEDDD3]"
+        >
+          <Container>
+            <div className="max-w-4xl mx-auto flex flex-col gap-12 text-center items-center">
+              <div className="flex flex-col gap-4 items-center">
+                <span className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-[#57564C] flex items-center gap-2">
+                  <TriadMark size="sm" /> Operational Bottlenecks
+                </span>
+                <h2 className="font-heading text-3xl md:text-5xl font-bold text-[#14140F] tracking-tight">
+                  When systems fail to keep pace with growth
+                </h2>
+                <p className="font-editorial text-lg text-[#57564C] max-w-2xl">
+                  Growing companies encounter predictable friction points where manual tools, fractured apps, and outdated branding restrict scale.
+                </p>
+              </div>
 
-      {/* 4. Onboarding Process */}
-      <SectionWrapper animate={true} className="bg-[#FAF9F6]/50">
-        <Container>
-          <div className="max-w-3xl mb-16">
-            <SectionHeading tag="h2" subtitle="Our process">
-              How we partner with you
-            </SectionHeading>
-            <p className="font-sans text-[#5F5F5F] text-base md:text-lg leading-relaxed mt-2">
-              Our engagement model is structured to reduce risk, maintain complete transparency, and demonstrate progress weekly.
-            </p>
-          </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full text-left">
+                {[
+                  {
+                    title: "Administrative Drag",
+                    description: "Senior talent spends hours copy-pasting customer records between spreadsheets instead of executing high-leverage work.",
+                  },
+                  {
+                    title: "Credibility Gap",
+                    description: "You deliver premium service, but your digital touchpoints look amateurish, costing you enterprise customer trust.",
+                  },
+                  {
+                    title: "Fragile Integration",
+                    description: "Off-the-shelf SaaS apps are loosely connected by brittle webhooks. When one fails, critical client data silently disappears.",
+                  },
+                  {
+                    title: "Scale Ceiling",
+                    description: "Customer demand exists to double revenue, but current delivery workflows break if client volume increases.",
+                  },
+                ].map((item, idx) => (
+                  <Card key={idx} variant="bone" className="p-6">
+                    <h4 className="font-heading text-base font-bold text-[#14140F] mb-2 flex items-center gap-2">
+                      <HelpCircle className="w-4 h-4 text-[#57564C]" />
+                      <span>{item.title}</span>
+                    </h4>
+                    <p className="font-editorial text-sm text-[#57564C] leading-relaxed">
+                      {item.description}
+                    </p>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          </Container>
+        </section>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {/* Loop through the structured phases representing our client partnership pipeline */}
-            {[
-              {
-                step: "Phase 01",
-                title: "Discovery & diagnosis",
-                duration: "30-minute consultation",
-                details: "We review your current systems, isolate immediate operational leaks, and establish if there is a commercial match. No pressure or sales pitches.",
-              },
-              {
-                step: "Phase 02",
-                title: "Deep-dive audit",
-                duration: "1 to 2 weeks",
-                details: "We embed with your team, map your exact processes, analyze codebases (if any), and deliver a technical proposal outlining the stack, timeline, and cost.",
-              },
-              {
-                step: "Phase 03",
-                title: "Incremental build",
-                duration: "Sprint-based delivery",
-                details: "We work in weekly sprints. You receive a working staging URL and a live video demonstration every Friday. No black-box development.",
-              },
-              {
-                step: "Phase 04",
-                title: "Deployment & scale",
-                duration: "Production launch",
-                details: "We manage the transition, train your team, deploy analytics, and monitor performance. All code, repository ownership, and licenses transfer to you.",
-              },
-            ].map((phase, index) => (
-              <Reveal
-                key={index}
-                variant="scaleIn"
-                delay={index}
-                className="w-full h-full flex flex-col"
+        {/* 4. ONBOARDING PHASES SLIDE (4-Column Structured Roadmap) */}
+        <section
+          id="process"
+          className="slide-section min-h-[100dvh] flex items-center py-20 md:py-28 border-b border-[#DEDDD3]"
+        >
+          <Container>
+            <div className="max-w-3xl mb-14">
+              <SectionHeading
+                tag="h2"
+                subtitle="Engagement Model"
+                withTriadMark
               >
-                <Card className="flex flex-col justify-between p-6 w-full h-full">
+                How we deliver results in sprints
+              </SectionHeading>
+              <p className="font-editorial text-[#57564C] text-base md:text-lg leading-relaxed mt-3">
+                Our engagement model minimizes operational risk through weekly live demonstrations and structured accountability.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[
+                {
+                  step: "Phase 01",
+                  title: "Diagnosis & Scope",
+                  duration: "30-Min Strategy Call",
+                  details: "We isolate technical and operational bottlenecks, establishing if there is a commercial match before any contract.",
+                },
+                {
+                  step: "Phase 02",
+                  title: "Architecture Audit",
+                  duration: "1 to 2 Weeks",
+                  details: "We map workflows, audit codebases, and deliver a comprehensive roadmap outlining timeline, stack, and fixed deliverables.",
+                },
+                {
+                  step: "Phase 03",
+                  title: "Sprint Build",
+                  duration: "Weekly Releases",
+                  details: "We build in rapid weekly sprints. You review working software on staging every Friday with live video walk-throughs.",
+                },
+                {
+                  step: "Phase 04",
+                  title: "Deployment & Handover",
+                  duration: "Production Launch",
+                  details: "We train your internal team, deploy telemetry monitoring, and transfer complete IP and repository ownership.",
+                },
+              ].map((phase, index) => (
+                <Card
+                  key={index}
+                  variant="paper"
+                  className="flex flex-col justify-between p-6 min-h-[280px]"
+                >
                   <div>
-                    <span className="font-sans text-xs font-semibold text-[#5F5F5F] uppercase tracking-wider block mb-2">
+                    <span className="font-sans text-xs font-semibold text-[#57564C] uppercase tracking-wider block mb-2">
                       {phase.step}
                     </span>
-                    <h4 className="font-heading text-lg font-semibold text-[#111111] mb-1">
+                    <h4 className="font-heading text-lg font-bold text-[#14140F] mb-1">
                       {phase.title}
                     </h4>
-                    <span className="font-sans text-xs text-[#5F5F5F] font-medium block mb-4 italic">
+                    <span className="font-editorial text-xs text-[#57564C] block mb-4 italic">
                       {phase.duration}
                     </span>
-                    <p className="font-sans text-sm text-[#5F5F5F] leading-relaxed">
+                    <p className="font-editorial text-sm text-[#57564C] leading-relaxed">
                       {phase.details}
                     </p>
                   </div>
                 </Card>
-              </Reveal>
-            ))}
-          </div>
-        </Container>
-      </SectionWrapper>
+              ))}
+            </div>
+          </Container>
+        </section>
 
-      <Divider />
-
-      {/* 5. Relevant Case Studies */}
-      <SectionWrapper animate={true}>
-        <Container>
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
-            <SectionHeading tag="h2" subtitle="Proof of delivery">
-              See these solutions in action
-            </SectionHeading>
-            <Link href="/work">
-              <Button variant="text" className="group">
-                Explore all case studies <ArrowRight className="inline-block w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" />
-              </Button>
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Loop through and display the first two featured project case studies */}
-            {featuredProjects.slice(0, 2).map((project) => (
-              <Card key={project.id} className="p-0 overflow-hidden flex flex-col justify-between">
-                <div>
-                  <div className="aspect-[16/9] relative">
-                    <ImageWrapper
-                      src={project.coverImage}
-                      alt={project.title}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 45vw"
-                      containerClassName="w-full h-full border-none rounded-none"
-                    />
-                  </div>
-                  <div className="p-6 md:p-8">
-                    <div className="flex items-center gap-3 mb-4">
-                      <span className="font-sans text-xs text-[#5F5F5F] font-semibold">{project.client}</span>
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#E8E8E8]" />
-                      <Badge variant="outline">{project.industry}</Badge>
-                    </div>
-                    <h3 className="font-heading text-xl font-semibold text-[#111111] mb-3 leading-snug">
-                      {project.title}
-                    </h3>
-                    <p className="font-sans text-[#5F5F5F] text-sm leading-relaxed mb-6">
-                      {project.summary}
-                    </p>
-                    
-                    <div className="grid grid-cols-2 gap-4 py-4 border-t border-[#E8E8E8]/80">
-                      {project.results.slice(0, 2).map((res, idx) => (
-                        <div key={idx} className="flex flex-col">
-                          <span className="font-heading text-xl font-bold text-[#111111]">
-                            {res.value}
-                          </span>
-                          <span className="font-sans text-[10px] text-[#5F5F5F] uppercase tracking-wide mt-0.5 leading-tight">
-                            {res.metric}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                <div className="px-6 pb-6 md:px-8 md:pb-8">
-                  <Link href={`/work/${project.slug}`}>
-                    <Button variant="outline" className="w-full">
-                      Read full case study
-                    </Button>
-                  </Link>
-                </div>
-              </Card>
-            ))}
-          </div>
-        </Container>
-      </SectionWrapper>
-
-      {/* 6. Conversion CTA */}
-      <CTA
-        headline="Not sure where your bottlenecks are?"
-        description="Book a free, 30-minute diagnosis call. We will review your current spreadsheets, software, and marketing platforms, and tell you exactly where you are losing hours or leads. No strings attached."
-      >
-        <Link href="/contact">
-          <Button variant="primary" size="lg">
-            Book a diagnosis call
-          </Button>
-        </Link>
-        <Link href="/contact">
-          <Button variant="outline" size="lg">
-            Ask a question
-          </Button>
-        </Link>
-      </CTA>
+        {/* 5. FINAL INITIATE CTA SLIDE (Centered Action Block — 100vh narrative) */}
+        <section
+          id="cta"
+          className="slide-section min-h-[100dvh] flex items-center justify-center py-20"
+        >
+          <Container>
+            <CTA
+              eyebrow="Initiate Solutions"
+              headline="Ready to diagnose your technology bottlenecks?"
+              description="Schedule a 30-minute consultation call. We will review your current systems and give you direct commercial feedback on what to streamline first."
+            >
+              <Link href="/contact">
+                <Button variant="primary" size="lg">
+                  Book a Strategy Call
+                </Button>
+              </Link>
+              <Link href="/work">
+                <Button variant="outline" size="lg">
+                  View Success Stories
+                </Button>
+              </Link>
+            </CTA>
+          </Container>
+        </section>
+      </ScrollWorldContainer>
     </GlobalLayout>
   );
 }

@@ -1,29 +1,37 @@
-// This file defines the RootLayout component. It is the topmost structural wrapper of the website, importing fonts, setting up SEO metadata, and wrapping the app in global context providers.
+// Root layout configuring the 3-role typographic system and global providers
 import type { Metadata } from "next";
-import { Inter, Outfit } from "next/font/google";
+import { Archivo, Newsreader, Inter_Tight } from "next/font/google";
 import "./globals.css";
 import { RootProviders } from "../providers/root-providers";
+import { CustomCursor } from "../components/custom-cursor";
 
-// Load Google Fonts (Inter for normal text, Outfit for big headlines) and assign them to CSS variables.
-const inter = Inter({
-  variable: "--font-inter",
+const archivo = Archivo({
+  variable: "--font-archivo",
   subsets: ["latin"],
+  display: "swap",
+  weight: ["500", "600", "700", "800"],
 });
 
-const outfit = Outfit({
-  variable: "--font-outfit",
+const newsreader = Newsreader({
+  variable: "--font-newsreader",
   subsets: ["latin"],
+  style: ["normal", "italic"],
+  display: "swap",
+  weight: ["400", "500"],
 });
 
-// Metadata stores SEO details like the tab title and page summary used by Google search.
+const interTight = Inter_Tight({
+  variable: "--font-inter-tight",
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["400", "500", "600", "700"],
+});
+
 export const metadata: Metadata = {
   title: "Triads Future — Business Growth & Technology Partner",
-  description: "We help businesses grow through simple strategy, modern technology, and practical execution.",
+  description: "We partner with growing businesses to deliver sustained growth through strategy, modern technology, and practical execution.",
 };
 
-// RootLayout is the HTML scaffolding component that wraps every page.
-// Inputs: "children" (the current page content to display inside this layout).
-// Outputs: Renders the absolute outer <html> and <body> tags, loading global fonts and providers.
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -32,11 +40,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${outfit.variable} h-full antialiased`}
+      className={`${archivo.variable} ${newsreader.variable} ${interTight.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#FAF9F6] text-[#111111]">
-        {/* RootProviders sets up client-side states (like toast alerts and device sizing context) */}
+      <body className="min-h-full flex flex-col bg-[#F0F0EB] text-[#14140F] selection:bg-[#14140F] selection:text-[#F0F0EB]">
         <RootProviders>
+          <CustomCursor />
           {children}
         </RootProviders>
       </body>

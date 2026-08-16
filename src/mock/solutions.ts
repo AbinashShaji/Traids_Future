@@ -1,108 +1,105 @@
-// This file holds mock (fake) data describing the different service areas (called "solutions") that Triads Future offers.
-// We write these here so the site layout has data to show immediately before connecting to a live backend data source.
+// Solutions mock data reflecting outcome-focused services per Design System v2.
 
-// Solution defines the outline for a single service area, containing its description, commercial impact details, and list of sub-services.
 export interface Solution {
   id: string;
   title: string;
   description: string;
-  businessValue: string; // The real-world business reason why a client would want this.
-  services: string[]; // List of specific sub-tasks included under this solution.
-  idealFor: string; // Describes the type of business that needs this specific solution.
-  ctaText: string; // The text on the clickable button (Call to Action) for this item.
-  icon: string; // The name of the icon to draw next to the title.
+  businessValue: string;
+  services: string[];
+  idealFor: string;
+  ctaText: string;
+  icon: string;
 }
 
-// The list of solutions we present on the website.
 export const solutions: Solution[] = [
   {
-    id: "digital-presence",
-    title: "Digital presence",
+    id: "grow-your-presence",
+    title: "Grow Your Presence",
     description:
-      "Your website is the first impression your business makes. We build fast, professional, and credible digital homes that convert visitors into enquiries.",
+      "Build visibility that compounds — not campaigns that stop the moment the budget does. We build fast, credible digital homes that convert visitors into qualified enquiries.",
     businessValue:
-      "A strong digital presence builds trust before anyone speaks to you. Clients see your work, understand your value, and arrive ready to buy.",
+      "A strong digital presence builds authority before anyone speaks to you. Clients see your depth, understand your commercial value, and arrive ready to engage.",
     services: [
-      "Website design & development",
+      "Website design & engineering",
       "Brand identity systems",
-      "SEO foundations",
-      "Performance optimisation",
-      "Mobile-first design",
+      "SEO & technical foundations",
+      "Performance & speed optimization",
+      "Mobile-first responsive architecture",
     ],
-    idealFor: "Businesses without a digital presence or with an outdated website that no longer reflects their quality.",
-    ctaText: "Talk to us about your website",
+    idealFor: "Established businesses with outdated websites that fail to reflect their quality and market authority.",
+    ctaText: "Explore Presence Solutions",
     icon: "Globe",
   },
   {
-    id: "digital-experiences",
-    title: "Digital experiences",
+    id: "build-better-digital-experiences",
+    title: "Build Better Digital Experiences",
     description:
-      "We design and build digital products — web applications, client portals, internal tools — that make your business easier to run and easier to use.",
+      "Websites and applications built as business tools first, design objects second. We design and engineer web apps, client portals, and bespoke tools that eliminate operational friction.",
     businessValue:
-      "Custom software built around your business removes friction, saves hours, and scales with you. Off-the-shelf tools are built for everyone. We build for you.",
+      "Custom software shaped around your exact business workflows removes bottlenecks, saves team hours every week, and scales seamlessly with revenue growth.",
     services: [
-      "Web application development",
-      "Client portal design",
-      "Internal tools",
-      "API integrations",
-      "Product strategy",
+      "Web application engineering",
+      "Client & partner portal design",
+      "Internal operations tools",
+      "Custom API integrations",
+      "Product architecture & roadmapping",
     ],
-    idealFor: "Businesses outgrowing general tools and needing software shaped to their specific workflows.",
-    ctaText: "Talk to us about your product",
+    idealFor: "Businesses outgrowing off-the-shelf SaaS and needing custom systems tailored to their operational workflows.",
+    ctaText: "Explore Digital Experiences",
     icon: "Monitor",
   },
   {
-    id: "brand-strength",
-    title: "Brand strength",
+    id: "strengthen-your-brand",
+    title: "Strengthen Your Brand",
     description:
-      "We help businesses communicate clearly and consistently — so customers immediately understand who you are and why you are the right choice.",
+      "Positioning and visual identity that make the next ten decisions easier, not just the launch. We clarify your market position and communicate why you are the obvious choice.",
     businessValue:
-      "Clear branding is a commercial advantage. When your audience recognises and trusts your brand, decisions become easier and loyalty grows.",
+      "Clear positioning is a durable commercial moat. When target clients immediately understand your value proposition, pricing power increases and sales cycles shorten.",
     services: [
-      "Brand strategy",
-      "Visual identity",
-      "Messaging frameworks",
-      "Content direction",
-      "Brand guidelines",
+      "Strategic market positioning",
+      "Visual & design system creation",
+      "Executive messaging frameworks",
+      "Editorial content direction",
+      "Brand governance & guidelines",
     ],
-    idealFor: "Growing businesses whose brand no longer reflects the quality of their work.",
-    ctaText: "Talk to us about your brand",
+    idealFor: "Growing businesses whose reputation has outpaced their current brand assets and visual presentation.",
+    ctaText: "Explore Brand Strategy",
     icon: "Layers",
   },
   {
-    id: "operations-automation",
-    title: "Operations automation",
+    id: "automate-business-processes",
+    title: "Automate Business Processes",
     description:
-      "We identify the repetitive, time-consuming parts of your business and build systems that handle them — freeing your team to focus on growth.",
+      "Systematize repetitive operations and data handoffs so your senior team spends time on high-leverage growth, not administrative friction.",
     businessValue:
-      "Automation removes human error from routine tasks, reduces operational costs, and creates space for your team to focus on work that requires real thinking.",
+      "Intelligent automation eliminates manual data entry errors, shortens delivery turnaround times, and lowers operating overhead across departments.",
     services: [
-      "Process mapping",
-      "Workflow automation",
-      "CRM integration",
-      "Data pipelines",
-      "Reporting dashboards",
+      "End-to-end process mapping",
+      "Workflow & CRM automation",
+      "Data ingestion pipelines",
+      "Custom analytics & reporting dashboards",
+      "Legacy software modernization",
     ],
-    idealFor: "Businesses where too much time is spent on manual, repetitive tasks that could be systematised.",
-    ctaText: "Talk to us about automation",
+    idealFor: "Teams bogged down by repetitive manual workflows that bottleneck scale.",
+    ctaText: "Explore Process Automation",
     icon: "Zap",
   },
   {
-    id: "business-scalability",
-    title: "Business scalability",
+    id: "scale-your-business",
+    title: "Scale Your Business",
     description:
-      "We help businesses build the systems, processes, and digital infrastructure needed to grow without breaking — so scale becomes sustainable.",
+      "Build resilient digital and operational infrastructure designed to support 10x customer volume without compromising quality or increasing team headcount proportionally.",
     businessValue:
-      "Growth without structure creates chaos. We design the foundation that allows your business to take on more clients, more revenue, and more complexity without losing quality.",
+      "Sustainable scale requires structured architecture. We install the systems, processes, and tech foundation that enable compound expansion.",
     services: [
-      "Growth strategy",
-      "Systems architecture",
-      "Team workflows",
-      "Technology roadmap",
-      "Performance consulting",
+      "Long-term growth architecture",
+      "Technical infrastructure scaling",
+      "Cross-team workflow optimization",
+      "Commercial technology roadmaps",
+      "Ongoing technical advisory",
     ],
-    idealFor: "Businesses that are growing quickly and need the infrastructure to support that growth.",
-    ctaText: "Talk to us about scaling",
+    idealFor: "High-growth businesses scaling revenue rapidly that need robust systems to support client demand.",
+    ctaText: "Explore Scaling Systems",
     icon: "TrendingUp",
   },
 ];
