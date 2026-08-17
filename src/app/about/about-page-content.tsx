@@ -1,4 +1,25 @@
-// About page content implementing Design System v2 tokens, desktop slide-scroll world, and alternating layout rhythm.
+/**
+ * FILE: src/app/about/about-page-content.tsx
+ *
+ * WHAT THIS DOES:
+ * Powers the interactive content for the About page (/about).
+ *
+ * WHERE IT IS USED:
+ * - Loaded by `src/app/about/page.tsx` when visitors navigate to `/about`.
+ *
+ * HOW IT WORKS:
+ * 1. Organizes the company story into 6 desktop slides (`aboutSlides`):
+ *    - #hero: The founding manifesto ("Software should generate leverage, not complexity").
+ *    - #story: The company origin story and founding philosophy.
+ *    - #operating-model: The 3-phase Triad framework with `<TriadPanel>`.
+ *    - #principles: The 6 non-negotiable engineering and business rules.
+ *    - #team: The dynamic team showcase (`<TeamShowcase>`) displaying leaders and specialists.
+ *    - #faq: Frequently asked questions using the shared `<FAQItem>` accordion component.
+ * 2. Uses `<ScrollWorldContainer>` for desktop slide snapping.
+ *
+ * BEGINNER TIP:
+ * If you want to change company principles, story text, or team sections, start here!
+ */
 "use client";
 
 import * as React from "react";
@@ -6,6 +27,7 @@ import Link from "next/link";
 import {
   Sparkles,
   ChevronDown,
+  ArrowRight,
 } from "lucide-react";
 import { GlobalLayout } from "../../components/global-layout";
 import { Container } from "../../components/container";
@@ -14,11 +36,13 @@ import { Button } from "../../components/button";
 import { Card } from "../../components/card";
 import { ImageWrapper } from "../../components/image-wrapper";
 import { CTA } from "../../components/cta";
-import { cn } from "../../utils/cn";
-import { faqs, type FAQ } from "../../mock/faq";
+import { faqs } from "../../mock/faq";
+import { teamMembers } from "../../mock/team";
 import { Reveal } from "../../components/reveal";
 import { TriadMark, TriadPanel } from "../../components/triad-mark";
 import { ScrollWorldContainer } from "../../components/scroll-world-container";
+import { TeamShowcase } from "../../components/team-showcase";
+import { FAQItem } from "../../components/faq-item";
 
 const principles = [
   {
@@ -47,43 +71,12 @@ const principles = [
   },
 ];
 
-function FAQItem({ faq, isOpen, onToggle }: { faq: FAQ; isOpen: boolean; onToggle: () => void }) {
-  return (
-    <div className="border border-[#DEDDD3] rounded-[2px] bg-[#F0F0EB] overflow-hidden transition-all duration-300">
-      <button
-        type="button"
-        onClick={onToggle}
-        className="w-full px-6 py-4 flex items-center justify-between gap-4 text-left font-sans font-semibold text-[#14140F] hover:bg-[#E4E3DB]/40 transition-colors"
-      >
-        <span className="text-sm md:text-base leading-snug">{faq.question}</span>
-        <ChevronDown
-          className={cn(
-            "w-4 h-4 text-[#57564C] transition-transform duration-300 shrink-0",
-            isOpen && "rotate-180"
-          )}
-        />
-      </button>
-      <div
-        className={cn(
-          "grid transition-all duration-300 ease-in-out",
-          isOpen ? "grid-rows-[1fr] opacity-100 border-t border-[#DEDDD3]" : "grid-rows-[0fr] opacity-0"
-        )}
-      >
-        <div className="overflow-hidden">
-          <div className="p-6 font-editorial text-base text-[#57564C] leading-relaxed bg-[#E4E3DB]/30">
-            {faq.answer}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 const aboutSlides = [
   { id: "hero", label: "Manifesto" },
   { id: "story", label: "Foundations" },
   { id: "approach", label: "Triad Model" },
   { id: "principles", label: "Operating Principles" },
+  { id: "team", label: "The People" },
   { id: "faq", label: "Common Questions" },
   { id: "cta", label: "Next Step" },
 ];
@@ -257,7 +250,7 @@ export default function AboutPageContent() {
                         </span>
                         <Sparkles className="w-4 h-4 text-[#14140F]" />
                       </div>
-                      <h3 className="font-heading text-lg font-bold text-[#14140F] leading-tight mb-2">
+                      <h3 className="font-heading text-lg font-medium text-[#14140F] leading-tight mb-2">
                         {principle.title}
                       </h3>
                     </div>
@@ -271,27 +264,47 @@ export default function AboutPageContent() {
           </Container>
         </section>
 
-        {/* 5. FAQ SLIDE (Split: Header Left / Accordion Rows Right) */}
+        {/* 5. TEAM & PEOPLE SLIDE (Dynamic CMS-Ready Editorial Showcase) */}
+        <section
+          id="team"
+          className="slide-section min-h-[100dvh] flex items-center py-20 md:py-28 border-b border-[#DEDDD3]"
+        >
+          <TeamShowcase
+            members={teamMembers}
+            eyebrow="The People Behind Triads Future"
+            heading="The people turning strategy into something real."
+            subheading="We operate as active practitioners and senior partners who design, code, and deploy directly with our clients."
+          />
+        </section>
+
+        {/* 6. FAQ SLIDE (Split: Header Left / Accordion Rows Right) */}
         <section
           id="faq"
           className="slide-section py-20 md:py-28 border-b border-[#DEDDD3]"
         >
           <Container>
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-              <div className="lg:col-span-5 flex flex-col gap-5">
+              <div className="lg:col-span-5 flex flex-col gap-6">
                 <SectionHeading
                   tag="h2"
-                  subtitle="Questions & Answers"
+                  subtitle="FAQ"
                   withTriadMark
                 >
-                  Straightforward answers to key questions.
+                  Frequently asked questions
                 </SectionHeading>
                 <p className="font-editorial text-[#57564C] text-base md:text-lg leading-relaxed">
-                  These are the commercial questions clients ask before starting. We keep answers transparent so you can assess alignment immediately.
+                  Clear answers about our engagement models, commercial terms, software handover, and sprint rhythms.
                 </p>
+                <div className="pt-2">
+                  <Link href="/contact">
+                    <Button variant="primary" size="md">
+                      Have a specific question? Talk to us →
+                    </Button>
+                  </Link>
+                </div>
               </div>
 
-              <div className="lg:col-span-7 space-y-4">
+              <div className="lg:col-span-7 flex flex-col gap-4">
                 {faqsForPage.map((faq) => (
                   <FAQItem
                     key={faq.id}
@@ -305,16 +318,16 @@ export default function AboutPageContent() {
           </Container>
         </section>
 
-        {/* 6. FINAL CTA SLIDE (Centered Action Block — 100vh narrative) */}
+        {/* 7. NEXT STEP CTA */}
         <section
           id="cta"
           className="slide-section min-h-[100dvh] flex items-center justify-center py-20"
         >
           <Container>
             <CTA
-              eyebrow="Direct Collaboration"
-              headline="Ready to partner with senior operators?"
-              description="Schedule a 30-minute diagnosis call with our leadership. We will discuss your current technology bottlenecks and provide practical commercial feedback."
+              eyebrow="Initiate Partnership"
+              headline="Ready to scale your business operations?"
+              description="Schedule a 30-minute diagnosis call with our senior leadership. We will evaluate your technical friction and outline a compound growth strategy."
             >
               <Link href="/contact">
                 <Button variant="primary" size="lg">

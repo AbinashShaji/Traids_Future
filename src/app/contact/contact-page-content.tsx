@@ -1,4 +1,21 @@
-// Contact page content with frictionless booking form, Zod validation, and Design System v2 tokens.
+/**
+ * FILE: src/app/contact/contact-page-content.tsx
+ *
+ * WHAT THIS DOES:
+ * Powers the interactive Strategy Consultation booking form and FAQ on the Contact page (/contact).
+ *
+ * WHERE IT IS USED:
+ * - Loaded by `src/app/contact/page.tsx` inside a Suspense boundary.
+ *
+ * HOW IT WORKS:
+ * 1. `contactSchema`: Uses Zod to define validation rules (name >= 2 characters, phone >= 6 digits, valid email).
+ * 2. `useForm`: Uses React Hook Form with `zodResolver` to handle field typing, error messages, and submission state.
+ * 3. On valid submit: Shows a toast popup and redirects to the `/thank-you` confirmation page.
+ * 4. Slide #2: Displays self-service FAQs using the shared `<FAQItem>` accordion.
+ *
+ * BEGINNER TIP:
+ * If you want to require extra form fields (like "Company Budget"), add them to `contactSchema` and the form JSX!
+ */
 "use client";
 
 import * as React from "react";
@@ -6,13 +23,14 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Mail, Phone as PhoneIcon, MapPin, Clock, Calendar, Check, HelpCircle, ChevronDown } from "lucide-react";
+import { Mail, Phone as PhoneIcon, MapPin, Clock, Calendar, Check } from "lucide-react";
 import { GlobalLayout } from "../../components/global-layout";
 import { Container } from "../../components/container";
 import { SectionHeading } from "../../components/section-heading";
 import { Button } from "../../components/button";
 import { FormInput } from "../../components/form-input";
 import { FormTextarea } from "../../components/form-textarea";
+import { FAQItem } from "../../components/faq-item";
 import { ScrollWorldContainer } from "../../components/scroll-world-container";
 import { toast } from "sonner";
 import { cn } from "../../utils/cn";
@@ -159,7 +177,7 @@ function ContactPageContent() {
               <div className="lg:col-span-7 bg-[#E4E3DB] border border-[#DEDDD3] rounded-[2px] p-6 md:p-10 shadow-[0_8px_30px_rgba(20,20,15,0.03)]">
                 <div className="flex items-center gap-2 mb-6">
                   <Calendar className="w-5 h-5 text-[#14140F]" />
-                  <h3 className="font-heading text-xl font-bold text-[#14140F]">
+                  <h3 className="font-heading text-xl font-medium text-[#14140F]">
                     Schedule 30-Minute Consultation
                   </h3>
                 </div>
@@ -239,47 +257,14 @@ function ContactPageContent() {
               </div>
 
               <div className="lg:col-span-7 space-y-4">
-                {faqs.map((faq) => {
-                  const isOpen = activeFaq === faq.id;
-                  return (
-                    <div
-                      key={faq.id}
-                      className="border border-[#DEDDD3] rounded-[2px] bg-[#F0F0EB] overflow-hidden transition-all duration-300"
-                    >
-                      <button
-                        type="button"
-                        onClick={() => toggleFaq(faq.id)}
-                        className="w-full px-6 py-4 flex items-center justify-between text-left font-sans font-semibold text-[#14140F] hover:bg-[#E4E3DB]/40 transition-colors"
-                      >
-                        <span className="text-sm md:text-base flex items-center gap-2.5">
-                          <HelpCircle className="w-4 h-4 text-[#57564C] stroke-[1.5] shrink-0" />
-                          {faq.question}
-                        </span>
-                        <ChevronDown
-                          className={cn(
-                            "w-4 h-4 text-[#57564C] transition-transform duration-300 shrink-0 ml-4",
-                            isOpen && "rotate-180"
-                          )}
-                        />
-                      </button>
-
-                      <div
-                        className={cn(
-                          "grid transition-all duration-300 ease-in-out",
-                          isOpen
-                            ? "grid-rows-[1fr] opacity-100 border-t border-[#DEDDD3]"
-                            : "grid-rows-[0fr] opacity-0"
-                        )}
-                      >
-                        <div className="overflow-hidden">
-                          <div className="p-6 font-editorial text-base text-[#57564C] leading-relaxed bg-[#E4E3DB]/30">
-                            {faq.answer}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
+                {faqs.map((faq) => (
+                  <FAQItem
+                    key={faq.id}
+                    faq={faq}
+                    isOpen={activeFaq === faq.id}
+                    onToggle={() => toggleFaq(faq.id)}
+                  />
+                ))}
               </div>
             </div>
           </Container>
@@ -289,4 +274,10 @@ function ContactPageContent() {
   );
 }
 
-export default ContactPageContent;
+export default function ContactPage() {
+  return (
+    <React.Suspense fallback={<div className="min-h-screen bg-[#F0F0EB]" />}>
+      <ContactPageContent />
+    </React.Suspense>
+  );
+}

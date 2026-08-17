@@ -1,4 +1,20 @@
-// Divider component rendering hairline section rules.
+/**
+ * FILE: src/components/divider.tsx
+ *
+ * WHAT THIS DOES:
+ * Renders a subtle 1px horizontal separation line (a hairline border).
+ *
+ * WHERE IT IS USED:
+ * - Separates sections in the Footer, legal pages, and long-form articles.
+ *
+ * HOW IT WORKS:
+ * 1. Default: Draws a clean 1px line with the hairline token color (`bg-[#DEDDD3]`).
+ * 2. `withTriadMark={true}`: Breaks the line in the center and places the 3-bar triad mark in the middle!
+ *
+ * BEGINNER TIP:
+ * Use `<Divider />` instead of a raw `<hr />` to ensure separation lines match the design system!
+ */
+
 import * as React from "react";
 import { cn } from "../utils/cn";
 
@@ -32,3 +48,5 @@ export const Divider: React.FC<DividerProps> = ({
     />
   );
 };
+
+Divider.displayName = "Divider";

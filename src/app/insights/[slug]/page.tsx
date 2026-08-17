@@ -1,8 +1,28 @@
-// Article detail template with Editorial serif body copy, Archivo headings, and alternating layout rhythm.
+/**
+ * FILE: src/app/insights/[slug]/page.tsx
+ *
+ * WHAT THIS DOES:
+ * Dynamic template that generates an individual Article reading page for each blog post
+ * (e.g. `/insights/why-most-business-websites-fail`).
+ *
+ * WHERE IT IS USED:
+ * - Next.js matches any URL starting with `/insights/...` to this file.
+ *
+ * HOW IT WORKS:
+ * 1. `generateStaticParams()`: Tells Next.js to pre-render static HTML for every article slug at build time.
+ * 2. `getArticleBySlug(slug)`: Looks up the matching article text and author details.
+ * 3. `renderContent(content)`: A simple markdown parser that converts lines into headings (`###`),
+ *    bullet lists (`-`), callout quotes (`>`), and paragraphs.
+ * 4. Displays estimated reading time, author bio, cover image, and related articles to read next.
+ *
+ * BEGINNER TIP:
+ * `renderContent` turns raw plain-text markdown into styled React elements automatically!
+ */
+
 import * as React from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, Calendar, Clock, ArrowRight } from "lucide-react";
+import { ArrowLeft, Calendar, Clock } from "lucide-react";
 import { GlobalLayout } from "../../../components/global-layout";
 import { Container } from "../../../components/container";
 import { SectionHeading } from "../../../components/section-heading";
@@ -48,14 +68,14 @@ function renderContent(content: string) {
     if (trimmed.startsWith("##")) {
       flushList(`list-before-h2-${index}`);
       elements.push(
-        <h3 key={`h2-${index}`} className="font-heading text-2xl md:text-3xl font-bold text-[#14140F] mt-10 mb-4 border-b border-[#DEDDD3] pb-3">
+        <h3 key={`h2-${index}`} className="font-heading text-2xl md:text-3xl font-medium text-[#14140F] mt-10 mb-4 border-b border-[#DEDDD3] pb-3">
           {trimmed.replace(/^##\s*/, "")}
         </h3>
       );
     } else if (trimmed.startsWith("###")) {
       flushList(`list-before-h3-${index}`);
       elements.push(
-        <h4 key={`h3-${index}`} className="font-heading text-xl md:text-2xl font-bold text-[#14140F] mt-8 mb-3">
+        <h4 key={`h3-${index}`} className="font-heading text-xl md:text-2xl font-medium text-[#14140F] mt-8 mb-3">
           {trimmed.replace(/^###\s*/, "")}
         </h4>
       );
@@ -152,7 +172,7 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
                     Author
                   </span>
                   <div>
-                    <cite className="font-sans text-base font-bold text-[#14140F] not-italic block">
+                    <cite className="font-heading text-lg font-medium text-[#14140F] not-italic block">
                       {article.author}
                     </cite>
                     <span className="font-editorial text-sm text-[#57564C] block mt-0.5">
@@ -208,7 +228,7 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
                   <span className="font-sans text-xs font-semibold text-[#57564C] uppercase tracking-wider block mb-3">
                     Author
                   </span>
-                  <div className="font-sans text-sm font-semibold text-[#14140F]">
+                  <div className="font-heading text-base font-medium text-[#14140F]">
                     {article.author}
                     <span className="block font-editorial text-xs text-[#57564C] mt-0.5">
                       {article.authorRole}
@@ -255,7 +275,7 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
                           src={rel.coverImage}
                           alt={rel.title}
                           fill
-                          sizes="(max-width: 768px) 100vw, 45vw"
+                          sizes="(max-width: 768px) 100vw, 50vw"
                           containerClassName="w-full h-full border-none rounded-none"
                         />
                       </div>
@@ -265,7 +285,7 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
                           <span className="w-1 h-1 rounded-full bg-[#DEDDD3]" />
                           <span className="font-sans text-xs text-[#57564C]">{rel.readingTime} min read</span>
                         </div>
-                        <h3 className="font-heading text-lg font-bold text-[#14140F] mb-2 leading-snug">
+                        <h3 className="font-heading text-xl font-medium text-[#14140F] mb-2 leading-snug">
                           <Link href={`/insights/${rel.slug}`} className="hover:underline">
                             {rel.title}
                           </Link>
@@ -275,11 +295,13 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
                         </p>
                       </div>
                     </div>
-                    <div className="px-6 pb-6 pt-3 border-t border-[#DEDDD3]">
+                    <div className="px-6 pb-6 pt-3 flex items-center justify-between border-t border-[#DEDDD3] mt-auto">
+                      <span className="font-sans text-xs text-[#57564C]">
+                        {rel.author}
+                      </span>
                       <Link href={`/insights/${rel.slug}`}>
-                        <Button variant="text" size="sm" className="group w-full justify-between">
-                          <span>Read perspective</span>
-                          <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                        <Button variant="text" size="sm" className="group">
+                          Read More →
                         </Button>
                       </Link>
                     </div>
@@ -290,16 +312,16 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
           </section>
         )}
 
-        {/* 5. FINAL CTA SLIDE (Centered Action Block — 100vh narrative) */}
+        {/* 5. NEXT STEP CTA */}
         <section
           id="cta"
           className="slide-section min-h-[100dvh] flex items-center justify-center py-20"
         >
           <Container>
             <CTA
-              eyebrow="Direct Advisory"
-              headline="Want tailored perspective for your business systems?"
-              description="Book a 30-minute diagnosis call with our senior engineering and strategy team. We will review your architecture and discuss practical paths forward."
+              eyebrow="Initiate Partnership"
+              headline="Ready to apply these systems to your business?"
+              description="Schedule a 30-minute diagnosis call. We will review your current architecture and outline high-leverage growth solutions."
             >
               <Link href="/contact">
                 <Button variant="primary" size="lg">
@@ -308,7 +330,7 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
               </Link>
               <Link href="/insights">
                 <Button variant="outline" size="lg">
-                  Back to Insights
+                  Back to All Insights
                 </Button>
               </Link>
             </CTA>

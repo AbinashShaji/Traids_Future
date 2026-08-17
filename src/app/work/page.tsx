@@ -1,4 +1,22 @@
-// Work index page showcasing case studies in Design System v2 tokens with alternating layout rhythm.
+/**
+ * FILE: src/app/work/page.tsx
+ *
+ * WHAT THIS DOES:
+ * The Portfolio / Case Studies directory page (/work).
+ *
+ * WHERE IT IS USED:
+ * - Rendered when visitors navigate to `/work`.
+ *
+ * HOW IT WORKS:
+ * 1. Organizes case study proofs into 3 slides (`workSlides`):
+ *    - #hero: Overview manifesto with key metrics highlight card.
+ *    - #cases: Grid of case studies loaded from `src/mock/projects.ts` (showing client names, tags, cover photos, and results).
+ *    - #cta: Consultation booking call to action.
+ * 2. Clicking any case study card navigates to `/work/[slug]`.
+ *
+ * BEGINNER TIP:
+ * To add a new case study to this page, add a project object to `src/mock/projects.ts`!
+ */
 "use client";
 
 import * as React from "react";
@@ -145,7 +163,7 @@ export default function WorkPage() {
                           <Badge variant="filled">{project.industry}</Badge>
                         </div>
 
-                        <h2 className="font-heading text-2xl md:text-3xl font-bold text-[#14140F] leading-tight">
+                        <h2 className="font-heading text-2xl md:text-3xl font-normal md:font-medium text-[#14140F] leading-tight">
                           <Link href={`/work/${project.slug}`} className="hover:underline">
                             {project.title}
                           </Link>
@@ -159,7 +177,7 @@ export default function WorkPage() {
                         <div className="grid grid-cols-2 gap-6 py-4 border-y border-[#DEDDD3] my-1">
                           {project.results.map((res, idx) => (
                             <div key={idx} className="flex flex-col gap-1">
-                              <span className="font-heading text-2xl md:text-3xl font-bold text-[#14140F] tracking-tight">
+                              <span className="font-heading text-2xl md:text-3xl font-normal md:font-medium text-[#14140F] tracking-tight">
                                 {res.value}
                               </span>
                               <span className="font-sans text-xs text-[#57564C] font-medium leading-tight">

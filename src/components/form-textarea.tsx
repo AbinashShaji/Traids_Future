@@ -1,10 +1,31 @@
-// FormTextarea component styled with 2px radius, hairline borders, and signal error states.
+/**
+ * FILE: src/components/form-textarea.tsx
+ *
+ * WHAT THIS DOES:
+ * A multi-line text input field (for messages, project briefs, and long text).
+ *
+ * WHERE IT IS USED:
+ * - Consultation booking form on the Contact page (`src/app/contact/contact-page-content.tsx`).
+ *
+ * HOW IT WORKS:
+ * 1. Automatically links the `<label>` to the `<textarea>` using `useId()`.
+ * 2. Allows vertical resizing (`resize-y`) so visitors can expand the box if needed.
+ * 3. Shows red borders and error messages when validation fails.
+ * 4. Integrates with React Hook Form via `React.forwardRef`.
+ *
+ * BEGINNER TIP:
+ * Use `<FormTextarea>` when you expect the user to write more than a single sentence!
+ */
+
 import * as React from "react";
 import { cn } from "../utils/cn";
 
 export interface FormTextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+  /** The field label shown above the textarea (e.g. "Project Details") */
   label: string;
+  /** Error message text displayed in red if validation fails */
   error?: string;
+  /** Optional helpful hint text shown below the textarea */
   helperText?: string;
 }
 

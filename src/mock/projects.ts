@@ -1,5 +1,22 @@
-// This file holds mock (fake) data representing case studies (completed projects) that Triads Future has done for its clients.
-// It also provides small helper functions to find a project by its URL nickname (slug) or filter the featured ones.
+/**
+ * FILE: src/mock/projects.ts
+ *
+ * WHAT THIS DOES:
+ * Stores real/mock case studies of work completed by Triads Future.
+ *
+ * WHERE IT IS USED:
+ * - Rendered on the Homepage (/) under "Selected Work".
+ * - Rendered on the Work portfolio index (/work).
+ * - Generates individual case study detail pages (/work/[slug]).
+ *
+ * HOW IT WORKS:
+ * Each project contains client information, the business challenge,
+ * the strategy used, the technical solution, measurable results, and images.
+ *
+ * BEGINNER TIP:
+ * The `slug` field is used as the webpage address name.
+ * Example: slug "meridian-financial-digital-platform" becomes "/work/meridian-financial-digital-platform".
+ */
 
 // ProjectResult describes a single numerical or text success metric from a completed project.
 export interface ProjectResult {

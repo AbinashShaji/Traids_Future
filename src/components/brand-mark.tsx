@@ -1,4 +1,21 @@
-// This file contains the BrandMark component. The BrandMark is the logo image of the company that links back to the home page when clicked.
+/**
+ * FILE: src/components/brand-mark.tsx
+ *
+ * WHAT THIS DOES:
+ * Renders the interactive company logo in the navigation header with a scroll-morph animation.
+ *
+ * WHERE IT IS USED:
+ * - Mounted in `src/components/navigation.tsx` inside Desktop, Tablet, and Mobile headers.
+ *
+ * HOW IT WORKS:
+ * 1. At the very top of the page (scrollY = 0), it displays the wide horizontal logo (`traids_future_header_logo.png`).
+ * 2. As the visitor scrolls down 200px, Framer Motion smoothly fades and scales the full logo into the compact triangle icon (`traid_future_triangle_logo.png`).
+ * 3. On narrow tablet rails or when reduced-motion is enabled, it shows the compact logo statically.
+ * 4. Always wraps the logo in `<Link href="/">` so clicking it takes you back home.
+ *
+ * BEGINNER TIP:
+ * If the logo ever needs to be replaced, check `public/brand/` for the image files!
+ */
 "use client";
 
 import * as React from "react";

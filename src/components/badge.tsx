@@ -1,4 +1,22 @@
-// Badge component styled with 2px radius and monochrome palette.
+/**
+ * FILE: src/components/badge.tsx
+ *
+ * WHAT THIS DOES:
+ * Small uppercase pill label used for category tags, project types, and status indicators.
+ *
+ * WHERE IT IS USED:
+ * - Case study cards on /work (e.g. "WEB APPLICATION", "AUTOMATION").
+ * - Article cards on /insights (e.g. "BUSINESS STRATEGY").
+ *
+ * HOW IT WORKS:
+ * 1. `variant="outline"` (default): Off-white background with a thin hairline border.
+ * 2. `variant="filled"`: Warm bone background (`#E4E3DB`) with darker text.
+ * 3. Formats text in tiny, tracked, uppercase letters (`text-[11px] font-semibold uppercase tracking-wider`).
+ *
+ * BEGINNER TIP:
+ * Use `<Badge>` when you need to highlight a category or status in a compact label!
+ */
+
 import * as React from "react";
 import { cn } from "../utils/cn";
 
@@ -30,3 +48,5 @@ export const Badge: React.FC<BadgeProps> = ({
     </span>
   );
 };
+
+Badge.displayName = "Badge";

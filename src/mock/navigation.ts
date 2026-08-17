@@ -1,5 +1,21 @@
-// This file lists the links and labels that show up in the menus at the top and bottom of the website.
-// It structures links separately for computers (desktop), tablets, mobile phones, and the website's footer block.
+/**
+ * FILE: src/mock/navigation.ts
+ *
+ * WHAT THIS DOES:
+ * Defines the navigation menu links for all screen sizes (Desktop, Tablet, Mobile) and the Footer.
+ *
+ * WHERE IT IS USED:
+ * - Read by `src/components/navigation.tsx` (Top header, Tablet left rail, Mobile bottom bar).
+ * - Read by `src/components/footer.tsx` (Footer directory links & legal policy links).
+ *
+ * HOW IT WORKS:
+ * Exports arrays of `NavItem` objects containing a `label` (what the user reads)
+ * and an `href` (the web address it navigates to).
+ *
+ * BEGINNER TIP:
+ * If you add a new page to the website, add its link to `desktopNav`, `tabletNav`,
+ * `mobileNav`, and `footerNav` so visitors can reach it from the menus!
+ */
 
 // NavItem defines the structure for a single menu item: a text label and the webpage link (href) it points to.
 export interface NavItem {

@@ -1,10 +1,32 @@
-// CTA component for final action sections.
+/**
+ * FILE: src/components/cta.tsx
+ *
+ * WHAT THIS DOES:
+ * Renders the high-impact "Call to Action" (CTA) closing section at the bottom of pages.
+ *
+ * WHERE IT IS USED:
+ * - The final conversion slide on the Homepage (/), About page (/about), Solutions page (/solutions),
+ *   and individual Case Study detail pages (/work/[slug]).
+ *
+ * HOW IT WORKS:
+ * 1. Takes an `eyebrow` (e.g. "Next Step"), `headline` (e.g. "Ready to build systems that scale?"),
+ *    and an editorial `description`.
+ * 2. Centers the content with a crisp top divider (`border-t border-[#DEDDD3]`).
+ * 3. Renders any action buttons passed as `{children}` (e.g. `<Button>Book Consultation</Button>`).
+ *
+ * BEGINNER TIP:
+ * A CTA is the place where you invite the visitor to take the next step (like booking a call)!
+ */
+
 import * as React from "react";
 import { cn } from "../utils/cn";
 
 export interface CTAProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** The main large headline */
   headline: string;
+  /** Explanatory subtext */
   description?: string;
+  /** Small uppercase label above the headline (defaults to "Next Step") */
   eyebrow?: string;
 }
 
@@ -29,7 +51,7 @@ export const CTA: React.FC<CTAProps> = ({
           {eyebrow}
         </span>
       )}
-      <h2 className="text-3xl md:text-5xl font-heading font-bold tracking-tight text-[#14140F] mb-4 leading-tight">
+      <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-normal md:font-medium tracking-tight text-[#14140F] mb-4 leading-[1.12]">
         {headline}
       </h2>
       
@@ -43,3 +65,5 @@ export const CTA: React.FC<CTAProps> = ({
     </div>
   );
 };
+
+CTA.displayName = "CTA";

@@ -1,10 +1,34 @@
-// FormInput component styled with 2px radius, hairline borders, and signal error states.
+/**
+ * FILE: src/components/form-input.tsx
+ *
+ * WHAT THIS DOES:
+ * A single-line text input field (with label, placeholder, and error message).
+ *
+ * WHERE IT IS USED:
+ * - Consultation booking form on the Contact page (`src/app/contact/contact-page-content.tsx`).
+ *
+ * HOW IT WORKS:
+ * 1. Automatically connects the `<label>` to the `<input>` using React's `useId()` for accessibility.
+ * 2. If an `error` string is passed from Zod validation (e.g. "Name must be at least 2 characters"):
+ *    - Paints the input border in crimson red (`border-[#B3261E]`).
+ *    - Sets `aria-invalid="true"` for screen readers.
+ *    - Renders the red error message beneath the input (`aria-describedby`).
+ * 3. Uses `React.forwardRef` so React Hook Form can register and watch its value.
+ *
+ * BEGINNER TIP:
+ * `aria-describedby` links the input to its error message so blind or low-vision users
+ * using screen readers know exactly what needs to be fixed!
+ */
+
 import * as React from "react";
 import { cn } from "../utils/cn";
 
 export interface FormInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  /** The field label shown above the input (e.g. "Full Name") */
   label: string;
+  /** Error message text displayed in red if validation fails */
   error?: string;
+  /** Optional helpful hint text shown below the input */
   helperText?: string;
 }
 

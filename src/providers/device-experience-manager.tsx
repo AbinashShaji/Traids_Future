@@ -1,4 +1,22 @@
-// This file helps the website know what kind of device the visitor is using (like a phone, tablet, or desktop computer) by measuring the width of the screen.
+/**
+ * FILE: src/providers/device-experience-manager.tsx
+ *
+ * WHAT THIS DOES:
+ * Detects the visitor's screen width and tells the whole app whether
+ * the user is on a Desktop monitor (>=1024px), Tablet (768-1023px), or Mobile phone (<768px).
+ *
+ * WHERE IT IS USED:
+ * - Mounted in `src/providers/root-providers.tsx`.
+ * - Read by components using the `useDevice()` hook (e.g. Navigation, Reveal, SlideRail).
+ *
+ * HOW IT WORKS:
+ * 1. Listens to browser window resize events (`window.addEventListener("resize", ...)`).
+ * 2. Compares `window.innerWidth` against 1024px and 768px breakpoints.
+ * 3. Provides `isDesktop`, `isTablet`, and `isMobile` booleans via React Context.
+ *
+ * ⚠️ BEGINNER NOTE:
+ * The 1024px breakpoint is the exact dividing line for the desktop scroll-world!
+ */
 "use client";
 
 import * as React from "react";

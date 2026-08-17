@@ -1,4 +1,28 @@
-// Homepage implementing Design System v2: Minimal, bold, centered, editorial statement hero and 9-slide desktop scroll-world.
+/**
+ * FILE: src/app/page.tsx
+ *
+ * WHAT THIS DOES:
+ * The main Homepage (/) of Triads Future.
+ *
+ * WHERE IT IS USED:
+ * - Rendered when a visitor lands on the root domain URL (https://triadsfuture.com/).
+ *
+ * HOW IT WORKS:
+ * 1. Organizes content into 9 sequential slides (`homeSlides`):
+ *    - #hero: Centered editorial manifesto statement with staggered entrance.
+ *    - #reality: Commercial philosophy & founder perspective.
+ *    - #approach: The Triad model (Strategy -> Technology -> Execution).
+ *    - #solutions: Capability highlights with quick action links.
+ *    - #work: Selected featured case studies with client metrics.
+ *    - #edge: Comparison grid (Why work with us vs traditional agencies).
+ *    - #testimonials: Client reviews and quotes.
+ *    - #insights: Featured thought leadership article.
+ *    - #cta: Strategy consultation booking call to action.
+ * 2. Wrapped in `<ScrollWorldContainer>` for desktop slide snapping.
+ *
+ * BEGINNER TIP:
+ * If you want to change what visitors see on the homepage, this is the main file!
+ */
 "use client";
 
 import * as React from "react";
@@ -20,6 +44,7 @@ import { solutions } from "../mock/solutions";
 import { getFeaturedProjects } from "../mock/projects";
 import { getFeaturedTestimonials } from "../mock/testimonials";
 import { getFeaturedArticle } from "../mock/articles";
+import { getHeroContainerVariants, getHeroItemVariants } from "../animations/presets";
 
 const iconMap: Record<string, LucideIcon> = {
   Globe,
@@ -47,6 +72,17 @@ export default function Home() {
   const featuredTestimonials = getFeaturedTestimonials();
   const featuredArticle = getFeaturedArticle();
 
+  // Centralized hero staggered animation variants
+  const heroContainerVariants = React.useMemo(
+    () => getHeroContainerVariants(prefersReducedMotion),
+    [prefersReducedMotion]
+  );
+
+  const heroItemVariants = React.useMemo(
+    () => getHeroItemVariants(prefersReducedMotion),
+    [prefersReducedMotion]
+  );
+
   return (
     <GlobalLayout>
       <ScrollWorldContainer slides={homeSlides}>
@@ -57,29 +93,46 @@ export default function Home() {
         >
           {/* Main Centered Content */}
           <Container className="my-auto">
-            <div className="max-w-5xl mx-auto text-center flex flex-col items-center gap-8 md:gap-10">
+            <motion.div
+              variants={heroContainerVariants}
+              initial="hidden"
+              animate="visible"
+              className="max-w-5xl mx-auto text-center flex flex-col items-center gap-8 md:gap-10"
+            >
               {/* Eyebrow with Triad Mark */}
-              <div className="flex items-center justify-center gap-3">
+              <motion.div
+                variants={heroItemVariants}
+                className="flex items-center justify-center gap-3"
+              >
                 <TriadMark size="sm" />
                 <span className="font-sans text-xs md:text-sm font-semibold uppercase tracking-[0.18em] text-[#57564C]">
                   Business Growth & Technology Partner
                 </span>
-              </div>
+              </motion.div>
 
               {/* Massive Centered Headline in Canela */}
-              <h1 className="font-hero text-5xl sm:text-6xl md:text-7xl lg:text-[88px] xl:text-[94px] font-normal md:font-medium tracking-[-0.025em] leading-[1.03] text-[#14140F]">
+              <motion.h1
+                variants={heroItemVariants}
+                className="font-heading text-5xl sm:text-6xl md:text-7xl lg:text-[88px] xl:text-[96px] font-normal md:font-medium tracking-[-0.025em] leading-[1.03] text-[#14140F]"
+              >
                 Build Smarter.<br />
                 Grow Faster.
-              </h1>
+              </motion.h1>
 
               {/* Short Supporting Statement */}
-              <p className="font-editorial text-[#57564C] text-lg sm:text-xl md:text-2xl lg:text-[26px] leading-relaxed max-w-2xl font-normal">
+              <motion.p
+                variants={heroItemVariants}
+                className="font-editorial text-[#57564C] text-lg sm:text-xl md:text-2xl lg:text-[26px] leading-relaxed max-w-2xl font-normal"
+              >
                 Strategy. Technology. Execution.<br className="hidden sm:inline" />
                 All working together as one cohesive system.
-              </p>
+              </motion.p>
 
               {/* Restrained Dual CTAs */}
-              <div className="flex flex-wrap items-center justify-center gap-5 pt-2">
+              <motion.div
+                variants={heroItemVariants}
+                className="flex flex-wrap items-center justify-center gap-5 pt-2"
+              >
                 <Link href="/contact">
                   <Button variant="primary" size="lg">
                     Book a Strategy Call
@@ -91,12 +144,17 @@ export default function Home() {
                     <ArrowRight className="inline-block w-4 h-4 ml-1.5 transition-transform duration-300 group-hover:translate-x-1" />
                   </Button>
                 </Link>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           </Container>
 
           {/* Subtle Bottom-Centered Scroll Indicator */}
-          <div className="w-full flex flex-col items-center justify-center gap-2 text-[#57564C] select-none pt-4">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: prefersReducedMotion ? 0 : 0.7, duration: 0.5 }}
+            className="w-full flex flex-col items-center justify-center gap-2 text-[#57564C] select-none pt-4"
+          >
             <motion.div
               animate={prefersReducedMotion ? {} : { y: [0, 4, 0] }}
               transition={prefersReducedMotion ? {} : { repeat: Infinity, duration: 2.2, ease: "easeInOut" }}
@@ -107,7 +165,7 @@ export default function Home() {
                 Scroll
               </span>
             </motion.div>
-          </div>
+          </motion.div>
         </section>
 
         {/* 2. BUSINESS REALITY SLIDE (Asymmetric Bold Statement — 100vh narrative) */}
@@ -117,23 +175,25 @@ export default function Home() {
         >
           <Container>
             <div className="max-w-4xl mx-auto">
-              <div className="flex items-center gap-2 text-[#57564C] mb-8">
-                <TriadMark size="sm" />
-                <span className="font-sans text-xs font-semibold uppercase tracking-[0.14em]">
-                  Operating Reality
-                </span>
-              </div>
+              <Reveal variant="fadeUp">
+                <div className="flex items-center gap-2 text-[#57564C] mb-8">
+                  <TriadMark size="sm" />
+                  <span className="font-sans text-xs font-semibold uppercase tracking-[0.14em]">
+                    Operating Reality
+                  </span>
+                </div>
 
-              <blockquote className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-[52px] font-bold text-[#14140F] leading-[1.12] tracking-tight mb-10">
-                &ldquo;Most agencies sell complexity because it justifies retainers. We do the opposite. The best commercial system is the simplest one that solves the bottleneck.&rdquo;
-              </blockquote>
+                <blockquote className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-[52px] font-normal md:font-medium text-[#14140F] leading-[1.12] tracking-tight mb-10">
+                  &ldquo;Most agencies sell complexity because it justifies retainers. We do the opposite. The best commercial system is the simplest one that solves the bottleneck.&rdquo;
+                </blockquote>
 
-              <div className="flex items-center gap-4 pt-4 border-t border-[#DEDDD3]">
-                <div className="w-8 h-[2px] bg-[#14140F]" />
-                <p className="font-editorial text-base md:text-lg text-[#57564C]">
-                  Triads Future — Architecture & Strategy Leadership
-                </p>
-              </div>
+                <div className="flex items-center gap-4 pt-4 border-t border-[#DEDDD3]">
+                  <div className="w-8 h-[2px] bg-[#14140F]" />
+                  <p className="font-editorial text-base md:text-lg text-[#57564C]">
+                    Triads Future — Architecture & Strategy Leadership
+                  </p>
+                </div>
+              </Reveal>
             </div>
           </Container>
         </section>
@@ -146,39 +206,43 @@ export default function Home() {
           <Container>
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
               <div className="lg:col-span-6">
-                <TriadPanel />
+                <Reveal variant="fadeIn">
+                  <TriadPanel />
+                </Reveal>
               </div>
 
               <div className="lg:col-span-6 flex flex-col gap-6">
-                <SectionHeading
-                  tag="h2"
-                  subtitle="Signature Model"
-                  withTriadMark
-                >
-                  Three disciplines. One unified execution.
-                </SectionHeading>
+                <Reveal variant="fadeUp">
+                  <SectionHeading
+                    tag="h2"
+                    subtitle="Signature Model"
+                    withTriadMark
+                  >
+                    Three disciplines. One unified execution.
+                  </SectionHeading>
 
-                <p className="font-editorial text-[#14140F] text-lg md:text-xl leading-relaxed">
-                  Working with Triads Future means gaining a dedicated technology and operations arm directly inside your executive team.
-                </p>
+                  <p className="font-editorial text-[#14140F] text-lg md:text-xl leading-relaxed mt-4">
+                    Working with Triads Future means gaining a dedicated technology and operations arm directly inside your executive team.
+                  </p>
 
-                <p className="font-editorial text-[#57564C] text-base md:text-lg leading-relaxed">
-                  We eliminate disconnected agency handoffs. Senior operators design your strategy, write your production code, and deploy your workflows.
-                </p>
+                  <p className="font-editorial text-[#57564C] text-base md:text-lg leading-relaxed mt-3">
+                    We eliminate disconnected agency handoffs. Senior operators design your strategy, write your production code, and deploy your workflows.
+                  </p>
 
-                <div className="pt-2">
-                  <Link href="/about">
-                    <Button variant="text" size="md">
-                      Read about our operating model →
-                    </Button>
-                  </Link>
-                </div>
+                  <div className="pt-4">
+                    <Link href="/about">
+                      <Button variant="text" size="md">
+                        Read about our operating model →
+                      </Button>
+                    </Link>
+                  </div>
+                </Reveal>
               </div>
             </div>
           </Container>
         </section>
 
-        {/* 4. SOLUTIONS SLIDE (Asymmetric 2x2 Outcome-Focused Grid — 100vh narrative) */}
+        {/* 4. SOLUTIONS SLIDE (Asymmetric Outcome-Focused Grid — 100vh narrative) */}
         <section
           id="solutions"
           className="slide-section min-h-[100dvh] flex items-center py-20 md:py-28 border-b border-[#DEDDD3]"
@@ -220,7 +284,7 @@ export default function Home() {
                         <div className="w-10 h-10 rounded-[2px] bg-[#E4E3DB] flex items-center justify-center mb-5">
                           <Icon className="w-5 h-5 text-[#14140F] stroke-[1.5]" />
                         </div>
-                        <h3 className="font-heading text-xl font-bold text-[#14140F] mb-3 leading-snug">
+                        <h3 className="font-heading text-xl font-medium text-[#14140F] mb-3 leading-snug">
                           {solution.title}
                         </h3>
                         <p className="font-editorial text-sm text-[#57564C] leading-relaxed mb-6">
@@ -297,7 +361,7 @@ export default function Home() {
                         <Badge variant="filled">{project.industry}</Badge>
                       </div>
 
-                      <h3 className="font-heading text-2xl md:text-3xl font-bold text-[#14140F] leading-tight">
+                      <h3 className="font-heading text-2xl md:text-3xl font-medium text-[#14140F] leading-tight">
                         <Link href={`/work/${project.slug}`} className="hover:underline">
                           {project.title}
                         </Link>
@@ -310,7 +374,7 @@ export default function Home() {
                       <div className="grid grid-cols-2 gap-6 py-4 border-y border-[#DEDDD3] my-1">
                         {project.results.slice(0, 2).map((res, idx) => (
                           <div key={idx} className="flex flex-col gap-1">
-                            <span className="font-heading text-2xl md:text-3xl font-bold text-[#14140F] tracking-tight">
+                            <span className="font-heading text-2xl md:text-3xl font-normal md:font-medium text-[#14140F] tracking-tight">
                               {res.value}
                             </span>
                             <span className="font-sans text-xs text-[#57564C] leading-tight font-medium">
@@ -382,11 +446,11 @@ export default function Home() {
                   variant="bone"
                   className="flex flex-col justify-between min-h-[260px]"
                 >
-                  <span className="font-heading text-4xl font-bold text-[#14140F]/30 select-none">
+                  <span className="font-heading text-4xl font-normal text-[#14140F]/30 select-none">
                     {item.step}
                   </span>
                   <div className="mt-4">
-                    <h4 className="font-heading text-lg font-bold text-[#14140F] mb-2">
+                    <h4 className="font-heading text-lg font-medium text-[#14140F] mb-2">
                       {item.title}
                     </h4>
                     <p className="font-editorial text-sm text-[#57564C] leading-relaxed">
@@ -484,7 +548,7 @@ export default function Home() {
                         <span className="font-sans text-xs text-[#57564C]">{featuredArticle.readingTime} min read</span>
                       </div>
 
-                      <h3 className="font-heading text-2xl md:text-3xl font-bold text-[#14140F] leading-tight">
+                      <h3 className="font-heading text-2xl md:text-3xl font-medium text-[#14140F] leading-tight">
                         <Link href={`/insights/${featuredArticle.slug}`} className="hover:underline">
                           {featuredArticle.title}
                         </Link>

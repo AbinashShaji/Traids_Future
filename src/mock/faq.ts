@@ -1,19 +1,29 @@
-// This file holds mock (fake) frequently asked questions (FAQs) and answers about our services.
-// It also provides helper functions to sort and retrieve FAQs by category.
+/**
+ * FILE: src/mock/faq.ts
+ *
+ * WHAT THIS DOES:
+ * Stores Frequently Asked Questions (FAQs) and their detailed answers.
+ *
+ * WHERE IT IS USED:
+ * - Displayed on the About page (/about) in the FAQ slide.
+ * - Displayed on the Contact page (/contact) below the booking form.
+ *
+ * HOW IT WORKS:
+ * Each question has a unique `id`, `question` text, `answer` text,
+ * topic `category`, and a `displayOrder` number so questions show in the right sequence.
+ *
+ * BEGINNER TIP:
+ * When you add a new question, give it a unique ID (like "faq-007") and set `displayOrder`!
+ */
 
-// FAQ defines the structure of a single question-and-answer item.
 export interface FAQ {
   id: string;
   question: string;
   answer: string;
-  category: string; // The topic category like "General" or "Pricing".
-  displayOrder: number; // A number used to sort which question shows first.
+  category: string;
+  displayOrder: number;
 }
 
-// A list of the categories used to group our questions.
-export const faqCategories = ["General", "Process", "Pricing", "Working Together"];
-
-// The list of questions and answers we show on the FAQ page.
 export const faqs: FAQ[] = [
   {
     id: "faq-001",
@@ -64,11 +74,3 @@ export const faqs: FAQ[] = [
     displayOrder: 6,
   },
 ];
-
-// getFaqsByCategory filters the list to return only the questions from a specific category, sorted by display order.
-export const getFaqsByCategory = (category: string): FAQ[] =>
-  faqs.filter((f) => f.category === category).sort((a, b) => a.displayOrder - b.displayOrder);
-
-// getAllFaqs returns all questions, sorted so they display in the correct order.
-export const getAllFaqs = (): FAQ[] =>
-  faqs.sort((a, b) => a.displayOrder - b.displayOrder);

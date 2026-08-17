@@ -1,4 +1,29 @@
-// Case study detail page template implementing Editorial typography and alternating layout rhythm.
+/**
+ * FILE: src/app/work/[slug]/page.tsx
+ *
+ * WHAT THIS DOES:
+ * Dynamic template that generates an individual, in-depth Case Study page
+ * for each project (e.g. `/work/meridian-financial-digital-platform`).
+ *
+ * WHERE IT IS USED:
+ * - Next.js matches any URL starting with `/work/...` to this file.
+ *
+ * HOW IT WORKS:
+ * 1. `generateStaticParams()`: Tells Next.js to pre-render a static HTML page for every project slug at build time.
+ * 2. `getProjectBySlug(slug)`: Looks up the matching project data from `src/mock/projects.ts`.
+ * 3. If no matching project is found, it automatically calls `notFound()` to show the 404 screen.
+ * 4. Renders full project details across desktop slides:
+ *    - #overview: Client title, industry badge, summary, and cover image.
+ *    - #metrics: Numerical results and business impact grid.
+ *    - #narrative: Challenge, Strategy, and Technical Architecture cards.
+ *    - #testimonial: Client quote (if available).
+ *    - #gallery: UI screenshots gallery.
+ *    - #cta: Booking call to action.
+ *
+ * BEGINNER TIP:
+ * The `[slug]` folder name is Next.js syntax for a "Dynamic Route" (a URL parameter)!
+ */
+
 import * as React from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -108,7 +133,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
               {project.results.map((res, idx) => (
                 <div key={idx} className="flex flex-col border-l border-[#F0F0EB]/20 pl-6 gap-2">
-                  <span className="font-heading text-3xl md:text-5xl font-bold tracking-tight text-[#F0F0EB]">
+                  <span className="font-heading text-3xl md:text-5xl font-normal md:font-medium tracking-tight text-[#F0F0EB]">
                     {res.value}
                   </span>
                   <span className="font-sans text-xs text-[#F0F0EB]/75 font-medium leading-tight">
@@ -133,7 +158,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                   <span className="font-sans text-xs font-semibold text-[#57564C] uppercase tracking-wider block mb-2">
                     Client Context
                   </span>
-                  <p className="font-heading text-lg font-bold text-[#14140F]">
+                  <p className="font-heading text-lg font-medium text-[#14140F]">
                     {project.client}
                   </p>
                   <p className="font-editorial text-sm text-[#57564C] mt-1">
@@ -159,7 +184,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
               {/* Narrative Sections in Newsreader Editorial Body */}
               <div className="lg:col-span-8 flex flex-col gap-14">
                 <div className="flex flex-col gap-4">
-                  <h3 className="font-heading text-2xl font-bold text-[#14140F] border-b border-[#DEDDD3] pb-3">
+                  <h3 className="font-heading text-2xl md:text-3xl font-medium text-[#14140F] border-b border-[#DEDDD3] pb-3">
                     The Challenge
                   </h3>
                   <p className="font-editorial text-lg text-[#57564C] leading-relaxed whitespace-pre-line">
@@ -168,7 +193,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                 </div>
 
                 <div className="flex flex-col gap-4">
-                  <h3 className="font-heading text-2xl font-bold text-[#14140F] border-b border-[#DEDDD3] pb-3">
+                  <h3 className="font-heading text-2xl md:text-3xl font-medium text-[#14140F] border-b border-[#DEDDD3] pb-3">
                     The Strategy
                   </h3>
                   <p className="font-editorial text-lg text-[#57564C] leading-relaxed whitespace-pre-line">
@@ -177,7 +202,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                 </div>
 
                 <div className="flex flex-col gap-4">
-                  <h3 className="font-heading text-2xl font-bold text-[#14140F] border-b border-[#DEDDD3] pb-3">
+                  <h3 className="font-heading text-2xl md:text-3xl font-medium text-[#14140F] border-b border-[#DEDDD3] pb-3">
                     The Technical Solution
                   </h3>
                   <p className="font-editorial text-lg text-[#57564C] leading-relaxed whitespace-pre-line">
@@ -249,10 +274,10 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                   <div key={idx} className="aspect-[16/10] relative rounded-[2px] overflow-hidden border border-[#DEDDD3]">
                     <ImageWrapper
                       src={img}
-                      alt={`${project.client} interface preview ${idx + 1}`}
+                      alt={`${project.title} interface capture ${idx + 1}`}
                       fill
                       sizes="(max-width: 768px) 100vw, 50vw"
-                      containerClassName="w-full h-full"
+                      containerClassName="w-full h-full border-none rounded-none"
                     />
                   </div>
                 ))}
@@ -261,7 +286,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
           </section>
         )}
 
-        {/* 6. FINAL CTA SLIDE (Centered Action Block — 100vh narrative) */}
+        {/* 6. NEXT STEP CTA */}
         <section
           id="cta"
           className="slide-section min-h-[100dvh] flex items-center justify-center py-20"
@@ -269,8 +294,8 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
           <Container>
             <CTA
               eyebrow="Initiate Project"
-              headline="Ready to build similar capability for your company?"
-              description="Book a 30-minute diagnosis call. We will review your current systems and show you how a unified strategy and technology stack can accelerate your operations."
+              headline={`Ready to build systems like ${project.client}?`}
+              description="Schedule a 30-minute consultation call. We will review your current technical bottlenecks and map out a practical execution plan."
             >
               <Link href="/contact">
                 <Button variant="primary" size="lg">
@@ -279,7 +304,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
               </Link>
               <Link href="/work">
                 <Button variant="outline" size="lg">
-                  View All Work
+                  Back to All Work
                 </Button>
               </Link>
             </CTA>

@@ -1,4 +1,22 @@
-// 404 page styled with Design System v2 tokens and typography.
+/**
+ * FILE: src/app/not-found.tsx
+ *
+ * WHAT THIS DOES:
+ * The custom 404 "Page Not Found" screen shown when someone visits an invalid web address.
+ *
+ * WHERE IT IS USED:
+ * - Automatically shown by Next.js when a user visits a non-existent URL (e.g. `/unknown-page`)
+ *   or when code calls `notFound()`.
+ *
+ * HOW IT WORKS:
+ * 1. Renders a calm, editorial "Error 404 — Page not found" headline in Canela font.
+ * 2. Reassures the visitor with a clear explanation message.
+ * 3. Provides 3 quick navigation buttons: "Return to Home", "Explore Solutions", and "View Success Stories".
+ *
+ * BEGINNER TIP:
+ * A friendly 404 page prevents visitors from getting stuck when they click a broken or outdated link!
+ */
+
 import * as React from "react";
 import Link from "next/link";
 import { House, LayoutGrid, BriefcaseBusiness } from "lucide-react";

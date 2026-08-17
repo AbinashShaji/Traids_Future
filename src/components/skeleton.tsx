@@ -1,18 +1,32 @@
-// This file contains the Skeleton component. It draws a pulsing placeholder block that acts as a placeholder while the real website content (like images or text) is loading from the network.
+/**
+ * FILE: src/components/skeleton.tsx
+ *
+ * WHAT THIS DOES:
+ * Renders a pulsing gray placeholder box while dynamic page content is loading.
+ *
+ * WHERE IT IS USED:
+ * - Used as the Suspense loading fallback on `/contact/page.tsx`.
+ *
+ * HOW IT WORKS:
+ * Uses Tailwind's `animate-pulse` and the hairline background token (`bg-[#DEDDD3]/60`)
+ * to show a gentle breathing animation until the real JavaScript components load.
+ *
+ * BEGINNER TIP:
+ * Skeletons improve user experience because users see page structure immediately rather than a blank white screen!
+ */
+
 import * as React from "react";
 import { cn } from "../utils/cn";
 
-// SkeletonProps defines customization options for the placeholder block.
 export type SkeletonProps = React.HTMLAttributes<HTMLDivElement>;
 
-// Skeleton component renders a pulsing box.
-// Inputs: "className" (custom styles to adjust box size/shape).
-// Outputs: Renders a pulsing <div> element representing a placeholder.
 export const Skeleton: React.FC<SkeletonProps> = ({ className, ...props }) => {
   return (
     <div
-      className={cn("animate-pulse rounded-sm bg-[#E8E8E8]/60 w-full", className)}
+      className={cn("animate-pulse rounded-[2px] bg-[#DEDDD3]/60 w-full", className)}
       {...props}
     />
   );
 };
+
+Skeleton.displayName = "Skeleton";

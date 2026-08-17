@@ -1,5 +1,22 @@
-// This file stores mock (fake) blog articles (also called "insights") that visitors can read on our website.
-// It holds the article title, body content, tags, category, and author details, along with search helpers.
+/**
+ * FILE: src/mock/articles.ts
+ *
+ * WHAT THIS DOES:
+ * Stores blog and thought leadership articles (called "Insights").
+ *
+ * WHERE IT IS USED:
+ * - Featured article shown on the Homepage (/).
+ * - All articles listed on the Insights directory (/insights).
+ * - Generates individual article reading pages (/insights/[slug]).
+ *
+ * HOW IT WORKS:
+ * Each article contains an ID, URL slug, title, markdown text content,
+ * author details, cover photo, category tag, and estimated reading time.
+ *
+ * BEGINNER TIP:
+ * The `content` field uses Markdown (e.g. `## Heading` and `*italic*`),
+ * which the reader component turns into formatted article text!
+ */
 
 // Article defines the details that go into a single blog post.
 export interface Article {
@@ -227,10 +244,6 @@ export const getArticleBySlug = (slug: string): Article | undefined =>
 // getFeaturedArticle returns the single post marked as "featured" to highlight on the page.
 export const getFeaturedArticle = (): Article | undefined =>
   articles.find((a) => a.featured);
-
-// getArticlesByCategory returns all blog posts matching a chosen category.
-export const getArticlesByCategory = (category: string): Article[] =>
-  articles.filter((a) => a.category === category);
 
 // getRelatedArticles returns a list of other blog posts, excluding the one currently being read, to suggest to the reader.
 export const getRelatedArticles = (currentSlug: string, limit = 2): Article[] =>

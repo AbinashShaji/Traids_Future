@@ -1,3 +1,21 @@
+/**
+ * FILE: src/components/slide-rail.tsx
+ *
+ * WHAT THIS DOES:
+ * Renders the vertical dot/line navigation progress bar on the right side of the screen.
+ *
+ * WHERE IT IS USED:
+ * - Rendered by `<ScrollWorldContainer>` on desktop screens (>= 1024px).
+ *
+ * HOW IT WORKS:
+ * 1. Takes the array of slides (e.g. `[{ id: "hero", label: "Overview" }, ...]`).
+ * 2. Draws a vertical connecting line with circular indicator dots.
+ * 3. Highlights the dot of the currently visible slide.
+ * 4. When a user clicks a dot, it smoothly scrolls the page to that exact section ID (`#hero`, `#work`, etc.).
+ *
+ * ⚠️ BEGINNER NOTE:
+ * Hidden automatically on mobile and tablet screens (< 1024px) to preserve screen space!
+ */
 "use client";
 
 import * as React from "react";

@@ -1,3 +1,22 @@
+/**
+ * FILE: src/components/scroll-world-container.tsx
+ *
+ * WHAT THIS DOES:
+ * Powers the signature desktop full-screen slide snapping experience ("Scroll-World").
+ *
+ * WHERE IT IS USED:
+ * - Wraps the content sections on Home, About, Solutions, Work, Work Detail, Insights, and Contact.
+ *
+ * HOW IT WORKS:
+ * 1. Checks if the screen width is >= 1024px (Desktop) AND reduced motion is OFF.
+ * 2. If desktop: Adds the `desktop-snap` CSS class to `<html>` so the page snaps cleanly from slide to slide.
+ * 3. Mounts the `<SlideRail>` on the right-hand edge to show the user which slide they are viewing.
+ * 4. Uses `IntersectionObserver` to track the visible slide in real time and highlight the matching dot.
+ * 5. On tablets/phones (< 1024px), it removes `desktop-snap` for natural vertical scrolling.
+ *
+ * ⚠️ BEGINNER NOTE:
+ * The 1024px threshold is where desktop scroll snapping begins!
+ */
 "use client";
 
 import * as React from "react";

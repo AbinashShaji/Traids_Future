@@ -1,4 +1,21 @@
-// Thank you page confirming strategy call scheduling in Design System v2.
+/**
+ * FILE: src/app/thank-you/page.tsx
+ *
+ * WHAT THIS DOES:
+ * Confirmation screen displayed immediately after a user books a consultation on /contact.
+ *
+ * WHERE IT IS USED:
+ * - Next.js redirects users to `/thank-you` upon successful form submission.
+ *
+ * HOW IT WORKS:
+ * 1. Shows a clean checkmark icon and "Thank you for booking a call" headline.
+ * 2. Displays a 3-step "What Happens Next" card (Preliminary Audit -> Calendar Invitation -> Strategy Diagnosis).
+ * 3. Provides quick navigation buttons to return Home, Explore Solutions, or Read Insights.
+ *
+ * BEGINNER TIP:
+ * A dedicated thank-you page lets you track conversion events in web analytics!
+ */
+
 import * as React from "react";
 import Link from "next/link";
 import { CheckCircle, House, LayoutGrid, BookOpen } from "lucide-react";
@@ -41,9 +58,9 @@ export default function ThankYouPage() {
             
             <ul className="space-y-4 font-sans">
               <li className="flex gap-4">
-                <span className="font-heading text-sm font-bold text-[#14140F] w-6 h-6 rounded-full bg-[#F0F0EB] border border-[#DEDDD3] flex items-center justify-center shrink-0">1</span>
+                <span className="font-heading text-sm font-semibold text-[#14140F] w-6 h-6 rounded-full bg-[#F0F0EB] border border-[#DEDDD3] flex items-center justify-center shrink-0">1</span>
                 <div>
-                  <h4 className="font-heading text-sm font-bold text-[#14140F]">Preliminary Audit</h4>
+                  <h4 className="font-heading text-sm font-semibold text-[#14140F]">Preliminary Audit</h4>
                   <p className="font-editorial text-sm text-[#57564C] mt-0.5 leading-relaxed">
                     We conduct a brief review of your public assets, sector, and digital workflows.
                   </p>
@@ -51,9 +68,9 @@ export default function ThankYouPage() {
               </li>
 
               <li className="flex gap-4">
-                <span className="font-heading text-sm font-bold text-[#14140F] w-6 h-6 rounded-full bg-[#F0F0EB] border border-[#DEDDD3] flex items-center justify-center shrink-0">2</span>
+                <span className="font-heading text-sm font-semibold text-[#14140F] w-6 h-6 rounded-full bg-[#F0F0EB] border border-[#DEDDD3] flex items-center justify-center shrink-0">2</span>
                 <div>
-                  <h4 className="font-heading text-sm font-bold text-[#14140F]">Calendar Invitation</h4>
+                  <h4 className="font-heading text-sm font-semibold text-[#14140F]">Calendar Invitation</h4>
                   <p className="font-editorial text-sm text-[#57564C] mt-0.5 leading-relaxed">
                     You will receive a Google Meet invitation with a confirmed time slot.
                   </p>
@@ -61,9 +78,9 @@ export default function ThankYouPage() {
               </li>
 
               <li className="flex gap-4">
-                <span className="font-heading text-sm font-bold text-[#14140F] w-6 h-6 rounded-full bg-[#F0F0EB] border border-[#DEDDD3] flex items-center justify-center shrink-0">3</span>
+                <span className="font-heading text-sm font-semibold text-[#14140F] w-6 h-6 rounded-full bg-[#F0F0EB] border border-[#DEDDD3] flex items-center justify-center shrink-0">3</span>
                 <div>
-                  <h4 className="font-heading text-sm font-bold text-[#14140F]">Strategy Diagnosis</h4>
+                  <h4 className="font-heading text-sm font-semibold text-[#14140F]">Strategy Diagnosis</h4>
                   <p className="font-editorial text-sm text-[#57564C] mt-0.5 leading-relaxed">
                     A focused 30-minute conversation to isolate friction and map technology architecture.
                   </p>

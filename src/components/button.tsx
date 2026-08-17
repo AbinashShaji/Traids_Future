@@ -1,9 +1,31 @@
-// Button component implementing Design System v2 rules: pill radius for primary/outline, lift physics, text-underline scaling.
+/**
+ * FILE: src/components/button.tsx
+ *
+ * WHAT THIS DOES:
+ * The universal button component used for all interactive buttons and action triggers.
+ *
+ * WHERE IT IS USED:
+ * - "Book Consultation" triggers in the header, hero sections, and CTAs.
+ * - Filter buttons on the Insights page.
+ * - Form submission button on the Contact page.
+ *
+ * HOW IT WORKS:
+ * Supports 3 distinct visual variants:
+ * 1. `primary` (default): Solid ink-black pill button (`bg-[#14140F]`) with a subtle lift on hover (`hover:-translate-y-0.5`).
+ * 2. `outline`: Transparent pill button with crisp charcoal border (`border-[#14140F]`), inverting to solid black on hover.
+ * 3. `text`: Clean text link with a signature animated underline that shrinks slightly on hover (`after:scale-x-40`).
+ *
+ * ⚠️ BEGINNER WARNING:
+ * Changing the button styles here will update every button across the entire website!
+ */
+
 import * as React from "react";
 import { cn } from "../utils/cn";
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  /** Visual style: "primary" (solid black pill), "outline" (bordered pill), or "text" (underlined) */
   variant?: "primary" | "outline" | "text";
+  /** Size scale: "sm" (small), "md" (medium, default), or "lg" (large) */
   size?: "sm" | "md" | "lg";
 }
 

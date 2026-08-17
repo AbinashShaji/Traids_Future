@@ -1,16 +1,29 @@
-// Root layout configuring the 3-role typographic system and global providers
+/**
+ * FILE: src/app/layout.tsx
+ *
+ * WHAT THIS DOES:
+ * The root HTML shell that wraps every single page on the Triads Future website.
+ *
+ * WHERE IT IS USED:
+ * - Automatically called by Next.js around every route in the `src/app/` folder.
+ *
+ * HOW IT WORKS:
+ * 1. Loads Google Fonts (`Newsreader` for editorial serif and `Inter_Tight` for UI & body text).
+ * 2. Injects global stylesheet (`globals.css`).
+ * 3. Sets default SEO metadata (page title and search engine description).
+ * 4. Mounts `<RootProviders>` (device detection + popup toaster).
+ * 5. Mounts `<CustomCursor>` (the interactive mouse ring).
+ * 6. Renders the active page's components inside `{children}`.
+ *
+ * ⚠️ BEGINNER WARNING:
+ * This is the very foundation of the entire app. Any mistakes here will break the whole website!
+ */
+
 import type { Metadata } from "next";
-import { Archivo, Newsreader, Inter_Tight } from "next/font/google";
+import { Newsreader, Inter_Tight } from "next/font/google";
 import "./globals.css";
 import { RootProviders } from "../providers/root-providers";
 import { CustomCursor } from "../components/custom-cursor";
-
-const archivo = Archivo({
-  variable: "--font-archivo",
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["500", "600", "700", "800"],
-});
 
 const newsreader = Newsreader({
   variable: "--font-newsreader",
@@ -40,7 +53,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${archivo.variable} ${newsreader.variable} ${interTight.variable} h-full antialiased`}
+      className={`${newsreader.variable} ${interTight.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[#F0F0EB] text-[#14140F] selection:bg-[#14140F] selection:text-[#F0F0EB]">
         <RootProviders>

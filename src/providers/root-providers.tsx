@@ -1,37 +1,44 @@
-// This file acts as the primary container setup (Root Providers) for the website. It nests multiple context containers around our website to enable global features like screen width detection and popup messages.
+/**
+ * FILE: src/providers/root-providers.tsx
+ *
+ * WHAT THIS DOES:
+ * Wraps the entire website in global background tools and managers.
+ *
+ * WHERE IT IS USED:
+ * - Mounted in `src/app/layout.tsx` around all page contents (`{children}`).
+ *
+ * HOW IT WORKS:
+ * 1. <DeviceExperienceManager>: Detects if the visitor is on a phone, tablet, or laptop.
+ * 2. <Toaster>: A popup notification tool (Sonner) that displays subtle alerts
+ *    in the bottom-right corner when actions happen (like booking a call).
+ *
+ * ⚠️ BEGINNER NOTE:
+ * Providers act like "invisible atmosphere" — they make information available
+ * to all child components without having to pass props through every single layer!
+ */
 "use client";
 
 import * as React from "react";
-import { MotionProvider } from "./motion-provider";
 import { DeviceExperienceManager } from "./device-experience-manager";
 import { Toaster } from "sonner";
 
-// RootProviders wraps the entire website with essential settings.
-// Inputs: "children" (the entire application's page nodes).
-// Outputs: Renders the nested contexts and displays toaster notifications styled to match our design.
 export const RootProviders: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    // First, we set up device width listening.
     <DeviceExperienceManager>
-      {/* Next, we include the animation setup. */}
-      <MotionProvider>
-        {/* Render our pages inside. */}
-        {children}
-        {/* Mount a notification popup tool (Toaster) at the bottom-right corner. */}
-        <Toaster
-          position="bottom-right"
-          toastOptions={{
-            style: {
-              background: "#FAF9F6",
-              color: "#111111",
-              border: "1px solid #E8E8E8",
-              borderRadius: "2px",
-              fontFamily: "var(--font-inter, sans-serif)",
-              fontSize: "14px",
-            },
-          }}
-        />
-      </MotionProvider>
+      {children}
+      <Toaster
+        position="bottom-right"
+        toastOptions={{
+          style: {
+            background: "#F0F0EB",
+            color: "#14140F",
+            border: "1px solid #DEDDD3",
+            borderRadius: "2px",
+            fontFamily: "var(--font-ui, sans-serif)",
+            fontSize: "14px",
+          },
+        }}
+      />
     </DeviceExperienceManager>
   );
 };

@@ -1,4 +1,24 @@
-// Insights listing page with Editorial typography and alternating layout rhythm.
+/**
+ * FILE: src/app/insights/page.tsx
+ *
+ * WHAT THIS DOES:
+ * The Thought Leadership & Blog directory page (/insights).
+ *
+ * WHERE IT IS USED:
+ * - Rendered when visitors navigate to `/insights`.
+ *
+ * HOW IT WORKS:
+ * 1. Organizes articles across 4 slides (`insightSlides`):
+ *    - #hero: Overview headline and mission statement on sustainable business architecture.
+ *    - #featured: Prominent featured article card with reading time and author metadata.
+ *    - #articles: Search bar (`searchQuery`) and category filter tags (`selectedCategory`)
+ *      that filter the article list live on the client side!
+ *    - #newsletter: Email newsletter subscription card with Sonner toast feedback.
+ * 2. Uses `<ScrollWorldContainer>` for desktop slide snapping.
+ *
+ * BEGINNER TIP:
+ * The live search works by checking if the typed word appears in the article's title, excerpt, or category!
+ */
 "use client";
 
 import * as React from "react";
@@ -119,7 +139,7 @@ export default function InsightsPage() {
                         <span className="font-sans text-xs text-[#57564C]">{featuredArticle.readingTime} min read</span>
                       </div>
 
-                      <h2 className="font-heading text-2xl md:text-3xl font-bold text-[#14140F] leading-snug">
+                      <h2 className="font-heading text-2xl md:text-3xl font-normal md:font-medium text-[#14140F] leading-snug">
                         <Link href={`/insights/${featuredArticle.slug}`} className="hover:underline">
                           {featuredArticle.title}
                         </Link>
@@ -241,7 +261,7 @@ export default function InsightsPage() {
                           <span className="w-1 h-1 rounded-full bg-[#DEDDD3]" />
                           <span className="font-sans text-xs text-[#57564C]">{article.readingTime} min read</span>
                         </div>
-                        <h3 className="font-heading text-lg font-bold text-[#14140F] mb-2 leading-snug">
+                        <h3 className="font-heading text-lg font-medium text-[#14140F] mb-2 leading-snug">
                           <Link href={`/insights/${article.slug}`} className="hover:underline">
                             {article.title}
                           </Link>
@@ -280,7 +300,7 @@ export default function InsightsPage() {
                   <div className="w-10 h-10 rounded-[2px] bg-[#F0F0EB] flex items-center justify-center mb-1">
                     <Mail className="w-5 h-5 text-[#14140F]" />
                   </div>
-                  <h3 className="font-heading text-2xl md:text-3xl font-bold text-[#14140F]">
+                  <h3 className="font-heading text-2xl md:text-3xl font-medium text-[#14140F]">
                     Subscribe to Strategy Letters
                   </h3>
                   <p className="font-editorial text-base text-[#57564C] leading-relaxed">

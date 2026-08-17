@@ -1,5 +1,20 @@
-// This file holds mock (fake) customer reviews (testimonials) about Triads Future's services.
-// It also provides small helper functions to search or filter these reviews so they can be displayed on the pages.
+/**
+ * FILE: src/mock/testimonials.ts
+ *
+ * WHAT THIS DOES:
+ * Stores client reviews and testimonial statements from verified partner companies.
+ *
+ * WHERE IT IS USED:
+ * - Featured reviews are displayed on the Homepage (/) in the "Client Voice" slide.
+ * - Project-specific reviews are displayed on individual Case Study pages (/work/[slug]).
+ *
+ * HOW IT WORKS:
+ * Each review has the client's name, role, company, review statement text,
+ * 5-star rating, photo URL, and an optional `projectId` link.
+ *
+ * BEGINNER TIP:
+ * Setting `featured: true` makes the testimonial appear on the main homepage!
+ */
 
 // Testimonial defines all the details of a single customer review, such as who wrote it, their role, company, review text, and photo.
 export interface Testimonial {

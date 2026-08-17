@@ -1,20 +1,41 @@
-// Solutions page implementing outcome-focused capabilities, desktop-locked slide-scroll, and alternating layout rhythms.
+/**
+ * FILE: src/app/solutions/page.tsx
+ *
+ * WHAT THIS DOES:
+ * The Solutions & Capabilities service catalog page (/solutions).
+ *
+ * WHERE IT IS USED:
+ * - Rendered when visitors navigate to `/solutions`.
+ *
+ * HOW IT WORKS:
+ * 1. Organizes service offerings into 5 desktop slides (`solutionsSlides`):
+ *    - #hero: Centered editorial manifesto statement on scalable technical execution.
+ *    - #catalog: Service cards for each solution from `src/mock/solutions.ts`.
+ *    - #problems: Bottlenecks we solve (e.g. fragile manual ops, low conversion).
+ *    - #process: Engagement sprint cycle (Diagnosis -> Sprint Cycles -> Handover).
+ *    - #cta: Strategy consultation call to action.
+ * 2. Uses `<ScrollWorldContainer>` for desktop slide snapping.
+ *
+ * BEGINNER TIP:
+ * If you want to change what services are listed, edit `src/mock/solutions.ts`!
+ */
 "use client";
 
 import * as React from "react";
 import Link from "next/link";
-import { Globe, Monitor, Layers, Zap, TrendingUp, Check, HelpCircle, type LucideIcon } from "lucide-react";
+import { ArrowDown, Globe, Monitor, Layers, Zap, TrendingUp, Check, HelpCircle, type LucideIcon } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
 import { GlobalLayout } from "../../components/global-layout";
 import { Container } from "../../components/container";
 import { SectionHeading } from "../../components/section-heading";
 import { Button } from "../../components/button";
 import { Card } from "../../components/card";
-import { ImageWrapper } from "../../components/image-wrapper";
 import { CTA } from "../../components/cta";
 import { Reveal } from "../../components/reveal";
 import { TriadMark } from "../../components/triad-mark";
 import { ScrollWorldContainer } from "../../components/scroll-world-container";
 import { solutions } from "../../mock/solutions";
+import { getHeroContainerVariants, getHeroItemVariants } from "../../animations/presets";
 
 const iconMap: Record<string, LucideIcon> = {
   Globe,
@@ -33,60 +54,104 @@ const solutionsSlides = [
 ];
 
 export default function SolutionsPage() {
+  const prefersReducedMotion = useReducedMotion();
+
+  // Centralized hero staggered animation variants
+  const heroContainerVariants = React.useMemo(
+    () => getHeroContainerVariants(prefersReducedMotion),
+    [prefersReducedMotion]
+  );
+
+  const heroItemVariants = React.useMemo(
+    () => getHeroItemVariants(prefersReducedMotion),
+    [prefersReducedMotion]
+  );
+
   return (
     <GlobalLayout>
       <ScrollWorldContainer slides={solutionsSlides}>
-        {/* 1. HERO SLIDE (Split: Text Left / Visual Panel Right — 100vh narrative) */}
+        {/* 1. HERO SLIDE (Clean, Centered Editorial Statement with Generous Negative Space — 100vh narrative) */}
         <section
           id="hero"
-          className="slide-section min-h-[100dvh] flex items-center pt-24 pb-16 md:pt-28 md:pb-20 border-b border-[#DEDDD3]"
+          className="slide-section min-h-[100dvh] flex flex-col justify-between pt-28 pb-10 md:pt-36 md:pb-12 border-b border-[#DEDDD3] relative overflow-hidden"
         >
-          <Container>
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-              <div className="lg:col-span-7 flex flex-col gap-6">
-                <SectionHeading
-                  tag="h1"
-                  subtitle="Commercial Capabilities"
-                  withTriadMark
-                >
-                  Solutions shaped by business outcomes, not billable hours.
-                </SectionHeading>
+          {/* Main Centered Content */}
+          <Container className="my-auto">
+            <motion.div
+              variants={heroContainerVariants}
+              initial="hidden"
+              animate="visible"
+              className="max-w-4xl mx-auto text-center flex flex-col items-center gap-8 md:gap-10"
+            >
+              {/* Eyebrow with Triad Mark */}
+              <motion.div
+                variants={heroItemVariants}
+                className="flex items-center justify-center gap-3"
+              >
+                <TriadMark size="sm" />
+                <span className="font-sans text-xs md:text-sm font-semibold uppercase tracking-[0.18em] text-[#57564C]">
+                  Commercial Capabilities
+                </span>
+              </motion.div>
 
-                <p className="font-editorial text-[#57564C] text-lg md:text-2xl leading-relaxed max-w-2xl">
-                  We build digital tools, custom software, and brand infrastructure designed to remove operational bottlenecks and drive compound commercial growth.
-                </p>
+              {/* Massive Centered Headline in Canela */}
+              <motion.h1
+                variants={heroItemVariants}
+                className="font-heading text-4xl sm:text-5xl md:text-6xl lg:text-[72px] xl:text-[80px] font-normal md:font-medium tracking-[-0.025em] leading-[1.06] text-[#14140F] max-w-4xl"
+              >
+                Solutions shaped by<br className="hidden sm:inline" />
+                business outcomes,<br className="hidden sm:inline" />
+                not billable hours.
+              </motion.h1>
 
-                <div className="flex flex-wrap items-center gap-4 pt-2">
-                  <Link href="/contact">
-                    <Button variant="primary" size="lg">
-                      Book a Strategy Call
-                    </Button>
-                  </Link>
-                  <a href="#catalog">
-                    <Button variant="outline" size="lg">
-                      Explore Solutions
-                    </Button>
-                  </a>
-                </div>
-              </div>
+              {/* Short Supporting Statement */}
+              <motion.p
+                variants={heroItemVariants}
+                className="font-editorial text-[#57564C] text-lg sm:text-xl md:text-2xl leading-relaxed max-w-2xl font-normal"
+              >
+                We build digital tools, custom software, and brand infrastructure designed to remove operational bottlenecks and drive compound commercial growth.
+              </motion.p>
 
-              <div className="lg:col-span-5 w-full aspect-[4/3] lg:aspect-[1/1] relative">
-                <Reveal variant="scaleIn" className="w-full h-full">
-                  <ImageWrapper
-                    src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=900&q=80"
-                    alt="Engineered architecture representing structural technology and scale"
-                    fill
-                    priority
-                    sizes="(max-width: 1024px) 100vw, 42vw"
-                    containerClassName="w-full h-full shadow-[0_8px_30px_rgba(20,20,15,0.04)]"
-                  />
-                </Reveal>
-              </div>
-            </div>
+              {/* Dual Restrained CTAs */}
+              <motion.div
+                variants={heroItemVariants}
+                className="flex flex-wrap items-center justify-center gap-4 pt-2"
+              >
+                <Link href="/contact">
+                  <Button variant="primary" size="lg">
+                    Book a Strategy Call
+                  </Button>
+                </Link>
+                <a href="#catalog">
+                  <Button variant="outline" size="lg">
+                    Explore Solutions
+                  </Button>
+                </a>
+              </motion.div>
+            </motion.div>
           </Container>
+
+          {/* Subtle Bottom-Centered Scroll Indicator */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: prefersReducedMotion ? 0 : 0.7, duration: 0.5 }}
+            className="w-full flex flex-col items-center justify-center gap-2 text-[#57564C] select-none pt-4"
+          >
+            <motion.div
+              animate={prefersReducedMotion ? {} : { y: [0, 4, 0] }}
+              transition={prefersReducedMotion ? {} : { repeat: Infinity, duration: 2.2, ease: "easeInOut" }}
+              className="flex flex-col items-center gap-1.5"
+            >
+              <ArrowDown className="w-3.5 h-3.5 stroke-[1.5]" />
+              <span className="font-sans text-[10px] font-semibold uppercase tracking-[0.24em] text-[#57564C]/80">
+                Scroll
+              </span>
+            </motion.div>
+          </motion.div>
         </section>
 
-        {/* 2. OUTCOMES CATALOG SLIDE (Grid: Outcome-Named Cards) */}
+        {/* 2. OUTCOMES CATALOG SLIDE (Outcome-Named Rows) */}
         <section
           id="catalog"
           className="slide-section py-20 md:py-28 border-b border-[#DEDDD3]"
@@ -126,7 +191,7 @@ export default function SolutionsPage() {
                           </span>
                         </div>
 
-                        <h3 className="font-heading text-2xl md:text-3xl font-bold text-[#14140F] leading-tight">
+                        <h3 className="font-heading text-2xl md:text-3xl font-normal md:font-medium text-[#14140F] leading-tight">
                           {solution.title}
                         </h3>
 
@@ -196,10 +261,10 @@ export default function SolutionsPage() {
                 <span className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-[#57564C] flex items-center gap-2">
                   <TriadMark size="sm" /> Operational Bottlenecks
                 </span>
-                <h2 className="font-heading text-3xl md:text-5xl font-bold text-[#14140F] tracking-tight">
+                <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-normal md:font-medium text-[#14140F] tracking-tight leading-tight">
                   When systems fail to keep pace with growth
                 </h2>
-                <p className="font-editorial text-lg text-[#57564C] max-w-2xl">
+                <p className="font-editorial text-lg md:text-xl text-[#57564C] max-w-2xl">
                   Growing companies encounter predictable friction points where manual tools, fractured apps, and outdated branding restrict scale.
                 </p>
               </div>
@@ -224,7 +289,7 @@ export default function SolutionsPage() {
                   },
                 ].map((item, idx) => (
                   <Card key={idx} variant="bone" className="p-6">
-                    <h4 className="font-heading text-base font-bold text-[#14140F] mb-2 flex items-center gap-2">
+                    <h4 className="font-heading text-lg font-medium text-[#14140F] mb-2 flex items-center gap-2">
                       <HelpCircle className="w-4 h-4 text-[#57564C]" />
                       <span>{item.title}</span>
                     </h4>
@@ -293,7 +358,7 @@ export default function SolutionsPage() {
                     <span className="font-sans text-xs font-semibold text-[#57564C] uppercase tracking-wider block mb-2">
                       {phase.step}
                     </span>
-                    <h4 className="font-heading text-lg font-bold text-[#14140F] mb-1">
+                    <h4 className="font-heading text-lg font-medium text-[#14140F] mb-1">
                       {phase.title}
                     </h4>
                     <span className="font-editorial text-xs text-[#57564C] block mb-4 italic">

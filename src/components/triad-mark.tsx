@@ -1,4 +1,23 @@
-// TriadMark component representing the signature 3 ascending horizontal bars (35%, 65%, 100% opacity).
+/**
+ * FILE: src/components/triad-mark.tsx
+ *
+ * WHAT THIS DOES:
+ * Renders Triads Future's signature visual motif: 3 ascending horizontal bars (35%, 65%, 100% opacity)
+ * and the 3-step Triad panel (Strategy -> Technology -> Execution).
+ *
+ * WHERE IT IS USED:
+ * - Next to section headings and eyebrows across the site (`<TriadMark />`).
+ * - In the About and Homepage philosophy cards (`<TriadPanel />`).
+ *
+ * HOW IT WORKS:
+ * 1. `<TriadMark>` draws 3 small horizontal rectangles side-by-side with ascending darkness (35%, 65%, 100%).
+ * 2. Has `aria-hidden="true"` so screen readers ignore it as a decorative icon rather than reading it out loud.
+ * 3. `<TriadPanel>` renders the full 3-step commercial metaphor on a warm bone background card.
+ *
+ * BEGINNER TIP:
+ * The 3 bars symbolize the "Triad" philosophy: Strategy + Technology + Execution!
+ */
+
 import * as React from "react";
 import { cn } from "../utils/cn";
 

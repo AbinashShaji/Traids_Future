@@ -1,4 +1,21 @@
-// Solutions mock data reflecting outcome-focused services per Design System v2.
+/**
+ * FILE: src/mock/solutions.ts
+ *
+ * WHAT THIS DOES:
+ * Stores the 5 core business solutions and technical services offered by Triads Future.
+ *
+ * WHERE IT IS USED:
+ * - Rendered on the Homepage (/) in the Capabilities slide.
+ * - Rendered on the Solutions page (/solutions) as the main service catalog.
+ *
+ * HOW IT WORKS:
+ * Each solution includes its service name, business impact description,
+ * list of specific engineering deliverables, target customer type, and icon name.
+ *
+ * BEGINNER TIP:
+ * If the company launches a new service (like "AI Integration"),
+ * you would define its details in this array!
+ */
 
 export interface Solution {
   id: string;

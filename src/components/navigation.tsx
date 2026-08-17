@@ -1,4 +1,21 @@
-// Navigation system implementing desktop sticky top header, tablet vertical rail, and mobile bottom/top menus in Design System v2.
+/**
+ * FILE: src/components/navigation.tsx
+ *
+ * WHAT THIS DOES:
+ * Controls the entire menu navigation experience across Desktop, Tablet, and Mobile screens.
+ *
+ * WHERE IT IS USED:
+ * - Mounted in `src/components/global-layout.tsx` so it appears on all pages.
+ *
+ * HOW IT WORKS:
+ * Renders 3 responsive versions of navigation based on screen width:
+ * 1. DesktopNavigation (>= 1024px): A floating glass header with logo, page links, and a "Book Consultation" button.
+ * 2. TabletNavigationRail (768px - 1023px): A fixed left-hand vertical bar with icons and text labels.
+ * 3. Mobile Navigation (< 768px): A top header bar with a slide-out hamburger drawer, plus a thumb-reachable bottom bar.
+ *
+ * ⚠️ BEGINNER NOTE:
+ * Uses `usePathname()` to check which page the user is currently on and highlights the active link!
+ */
 "use client";
 
 import * as React from "react";
@@ -110,18 +127,6 @@ const TabletNavigationRail: React.FC = () => {
             </Link>
           );
         })}
-        <Link
-          href="/contact"
-          className={cn(
-            "flex flex-col items-center gap-1.5 py-2 w-full rounded-[2px] transition-colors",
-            pathname === "/contact"
-              ? "text-[#14140F] bg-[#14140F]/8 font-semibold"
-              : "text-[#57564C] hover:text-[#14140F]"
-          )}
-        >
-          <Calendar className="w-5 h-5 stroke-[1.5]" />
-          <span className="text-[10px] font-sans font-medium tracking-tight">Book</span>
-        </Link>
       </nav>
 
       {/* Profile/Indicator bulb */}

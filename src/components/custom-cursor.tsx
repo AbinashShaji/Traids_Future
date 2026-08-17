@@ -1,3 +1,21 @@
+/**
+ * FILE: src/components/custom-cursor.tsx
+ *
+ * WHAT THIS DOES:
+ * Replaces the default computer mouse pointer with an editorial dot and smoothly lagging ring.
+ *
+ * WHERE IT IS USED:
+ * - Mounted globally in `src/app/layout.tsx`.
+ *
+ * HOW IT WORKS:
+ * 1. Checks if the user is using a real mouse (`(pointer: fine)`) and NOT a touchscreen or reduced-motion.
+ * 2. `mouseX` / `mouseY` tracks the exact coordinates of the user's mouse.
+ * 3. `useSpring` creates a gentle physics lag on the outer ring for an organic feel.
+ * 4. Listens for hover events on links (`<a>`) and buttons (`<button>`) and expands the ring (`scale: 1.8`).
+ *
+ * ⚠️ BEGINNER NOTE:
+ * Automatically disabled on touchscreen phones and tablets so it never blocks fingers!
+ */
 "use client";
 
 import * as React from "react";

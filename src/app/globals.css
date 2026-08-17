@@ -1,7 +1,26 @@
-/* Triads Future — Design System v2 Global Styles */
+/**
+ * FILE: src/app/globals.css
+ *
+ * WHAT THIS DOES:
+ * Global CSS stylesheet containing design system color variables, typography definitions,
+ * and desktop scroll-snap rules.
+ *
+ * WHERE IT IS USED:
+ * - Imported globally in `src/app/layout.tsx` and applied to every page.
+ *
+ * HOW IT WORKS:
+ * 1. `@font-face`: Configures Canela display font with automatic fallback to Newsreader and Georgia.
+ * 2. `:root`: Defines the core color palette tokens (--paper: #F0F0EB, --bone: #E4E3DB, --hairline: #DEDDD3,
+ *    --ink: #14140F, --graphite: #57564C, --signal: #B3261E).
+ * 3. `.desktop-snap`: Enforces CSS scroll snapping on screens >= 1024px.
+ * 4. `@media (prefers-reduced-motion)`: Disables scroll snap and heavy transitions for users sensitive to motion.
+ *
+ * ⚠️ BEGINNER WARNING:
+ * Changing color hex codes or typography variables here will instantly change the appearance of the entire website!
+ */
 @import "tailwindcss";
 
-/* Local Canela Font Definition for Hero Typography */
+/* Local Canela Font Definition for Primary Heading / Display Typography */
 @font-face {
   font-family: 'Canela';
   src: url('/fonts/canela/Canela-Regular.woff2') format('woff2'),
@@ -33,9 +52,10 @@
   --graphite: #57564C;
   --signal: #B3261E;
 
-  /* Typography variables injected via next/font with Canela for Hero */
+  /* Typography variables: Canela is the primary display / heading family */
   --font-canela: 'Canela', var(--font-newsreader), Georgia, serif;
-  --font-display: var(--font-archivo), sans-serif;
+  --font-heading: 'Canela', var(--font-newsreader), Georgia, serif;
+  --font-display: 'Canela', var(--font-newsreader), Georgia, serif;
   --font-editorial: var(--font-newsreader), Georgia, serif;
   --font-ui: var(--font-inter-tight), sans-serif;
 
@@ -60,11 +80,11 @@
 
   --font-hero: var(--font-canela);
   --font-canela: var(--font-canela);
-  --font-display: var(--font-display);
+  --font-display: var(--font-canela);
+  --font-heading: var(--font-canela);
   --font-editorial: var(--font-editorial);
   --font-ui: var(--font-ui);
   --font-sans: var(--font-ui);
-  --font-heading: var(--font-display);
 }
 
 * {
@@ -87,6 +107,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.5;
+}
+
+/* Base Heading Styles defaulting to Canela */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
 }
 
 /* Desktop Scroll Snapping (Locked to >= 1024px) */
