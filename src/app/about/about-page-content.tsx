@@ -26,8 +26,6 @@ import * as React from "react";
 import Link from "next/link";
 import {
   Sparkles,
-  ChevronDown,
-  ArrowRight,
 } from "lucide-react";
 import { GlobalLayout } from "../../components/global-layout";
 import { Container } from "../../components/container";

@@ -73,15 +73,8 @@ export default function Home() {
   const featuredArticle = getFeaturedArticle();
 
   // Centralized hero staggered animation variants
-  const heroContainerVariants = React.useMemo(
-    () => getHeroContainerVariants(prefersReducedMotion),
-    [prefersReducedMotion]
-  );
-
-  const heroItemVariants = React.useMemo(
-    () => getHeroItemVariants(prefersReducedMotion),
-    [prefersReducedMotion]
-  );
+  const heroContainerVariants = getHeroContainerVariants(prefersReducedMotion);
+  const heroItemVariants = getHeroItemVariants(prefersReducedMotion);
 
   return (
     <GlobalLayout>
@@ -336,9 +329,8 @@ export default function Home() {
                   className="p-0 overflow-hidden border border-[#DEDDD3]"
                 >
                   <div
-                    className={`grid grid-cols-1 lg:grid-cols-12 items-center ${
-                      index % 2 === 1 ? "lg:flex-row-reverse" : ""
-                    }`}
+                    className={`grid grid-cols-1 lg:grid-cols-12 items-center ${index % 2 === 1 ? "lg:flex-row-reverse" : ""
+                      }`}
                   >
                     {/* Image Container */}
                     <div className={`lg:col-span-6 relative aspect-[16/10] w-full ${index % 2 === 1 ? "lg:order-2" : ""}`}>

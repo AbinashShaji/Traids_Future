@@ -65,6 +65,22 @@ export default function InsightsPage() {
     return matchesSearch && matchesCategory;
   });
 
+  /**
+   * FUNCTION: handleSubscribe
+   * ROLE: Form Submission Handler
+   *
+   * PURPOSE:
+   * Processes newsletter subscription requests from the insights page.
+   *
+   * INPUT:
+   * Standard React FormEvent from the submit action.
+   *
+   * VALIDATION:
+   * Verifies the email exists and contains an "@" symbol. 
+   * 
+   * FLOW:
+   * Validates input -> shows success or error toast -> clears the input field.
+   */
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !email.includes("@")) {

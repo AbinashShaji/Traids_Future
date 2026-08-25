@@ -33,7 +33,7 @@ import { FormTextarea } from "../../components/form-textarea";
 import { FAQItem } from "../../components/faq-item";
 import { ScrollWorldContainer } from "../../components/scroll-world-container";
 import { toast } from "sonner";
-import { cn } from "../../utils/cn";
+
 import { settings } from "../../mock/settings";
 import { faqs } from "../../mock/faq";
 
@@ -80,6 +80,23 @@ function ContactPageContent() {
     }
   }, [interest, setValue]);
 
+  /**
+   * FUNCTION: onSubmit
+   * ROLE: Form Submission Handler
+   *
+   * PURPOSE:
+   * Handles the submission of the Strategy Call consultation form.
+   *
+   * USED BY:
+   * React Hook Form's handleSubmit in the main <form> wrapper.
+   *
+   * INPUT:
+   * Implicitly receives the validated form data (though unused in this mock).
+   *
+   * FLOW:
+   * Triggers a mocked async delay (1200ms) to simulate a network request -> 
+   * displays a toast notification -> redirects visitor to the `/thank-you` page.
+   */
   const onSubmit = async () => {
     const promise = () => new Promise((resolve) => setTimeout(resolve, 1200));
     toast.promise(promise(), {
@@ -92,6 +109,19 @@ function ContactPageContent() {
     });
   };
 
+  /**
+   * FUNCTION: toggleFaq
+   * ROLE: UI State Handler
+   *
+   * PURPOSE:
+   * Toggles the open/closed state of an FAQ accordion item.
+   *
+   * INPUT:
+   * `id` (string) - The unique identifier of the FAQ item being clicked.
+   *
+   * FLOW:
+   * If the clicked FAQ is already open, it closes it (null). Otherwise, it opens the clicked FAQ.
+   */
   const toggleFaq = (id: string) => {
     setActiveFaq(activeFaq === id ? null : id);
   };
