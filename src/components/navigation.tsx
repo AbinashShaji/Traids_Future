@@ -21,7 +21,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { House, LayoutGrid, BriefcaseBusiness, BookOpen, Calendar, Menu, X, type LucideIcon } from "lucide-react";
+import { House, LayoutGrid, BriefcaseBusiness, BookOpen, Calendar, type LucideIcon } from "lucide-react";
 import { cn } from "../utils/cn";
 import { Button } from "./button";
 import { BrandMark } from "./brand-mark";
@@ -167,60 +167,13 @@ const MobileBottomNavigation: React.FC = () => {
   );
 };
 
-// MobileTopHeader: Top header with toggleable panel (< 768px)
+// MobileTopHeader: Top header without toggleable panel (< 768px)
 const MobileTopHeader: React.FC = () => {
-  const pathname = usePathname();
-  const [isOpen, setIsOpen] = React.useState(false);
-
   return (
     <div className="fixed top-0 left-0 right-0 z-50 md:hidden bg-[#F0F0EB]/92 backdrop-blur-md border-b border-[#DEDDD3]">
       <div className="flex items-center justify-between px-6 py-4">
         {/* Brand logo */}
         <BrandMark className="w-[211px]" />
-
-        {/* Menu toggle button */}
-        <button
-          type="button"
-          onClick={() => setIsOpen((prev) => !prev)}
-          aria-expanded={isOpen}
-          aria-controls="mobile-navigation-panel"
-          aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
-          className="inline-flex h-10 w-10 items-center justify-center rounded-[2px] border border-[#DEDDD3] text-[#14140F] transition-colors hover:bg-[#14140F]/5 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#14140F]"
-        >
-          {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
-      </div>
-
-      {/* Collapsible panel */}
-      <div
-        id="mobile-navigation-panel"
-        className={cn(
-          "overflow-hidden border-t border-[#DEDDD3] bg-[#F0F0EB] transition-all duration-300",
-          isOpen ? "max-h-[340px] opacity-100" : "max-h-0 opacity-0"
-        )}
-      >
-        <nav className="px-4 py-4 grid grid-cols-2 gap-2" aria-label="Mobile Navigation Panel">
-          {mobileNav.map((item) => {
-            const isActive = pathname === item.href;
-            const Icon = iconMap[item.label] || House;
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setIsOpen(false)}
-                className={cn(
-                  "flex items-center gap-3 rounded-[2px] border px-4 py-3 text-sm font-medium transition-colors font-sans",
-                  isActive
-                    ? "border-[#14140F] bg-[#14140F] text-[#F0F0EB]"
-                    : "border-[#DEDDD3] bg-[#F0F0EB] text-[#57564C] hover:border-[#14140F] hover:text-[#14140F]"
-                )}
-              >
-                <Icon className="h-4 w-4 shrink-0" />
-                <span>{item.label}</span>
-              </Link>
-            );
-          })}
-        </nav>
       </div>
     </div>
   );

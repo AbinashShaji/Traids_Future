@@ -44,7 +44,7 @@ export const ImageWrapper: React.FC<ImageWrapperProps> = ({
         containerClassName
       )}
     >
-      <div className="w-full h-full">
+      <div className="w-full h-full relative">
         <Image
           className={cn(
             "object-cover transition-opacity duration-300",

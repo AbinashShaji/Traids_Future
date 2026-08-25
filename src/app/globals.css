@@ -45,12 +45,16 @@
 
 :root {
   /* Color Tokens */
-  --paper: #F0F0EB;
+  --paper: #F4EBE1; /* Journal style background */
   --bone: #E4E3DB;
   --hairline: #DEDDD3;
   --ink: #14140F;
   --graphite: #57564C;
   --signal: #B3261E;
+
+  /* Font Families loaded via external stylesheet */
+  --font-newsreader: 'Newsreader', Georgia, serif;
+  --font-inter-tight: 'Inter Tight', sans-serif;
 
   /* Typography variables: Canela is the primary display / heading family */
   --font-canela: 'Canela', var(--font-newsreader), Georgia, serif;
@@ -98,7 +102,7 @@ html {
 }
 
 body {
-  background-color: var(--paper);
+  background-color: transparent;
   color: var(--ink);
   font-family: var(--font-ui);
   margin: 0;

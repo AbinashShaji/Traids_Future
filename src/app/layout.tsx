@@ -20,25 +20,9 @@
  */
 
 import type { Metadata } from "next";
-import { Newsreader, Inter_Tight } from "next/font/google";
 import "./globals.css";
 import { RootProviders } from "../providers/root-providers";
 import { CustomCursor } from "../components/custom-cursor";
-
-const newsreader = Newsreader({
-  variable: "--font-newsreader",
-  subsets: ["latin"],
-  style: ["normal", "italic"],
-  display: "swap",
-  weight: ["400", "500"],
-});
-
-const interTight = Inter_Tight({
-  variable: "--font-inter-tight",
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["400", "500", "600", "700"],
-});
 
 export const metadata: Metadata = {
   title: "Triads Future — Business Growth & Technology Partner",
@@ -53,9 +37,15 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${newsreader.variable} ${interTight.variable} h-full antialiased`}
+      className="h-full antialiased"
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col bg-[#F0F0EB] text-[#14140F] selection:bg-[#14140F] selection:text-[#F0F0EB]">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet" />
+      </head>
+      <body suppressHydrationWarning className="min-h-full flex flex-col bg-[var(--paper)] text-[#14140F] selection:bg-[#14140F] selection:text-[#F0F0EB]">
         <RootProviders>
           <CustomCursor />
           {children}
