@@ -9,7 +9,7 @@
  *
  * HOW IT WORKS:
  * 1. Renders a clickable button for selecting topics (e.g. "All", "Business Strategy", "Technology").
- * 2. When `active={true}`: Inverts to solid dark background (`bg-[#14140F] text-[#F0F0EB]`).
+ * 2. When `active={true}`: Inverts to solid dark background (`bg-ink text-paper`).
  * 3. When inactive: Renders light background with hover border darkening.
  *
  * BEGINNER TIP:
@@ -33,8 +33,8 @@ export const Tag = React.forwardRef<HTMLButtonElement, TagProps>(
         className={cn(
           "inline-flex items-center justify-center px-3.5 py-1.5 rounded-[2px] text-xs font-sans font-medium transition-colors duration-200 cursor-pointer border",
           active
-            ? "border-[#14140F] bg-[#14140F] text-[#F0F0EB]"
-            : "border-[#DEDDD3] bg-[#F0F0EB] text-[#57564C] hover:border-[#14140F] hover:text-[#14140F]",
+            ? "border-ink bg-ink text-paper"
+            : "border-hairline bg-paper text-graphite hover:border-ink hover:text-ink",
           className
         )}
         {...props}

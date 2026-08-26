@@ -20,56 +20,56 @@ export default function TermsPage() {
         <Container className="max-w-3xl">
           <div className="mb-8">
             <Link href="/">
-              <Button variant="text" size="sm" className="gap-1.5 text-[#57564C] hover:text-[#14140F]">
+              <Button variant="text" size="sm" className="gap-1.5 text-graphite hover:text-ink">
                 <ArrowLeft className="w-3.5 h-3.5" />
                 Return to Home
               </Button>
             </Link>
           </div>
 
-          <header className="mb-12 border-b border-[#DEDDD3] pb-8">
+          <header className="mb-12 border-b border-hairline pb-8">
             <SectionHeading tag="h1" subtitle="Commercial Governance" withTriadMark>
               Terms & Conditions
             </SectionHeading>
-            <p className="font-editorial text-[#57564C] text-base md:text-lg leading-relaxed mt-4">
+            <p className="font-editorial text-graphite text-base md:text-lg leading-relaxed mt-4">
               Last updated: August 2026. General terms governing engagement, intellectual property, and service delivery.
             </p>
           </header>
 
-          <article className="space-y-10 font-sans text-sm md:text-base text-[#57564C] leading-relaxed">
+          <article className="space-y-10 font-sans text-sm md:text-base text-graphite leading-relaxed">
             <section className="space-y-3">
-              <h2 className="font-heading text-xl md:text-2xl text-[#14140F]">1. Engagement Model</h2>
+              <h2 className="font-heading text-xl md:text-2xl text-ink">1. Engagement Model</h2>
               <p>
                 Triads Future operates on structured commercial agreements defined in mutual Statements of Work (SOW). All engagements are scope- and value-based, delivered in weekly sprint cycles with transparent deliverables.
               </p>
             </section>
 
             <section className="space-y-3">
-              <h2 className="font-heading text-xl md:text-2xl text-[#14140F]">2. 100% Client IP Ownership</h2>
+              <h2 className="font-heading text-xl md:text-2xl text-ink">2. 100% Client IP Ownership</h2>
               <p>
                 Upon final settlement of engagement fees, clients retain 100% ownership of all custom software source code, design assets, database architectures, and cloud configurations developed for their project.
               </p>
             </section>
 
             <section className="space-y-3">
-              <h2 className="font-heading text-xl md:text-2xl text-[#14140F]">3. Professional Standards</h2>
+              <h2 className="font-heading text-xl md:text-2xl text-ink">3. Professional Standards</h2>
               <p>
                 We build production-ready systems using proven, open-source architectures to ensure maintainability by internal developer teams without proprietary vendor lock-in.
               </p>
             </section>
 
             <section className="space-y-3">
-              <h2 className="font-heading text-xl md:text-2xl text-[#14140F]">4. Confidentiality</h2>
+              <h2 className="font-heading text-xl md:text-2xl text-ink">4. Confidentiality</h2>
               <p>
                 Both parties agree to treat proprietary technical and commercial data exchanged during consultations and project delivery as strictly confidential under binding non-disclosure terms.
               </p>
             </section>
 
-            <section className="space-y-3 border-t border-[#DEDDD3] pt-8">
-              <h2 className="font-heading text-xl md:text-2xl text-[#14140F]">5. Commercial Inquiries</h2>
+            <section className="space-y-3 border-t border-hairline pt-8">
+              <h2 className="font-heading text-xl md:text-2xl text-ink">5. Commercial Inquiries</h2>
               <p>
                 For questions regarding engagement terms or specific legal agreements, please reach out to{" "}
-                <a href="mailto:partners@triadsfuture.com" className="text-[#14140F] underline hover:text-[#57564C]">
+                <a href="mailto:partners@triadsfuture.com" className="text-ink underline hover:text-graphite">
                   partners@triadsfuture.com
                 </a>.
               </p>

@@ -11,17 +11,21 @@
  * HOW IT WORKS:
  * 1. Takes an `eyebrow` (e.g. "Next Step"), `headline` (e.g. "Ready to build systems that scale?"),
  *    and an editorial `description`.
- * 2. Centers the content with a crisp top divider (`border-t border-[#DEDDD3]`).
+ * 2. Centers the content with a crisp top divider (`border-t border-hairline`).
  * 3. Renders any action buttons passed as `{children}` (e.g. `<Button>Book Consultation</Button>`).
  *
  * BEGINNER TIP:
  * A CTA is the place where you invite the visitor to take the next step (like booking a call)!
  */
 
+"use client";
+
 import * as React from "react";
 import { cn } from "../utils/cn";
+import { HTMLMotionProps, motion } from "framer-motion";
+import { staggeredContainerVariants, standardFadeUpVariants } from "../animations/presets";
 
-export interface CTAProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface CTAProps extends HTMLMotionProps<"div"> {
   /** The main large headline */
   headline: string;
   /** Explanatory subtext */
@@ -39,30 +43,34 @@ export const CTA: React.FC<CTAProps> = ({
   ...props
 }) => {
   return (
-    <div
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-50px" }}
+      variants={staggeredContainerVariants}
       className={cn(
-        "py-20 md:py-28 border-t border-[#DEDDD3] flex flex-col items-center text-center max-w-3xl mx-auto px-6",
+        "py-20 md:py-28 border-t border-hairline flex flex-col items-center text-center max-w-3xl mx-auto px-6",
         className
       )}
       {...props}
     >
       {eyebrow && (
-        <span className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-[#57564C] mb-4">
+        <motion.span variants={standardFadeUpVariants} className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-graphite mb-4">
           {eyebrow}
-        </span>
+        </motion.span>
       )}
-      <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-normal md:font-medium tracking-tight text-[#14140F] mb-4 leading-[1.12]">
+      <motion.h2 variants={standardFadeUpVariants} className="text-3xl sm:text-4xl md:text-5xl font-heading font-normal md:font-medium tracking-tight text-ink mb-4 leading-[1.12]">
         {headline}
-      </h2>
+      </motion.h2>
       
       {description && (
-        <p className="font-editorial text-[#57564C] max-w-xl text-lg md:text-xl mb-8 leading-relaxed">
+        <motion.p variants={standardFadeUpVariants} className="font-editorial text-graphite max-w-xl text-lg md:text-xl mb-8 leading-relaxed">
           {description}
-        </p>
+        </motion.p>
       )}
       
-      {children && <div className="flex flex-wrap justify-center items-center gap-4">{children}</div>}
-    </div>
+      {children && <motion.div variants={standardFadeUpVariants} className="flex flex-wrap justify-center items-center gap-4">{children}</motion.div>}
+    </motion.div>
   );
 };
 

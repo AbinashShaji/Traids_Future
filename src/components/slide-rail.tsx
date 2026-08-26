@@ -77,8 +77,8 @@ export const SlideRail: React.FC<SlideRailProps> = ({
                 className={cn(
                   "absolute right-8 px-2.5 py-1 text-[11px] font-sans font-medium uppercase tracking-[0.14em] rounded-[2px] transition-all duration-300 pointer-events-none whitespace-nowrap",
                   isActive
-                    ? "opacity-100 bg-[#14140F] text-[#F0F0EB] shadow-[0_2px_8px_rgba(0,0,0,0.08)] translate-x-0"
-                    : "opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 bg-[#E4E3DB] text-[#57564C] translate-x-1 group-hover:translate-x-0 border border-[#DEDDD3]"
+                    ? "opacity-100 bg-ink text-paper shadow-[0_2px_8px_rgba(0,0,0,0.08)] translate-x-0"
+                    : "opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 bg-bone text-graphite translate-x-1 group-hover:translate-x-0 border border-hairline"
                 )}
               >
                 {slide.label}
@@ -98,19 +98,19 @@ export const SlideRail: React.FC<SlideRailProps> = ({
                 <span className="flex items-center gap-[3px]">
                   <span
                     className={cn(
-                      "block h-[2px] rounded-[1px] bg-[#14140F] transition-all duration-300",
+                      "block h-[2px] rounded-[1px] bg-ink transition-all duration-300",
                       isActive ? "w-6 opacity-100" : "w-3 opacity-40 group-hover:w-4"
                     )}
                   />
                   <span
                     className={cn(
-                      "block h-[2px] rounded-[1px] bg-[#14140F] transition-all duration-300",
+                      "block h-[2px] rounded-[1px] bg-ink transition-all duration-300",
                       isActive ? "w-4 opacity-75" : "w-2 opacity-30"
                     )}
                   />
                   <span
                     className={cn(
-                      "block h-[2px] rounded-[1px] bg-[#14140F] transition-all duration-300",
+                      "block h-[2px] rounded-[1px] bg-ink transition-all duration-300",
                       isActive ? "w-2 opacity-50" : "w-1 opacity-20"
                     )}
                   />

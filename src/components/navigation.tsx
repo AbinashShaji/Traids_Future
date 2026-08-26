@@ -25,6 +25,7 @@ import { House, LayoutGrid, BriefcaseBusiness, BookOpen, Calendar, type LucideIc
 import { cn } from "../utils/cn";
 import { Button } from "./button";
 import { BrandMark } from "./brand-mark";
+import { ThemeToggle } from "./theme-toggle";
 import { desktopNav, mobileNav, tabletNav } from "../mock/navigation";
 
 const iconMap: Record<string, LucideIcon> = {
@@ -55,7 +56,7 @@ const DesktopNavigation: React.FC = () => {
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b py-3 px-6 md:px-8 hidden lg:block",
         isScrolled
-          ? "bg-[#F0F0EB]/92 backdrop-blur-md border-[#DEDDD3] shadow-[0_1px_4px_rgba(20,20,15,0.03)]"
+          ? "bg-[var(--paper)]/92 backdrop-blur-md border-[var(--hairline)] shadow-[0_1px_4px_rgba(20,20,15,0.03)]"
           : "bg-transparent border-transparent"
       )}
     >
@@ -74,8 +75,8 @@ const DesktopNavigation: React.FC = () => {
                 className={cn(
                   "font-sans text-xs font-semibold tracking-wider uppercase transition-colors duration-200",
                   isActive
-                    ? "text-[#14140F] border-b-2 border-[#14140F] pb-0.5"
-                    : "text-[#57564C] hover:text-[#14140F] pb-0.5"
+                    ? "text-[var(--ink)] border-b-2 border-[var(--ink)] pb-0.5"
+                    : "text-[var(--graphite)] hover:text-[var(--ink)] pb-0.5"
                 )}
               >
                 {item.label}
@@ -84,12 +85,15 @@ const DesktopNavigation: React.FC = () => {
           })}
         </nav>
 
-        {/* Strategy Call Action */}
-        <Link href="/contact">
-          <Button variant="primary" size="sm">
-            Book a Strategy Call
-          </Button>
-        </Link>
+        {/* Strategy Call Action & Theme */}
+        <div className="flex items-center gap-4">
+          <ThemeToggle />
+          <Link href="/contact">
+            <Button variant="primary" size="sm">
+              Book a Strategy Call
+            </Button>
+          </Link>
+        </div>
       </div>
     </header>
   );
@@ -100,7 +104,7 @@ const TabletNavigationRail: React.FC = () => {
   const pathname = usePathname();
 
   return (
-    <aside className="fixed top-0 left-0 bottom-0 w-20 bg-[#F0F0EB] border-r border-[#DEDDD3] py-8 flex flex-col items-center justify-between z-40 hidden md:flex lg:hidden">
+    <aside className="fixed top-0 left-0 bottom-0 w-20 bg-[var(--paper)] border-r border-[var(--hairline)] py-8 flex flex-col items-center justify-between z-40 hidden md:flex lg:hidden">
       {/* Compact Brand Logo */}
       <BrandMark className="w-[37px] mb-8" />
 
@@ -116,8 +120,8 @@ const TabletNavigationRail: React.FC = () => {
               className={cn(
                 "flex flex-col items-center gap-1.5 py-2 w-full rounded-[2px] transition-colors",
                 isActive
-                  ? "text-[#14140F] bg-[#14140F]/8 font-semibold"
-                  : "text-[#57564C] hover:text-[#14140F]"
+                  ? "text-[var(--ink)] bg-[var(--ink)]/8 font-semibold"
+                  : "text-[var(--graphite)] hover:text-[var(--ink)]"
               )}
             >
               <Icon className="w-5 h-5 stroke-[1.5]" />
@@ -129,8 +133,11 @@ const TabletNavigationRail: React.FC = () => {
         })}
       </nav>
 
-      {/* Profile/Indicator bulb */}
-      <div className="w-4 h-4 rounded-full bg-[#14140F]/10" />
+      {/* Profile/Indicator & Theme */}
+      <div className="flex flex-col items-center gap-6">
+        <ThemeToggle />
+        <div className="w-4 h-4 rounded-full bg-[var(--ink)]/10" />
+      </div>
     </aside>
   );
 };
@@ -140,7 +147,7 @@ const MobileBottomNavigation: React.FC = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-[#F0F0EB]/96 backdrop-blur-md border-t border-[#DEDDD3] z-40 pb-safe-bottom md:hidden shadow-[0_-1px_10px_rgba(20,20,15,0.02)]">
+    <nav className="fixed bottom-0 left-0 right-0 bg-[var(--paper)]/96 backdrop-blur-md border-t border-[var(--hairline)] z-40 pb-safe-bottom md:hidden shadow-[0_-1px_10px_rgba(20,20,15,0.02)]">
       <div className="flex items-center justify-around px-4 py-2">
         {mobileNav.map((item) => {
           const isActive = pathname === item.href;
@@ -152,7 +159,7 @@ const MobileBottomNavigation: React.FC = () => {
               href={item.href}
               className={cn(
                 "flex flex-col items-center gap-1 py-1 px-3 transition-colors",
-                isActive ? "text-[#14140F] font-semibold" : "text-[#57564C]"
+                isActive ? "text-[var(--ink)] font-semibold" : "text-[var(--graphite)]"
               )}
             >
               <Icon className="w-5 h-5 stroke-[1.5]" />
@@ -170,10 +177,11 @@ const MobileBottomNavigation: React.FC = () => {
 // MobileTopHeader: Top header without toggleable panel (< 768px)
 const MobileTopHeader: React.FC = () => {
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 md:hidden bg-[#F0F0EB]/92 backdrop-blur-md border-b border-[#DEDDD3]">
+    <div className="fixed top-0 left-0 right-0 z-50 md:hidden bg-[var(--paper)]/92 backdrop-blur-md border-b border-[var(--hairline)]">
       <div className="flex items-center justify-between px-6 py-4">
         {/* Brand logo */}
-        <BrandMark className="w-[211px]" />
+        <BrandMark className="w-[160px]" />
+        <ThemeToggle />
       </div>
     </div>
   );

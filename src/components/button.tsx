@@ -11,8 +11,8 @@
  *
  * HOW IT WORKS:
  * Supports 3 distinct visual variants:
- * 1. `primary` (default): Solid ink-black pill button (`bg-[#14140F]`) with a subtle lift on hover (`hover:-translate-y-0.5`).
- * 2. `outline`: Transparent pill button with crisp charcoal border (`border-[#14140F]`), inverting to solid black on hover.
+ * 1. `primary` (default): Solid ink-black pill button (`bg-ink`) with a subtle lift on hover (`hover:-translate-y-0.5`).
+ * 2. `outline`: Transparent pill button with crisp charcoal border (`border-ink`), inverting to solid black on hover.
  * 3. `text`: Clean text link with a signature animated underline that shrinks slightly on hover (`after:scale-x-40`).
  *
  * ⚠️ BEGINNER WARNING:
@@ -36,11 +36,11 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     const variantStyles = {
       primary:
-        "rounded-full bg-[#14140F] text-[#F0F0EB] border border-transparent hover:-translate-y-0.5 hover:opacity-88 active:translate-y-0 shadow-sm",
+        "rounded-full bg-ink text-paper border border-transparent hover:-translate-y-0.5 hover:opacity-88 active:translate-y-0 shadow-sm",
       outline:
-        "rounded-full bg-transparent text-[#14140F] border border-[#14140F] hover:bg-[#14140F] hover:text-[#F0F0EB] hover:-translate-y-0.5 active:translate-y-0",
+        "rounded-full bg-transparent text-ink border border-ink hover:bg-ink hover:text-paper hover:-translate-y-0.5 active:translate-y-0",
       text:
-        "rounded-none bg-transparent text-[#14140F] border-none p-0 relative after:absolute after:left-0 after:right-0 after:bottom-0 after:h-[1px] after:bg-[#14140F] after:origin-left after:scale-x-100 after:transition-transform after:duration-400 after:ease-[cubic-bezier(0.22,1,0.36,1)] hover:after:scale-x-40",
+        "rounded-none bg-transparent text-ink border-none p-0 relative after:absolute after:left-0 after:right-0 after:bottom-0 after:h-[1px] after:bg-ink after:origin-left after:scale-x-100 after:transition-transform after:duration-400 after:ease-[cubic-bezier(0.22,1,0.36,1)] hover:after:scale-x-40",
     };
 
     const sizeStyles = {

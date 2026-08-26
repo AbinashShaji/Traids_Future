@@ -41,16 +41,16 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
   const Tag = tag;
 
   const tagStyles = {
-    h1: "text-4xl sm:text-5xl md:text-6xl lg:text-[68px] font-heading font-normal md:font-medium tracking-[-0.02em] text-[#14140F] leading-[1.08]",
-    h2: "text-3xl sm:text-4xl md:text-5xl font-heading font-normal md:font-medium tracking-[-0.015em] text-[#14140F] leading-[1.12]",
-    h3: "text-2xl md:text-3xl font-heading font-medium tracking-[-0.01em] text-[#14140F] leading-[1.2]",
-    h4: "text-lg md:text-xl font-heading font-medium text-[#14140F] leading-[1.3]",
+    h1: "text-4xl sm:text-5xl md:text-6xl lg:text-[68px] font-heading font-normal md:font-medium tracking-[-0.02em] text-ink leading-[1.08]",
+    h2: "text-3xl sm:text-4xl md:text-5xl font-heading font-normal md:font-medium tracking-[-0.015em] text-ink leading-[1.12]",
+    h3: "text-2xl md:text-3xl font-heading font-medium tracking-[-0.01em] text-ink leading-[1.2]",
+    h4: "text-lg md:text-xl font-heading font-medium text-ink leading-[1.3]",
   };
 
   return (
     <div className="flex flex-col gap-3">
       {subtitle && (
-        <div className="flex items-center gap-2.5 font-sans text-xs font-semibold uppercase tracking-[0.14em] text-[#57564C]">
+        <div className="flex items-center gap-2.5 font-sans text-xs font-semibold uppercase tracking-[0.14em] text-graphite">
           {withTriadMark && <TriadMark size="sm" />}
           <span>{subtitle}</span>
         </div>

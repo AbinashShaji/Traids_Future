@@ -108,7 +108,7 @@ export const CustomCursor: React.FC = () => {
     <div className="pointer-events-none fixed inset-0 z-[9999] overflow-hidden select-none" aria-hidden="true">
       {/* 8px Ink Dot */}
       <motion.div
-        className="fixed top-0 left-0 w-2 h-2 rounded-full bg-[#14140F]"
+        className="fixed top-0 left-0 w-2 h-2 rounded-full bg-ink"
         style={{
           x: mouseX,
           y: mouseY,
@@ -124,7 +124,7 @@ export const CustomCursor: React.FC = () => {
 
       {/* Lagging 32px Ring */}
       <motion.div
-        className="fixed top-0 left-0 w-8 h-8 rounded-full border border-[#14140F]/20 bg-[#14140F]/[0.08]"
+        className="fixed top-0 left-0 w-8 h-8 rounded-full border border-ink/20 bg-ink/[0.08]"
         style={{
           x: ringX,
           y: ringY,

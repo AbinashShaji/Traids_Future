@@ -24,6 +24,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import {
   Sparkles,
 } from "lucide-react";
@@ -41,6 +42,7 @@ import { TriadMark, TriadPanel } from "../../components/triad-mark";
 import { ScrollWorldContainer } from "../../components/scroll-world-container";
 import { TeamShowcase } from "../../components/team-showcase";
 import { FAQItem } from "../../components/faq-item";
+import { staggeredContainerVariants, standardFadeUpVariants, springFadeUpVariants } from "../../animations/presets";
 
 const principles = [
   {
@@ -89,26 +91,34 @@ export default function AboutPageContent() {
         {/* 1. HERO SLIDE (Centered / Full-Width Manifesto — 100vh narrative) */}
         <section
           id="hero"
-          className="slide-section min-h-[100dvh] flex items-center pt-24 pb-16 md:pt-28 md:pb-20 border-b border-[#DEDDD3]"
+          className="slide-section min-h-[100dvh] flex items-center pt-24 pb-16 md:pt-28 md:pb-20 border-b border-hairline"
         >
           <Container>
-            <div className="max-w-4xl mx-auto text-center flex flex-col items-center gap-6">
-              <div className="flex items-center gap-2 text-[#57564C]">
+            <motion.div 
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-50px" }}
+              variants={staggeredContainerVariants}
+              className="max-w-4xl mx-auto text-center flex flex-col items-center gap-6"
+            >
+              <motion.div variants={standardFadeUpVariants} className="flex items-center gap-2 text-graphite">
                 <TriadMark size="sm" />
                 <span className="font-sans text-xs uppercase tracking-[0.14em] font-semibold">
                   Business Growth & Technology Partner
                 </span>
-              </div>
+              </motion.div>
 
-              <SectionHeading tag="h1" className="leading-[1.04]">
-                We build the systems that power serious business growth.
-              </SectionHeading>
+              <motion.div variants={standardFadeUpVariants} className="flex flex-col items-center">
+                <SectionHeading tag="h1" className="leading-[1.04]">
+                  We build the systems that power serious business growth.
+                </SectionHeading>
+              </motion.div>
 
-              <p className="font-editorial text-[#57564C] text-lg md:text-2xl leading-relaxed max-w-2xl">
+              <motion.p variants={standardFadeUpVariants} className="font-editorial text-graphite text-lg md:text-2xl leading-relaxed max-w-2xl">
                 Triads Future exists to help companies turn operational friction into competitive advantage through practical strategy, robust technology, and compounding execution.
-              </p>
+              </motion.p>
 
-              <div className="flex flex-wrap items-center justify-center gap-4 pt-3">
+              <motion.div variants={standardFadeUpVariants} className="flex flex-wrap items-center justify-center gap-4 pt-3">
                 <Link href="/contact">
                   <Button variant="primary" size="lg">
                     Book a Strategy Call
@@ -119,18 +129,18 @@ export default function AboutPageContent() {
                     Read Our Story
                   </Button>
                 </a>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           </Container>
         </section>
 
         {/* 2. OUR STORY SLIDE (Split: Text Left / Narrative Visual Panel Right) */}
         <section
           id="story"
-          className="slide-section py-20 md:py-28 border-b border-[#DEDDD3]"
+          className="slide-section py-20 md:py-28 border-b border-hairline"
         >
           <Container>
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            <Reveal variant="fadeUp" className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
               <div className="lg:col-span-6 flex flex-col gap-6">
                 <SectionHeading
                   tag="h2"
@@ -140,11 +150,11 @@ export default function AboutPageContent() {
                   Built because modern business needs more than cosmetic redesigns.
                 </SectionHeading>
 
-                <p className="font-editorial text-[#14140F] text-lg leading-relaxed">
+                <p className="font-editorial text-ink text-lg leading-relaxed">
                   Triads Future was founded on a simple observation: growing businesses rarely need more agency jargon, disconnected freelancers, or fragile templates.
                 </p>
 
-                <p className="font-editorial text-[#57564C] text-base leading-relaxed">
+                <p className="font-editorial text-graphite text-base leading-relaxed">
                   They need a reliable technical partner who understands commercial operations and can build systems that withstand scale. We operate as senior leaders who design, code, and execute together.
                 </p>
 
@@ -166,17 +176,17 @@ export default function AboutPageContent() {
                   containerClassName="w-full h-full shadow-[0_8px_30px_rgba(20,20,15,0.04)]"
                 />
               </div>
-            </div>
+            </Reveal>
           </Container>
         </section>
 
         {/* 3. APPROACH SLIDE (Split: Triad Signature Panel Left / Narrative Right — 100vh narrative) */}
         <section
           id="approach"
-          className="slide-section min-h-[100dvh] flex items-center py-20 md:py-28 border-b border-[#DEDDD3]"
+          className="slide-section min-h-[100dvh] flex items-center py-20 md:py-28 border-b border-hairline"
         >
           <Container>
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            <Reveal variant="fadeUp" className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
               <div className="lg:col-span-6">
                 <TriadPanel />
               </div>
@@ -190,11 +200,11 @@ export default function AboutPageContent() {
                   Strategy, technology, and execution unified.
                 </SectionHeading>
 
-                <p className="font-editorial text-[#14140F] text-lg leading-relaxed">
+                <p className="font-editorial text-ink text-lg leading-relaxed">
                   Hiring Triads Future should feel less like hiring an agency and more like gaining an experienced technology arm for your executive team.
                 </p>
 
-                <p className="font-editorial text-[#57564C] text-base leading-relaxed">
+                <p className="font-editorial text-graphite text-base leading-relaxed">
                   We maintain zero account-management layers. You work directly with the senior strategists and engineers responsible for building and shipping your systems.
                 </p>
 
@@ -206,36 +216,44 @@ export default function AboutPageContent() {
                   </Link>
                 </div>
               </div>
-            </div>
+            </Reveal>
           </Container>
         </section>
 
         {/* 4. OPERATING PRINCIPLES SLIDE (3-Column Grid) */}
         <section
           id="principles"
-          className="slide-section py-20 md:py-28 border-b border-[#DEDDD3]"
+          className="slide-section py-20 md:py-28 border-b border-hairline"
         >
           <Container>
-            <div className="max-w-3xl mb-14">
-              <SectionHeading
-                tag="h2"
-                subtitle="Core Principles"
-                withTriadMark
-              >
-                Principles that govern our engineering and advisory
-              </SectionHeading>
-              <p className="font-editorial text-[#57564C] text-base md:text-lg leading-relaxed mt-3">
-                These six rules dictate how we scope projects, select software stacks, and communicate with partners.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {principles.map((principle, index) => (
-                <Reveal
-                  key={principle.title}
-                  variant="fadeUp"
-                  delay={index}
+            <Reveal variant="fadeUp">
+              <div className="max-w-3xl mb-14">
+                <SectionHeading
+                  tag="h2"
+                  subtitle="Core Principles"
+                  withTriadMark
                 >
+                  Principles that govern our engineering and advisory
+                </SectionHeading>
+                <p className="font-editorial text-graphite text-base md:text-lg leading-relaxed mt-3">
+                  These six rules dictate how we scope projects, select software stacks, and communicate with partners.
+                </p>
+              </div>
+            </Reveal>
+
+              <motion.div 
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-50px" }}
+                variants={staggeredContainerVariants}
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6 md:gap-8"
+              >
+              {principles.map((principle, index) => (
+                  <motion.div
+                    key={index}
+                    variants={springFadeUpVariants}
+                    className="h-full"
+                  >
                   <Card
                     hoverEffect
                     variant="bone"
@@ -243,29 +261,29 @@ export default function AboutPageContent() {
                   >
                     <div>
                       <div className="flex items-center justify-between gap-4 mb-4">
-                        <span className="font-sans text-xs uppercase tracking-[0.14em] text-[#57564C] font-semibold">
+                        <span className="font-sans text-xs uppercase tracking-[0.14em] text-graphite font-semibold">
                           0{index + 1}
                         </span>
-                        <Sparkles className="w-4 h-4 text-[#14140F]" />
+                        <Sparkles className="w-4 h-4 text-ink" />
                       </div>
-                      <h3 className="font-heading text-lg font-medium text-[#14140F] leading-tight mb-2">
+                      <h3 className="font-heading text-lg font-medium text-ink leading-tight mb-2">
                         {principle.title}
                       </h3>
                     </div>
-                    <p className="font-editorial text-sm text-[#57564C] leading-relaxed mt-2">
+                    <p className="font-editorial text-sm text-graphite leading-relaxed mt-2">
                       {principle.description}
                     </p>
                   </Card>
-                </Reveal>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </Container>
         </section>
 
         {/* 5. TEAM & PEOPLE SLIDE (Dynamic CMS-Ready Editorial Showcase) */}
         <section
           id="team"
-          className="slide-section min-h-[100dvh] flex items-center py-20 md:py-28 border-b border-[#DEDDD3]"
+          className="slide-section min-h-[100dvh] flex items-center py-20 md:py-28 border-b border-hairline"
         >
           <TeamShowcase
             members={teamMembers}
@@ -278,10 +296,10 @@ export default function AboutPageContent() {
         {/* 6. FAQ SLIDE (Split: Header Left / Accordion Rows Right) */}
         <section
           id="faq"
-          className="slide-section py-20 md:py-28 border-b border-[#DEDDD3]"
+          className="slide-section py-20 md:py-28 border-b border-hairline"
         >
           <Container>
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            <Reveal variant="fadeUp" className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
               <div className="lg:col-span-5 flex flex-col gap-6">
                 <SectionHeading
                   tag="h2"
@@ -290,7 +308,7 @@ export default function AboutPageContent() {
                 >
                   Frequently asked questions
                 </SectionHeading>
-                <p className="font-editorial text-[#57564C] text-base md:text-lg leading-relaxed">
+                <p className="font-editorial text-graphite text-base md:text-lg leading-relaxed">
                   Clear answers about our engagement models, commercial terms, software handover, and sprint rhythms.
                 </p>
                 <div className="pt-2">
@@ -312,7 +330,7 @@ export default function AboutPageContent() {
                   />
                 ))}
               </div>
-            </div>
+            </Reveal>
           </Container>
         </section>
 
@@ -322,22 +340,24 @@ export default function AboutPageContent() {
           className="slide-section min-h-[100dvh] flex items-center justify-center py-20"
         >
           <Container>
-            <CTA
-              eyebrow="Initiate Partnership"
-              headline="Ready to scale your business operations?"
-              description="Schedule a 30-minute diagnosis call with our senior leadership. We will evaluate your technical friction and outline a compound growth strategy."
-            >
-              <Link href="/contact">
-                <Button variant="primary" size="lg">
-                  Book a Strategy Call
-                </Button>
-              </Link>
-              <Link href="/solutions">
-                <Button variant="outline" size="lg">
-                  Explore Solutions
-                </Button>
-              </Link>
-            </CTA>
+            <Reveal variant="fadeUp">
+              <CTA
+                eyebrow="Initiate Partnership"
+                headline="Ready to scale your business operations?"
+                description="Schedule a 30-minute diagnosis call with our senior leadership. We will evaluate your technical friction and outline a compound growth strategy."
+              >
+                <Link href="/contact">
+                  <Button variant="primary" size="lg">
+                    Book a Strategy Call
+                  </Button>
+                </Link>
+                <Link href="/solutions">
+                  <Button variant="outline" size="lg">
+                    Explore Solutions
+                  </Button>
+                </Link>
+              </CTA>
+            </Reveal>
           </Container>
         </section>
       </ScrollWorldContainer>

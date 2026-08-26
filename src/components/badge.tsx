@@ -31,8 +31,8 @@ export const Badge: React.FC<BadgeProps> = ({
   ...props
 }) => {
   const variantStyles = {
-    outline: "border border-[#DEDDD3] text-[#57564C] bg-[#F0F0EB]",
-    filled: "border border-transparent text-[#14140F] bg-[#E4E3DB]",
+    outline: "border border-hairline text-graphite bg-paper",
+    filled: "border border-transparent text-ink bg-bone",
   };
 
   return (

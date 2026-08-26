@@ -18,8 +18,11 @@
  * The 3 bars symbolize the "Triad" philosophy: Strategy + Technology + Execution!
  */
 
+"use client";
+
 import * as React from "react";
 import { cn } from "../utils/cn";
+import { motion } from "framer-motion";
 
 export interface TriadMarkProps extends React.HTMLAttributes<HTMLSpanElement> {
   size?: "sm" | "md" | "lg";
@@ -42,9 +45,9 @@ export const TriadMark: React.FC<TriadMarkProps> = ({
       aria-hidden="true"
       {...props}
     >
-      <span className="bg-[#14140F] opacity-35" />
-      <span className="bg-[#14140F] opacity-65" />
-      <span className="bg-[#14140F] opacity-100" />
+      <span className="bg-ink opacity-35" />
+      <span className="bg-ink opacity-65" />
+      <span className="bg-ink opacity-100" />
     </span>
   );
 };
@@ -66,21 +69,28 @@ export const TriadPanel: React.FC<{
   className?: string;
 }> = ({ steps = defaultTriadSteps, className }) => {
   const opacities = ["opacity-35", "opacity-65", "opacity-100"];
-  const widths = ["w-[22%]", "w-[22%]", "w-[22%]"];
 
   return (
-    <div className={cn("bg-[#E4E3DB] rounded-[2px] p-8 md:p-12 flex flex-col gap-7", className)}>
-      {steps.map((step, idx) => (
-        <div key={idx} className="flex items-center gap-5">
-          <div className={cn("h-1 rounded-[1px] bg-[#14140F]", widths[idx], opacities[idx])} />
-          <div className="font-sans text-sm font-semibold text-[#14140F]">
-            {step.title}
-            <small className="block font-normal text-[#57564C] text-xs mt-0.5">
-              {step.subtitle}
-            </small>
+    <div className={cn("relative rounded-[4px] p-[1px] bg-gradient-to-br from-ink/20 via-ink/5 to-ink/10 shadow-[0_8px_32px_rgba(20,20,15,0.05)]", className)}>
+      <div className="bg-paper rounded-[3px] p-8 md:p-12 flex flex-col gap-7 w-full h-full">
+        {steps.map((step, idx) => (
+          <div key={idx} className="flex items-center gap-5">
+            <motion.div
+              initial={{ width: 0 }}
+              whileInView={{ width: "22%" }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.7, delay: idx * 0.15, ease: "easeOut" }}
+              className={cn("h-1 rounded-[1px] bg-ink", opacities[idx])}
+            />
+            <div className="font-sans text-sm font-semibold text-ink">
+              {step.title}
+              <small className="block font-normal text-graphite text-xs mt-0.5">
+                {step.subtitle}
+              </small>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };

@@ -39,7 +39,7 @@ export const GlobalLayout: React.FC<GlobalLayoutProps> = ({
   className,
 }) => {
   return (
-    <div className="flex flex-col min-h-screen bg-[#F0F0EB] text-[#14140F]">
+    <div className="flex flex-col min-h-screen bg-[var(--paper)] text-[var(--ink)] transition-colors duration-300">
       {/* Navigation manages Desktop header, Tablet rail, and Mobile bars */}
       <Navigation />
 

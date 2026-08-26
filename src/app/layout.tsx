@@ -45,7 +45,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet" />
       </head>
-      <body suppressHydrationWarning className="min-h-full flex flex-col bg-[var(--paper)] text-[#14140F] selection:bg-[#14140F] selection:text-[#F0F0EB]">
+      <body suppressHydrationWarning className="min-h-full flex flex-col bg-transparent text-[var(--ink)] selection:bg-[var(--ink)] selection:text-[var(--paper)]">
         <RootProviders>
           <CustomCursor />
           {children}

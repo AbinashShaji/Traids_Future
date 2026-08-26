@@ -10,10 +10,10 @@
  * - Team photos on /about.
  *
  * HOW IT WORKS:
- * 1. While the image is downloading over the internet, it shows a warm bone placeholder (`bg-[#E4E3DB]`).
+ * 1. While the image is downloading over the internet, it shows a warm bone placeholder (`bg-bone`).
  * 2. When the browser finishes loading the photo (`onLoad={() => setIsLoaded(true)}`),
  *    it smoothly transitions opacity from 0% to 100% over 300 milliseconds.
- * 3. Enforces the 2px corner radius (`rounded-[2px]`) and hairline border (`border-[#DEDDD3]`).
+ * 3. Enforces the 2px corner radius (`rounded-[2px]`) and hairline border (`border-hairline`).
  *
  * BEGINNER TIP:
  * This prevents images from jarringly jumping or popping onto the screen when loading!
@@ -40,7 +40,7 @@ export const ImageWrapper: React.FC<ImageWrapperProps> = ({
   return (
     <div
       className={cn(
-        "relative overflow-hidden bg-[#E4E3DB] border border-[#DEDDD3] rounded-[2px]",
+        "relative overflow-hidden bg-bone border border-hairline rounded-[2px]",
         containerClassName
       )}
     >

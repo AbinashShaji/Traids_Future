@@ -31,8 +31,8 @@ export default function ThankYouPage() {
     <GlobalLayout>
       <section className="min-h-[80vh] flex items-center justify-center pt-32 pb-20">
         <Container className="max-w-2xl text-center flex flex-col items-center gap-6">
-          <div className="w-14 h-14 rounded-full bg-[#E4E3DB] flex items-center justify-center mb-1">
-            <CheckCircle className="w-7 h-7 text-[#14140F] stroke-[1.5]" />
+          <div className="w-14 h-14 rounded-full bg-bone flex items-center justify-center mb-1">
+            <CheckCircle className="w-7 h-7 text-ink stroke-[1.5]" />
           </div>
 
           <SectionHeading
@@ -44,44 +44,44 @@ export default function ThankYouPage() {
             Thank you for booking a call
           </SectionHeading>
 
-          <p className="font-editorial text-[#57564C] text-lg md:text-xl leading-relaxed max-w-md">
+          <p className="font-editorial text-graphite text-lg md:text-xl leading-relaxed max-w-md">
             We have received your details. A senior partner will review your business context and reach out within 24 business hours with calendar details.
           </p>
 
-          <Card variant="bone" className="w-full text-left p-6 md:p-8 border border-[#DEDDD3] mt-2">
+          <Card variant="bone" className="w-full text-left p-6 md:p-8 border border-hairline mt-2">
             <div className="flex items-center gap-2 mb-4">
               <TriadMark size="sm" />
-              <h3 className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-[#14140F]">
+              <h3 className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-ink">
                 What Happens Next
               </h3>
             </div>
             
             <ul className="space-y-4 font-sans">
               <li className="flex gap-4">
-                <span className="font-heading text-sm font-semibold text-[#14140F] w-6 h-6 rounded-full bg-[#F0F0EB] border border-[#DEDDD3] flex items-center justify-center shrink-0">1</span>
+                <span className="font-heading text-sm font-semibold text-ink w-6 h-6 rounded-full bg-paper border border-hairline flex items-center justify-center shrink-0">1</span>
                 <div>
-                  <h4 className="font-heading text-sm font-semibold text-[#14140F]">Preliminary Audit</h4>
-                  <p className="font-editorial text-sm text-[#57564C] mt-0.5 leading-relaxed">
+                  <h4 className="font-heading text-sm font-semibold text-ink">Preliminary Audit</h4>
+                  <p className="font-editorial text-sm text-graphite mt-0.5 leading-relaxed">
                     We conduct a brief review of your public assets, sector, and digital workflows.
                   </p>
                 </div>
               </li>
 
               <li className="flex gap-4">
-                <span className="font-heading text-sm font-semibold text-[#14140F] w-6 h-6 rounded-full bg-[#F0F0EB] border border-[#DEDDD3] flex items-center justify-center shrink-0">2</span>
+                <span className="font-heading text-sm font-semibold text-ink w-6 h-6 rounded-full bg-paper border border-hairline flex items-center justify-center shrink-0">2</span>
                 <div>
-                  <h4 className="font-heading text-sm font-semibold text-[#14140F]">Calendar Invitation</h4>
-                  <p className="font-editorial text-sm text-[#57564C] mt-0.5 leading-relaxed">
+                  <h4 className="font-heading text-sm font-semibold text-ink">Calendar Invitation</h4>
+                  <p className="font-editorial text-sm text-graphite mt-0.5 leading-relaxed">
                     You will receive a Google Meet invitation with a confirmed time slot.
                   </p>
                 </div>
               </li>
 
               <li className="flex gap-4">
-                <span className="font-heading text-sm font-semibold text-[#14140F] w-6 h-6 rounded-full bg-[#F0F0EB] border border-[#DEDDD3] flex items-center justify-center shrink-0">3</span>
+                <span className="font-heading text-sm font-semibold text-ink w-6 h-6 rounded-full bg-paper border border-hairline flex items-center justify-center shrink-0">3</span>
                 <div>
-                  <h4 className="font-heading text-sm font-semibold text-[#14140F]">Strategy Diagnosis</h4>
-                  <p className="font-editorial text-sm text-[#57564C] mt-0.5 leading-relaxed">
+                  <h4 className="font-heading text-sm font-semibold text-ink">Strategy Diagnosis</h4>
+                  <p className="font-editorial text-sm text-graphite mt-0.5 leading-relaxed">
                     A focused 30-minute conversation to isolate friction and map technology architecture.
                   </p>
                 </div>

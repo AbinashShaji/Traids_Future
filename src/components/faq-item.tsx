@@ -40,7 +40,7 @@ export const FAQItem: React.FC<FAQItemProps> = ({
   return (
     <div
       className={cn(
-        "border border-[#DEDDD3] rounded-[2px] bg-[#F0F0EB] overflow-hidden transition-all duration-300",
+        "border border-hairline rounded-[2px] bg-paper overflow-hidden transition-all duration-300",
         className
       )}
     >
@@ -48,12 +48,12 @@ export const FAQItem: React.FC<FAQItemProps> = ({
         type="button"
         onClick={onToggle}
         aria-expanded={isOpen}
-        className="w-full px-6 py-4 flex items-center justify-between gap-4 text-left font-sans font-semibold text-[#14140F] hover:bg-[#E4E3DB]/40 transition-colors"
+        className="w-full px-6 py-4 flex items-center justify-between gap-4 text-left font-sans font-semibold text-ink hover:bg-bone/40 transition-colors"
       >
         <span className="text-sm md:text-base leading-snug">{faq.question}</span>
         <ChevronDown
           className={cn(
-            "w-4 h-4 text-[#57564C] transition-transform duration-300 shrink-0",
+            "w-4 h-4 text-graphite transition-transform duration-300 shrink-0",
             isOpen && "rotate-180"
           )}
         />
@@ -62,12 +62,12 @@ export const FAQItem: React.FC<FAQItemProps> = ({
         className={cn(
           "grid transition-all duration-300 ease-in-out",
           isOpen
-            ? "grid-rows-[1fr] opacity-100 border-t border-[#DEDDD3]"
+            ? "grid-rows-[1fr] opacity-100 border-t border-hairline"
             : "grid-rows-[0fr] opacity-0"
         )}
       >
         <div className="overflow-hidden">
-          <div className="p-6 font-editorial text-base text-[#57564C] leading-relaxed bg-[#E4E3DB]/30">
+          <div className="p-6 font-editorial text-base text-graphite leading-relaxed bg-bone/30">
             {faq.answer}
           </div>
         </div>

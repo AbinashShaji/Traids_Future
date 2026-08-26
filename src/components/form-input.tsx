@@ -41,7 +41,7 @@ export const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
       <div className="flex flex-col gap-2 w-full">
         <label
           htmlFor={inputId}
-          className="font-sans text-xs font-semibold uppercase tracking-[0.06em] text-[#57564C]"
+          className="font-sans text-xs font-semibold uppercase tracking-[0.06em] text-graphite"
         >
           {label}
         </label>
@@ -49,10 +49,10 @@ export const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
           ref={ref}
           id={inputId}
           className={cn(
-            "w-full px-4 py-3.5 bg-[#F0F0EB] border rounded-[2px] font-sans text-sm text-[#14140F] placeholder:text-[#57564C]/60 transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] focus:outline-none focus:border-[#14140F] focus:ring-1 focus:ring-[#14140F]",
+            "w-full px-4 py-3.5 bg-paper border rounded-[2px] font-sans text-sm text-ink placeholder:text-graphite/60 transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] focus:outline-none focus:border-ink focus:ring-1 focus:ring-[#14140F]",
             error
               ? "border-[#B3261E] focus:border-[#B3261E] focus:ring-[#B3261E]"
-              : "border-[#DEDDD3]",
+              : "border-hairline",
             className
           )}
           aria-invalid={error ? "true" : "false"}
@@ -60,7 +60,7 @@ export const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
           {...props}
         />
         {helperText && !error && (
-          <span id={`${inputId}-helper`} className="font-sans text-xs text-[#57564C]">
+          <span id={`${inputId}-helper`} className="font-sans text-xs text-graphite">
             {helperText}
           </span>
         )}

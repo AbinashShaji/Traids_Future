@@ -35,6 +35,7 @@ import { Reveal } from "../../components/reveal";
 import { TriadMark } from "../../components/triad-mark";
 import { ScrollWorldContainer } from "../../components/scroll-world-container";
 import { solutions } from "../../mock/solutions";
+import { staggeredContainerVariants, springSlideLeftVariants, springFadeUpVariants } from "../../animations/presets";
 import { getHeroContainerVariants, getHeroItemVariants } from "../../animations/presets";
 
 const iconMap: Record<string, LucideIcon> = {
@@ -73,7 +74,7 @@ export default function SolutionsPage() {
         {/* 1. HERO SLIDE (Clean, Centered Editorial Statement with Generous Negative Space — 100vh narrative) */}
         <section
           id="hero"
-          className="slide-section min-h-[100dvh] flex flex-col justify-between pt-28 pb-10 md:pt-36 md:pb-12 border-b border-[#DEDDD3] relative overflow-hidden"
+          className="slide-section min-h-[100dvh] flex flex-col justify-between pt-28 pb-10 md:pt-36 md:pb-12 border-b border-hairline relative overflow-hidden"
         >
           {/* Main Centered Content */}
           <Container className="my-auto">
@@ -89,7 +90,7 @@ export default function SolutionsPage() {
                 className="flex items-center justify-center gap-3"
               >
                 <TriadMark size="sm" />
-                <span className="font-sans text-xs md:text-sm font-semibold uppercase tracking-[0.18em] text-[#57564C]">
+                <span className="font-sans text-xs md:text-sm font-semibold uppercase tracking-[0.18em] text-graphite">
                   Commercial Capabilities
                 </span>
               </motion.div>
@@ -97,7 +98,7 @@ export default function SolutionsPage() {
               {/* Massive Centered Headline in Canela */}
               <motion.h1
                 variants={heroItemVariants}
-                className="font-heading text-4xl sm:text-5xl md:text-6xl lg:text-[72px] xl:text-[80px] font-normal md:font-medium tracking-[-0.025em] leading-[1.06] text-[#14140F] max-w-4xl"
+                className="font-heading text-4xl sm:text-5xl md:text-6xl lg:text-[72px] xl:text-[80px] font-normal md:font-medium tracking-[-0.025em] leading-[1.06] text-ink max-w-4xl"
               >
                 Solutions shaped by<br className="hidden sm:inline" />
                 business outcomes,<br className="hidden sm:inline" />
@@ -107,7 +108,7 @@ export default function SolutionsPage() {
               {/* Short Supporting Statement */}
               <motion.p
                 variants={heroItemVariants}
-                className="font-editorial text-[#57564C] text-lg sm:text-xl md:text-2xl leading-relaxed max-w-2xl font-normal"
+                className="font-editorial text-graphite text-lg sm:text-xl md:text-2xl leading-relaxed max-w-2xl font-normal"
               >
                 We build digital tools, custom software, and brand infrastructure designed to remove operational bottlenecks and drive compound commercial growth.
               </motion.p>
@@ -136,7 +137,7 @@ export default function SolutionsPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: prefersReducedMotion ? 0 : 0.7, duration: 0.5 }}
-            className="w-full flex flex-col items-center justify-center gap-2 text-[#57564C] select-none pt-4"
+            className="w-full flex flex-col items-center justify-center gap-2 text-graphite select-none pt-4"
           >
             <motion.div
               animate={prefersReducedMotion ? {} : { y: [0, 4, 0] }}
@@ -144,7 +145,7 @@ export default function SolutionsPage() {
               className="flex flex-col items-center gap-1.5"
             >
               <ArrowDown className="w-3.5 h-3.5 stroke-[1.5]" />
-              <span className="font-sans text-[10px] font-semibold uppercase tracking-[0.24em] text-[#57564C]/80">
+              <span className="font-sans text-[10px] font-semibold uppercase tracking-[0.24em] text-graphite/80">
                 Scroll
               </span>
             </motion.div>
@@ -154,96 +155,109 @@ export default function SolutionsPage() {
         {/* 2. OUTCOMES CATALOG SLIDE (Outcome-Named Rows) */}
         <section
           id="catalog"
-          className="slide-section py-20 md:py-28 border-b border-[#DEDDD3]"
+          className="slide-section py-20 md:py-28 border-b border-hairline"
         >
           <Container>
-            <div className="max-w-3xl mb-16">
-              <SectionHeading
-                tag="h2"
-                subtitle="Outcome Catalog"
-                withTriadMark
-              >
-                Five core areas of commercial transformation
-              </SectionHeading>
-              <p className="font-editorial text-[#57564C] text-base md:text-lg leading-relaxed mt-3">
-                Every solution is delivered as clean, documented code and open architecture that you own outright. Zero vendor lock-in.
-              </p>
-            </div>
+            <Reveal variant="fadeUp">
+              <div className="max-w-3xl mb-16">
+                <SectionHeading
+                  tag="h2"
+                  subtitle="Solutions We Provide"
+                  withTriadMark
+                >
+                  Technical solutions built for commercial impact.
+                </SectionHeading>
+                <p className="font-editorial text-graphite text-base md:text-lg leading-relaxed mt-3">
+                  Every solution is delivered as clean, documented code and open architecture that you own outright. Zero vendor lock-in.
+                </p>
+              </div>
+            </Reveal>
 
-            <div className="space-y-16">
+            <div className="relative pl-8 md:pl-12 lg:pl-16 space-y-20 md:space-y-32">
+              {/* Continuous Timeline Line */}
+              <div className="absolute left-2.5 md:left-4 lg:left-6 top-8 bottom-8 w-px bg-hairline" />
+
               {solutions.map((solution, idx) => {
                 const Icon = iconMap[solution.icon] || Globe;
+                
                 return (
-                  <div
+                  <motion.div
                     key={solution.id}
                     id={solution.id}
-                    className="scroll-mt-24 border-t border-[#DEDDD3] pt-12"
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-50px" }}
+                    variants={springSlideLeftVariants}
+                    className="relative grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start scroll-mt-24 group"
                   >
-                    <Reveal variant="fadeUp" delay={idx} className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-                      {/* Left: Outcome Definition */}
-                      <div className="lg:col-span-5 flex flex-col gap-5">
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-[2px] bg-[#E4E3DB] flex items-center justify-center">
-                            <Icon className="w-5 h-5 text-[#14140F] stroke-[1.5]" />
-                          </div>
-                          <span className="font-sans text-xs font-semibold uppercase tracking-[0.1em] text-[#57564C]">
-                            Outcome 0{idx + 1}
-                          </span>
+                    {/* Timeline Node */}
+                    <div className="absolute -left-[30px] md:-left-[42px] lg:-left-[54px] top-2 w-6 h-6 rounded-full bg-paper border-[1.5px] border-hairline group-hover:border-ink transition-colors duration-300 flex items-center justify-center">
+                      <div className="w-1.5 h-1.5 rounded-full bg-graphite group-hover:bg-ink transition-colors duration-300" />
+                    </div>
+
+                    {/* Left: Solution Definition */}
+                    <div className="lg:col-span-5 flex flex-col gap-6">
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 rounded-[4px] bg-bone flex items-center justify-center group-hover:bg-ink group-hover:text-white transition-colors duration-300">
+                          <Icon className="w-6 h-6 stroke-[1.5]" />
                         </div>
+                        <span className="font-sans text-[11px] font-semibold uppercase tracking-[0.15em] text-graphite">
+                          Solution 0{idx + 1}
+                        </span>
+                      </div>
 
-                        <h3 className="font-heading text-2xl md:text-3xl font-normal md:font-medium text-[#14140F] leading-tight">
-                          {solution.title}
-                        </h3>
+                      <h3 className="font-heading text-3xl md:text-4xl font-normal md:font-medium text-ink leading-tight">
+                        {solution.title}
+                      </h3>
 
-                        <p className="font-editorial text-[#57564C] text-base leading-relaxed">
-                          {solution.description}
+                      <p className="font-editorial text-graphite text-lg leading-relaxed">
+                        {solution.description}
+                      </p>
+
+                      <div className="pt-4">
+                        <Link href={`/contact?interest=${solution.id}`}>
+                          <Button variant="primary" size="md">
+                            {solution.ctaText}
+                          </Button>
+                        </Link>
+                      </div>
+                    </div>
+
+                    {/* Right: Commercial Impact & Capabilities */}
+                    <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-10 bg-paper shadow-[0_8px_32px_rgba(20,20,15,0.02)] hover:shadow-[0_16px_48px_rgba(20,20,15,0.06)] border border-hairline rounded-[2px] p-8 md:p-10 transition-shadow duration-500">
+                      <div className="flex flex-col gap-5">
+                        <h4 className="font-sans text-[11px] font-semibold uppercase tracking-[0.15em] text-ink">
+                          Commercial Impact
+                        </h4>
+                        <p className="font-editorial text-sm text-graphite leading-relaxed">
+                          {solution.businessValue}
                         </p>
 
-                        <div className="pt-2">
-                          <Link href={`/contact?interest=${solution.id}`}>
-                            <Button variant="primary" size="sm">
-                              {solution.ctaText}
-                            </Button>
-                          </Link>
-                        </div>
-                      </div>
-
-                      {/* Right: Commercial Impact & Services */}
-                      <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-8 bg-[#E4E3DB] border border-[#DEDDD3] rounded-[2px] p-6 md:p-8">
-                        <div className="flex flex-col gap-4">
-                          <h4 className="font-sans text-xs font-semibold uppercase tracking-[0.1em] text-[#14140F]">
-                            Commercial Impact
-                          </h4>
-                          <p className="font-editorial text-sm text-[#57564C] leading-relaxed">
-                            {solution.businessValue}
+                        <div className="mt-4 pt-6 border-t border-hairline">
+                          <h5 className="font-sans text-[11px] font-semibold uppercase tracking-[0.15em] text-ink mb-3">
+                            Ideal Context
+                          </h5>
+                          <p className="font-editorial text-sm text-graphite leading-relaxed">
+                            {solution.idealFor}
                           </p>
-
-                          <div className="mt-2 pt-4 border-t border-[#DEDDD3]">
-                            <h5 className="font-sans text-xs font-semibold uppercase tracking-[0.1em] text-[#14140F] mb-1.5">
-                              Ideal Context
-                            </h5>
-                            <p className="font-editorial text-xs text-[#57564C] leading-relaxed">
-                              {solution.idealFor}
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="flex flex-col gap-4">
-                          <h4 className="font-sans text-xs font-semibold uppercase tracking-[0.1em] text-[#14140F]">
-                            Capabilities Included
-                          </h4>
-                          <ul className="space-y-2.5">
-                            {solution.services.map((service, index) => (
-                              <li key={index} className="font-sans text-xs text-[#14140F] flex items-start gap-2">
-                                <Check className="w-3.5 h-3.5 text-[#14140F] mt-0.5 shrink-0" />
-                                <span>{service}</span>
-                              </li>
-                            ))}
-                          </ul>
                         </div>
                       </div>
-                    </Reveal>
-                  </div>
+
+                      <div className="flex flex-col gap-5">
+                        <h4 className="font-sans text-[11px] font-semibold uppercase tracking-[0.15em] text-ink">
+                          Capabilities Included
+                        </h4>
+                        <ul className="space-y-3">
+                          {solution.services.map((service, index) => (
+                            <li key={index} className="font-sans text-[13px] text-ink flex items-start gap-3">
+                              <Check className="w-4 h-4 text-ink mt-0.5 shrink-0" />
+                              <span className="leading-snug">{service}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </motion.div>
                 );
               })}
             </div>
@@ -253,18 +267,18 @@ export default function SolutionsPage() {
         {/* 3. BOTTLENECK ANALYSIS SLIDE (Centered / Full-Width Problem Breakdown) */}
         <section
           id="problems"
-          className="slide-section min-h-[100dvh] flex items-center py-20 md:py-28 border-b border-[#DEDDD3]"
+          className="slide-section min-h-[100dvh] flex items-center py-20 md:py-28 border-b border-hairline"
         >
           <Container>
             <div className="max-w-4xl mx-auto flex flex-col gap-12 text-center items-center">
               <div className="flex flex-col gap-4 items-center">
-                <span className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-[#57564C] flex items-center gap-2">
+                <span className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-graphite flex items-center gap-2">
                   <TriadMark size="sm" /> Operational Bottlenecks
                 </span>
-                <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-normal md:font-medium text-[#14140F] tracking-tight leading-tight">
+                <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-normal md:font-medium text-ink tracking-tight leading-tight">
                   When systems fail to keep pace with growth
                 </h2>
-                <p className="font-editorial text-lg md:text-xl text-[#57564C] max-w-2xl">
+                <p className="font-editorial text-lg md:text-xl text-graphite max-w-2xl">
                   Growing companies encounter predictable friction points where manual tools, fractured apps, and outdated branding restrict scale.
                 </p>
               </div>
@@ -289,11 +303,11 @@ export default function SolutionsPage() {
                   },
                 ].map((item, idx) => (
                   <Card key={idx} variant="bone" className="p-6">
-                    <h4 className="font-heading text-lg font-medium text-[#14140F] mb-2 flex items-center gap-2">
-                      <HelpCircle className="w-4 h-4 text-[#57564C]" />
+                    <h4 className="font-heading text-lg font-medium text-ink mb-2 flex items-center gap-2">
+                      <HelpCircle className="w-4 h-4 text-graphite" />
                       <span>{item.title}</span>
                     </h4>
-                    <p className="font-editorial text-sm text-[#57564C] leading-relaxed">
+                    <p className="font-editorial text-sm text-graphite leading-relaxed">
                       {item.description}
                     </p>
                   </Card>
@@ -306,7 +320,7 @@ export default function SolutionsPage() {
         {/* 4. ONBOARDING PHASES SLIDE (4-Column Structured Roadmap) */}
         <section
           id="process"
-          className="slide-section min-h-[100dvh] flex items-center py-20 md:py-28 border-b border-[#DEDDD3]"
+          className="slide-section min-h-[100dvh] flex items-center py-20 md:py-28 border-b border-hairline"
         >
           <Container>
             <div className="max-w-3xl mb-14">
@@ -317,12 +331,18 @@ export default function SolutionsPage() {
               >
                 How we deliver results in sprints
               </SectionHeading>
-              <p className="font-editorial text-[#57564C] text-base md:text-lg leading-relaxed mt-3">
+              <p className="font-editorial text-graphite text-base md:text-lg leading-relaxed mt-3">
                 Our engagement model minimizes operational risk through weekly live demonstrations and structured accountability.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <motion.div 
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-50px" }}
+              variants={staggeredContainerVariants}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+            >
               {[
                 {
                   step: "Phase 01",
@@ -349,28 +369,33 @@ export default function SolutionsPage() {
                   details: "We train your internal team, deploy telemetry monitoring, and transfer complete IP and repository ownership.",
                 },
               ].map((phase, index) => (
-                <Card
+                <motion.div
                   key={index}
-                  variant="paper"
-                  className="flex flex-col justify-between p-6 min-h-[280px]"
+                  variants={springFadeUpVariants}
+                  className="h-full"
                 >
-                  <div>
-                    <span className="font-sans text-xs font-semibold text-[#57564C] uppercase tracking-wider block mb-2">
-                      {phase.step}
-                    </span>
-                    <h4 className="font-heading text-lg font-medium text-[#14140F] mb-1">
-                      {phase.title}
-                    </h4>
-                    <span className="font-editorial text-xs text-[#57564C] block mb-4 italic">
-                      {phase.duration}
-                    </span>
-                    <p className="font-editorial text-sm text-[#57564C] leading-relaxed">
-                      {phase.details}
-                    </p>
-                  </div>
-                </Card>
+                  <Card
+                    variant="paper"
+                    className="flex flex-col justify-between p-6 min-h-[280px] h-full"
+                  >
+                    <div>
+                      <span className="font-sans text-xs font-semibold text-graphite uppercase tracking-wider block mb-2">
+                        {phase.step}
+                      </span>
+                      <h4 className="font-heading text-lg font-medium text-ink mb-1">
+                        {phase.title}
+                      </h4>
+                      <span className="font-editorial text-xs text-graphite block mb-4 italic">
+                        {phase.duration}
+                      </span>
+                      <p className="font-editorial text-sm text-graphite leading-relaxed">
+                        {phase.details}
+                      </p>
+                    </div>
+                  </Card>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </Container>
         </section>
 
@@ -381,8 +406,8 @@ export default function SolutionsPage() {
         >
           <Container>
             <CTA
-              eyebrow="Initiate Solutions"
-              headline="Ready to diagnose your technology bottlenecks?"
+              eyebrow="Why are you waiting?"
+              headline="Contact us to diagnose your technology bottlenecks."
               description="Schedule a 30-minute consultation call. We will review your current systems and give you direct commercial feedback on what to streamline first."
             >
               <Link href="/contact">

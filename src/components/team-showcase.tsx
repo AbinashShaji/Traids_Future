@@ -61,32 +61,32 @@ function ArchitecturalMemberPlaceholder({
   return (
     <div
       className={cn(
-        "w-full relative rounded-[2px] overflow-hidden border border-[#DEDDD3] bg-[#F0F0EB] flex flex-col justify-between p-6 sm:p-8 transition-all duration-500 hover:shadow-[0_12px_32px_rgba(20,20,15,0.06)] group",
+        "w-full relative rounded-[2px] overflow-hidden border border-hairline bg-paper flex flex-col justify-between p-6 sm:p-8 transition-all duration-500 hover:shadow-[0_12px_32px_rgba(20,20,15,0.06)] group",
         aspectRatio
       )}
     >
       <div className="flex items-center justify-between">
         <TriadMark size="sm" />
-        <span className="font-sans text-[11px] font-semibold uppercase tracking-[0.16em] text-[#57564C]">
+        <span className="font-sans text-[11px] font-semibold uppercase tracking-[0.16em] text-graphite">
           {member.location || "London · Global"}
         </span>
       </div>
 
       <div className="flex flex-col items-center justify-center my-auto py-6">
-        <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-[2px] border border-[#DEDDD3] bg-[#E4E3DB] flex items-center justify-center mb-3 transition-transform duration-500 group-hover:scale-105">
-          <span className="font-heading text-xl sm:text-2xl font-medium text-[#14140F]">
+        <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-[2px] border border-hairline bg-bone flex items-center justify-center mb-3 transition-transform duration-500 group-hover:scale-105">
+          <span className="font-heading text-xl sm:text-2xl font-medium text-ink">
             {initials}
           </span>
         </div>
-        <span className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-[#14140F] text-center">
+        <span className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-ink text-center">
           {member.name}
         </span>
-        <span className="font-sans text-[11px] text-[#57564C] mt-1 text-center">
+        <span className="font-sans text-[11px] text-graphite mt-1 text-center">
           {member.department || member.role}
         </span>
       </div>
 
-      <div className="pt-3 border-t border-[#DEDDD3] flex items-center justify-between font-sans text-[11px] text-[#57564C]">
+      <div className="pt-3 border-t border-hairline flex items-center justify-between font-sans text-[11px] text-graphite">
         <span>Triads Future</span>
         <span>{member.label || member.role}</span>
       </div>
@@ -129,7 +129,7 @@ export const TeamShowcase: React.FC<TeamShowcaseProps> = ({
                 {heading}
               </SectionHeading>
               {subheading && (
-                <p className="font-editorial text-[#57564C] text-base md:text-lg leading-relaxed mt-3">
+                <p className="font-editorial text-graphite text-base md:text-lg leading-relaxed mt-3">
                   {subheading}
                 </p>
               )}
@@ -140,18 +140,18 @@ export const TeamShowcase: React.FC<TeamShowcaseProps> = ({
         {/* 2. Empty State Handling (CMS-ready fallback) */}
         {activeMembers.length === 0 ? (
           <Reveal variant="fadeUp">
-            <div className="border border-[#DEDDD3] rounded-[2px] bg-[#E4E3DB]/50 p-10 md:p-14 text-center max-w-2xl mx-auto flex flex-col items-center gap-4">
+            <div className="border border-hairline rounded-[2px] bg-paper shadow-[0_8px_32px_rgba(20,20,15,0.03)] p-10 md:p-14 text-center max-w-2xl mx-auto flex flex-col items-center gap-4">
               <TriadMark size="md" />
-              <h3 className="font-heading text-xl md:text-2xl text-[#14140F]">
+              <h3 className="font-heading text-xl md:text-2xl text-ink">
                 Meet the people behind the work.
               </h3>
-              <p className="font-editorial text-[#57564C] text-base leading-relaxed max-w-md">
+              <p className="font-editorial text-graphite text-base leading-relaxed max-w-md">
                 Our multidisciplinary engineering and strategy team is currently being updated. Connect directly with our leadership to learn more.
               </p>
               <div className="pt-2">
                 <Link
                   href="/contact"
-                  className="inline-flex items-center gap-2 font-sans text-xs font-semibold uppercase tracking-[0.14em] text-[#14140F] hover:text-[#57564C] transition-colors group"
+                  className="inline-flex items-center gap-2 font-sans text-xs font-semibold uppercase tracking-[0.14em] text-ink hover:text-graphite transition-colors group"
                 >
                   <span className="btn-text-underline">Initiate Conversation</span>
                   <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" />
@@ -164,11 +164,11 @@ export const TeamShowcase: React.FC<TeamShowcaseProps> = ({
             {/* 3. Featured Team Member Presentation */}
             {featuredMember && (
               <Reveal variant="fadeUp">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center bg-[#E4E3DB] border border-[#DEDDD3] rounded-[2px] p-6 sm:p-10 lg:p-12">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center bg-paper shadow-[0_8px_32px_rgba(20,20,15,0.03)] border border-hairline rounded-[2px] p-6 sm:p-10 lg:p-12">
                   {/* Left: Large Editorial Portrait or Architectural Monoline Placeholder */}
                   <div className="lg:col-span-5 w-full">
                     {featuredMember.image ? (
-                      <div className="w-full aspect-[4/5] relative rounded-[2px] overflow-hidden border border-[#DEDDD3] bg-[#F0F0EB] group">
+                      <div className="w-full aspect-[4/5] relative rounded-[2px] overflow-hidden border border-hairline bg-paper group">
                         <ImageWrapper
                           src={featuredMember.image}
                           alt={featuredMember.name}
@@ -189,21 +189,21 @@ export const TeamShowcase: React.FC<TeamShowcaseProps> = ({
                   {/* Right: Detailed Metadata & Bio */}
                   <div className="lg:col-span-7 flex flex-col gap-5 sm:gap-6">
                     <div className="flex flex-col gap-2">
-                      <span className="font-sans text-xs font-semibold uppercase tracking-[0.18em] text-[#57564C]">
+                      <span className="font-sans text-xs font-semibold uppercase tracking-[0.18em] text-graphite">
                         {featuredMember.label || featuredMember.role}
                       </span>
-                      <h3 className="font-sans text-3xl sm:text-4xl font-bold text-[#14140F] tracking-tight">
+                      <h3 className="font-sans text-3xl sm:text-4xl font-bold text-ink tracking-tight">
                         {featuredMember.name}
                       </h3>
                       {featuredMember.statement && (
-                        <p className="font-editorial italic text-lg sm:text-xl text-[#14140F] leading-snug mt-1">
+                        <p className="font-editorial italic text-lg sm:text-xl text-ink leading-snug mt-1">
                           &ldquo;{featuredMember.statement}&rdquo;
                         </p>
                       )}
                     </div>
 
                     {/* Biography Flow */}
-                    <div className="space-y-4 font-sans text-sm sm:text-base text-[#57564C] leading-relaxed border-t border-[#DEDDD3] pt-5">
+                    <div className="space-y-4 font-sans text-sm sm:text-base text-graphite leading-relaxed border-t border-hairline pt-5">
                       {Array.isArray(featuredMember.bio) ? (
                         featuredMember.bio.map((para, idx) => (
                           <p key={idx}>{para}</p>
@@ -228,7 +228,7 @@ export const TeamShowcase: React.FC<TeamShowcaseProps> = ({
                             }
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 font-sans text-xs font-semibold uppercase tracking-[0.14em] text-[#14140F] hover:text-[#57564C] transition-colors group"
+                            className="inline-flex items-center gap-2 font-sans text-xs font-semibold uppercase tracking-[0.14em] text-ink hover:text-graphite transition-colors group"
                           >
                             <span className="btn-text-underline">
                               Connect on LinkedIn
@@ -242,7 +242,7 @@ export const TeamShowcase: React.FC<TeamShowcaseProps> = ({
                             href={featuredMember.socialLinks.website}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 font-sans text-xs font-semibold uppercase tracking-[0.14em] text-[#57564C] hover:text-[#14140F] transition-colors group"
+                            className="inline-flex items-center gap-1.5 font-sans text-xs font-semibold uppercase tracking-[0.14em] text-graphite hover:text-ink transition-colors group"
                           >
                             <span>Portfolio</span>
                             <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
@@ -260,12 +260,12 @@ export const TeamShowcase: React.FC<TeamShowcaseProps> = ({
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 pt-4">
                 {secondaryMembers.map((member, idx) => (
                   <Reveal key={member.id} variant="fadeUp" delay={idx + 1}>
-                    <div className="bg-[#E4E3DB] border border-[#DEDDD3] rounded-[2px] p-6 flex flex-col justify-between h-full group hover:border-[#14140F]/30 transition-all duration-300">
+                    <div className="bg-paper shadow-[0_8px_32px_rgba(20,20,15,0.03)] border border-hairline rounded-[2px] p-6 flex flex-col justify-between h-full group hover:border-ink/30 transition-all duration-300">
                       <div>
                         {/* Member Image / Monoline Placeholder */}
                         <div className="mb-5 overflow-hidden rounded-[2px]">
                           {member.image ? (
-                            <div className="w-full aspect-[4/5] relative rounded-[2px] overflow-hidden border border-[#DEDDD3] bg-[#F0F0EB]">
+                            <div className="w-full aspect-[4/5] relative rounded-[2px] overflow-hidden border border-hairline bg-paper">
                               <ImageWrapper
                                 src={member.image}
                                 alt={member.name}
@@ -284,15 +284,15 @@ export const TeamShowcase: React.FC<TeamShowcaseProps> = ({
                         </div>
 
                         {/* Member Header */}
-                        <span className="font-sans text-[11px] font-semibold uppercase tracking-[0.16em] text-[#57564C] block mb-1">
+                        <span className="font-sans text-[11px] font-semibold uppercase tracking-[0.16em] text-graphite block mb-1">
                           {member.label || member.role}
                         </span>
-                        <h4 className="font-sans text-xl font-bold text-[#14140F] tracking-tight mb-3">
+                        <h4 className="font-sans text-xl font-bold text-ink tracking-tight mb-3">
                           {member.name}
                         </h4>
 
                         {/* Bio snippet */}
-                        <p className="font-sans text-sm text-[#57564C] leading-relaxed">
+                        <p className="font-sans text-sm text-graphite leading-relaxed">
                           {Array.isArray(member.bio)
                             ? member.bio[0]
                             : member.bio}
@@ -302,7 +302,7 @@ export const TeamShowcase: React.FC<TeamShowcaseProps> = ({
                       {/* Social Link */}
                       {(member.linkedin ||
                         member.socialLinks?.linkedin) && (
-                        <div className="pt-5 mt-5 border-t border-[#DEDDD3]">
+                        <div className="pt-5 mt-5 border-t border-hairline">
                           <a
                             href={
                               member.linkedin ||
@@ -310,7 +310,7 @@ export const TeamShowcase: React.FC<TeamShowcaseProps> = ({
                             }
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 font-sans text-xs font-semibold uppercase tracking-[0.14em] text-[#14140F] hover:text-[#57564C] transition-colors group/link"
+                            className="inline-flex items-center gap-2 font-sans text-xs font-semibold uppercase tracking-[0.14em] text-ink hover:text-graphite transition-colors group/link"
                           >
                             <span className="btn-text-underline">
                               LinkedIn Profile

@@ -13,9 +13,9 @@ export default function ContactPage() {
           <SectionWrapper className="pt-32 pb-16">
             <Container>
               <div className="max-w-3xl flex flex-col gap-4 animate-pulse">
-                <div className="h-4 w-32 bg-[#DEDDD3] rounded-[2px]" />
-                <div className="h-10 w-full max-w-xl bg-[#DEDDD3] rounded-[2px]" />
-                <div className="h-5 w-full max-w-lg bg-[#DEDDD3] rounded-[2px]" />
+                <div className="h-4 w-32 bg-hairline rounded-[2px]" />
+                <div className="h-10 w-full max-w-xl bg-hairline rounded-[2px]" />
+                <div className="h-5 w-full max-w-lg bg-hairline rounded-[2px]" />
               </div>
             </Container>
           </SectionWrapper>

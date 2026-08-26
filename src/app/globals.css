@@ -67,6 +67,16 @@
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+.dark {
+  /* Dark Mode Color Tokens */
+  --paper: #14140F;
+  --bone: #1F1F17;
+  --hairline: #2C2C24;
+  --ink: #F4EBE1;
+  --graphite: #A1A097;
+  --signal: #E57373;
+}
+
 @theme {
   --color-paper: var(--paper);
   --color-bone: var(--bone);

@@ -39,7 +39,7 @@ export default function NotFound() {
             Page not found
           </SectionHeading>
           
-          <p className="font-editorial text-[#57564C] text-lg md:text-xl leading-relaxed max-w-md">
+          <p className="font-editorial text-graphite text-lg md:text-xl leading-relaxed max-w-md">
             The page you are looking for does not exist, was relocated, or is no longer available. Return to one of our main sections below.
           </p>
 

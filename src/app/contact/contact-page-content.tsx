@@ -31,6 +31,7 @@ import { Button } from "../../components/button";
 import { FormInput } from "../../components/form-input";
 import { FormTextarea } from "../../components/form-textarea";
 import { FAQItem } from "../../components/faq-item";
+import { Reveal } from "../../components/reveal";
 import { ScrollWorldContainer } from "../../components/scroll-world-container";
 import { toast } from "sonner";
 
@@ -132,10 +133,10 @@ function ContactPageContent() {
         {/* 1. BOOKING SLIDE (Split: Value Prop & Channels Left / Form Right — 100vh narrative) */}
         <section
           id="booking"
-          className="slide-section min-h-[100dvh] flex items-center pt-24 pb-16 md:pt-28 md:pb-20 border-b border-[#DEDDD3]"
+          className="slide-section min-h-[100dvh] flex items-center pt-24 pb-16 md:pt-28 md:pb-20 border-b border-hairline"
         >
           <Container>
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            <Reveal variant="fadeUp" className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
               {/* Left Column: Context & Direct Channels */}
               <div className="lg:col-span-5 flex flex-col gap-8">
                 <div className="flex flex-col gap-4">
@@ -146,13 +147,13 @@ function ContactPageContent() {
                   >
                     Book a Strategy Call
                   </SectionHeading>
-                  <p className="font-editorial text-[#57564C] text-lg leading-relaxed">
+                  <p className="font-editorial text-graphite text-lg leading-relaxed">
                     Every partnership begins with a 30-minute diagnosis call. We will examine your current software bottlenecks, identify manual drag, and map out a practical architecture roadmap.
                   </p>
                 </div>
 
                 <div>
-                  <span className="font-sans text-xs text-[#14140F] uppercase tracking-[0.1em] block font-semibold mb-3">
+                  <span className="font-sans text-xs text-ink uppercase tracking-[0.1em] block font-semibold mb-3">
                     What we will cover:
                   </span>
                   <ul className="space-y-3">
@@ -161,53 +162,53 @@ function ContactPageContent() {
                       "Processes and workflows that consume excessive team hours.",
                       "Timeline, stack selection, and fixed commercial deliverables.",
                     ].map((item, idx) => (
-                      <li key={idx} className="font-editorial text-base text-[#57564C] flex items-start gap-2.5">
-                        <Check className="w-4 h-4 text-[#14140F] mt-1 shrink-0" />
+                      <li key={idx} className="font-editorial text-base text-graphite flex items-start gap-2.5">
+                        <Check className="w-4 h-4 text-ink mt-1 shrink-0" />
                         <span>{item}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                <div className="border-t border-[#DEDDD3] pt-6 flex flex-col gap-4">
-                  <span className="font-sans text-xs text-[#14140F] uppercase tracking-[0.1em] block font-semibold">
+                <div className="border-t border-hairline pt-6 flex flex-col gap-4">
+                  <span className="font-sans text-xs text-ink uppercase tracking-[0.1em] block font-semibold">
                     Direct Channels
                   </span>
                   <div className="flex flex-col gap-2.5">
                     <a
                       href={`mailto:${settings.email}`}
-                      className="font-sans text-sm font-medium text-[#14140F] hover:text-[#57564C] transition-colors flex items-center gap-3"
+                      className="font-sans text-sm font-medium text-ink hover:text-graphite transition-colors flex items-center gap-3"
                     >
-                      <Mail className="w-4 h-4 text-[#57564C] stroke-[1.5]" />
+                      <Mail className="w-4 h-4 text-graphite stroke-[1.5]" />
                       <span>{settings.email}</span>
                     </a>
                     <a
                       href={`tel:${settings.phone}`}
-                      className="font-sans text-sm font-medium text-[#14140F] hover:text-[#57564C] transition-colors flex items-center gap-3"
+                      className="font-sans text-sm font-medium text-ink hover:text-graphite transition-colors flex items-center gap-3"
                     >
-                      <PhoneIcon className="w-4 h-4 text-[#57564C] stroke-[1.5]" />
+                      <PhoneIcon className="w-4 h-4 text-graphite stroke-[1.5]" />
                       <span>{settings.phone}</span>
                     </a>
                   </div>
                 </div>
 
-                <div className="border-t border-[#DEDDD3] pt-6 flex flex-col gap-3">
-                  <div className="flex items-start gap-3 font-sans text-xs text-[#57564C]">
-                    <MapPin className="w-4 h-4 text-[#57564C] mt-0.5 shrink-0 stroke-[1.5]" />
+                <div className="border-t border-hairline pt-6 flex flex-col gap-3">
+                  <div className="flex items-start gap-3 font-sans text-xs text-graphite">
+                    <MapPin className="w-4 h-4 text-graphite mt-0.5 shrink-0 stroke-[1.5]" />
                     <span>{settings.address}</span>
                   </div>
-                  <div className="flex items-center gap-3 font-sans text-xs text-[#57564C]">
-                    <Clock className="w-4 h-4 text-[#57564C] shrink-0 stroke-[1.5]" />
+                  <div className="flex items-center gap-3 font-sans text-xs text-graphite">
+                    <Clock className="w-4 h-4 text-graphite shrink-0 stroke-[1.5]" />
                     <span>{settings.businessHours}</span>
                   </div>
                 </div>
               </div>
 
               {/* Right Column: Clean Form */}
-              <div className="lg:col-span-7 bg-[#E4E3DB] border border-[#DEDDD3] rounded-[2px] p-6 md:p-10 shadow-[0_8px_30px_rgba(20,20,15,0.03)]">
+              <div className="lg:col-span-7 bg-paper shadow-[0_8px_32px_rgba(20,20,15,0.03)] border border-hairline rounded-[2px] p-6 md:p-10">
                 <div className="flex items-center gap-2 mb-6">
-                  <Calendar className="w-5 h-5 text-[#14140F]" />
-                  <h3 className="font-heading text-xl font-medium text-[#14140F]">
+                  <Calendar className="w-5 h-5 text-ink" />
+                  <h3 className="font-heading text-xl font-medium text-ink">
                     Schedule 30-Minute Consultation
                   </h3>
                 </div>
@@ -262,7 +263,7 @@ function ContactPageContent() {
                   </div>
                 </form>
               </div>
-            </div>
+            </Reveal>
           </Container>
         </section>
 
@@ -272,7 +273,7 @@ function ContactPageContent() {
           className="slide-section py-20 md:py-28"
         >
           <Container>
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            <Reveal variant="fadeUp" className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
               <div className="lg:col-span-5 flex flex-col gap-4">
                 <SectionHeading
                   tag="h2"
@@ -281,7 +282,7 @@ function ContactPageContent() {
                 >
                   Frequently asked questions
                 </SectionHeading>
-                <p className="font-editorial text-[#57564C] text-base md:text-lg leading-relaxed">
+                <p className="font-editorial text-graphite text-base md:text-lg leading-relaxed">
                   Clear answers about our engagement models, technical ownership, and sprint structure before you book.
                 </p>
               </div>
@@ -296,7 +297,7 @@ function ContactPageContent() {
                   />
                 ))}
               </div>
-            </div>
+            </Reveal>
           </Container>
         </section>
       </ScrollWorldContainer>
@@ -306,7 +307,7 @@ function ContactPageContent() {
 
 export default function ContactPage() {
   return (
-    <React.Suspense fallback={<div className="min-h-screen bg-[#F0F0EB]" />}>
+    <React.Suspense fallback={<div className="min-h-screen bg-paper" />}>
       <ContactPageContent />
     </React.Suspense>
   );
