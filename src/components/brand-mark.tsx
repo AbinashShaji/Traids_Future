@@ -87,7 +87,7 @@ export const BrandMark: React.FC<BrandMarkProps> = ({
             fill
             priority
             sizes={isTablet ? "37px" : "96px"}
-            className={cn("object-contain object-left", imageClassName)}
+            className={cn("object-contain object-left logo-adaptive", imageClassName)}
           />
         </div>
       </Link>
@@ -112,7 +112,7 @@ export const BrandMark: React.FC<BrandMarkProps> = ({
             fill
             priority
             sizes="(max-width: 768px) 211px, 232px"
-            className={cn("object-contain object-left", imageClassName)}
+            className={cn("object-contain object-left logo-adaptive", imageClassName)}
           />
         </motion.div>
 
@@ -131,7 +131,7 @@ export const BrandMark: React.FC<BrandMarkProps> = ({
             fill
             priority
             sizes="(max-width: 768px) 211px, 232px"
-            className={cn("object-contain object-left", imageClassName)}
+            className={cn("object-contain object-left logo-adaptive", imageClassName)}
           />
         </motion.div>
       </div>

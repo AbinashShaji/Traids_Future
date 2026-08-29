@@ -36,7 +36,7 @@ import { ScrollWorldContainer } from "../../components/scroll-world-container";
 import { toast } from "sonner";
 
 import { settings } from "../../mock/settings";
-import { faqs } from "../../mock/faq";
+import { type FAQ } from "@prisma/client";
 
 const contactSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -53,7 +53,11 @@ const contactSlides = [
   { id: "faq", label: "FAQ" },
 ];
 
-function ContactPageContent() {
+interface ContactPageContentProps {
+  faqs: FAQ[];
+}
+
+export function ContactPageContent({ faqs }: ContactPageContentProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const interest = searchParams.get("interest");
@@ -133,10 +137,10 @@ function ContactPageContent() {
         {/* 1. BOOKING SLIDE (Split: Value Prop & Channels Left / Form Right — 100vh narrative) */}
         <section
           id="booking"
-          className="slide-section min-h-[100dvh] flex items-center pt-24 pb-16 md:pt-28 md:pb-20 border-b border-hairline"
+          className="slide-section min-h-[100dvh] pt-28 pb-20 md:pt-32 md:pb-24 border-b border-hairline lg:flex lg:items-center"
         >
           <Container>
-            <Reveal variant="fadeUp" className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            <Reveal variant="fadeUp" className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 lg:gap-16 items-start">
               {/* Left Column: Context & Direct Channels */}
               <div className="lg:col-span-5 flex flex-col gap-8">
                 <div className="flex flex-col gap-4">
@@ -270,10 +274,10 @@ function ContactPageContent() {
         {/* 2. FAQ SLIDE (Split: Header Left / Accordion Right) */}
         <section
           id="faq"
-          className="slide-section py-20 md:py-28"
+          className="slide-section py-12 md:py-24 lg:py-28"
         >
           <Container>
-            <Reveal variant="fadeUp" className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            <Reveal variant="fadeUp" className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 lg:gap-16 items-start">
               <div className="lg:col-span-5 flex flex-col gap-4">
                 <SectionHeading
                   tag="h2"
@@ -305,10 +309,4 @@ function ContactPageContent() {
   );
 }
 
-export default function ContactPage() {
-  return (
-    <React.Suspense fallback={<div className="min-h-screen bg-paper" />}>
-      <ContactPageContent />
-    </React.Suspense>
-  );
-}
+

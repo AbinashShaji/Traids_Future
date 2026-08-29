@@ -24,6 +24,13 @@ import "./globals.css";
 import { RootProviders } from "../providers/root-providers";
 import { CustomCursor } from "../components/custom-cursor";
 
+export const viewport: import("next").Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+};
+
 export const metadata: Metadata = {
   title: "Triads Future — Business Growth & Technology Partner",
   description: "We partner with growing businesses to deliver sustained growth through strategy, modern technology, and practical execution.",

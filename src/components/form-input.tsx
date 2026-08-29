@@ -49,7 +49,7 @@ export const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
           ref={ref}
           id={inputId}
           className={cn(
-            "w-full px-4 py-3.5 bg-paper border rounded-[2px] font-sans text-sm text-ink placeholder:text-graphite/60 transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] focus:outline-none focus:border-ink focus:ring-1 focus:ring-[#14140F]",
+            "w-full px-4 py-3.5 bg-paper border rounded-[2px] font-sans text-base md:text-sm text-ink placeholder:text-graphite/60 transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] focus:outline-none focus:border-ink focus:ring-1 focus:ring-[#14140F]",
             error
               ? "border-[#B3261E] focus:border-[#B3261E] focus:ring-[#B3261E]"
               : "border-hairline",

@@ -23,6 +23,7 @@
 import * as React from "react";
 import Image, { type ImageProps } from "next/image";
 import { cn } from "../utils/cn";
+import { LoadingLogo } from "./loading-logo";
 
 export interface ImageWrapperProps extends Omit<ImageProps, "ref"> {
   containerClassName?: string;
@@ -40,11 +41,14 @@ export const ImageWrapper: React.FC<ImageWrapperProps> = ({
   return (
     <div
       className={cn(
-        "relative overflow-hidden bg-bone border border-hairline rounded-[2px]",
+        "relative overflow-hidden bg-bone border border-hairline rounded-[2px] flex items-center justify-center",
         containerClassName
       )}
     >
-      <div className="w-full h-full relative">
+      {/* Show the glowing triangular logo while the image downloads */}
+      {!isLoaded && <LoadingLogo size={32} />}
+
+      <div className="w-full h-full relative z-10">
         <Image
           className={cn(
             "object-cover transition-opacity duration-300",

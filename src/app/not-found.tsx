@@ -28,7 +28,7 @@ import { Button } from "../components/button";
 export default function NotFound() {
   return (
     <GlobalLayout>
-      <section className="min-h-[70vh] flex items-center justify-center pt-32 pb-20">
+      <section className="min-h-[50vh] md:min-h-[70vh] flex items-center justify-center pt-32 pb-20">
         <Container className="max-w-2xl text-center flex flex-col items-center gap-6">
           <SectionHeading
             tag="h1"

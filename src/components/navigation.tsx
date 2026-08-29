@@ -142,35 +142,41 @@ const TabletNavigationRail: React.FC = () => {
   );
 };
 
+import { LimelightNav, type NavItem } from "./ui/limelight-nav";
+import { useRouter } from "next/navigation";
+
 // MobileBottomNavigation: Thumb-reachable bottom bar (< 768px)
 const MobileBottomNavigation: React.FC = () => {
   const pathname = usePathname();
+  const router = useRouter();
+
+  // Find active index by checking if the current path starts with the nav item's href.
+  // Special case for Home ("/") to avoid it matching every path.
+  const activeIndex = mobileNav.findIndex(item => {
+    if (item.href === "/") return pathname === "/";
+    return pathname.startsWith(item.href);
+  });
+
+  // Map to Limelight NavItem format
+  const limelightItems: NavItem[] = mobileNav.map((item) => {
+    const Icon = iconMap[item.label] || House;
+    const label = item.href === "/contact" ? "Consult" : item.label;
+    
+    return {
+      id: item.href,
+      icon: <Icon />,
+      label: label,
+      onClick: () => router.push(item.href)
+    };
+  });
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-[var(--paper)]/96 backdrop-blur-md border-t border-[var(--hairline)] z-40 pb-safe-bottom md:hidden shadow-[0_-1px_10px_rgba(20,20,15,0.02)]">
-      <div className="flex items-center justify-around px-4 py-2">
-        {mobileNav.map((item) => {
-          const isActive = pathname === item.href;
-          const Icon = iconMap[item.label] || House;
-          const label = item.href === "/contact" ? "Consult" : item.label;
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={cn(
-                "flex flex-col items-center gap-1 py-1 px-3 transition-colors",
-                isActive ? "text-[var(--ink)] font-semibold" : "text-[var(--graphite)]"
-              )}
-            >
-              <Icon className="w-5 h-5 stroke-[1.5]" />
-              <span className="text-[10px] font-sans font-medium">
-                {label}
-              </span>
-            </Link>
-          );
-        })}
-      </div>
-    </nav>
+    <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden">
+      <LimelightNav 
+        items={limelightItems} 
+        defaultActiveIndex={activeIndex !== -1 ? activeIndex : 0}
+      />
+    </div>
   );
 };
 

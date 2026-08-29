@@ -74,7 +74,7 @@ export default function SolutionsPage() {
         {/* 1. HERO SLIDE (Clean, Centered Editorial Statement with Generous Negative Space — 100vh narrative) */}
         <section
           id="hero"
-          className="slide-section min-h-[100dvh] flex flex-col justify-between pt-28 pb-10 md:pt-36 md:pb-12 border-b border-hairline relative overflow-hidden"
+          className="slide-section min-h-[100dvh] flex flex-col justify-between pt-20 pb-8 md:pt-36 md:pb-12 border-b border-hairline relative overflow-hidden"
         >
           {/* Main Centered Content */}
           <Container className="my-auto">
@@ -155,7 +155,7 @@ export default function SolutionsPage() {
         {/* 2. OUTCOMES CATALOG SLIDE (Outcome-Named Rows) */}
         <section
           id="catalog"
-          className="slide-section py-20 md:py-28 border-b border-hairline"
+          className="slide-section py-12 md:py-24 lg:py-28 border-b border-hairline"
         >
           <Container>
             <Reveal variant="fadeUp">
@@ -198,7 +198,7 @@ export default function SolutionsPage() {
                     {/* Left: Solution Definition */}
                     <div className="lg:col-span-5 flex flex-col gap-6">
                       <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-[4px] bg-bone flex items-center justify-center group-hover:bg-ink group-hover:text-white transition-colors duration-300">
+                        <div className="w-12 h-12 rounded-[4px] bg-bone flex items-center justify-center group-hover:bg-ink group-hover:text-[var(--paper)] transition-colors duration-300">
                           <Icon className="w-6 h-6 stroke-[1.5]" />
                         </div>
                         <span className="font-sans text-[11px] font-semibold uppercase tracking-[0.15em] text-graphite">
@@ -267,10 +267,10 @@ export default function SolutionsPage() {
         {/* 3. BOTTLENECK ANALYSIS SLIDE (Centered / Full-Width Problem Breakdown) */}
         <section
           id="problems"
-          className="slide-section min-h-[100dvh] flex items-center py-20 md:py-28 border-b border-hairline"
+          className="slide-section min-h-[100dvh] flex items-center py-12 md:py-24 lg:py-28 border-b border-hairline"
         >
           <Container>
-            <div className="max-w-4xl mx-auto flex flex-col gap-12 text-center items-center">
+            <div className="max-w-4xl mx-auto flex flex-col gap-8 md:gap-12 text-center items-center">
               <div className="flex flex-col gap-4 items-center">
                 <span className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-graphite flex items-center gap-2">
                   <TriadMark size="sm" /> Operational Bottlenecks
@@ -320,7 +320,7 @@ export default function SolutionsPage() {
         {/* 4. ONBOARDING PHASES SLIDE (4-Column Structured Roadmap) */}
         <section
           id="process"
-          className="slide-section min-h-[100dvh] flex items-center py-20 md:py-28 border-b border-hairline"
+          className="slide-section min-h-[100dvh] flex items-center py-12 md:py-24 lg:py-28 border-b border-hairline"
         >
           <Container>
             <div className="max-w-3xl mb-14">
@@ -402,7 +402,7 @@ export default function SolutionsPage() {
         {/* 5. FINAL INITIATE CTA SLIDE (Centered Action Block — 100vh narrative) */}
         <section
           id="cta"
-          className="slide-section min-h-[100dvh] flex items-center justify-center py-20"
+          className="slide-section min-h-[100dvh] flex items-center justify-center py-12 md:py-20"
         >
           <Container>
             <CTA

@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 export default function TermsPage() {
   return (
     <GlobalLayout>
-      <main className="pt-28 pb-20 md:pt-36 md:pb-28">
+      <main className="pt-20 pb-12 md:pt-36 md:pb-28">
         <Container className="max-w-3xl">
           <div className="mb-8">
             <Link href="/">

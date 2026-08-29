@@ -32,13 +32,14 @@ import { Badge } from "../../../components/badge";
 import { ImageWrapper } from "../../../components/image-wrapper";
 import { CTA } from "../../../components/cta";
 import { ScrollWorldContainer } from "../../../components/scroll-world-container";
-import { articles, getArticleBySlug, getRelatedArticles } from "../../../mock/articles";
+import { getInsights, getInsightBySlug, getRelatedInsights } from "@/actions/insights";
 
 interface ArticleDetailPageProps {
   params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
+  const articles = await getInsights();
   return articles.map((article) => ({
     slug: article.slug,
   }));
@@ -101,14 +102,14 @@ function renderContent(content: string) {
 
 export default async function ArticleDetailPage({ params }: ArticleDetailPageProps) {
   const resolvedParams = await params;
-  const article = getArticleBySlug(resolvedParams.slug);
+  const article = await getInsightBySlug(resolvedParams.slug);
 
   if (!article) {
     notFound();
   }
 
-  const relatedArticles = getRelatedArticles(article.slug, 2);
-  const formattedDate = new Date(article.publishedAt).toLocaleDateString("en-US", {
+  const relatedArticles = article.category ? await getRelatedInsights(article.category, article.slug) : [];
+  const formattedDate = new Date(article.createdAt).toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",
@@ -128,7 +129,7 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
         {/* 1. HERO SLIDE (Split: Title Left / Meta Right — 100vh narrative) */}
         <section
           id="hero"
-          className="slide-section min-h-[100dvh] flex items-center pt-24 pb-16 md:pt-28 md:pb-20 border-b border-[#DEDDD3]"
+          className="slide-section min-h-[100dvh] flex items-center pt-16 pb-12 md:pt-28 md:pb-20 border-b border-[#DEDDD3]"
         >
           <Container>
             <div className="mb-8">
@@ -141,7 +142,7 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-start">
               <div className="lg:col-span-8 flex flex-col gap-5">
                 <div className="flex flex-wrap items-center gap-3">
                   <Badge variant="filled">{article.category}</Badge>
@@ -173,7 +174,7 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
                   </span>
                   <div>
                     <cite className="font-heading text-lg font-medium text-[#14140F] not-italic block">
-                      {article.author}
+                      {article.authorName}
                     </cite>
                     <span className="font-editorial text-sm text-[#57564C] block mt-0.5">
                       {article.authorRole}
@@ -192,7 +193,7 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
         >
           <div className="w-full aspect-[21/9] min-h-[340px] relative">
             <ImageWrapper
-              src={article.coverImage}
+              src={article.featuredImage || ""}
               alt={article.title}
               fill
               sizes="100vw"
@@ -205,10 +206,10 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
         {/* 3. ARTICLE CONTENT SLIDE (Split: Meta Left / Newsreader Body Right) */}
         <section
           id="body"
-          className="slide-section py-20 md:py-28 border-b border-[#DEDDD3]"
+          className="slide-section py-12 md:py-24 lg:py-28 border-b border-[#DEDDD3]"
         >
           <Container>
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 lg:gap-16">
               {/* Left Column: Topics */}
               <div className="lg:col-span-4 flex flex-col gap-6 lg:sticky lg:top-28">
                 <div className="border-t border-[#DEDDD3] pt-6">
@@ -229,7 +230,7 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
                     Author
                   </span>
                   <div className="font-heading text-base font-medium text-[#14140F]">
-                    {article.author}
+                    {article.authorName}
                     <span className="block font-editorial text-xs text-[#57564C] mt-0.5">
                       {article.authorRole}
                     </span>
@@ -249,7 +250,7 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
         {relatedArticles.length > 0 && (
           <section
             id="related"
-            className="slide-section py-20 md:py-28 border-b border-[#DEDDD3]"
+            className="slide-section py-12 md:py-24 lg:py-28 border-b border-[#DEDDD3]"
           >
             <Container>
               <div className="mb-12">
@@ -272,7 +273,7 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
                     <div>
                       <div className="aspect-[16/10] relative">
                         <ImageWrapper
-                          src={rel.coverImage}
+                          src={rel.featuredImage || ""}
                           alt={rel.title}
                           fill
                           sizes="(max-width: 768px) 100vw, 50vw"
@@ -297,7 +298,7 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
                     </div>
                     <div className="px-6 pb-6 pt-3 flex items-center justify-between border-t border-[#DEDDD3] mt-auto">
                       <span className="font-sans text-xs text-[#57564C]">
-                        {rel.author}
+                        {rel.authorName}
                       </span>
                       <Link href={`/insights/${rel.slug}`}>
                         <Button variant="text" size="sm" className="group">
@@ -315,7 +316,7 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
         {/* 5. NEXT STEP CTA */}
         <section
           id="cta"
-          className="slide-section min-h-[100dvh] flex items-center justify-center py-20"
+          className="slide-section min-h-[100dvh] flex items-center justify-center py-12 md:py-20"
         >
           <Container>
             <CTA

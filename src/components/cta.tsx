@@ -49,7 +49,7 @@ export const CTA: React.FC<CTAProps> = ({
       viewport={{ once: true, margin: "-50px" }}
       variants={staggeredContainerVariants}
       className={cn(
-        "py-20 md:py-28 border-t border-hairline flex flex-col items-center text-center max-w-3xl mx-auto px-6",
+        "py-12 md:py-24 lg:py-28 border-t border-hairline flex flex-col items-center text-center max-w-3xl mx-auto px-6",
         className
       )}
       {...props}

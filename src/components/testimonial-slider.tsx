@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Star, Quote } from "lucide-react";
 import { ImageWrapper } from "./image-wrapper";
-import { Testimonial } from "../mock/testimonials";
+import { type Testimonial } from "@prisma/client";
 
 const AUTOPLAY_INTERVAL = 8000;
 
@@ -106,13 +106,13 @@ export const TestimonialSlider: React.FC<{ testimonials: Testimonial[] }> = ({ t
               }}
               className="w-full cursor-grab active:cursor-grabbing"
             >
-              <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-center lg:items-start">
+              <div className="flex flex-col lg:flex-row gap-8 lg:gap-8 md:gap-12 items-center lg:items-start">
                 
                 {/* Left: The Person (High Priority) */}
                 <div className="w-full lg:w-1/3 flex flex-col items-center lg:items-start shrink-0 text-center lg:text-left">
                   <div className="w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-[2px] overflow-hidden relative border border-hairline shadow-sm mb-6">
                     <ImageWrapper
-                      src={testimonials[currentIndex].photo}
+                      src={testimonials[currentIndex].photo || ""}
                       alt={testimonials[currentIndex].clientName}
                       fill
                       sizes="(max-width: 1024px) 160px, 192px"
@@ -123,7 +123,7 @@ export const TestimonialSlider: React.FC<{ testimonials: Testimonial[] }> = ({ t
                     {testimonials[currentIndex].clientName}
                   </cite>
                   <span className="font-sans text-base text-graphite block">
-                    {testimonials[currentIndex].clientRole}
+                    {testimonials[currentIndex].designation}
                   </span>
                   <span className="font-sans text-base font-semibold text-ink block mt-1">
                     {testimonials[currentIndex].company}

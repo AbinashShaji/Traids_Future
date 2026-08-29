@@ -22,7 +22,7 @@
 import * as React from "react";
 import { ChevronDown } from "lucide-react";
 import { cn } from "../utils/cn";
-import { type FAQ } from "../mock/faq";
+import { type FAQ } from "@prisma/client";
 
 export interface FAQItemProps {
   faq: FAQ;

@@ -21,6 +21,7 @@
  */
 
 import * as React from "react";
+import Image from "next/image";
 import { Navigation } from "../components/navigation";
 import { Footer } from "../components/footer";
 import { cn } from "../utils/cn";
@@ -39,14 +40,29 @@ export const GlobalLayout: React.FC<GlobalLayoutProps> = ({
   className,
 }) => {
   return (
-    <div className="flex flex-col min-h-screen bg-[var(--paper)] text-[var(--ink)] transition-colors duration-300">
+    <div className="flex flex-col min-h-screen bg-[var(--paper)] text-[var(--ink)] transition-colors duration-300 relative z-0">
+      
+
+
+      {/* Abstract Background Logo watermark */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden flex items-center justify-center z-[-1]">
+        <div className="relative w-[60vw] h-[60vw] max-w-[400px] max-h-[400px] opacity-10 dark:opacity-5">
+          <Image
+            src="/brand/traid_future_triangle_logo.png"
+            alt=""
+            fill
+            className="object-contain logo-adaptive"
+          />
+        </div>
+      </div>
+
       {/* Navigation manages Desktop header, Tablet rail, and Mobile bars */}
       <Navigation />
 
       {/* Main content viewport */}
       <main
         className={cn(
-          "flex-1 w-full flex flex-col",
+          "flex-1 w-full flex flex-col relative z-10",
           "lg:pt-0",
           "md:pl-20 lg:pl-0",
           "pb-28 md:pb-0",
@@ -57,7 +73,9 @@ export const GlobalLayout: React.FC<GlobalLayoutProps> = ({
       </main>
 
       {/* Footer */}
-      <Footer />
+      <div className="md:pl-20 lg:pl-0 relative z-10">
+        <Footer />
+      </div>
     </div>
   );
 };

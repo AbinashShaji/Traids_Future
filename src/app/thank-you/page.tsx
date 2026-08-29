@@ -29,7 +29,7 @@ import { TriadMark } from "../../components/triad-mark";
 export default function ThankYouPage() {
   return (
     <GlobalLayout>
-      <section className="min-h-[80vh] flex items-center justify-center pt-32 pb-20">
+      <section className="min-h-[60vh] md:min-h-[80vh] flex items-center justify-center pt-32 pb-20">
         <Container className="max-w-2xl text-center flex flex-col items-center gap-6">
           <div className="w-14 h-14 rounded-full bg-bone flex items-center justify-center mb-1">
             <CheckCircle className="w-7 h-7 text-ink stroke-[1.5]" />

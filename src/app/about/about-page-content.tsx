@@ -35,8 +35,8 @@ import { Button } from "../../components/button";
 import { Card } from "../../components/card";
 import { ImageWrapper } from "../../components/image-wrapper";
 import { CTA } from "../../components/cta";
-import { faqs } from "../../mock/faq";
 import { teamMembers } from "../../mock/team";
+import { type FAQ } from "@prisma/client";
 import { Reveal } from "../../components/reveal";
 import { TriadMark, TriadPanel } from "../../components/triad-mark";
 import { ScrollWorldContainer } from "../../components/scroll-world-container";
@@ -81,8 +81,12 @@ const aboutSlides = [
   { id: "cta", label: "Next Step" },
 ];
 
-export default function AboutPageContent() {
-  const [openFaq, setOpenFaq] = React.useState<string | null>("faq-001");
+interface AboutPageContentProps {
+  faqs: FAQ[];
+}
+
+export default function AboutPageContent({ faqs }: AboutPageContentProps) {
+  const [openFaq, setOpenFaq] = React.useState<string | null>(null);
   const faqsForPage = faqs.slice(0, 5);
 
   return (
@@ -91,7 +95,7 @@ export default function AboutPageContent() {
         {/* 1. HERO SLIDE (Centered / Full-Width Manifesto — 100vh narrative) */}
         <section
           id="hero"
-          className="slide-section min-h-[100dvh] flex items-center pt-24 pb-16 md:pt-28 md:pb-20 border-b border-hairline"
+          className="slide-section min-h-[100dvh] flex items-center pt-16 pb-12 md:pt-28 md:pb-20 border-b border-hairline"
         >
           <Container>
             <motion.div 
@@ -137,10 +141,10 @@ export default function AboutPageContent() {
         {/* 2. OUR STORY SLIDE (Split: Text Left / Narrative Visual Panel Right) */}
         <section
           id="story"
-          className="slide-section py-20 md:py-28 border-b border-hairline"
+          className="slide-section py-12 md:py-24 lg:py-28 border-b border-hairline"
         >
           <Container>
-            <Reveal variant="fadeUp" className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            <Reveal variant="fadeUp" className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 lg:gap-16 items-center">
               <div className="lg:col-span-6 flex flex-col gap-6">
                 <SectionHeading
                   tag="h2"
@@ -183,10 +187,10 @@ export default function AboutPageContent() {
         {/* 3. APPROACH SLIDE (Split: Triad Signature Panel Left / Narrative Right — 100vh narrative) */}
         <section
           id="approach"
-          className="slide-section min-h-[100dvh] flex items-center py-20 md:py-28 border-b border-hairline"
+          className="slide-section min-h-[100dvh] flex items-center py-12 md:py-24 lg:py-28 border-b border-hairline"
         >
           <Container>
-            <Reveal variant="fadeUp" className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            <Reveal variant="fadeUp" className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 lg:gap-16 items-center">
               <div className="lg:col-span-6">
                 <TriadPanel />
               </div>
@@ -223,7 +227,7 @@ export default function AboutPageContent() {
         {/* 4. OPERATING PRINCIPLES SLIDE (3-Column Grid) */}
         <section
           id="principles"
-          className="slide-section py-20 md:py-28 border-b border-hairline"
+          className="slide-section py-12 md:py-24 lg:py-28 border-b border-hairline"
         >
           <Container>
             <Reveal variant="fadeUp">
@@ -283,7 +287,7 @@ export default function AboutPageContent() {
         {/* 5. TEAM & PEOPLE SLIDE (Dynamic CMS-Ready Editorial Showcase) */}
         <section
           id="team"
-          className="slide-section min-h-[100dvh] flex items-center py-20 md:py-28 border-b border-hairline"
+          className="slide-section min-h-[100dvh] flex items-center py-12 md:py-24 lg:py-28 border-b border-hairline"
         >
           <TeamShowcase
             members={teamMembers}
@@ -296,10 +300,10 @@ export default function AboutPageContent() {
         {/* 6. FAQ SLIDE (Split: Header Left / Accordion Rows Right) */}
         <section
           id="faq"
-          className="slide-section py-20 md:py-28 border-b border-hairline"
+          className="slide-section py-12 md:py-24 lg:py-28 border-b border-hairline"
         >
           <Container>
-            <Reveal variant="fadeUp" className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            <Reveal variant="fadeUp" className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 lg:gap-16 items-start">
               <div className="lg:col-span-5 flex flex-col gap-6">
                 <SectionHeading
                   tag="h2"
@@ -337,7 +341,7 @@ export default function AboutPageContent() {
         {/* 7. NEXT STEP CTA */}
         <section
           id="cta"
-          className="slide-section min-h-[100dvh] flex items-center justify-center py-20"
+          className="slide-section min-h-[100dvh] flex items-center justify-center py-12 md:py-20"
         >
           <Container>
             <Reveal variant="fadeUp">
