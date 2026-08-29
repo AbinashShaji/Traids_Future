@@ -231,7 +231,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                           {testimonial.clientName}
                         </cite>
                         <span className="font-sans text-sm text-graphite mt-1">
-                          {testimonial.designation}
+                          {testimonial.clientRole}
                         </span>
                         <span className="font-sans text-sm font-semibold text-ink mt-1">
                           {testimonial.company}

@@ -1,35 +1,14 @@
-/**
- * FILE: src/mock/projects.ts
- *
- * WHAT THIS DOES:
- * Stores real/mock case studies of work completed by Triads Future.
- *
- * WHERE IT IS USED:
- * - Rendered on the Homepage (/) under "Selected Work".
- * - Rendered on the Work portfolio index (/work).
- * - Generates individual case study detail pages (/work/[slug]).
- *
- * HOW IT WORKS:
- * Each project contains client information, the business challenge,
- * the strategy used, the technical solution, measurable results, and images.
- *
- * BEGINNER TIP:
- * The `slug` field is used as the webpage address name.
- * Example: slug "meridian-financial-digital-platform" becomes "/work/meridian-financial-digital-platform".
- */
-
-// ProjectResult describes a single numerical or text success metric from a completed project.
 export interface ProjectResult {
   metric: string;
   value: string;
 }
 
-// Project outlines all the fields representing a case study: who the client was, the challenge, strategy, solution, results, and cover image.
 export interface Project {
   id: string;
   slug: string;
   title: string;
   client: string;
+  clientName: string;
   industry: string;
   summary: string;
   challenge: string;
@@ -38,18 +17,21 @@ export interface Project {
   results: ProjectResult[];
   coverImage: string;
   gallery: string[];
+  galleryImages: { url: string; alt: string }[];
+  narrativeSections: { title: string; body: string }[];
   tags: string[];
   featured: boolean;
+  published: boolean;
   testimonialId?: string;
 }
 
-// The list of case studies we display to show prospects what we can build.
 export const projects: Project[] = [
   {
     id: "proj-001",
     slug: "meridian-financial-digital-platform",
     title: "A digital platform that made complex finance feel simple",
     client: "Meridian Financial",
+    clientName: "Meridian Financial",
     industry: "Financial Services",
     summary:
       "Meridian Financial needed a client portal that matched the quality of their advisory service. We designed and built a secure, intuitive platform that reduced client onboarding time and increased satisfaction scores.",
@@ -70,8 +52,18 @@ export const projects: Project[] = [
       "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80",
       "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&q=80",
     ],
+    galleryImages: [
+      { url: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80", alt: "Platform Interface" },
+      { url: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&q=80", alt: "Mobile View" }
+    ],
+    narrativeSections: [
+      { title: "The Challenge", body: "Meridian's advisors were spending 40% of their time on administrative tasks..." },
+      { title: "The Strategy", body: "We began by mapping every touchpoint in the client journey..." },
+      { title: "The Technical Solution", body: "We built a custom client portal with document signing..." }
+    ],
     tags: ["Web Application", "Financial Services", "Automation"],
     featured: true,
+    published: true,
     testimonialId: "test-001",
   },
   {
@@ -79,6 +71,7 @@ export const projects: Project[] = [
     slug: "grove-collective-brand-and-website",
     title: "Building a brand for a business that deserved to be seen",
     client: "Grove Collective",
+    clientName: "Grove Collective",
     industry: "Professional Services",
     summary:
       "Grove Collective had grown entirely through referrals and had no brand or website that reflected the calibre of their work. We created a complete brand identity and editorial website that opened doors to larger clients.",
@@ -99,8 +92,18 @@ export const projects: Project[] = [
       "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=1200&q=80",
       "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=1200&q=80",
     ],
+    galleryImages: [
+      { url: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=1200&q=80", alt: "Brand Assets" },
+      { url: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=1200&q=80", alt: "Website Homepage" }
+    ],
+    narrativeSections: [
+      { title: "The Challenge", body: "Despite delivering outstanding results, Grove had no brand presence..." },
+      { title: "The Strategy", body: "We conducted stakeholder interviews to uncover what made Grove genuinely different..." },
+      { title: "The Technical Solution", body: "We delivered a complete brand identity including naming rationale..." }
+    ],
     tags: ["Brand Identity", "Website", "Professional Services"],
     featured: true,
+    published: true,
     testimonialId: "test-002",
   },
   {
@@ -108,6 +111,7 @@ export const projects: Project[] = [
     slug: "summit-logistics-operations-automation",
     title: "Removing 800 hours of manual work every month",
     client: "Summit Logistics",
+    clientName: "Summit Logistics",
     industry: "Logistics",
     summary:
       "Summit's operations team was drowning in spreadsheets and manual reporting. We designed and deployed an automation system that eliminated repetitive work and gave management real-time visibility into the business.",
@@ -127,15 +131,22 @@ export const projects: Project[] = [
     gallery: [
       "https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=1200&q=80",
     ],
+    galleryImages: [
+      { url: "https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=1200&q=80", alt: "Dashboard Interface" }
+    ],
+    narrativeSections: [
+      { title: "The Challenge", body: "Summit had grown from 12 to 80 employees in three years. Their manual processes hadn't scaled..." },
+      { title: "The Strategy", body: "We spent two weeks embedded with the operations team..." },
+      { title: "The Technical Solution", body: "We integrated their existing tools into a single operations dashboard..." }
+    ],
     tags: ["Automation", "Logistics", "Operations"],
     featured: false,
+    published: true,
   },
 ];
 
-// getProjectBySlug searches our project list for a case study matching a specific URL name (slug).
 export const getProjectBySlug = (slug: string): Project | undefined =>
   projects.find((p) => p.slug === slug);
 
-// getFeaturedProjects returns only the case studies marked as "featured".
 export const getFeaturedProjects = (): Project[] =>
   projects.filter((p) => p.featured);

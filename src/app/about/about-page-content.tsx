@@ -36,7 +36,7 @@ import { Card } from "../../components/card";
 import { ImageWrapper } from "../../components/image-wrapper";
 import { CTA } from "../../components/cta";
 import { teamMembers } from "../../mock/team";
-import { type FAQ } from "@prisma/client";
+import { type FAQ } from "@/mock/faq";
 import { Reveal } from "../../components/reveal";
 import { TriadMark, TriadPanel } from "../../components/triad-mark";
 import { ScrollWorldContainer } from "../../components/scroll-world-container";

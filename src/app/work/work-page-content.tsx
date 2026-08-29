@@ -35,7 +35,7 @@ import { Reveal } from "../../components/reveal";
 import { TriadMark } from "../../components/triad-mark";
 import { ScrollWorldContainer } from "../../components/scroll-world-container";
 import { staggeredContainerVariants, standardFadeUpVariants } from "../../animations/presets";
-import { type Project } from "@prisma/client";
+import { type Project } from "@/mock/projects";
 
 const workSlides = [
   { id: "hero", label: "Overview" },

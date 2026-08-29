@@ -1,27 +1,19 @@
-import db from "@/lib/db";
 import { Card } from "@/components/card";
 
 export default async function DashboardPage() {
-  const [
-    totalAppointments,
-    newAppointments,
-    publishedProjects,
-    publishedArticles,
-    totalTestimonials,
-    totalFaqs
-  ] = await Promise.all([
-    db.appointment.count(),
-    db.appointment.count({ where: { status: "New" } }),
-    db.project.count({ where: { published: true } }),
-    db.blogPost.count({ where: { published: true } }),
-    db.testimonial.count(),
-    db.fAQ.count()
-  ]);
+  // Mock mode: static dashboard statistics
+  const totalAppointments = 12;
+  const newAppointments = 3;
+  const publishedProjects = 3;
+  const publishedArticles = 5;
+  const totalTestimonials = 4;
+  const totalFaqs = 6;
 
-  const recentAppointments = await db.appointment.findMany({
-    take: 5,
-    orderBy: { createdAt: "desc" }
-  });
+  const recentAppointments = [
+    { id: "1", name: "Sarah Jenkins", createdAt: new Date(), status: "New" },
+    { id: "2", name: "Michael Chen", createdAt: new Date(Date.now() - 86400000), status: "Completed" },
+    { id: "3", name: "David Alaba", createdAt: new Date(Date.now() - 172800000), status: "Completed" }
+  ];
 
   return (
     <div className="space-y-8">

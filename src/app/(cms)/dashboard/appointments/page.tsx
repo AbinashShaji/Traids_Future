@@ -1,10 +1,12 @@
-import db from "@/lib/db";
 import { Button } from "@/components/button";
 
 export default async function AppointmentsPage() {
-  const appointments = await db.appointment.findMany({
-    orderBy: { createdAt: "desc" }
-  });
+  // Mock mode: static appointments
+  const appointments = [
+    { id: "1", name: "Sarah Jenkins", businessName: "Acme Corp", phoneNumber: "555-0100", email: "sarah@acme.com", serviceInterest: "Website Design", createdAt: new Date(), status: "New" },
+    { id: "2", name: "Michael Chen", businessName: "TechFlow", phoneNumber: "555-0101", email: "michael@techflow.io", serviceInterest: "Web Application", createdAt: new Date(Date.now() - 86400000), status: "Completed" },
+    { id: "3", name: "David Alaba", businessName: "Global Solutions", phoneNumber: "555-0102", email: "david@global.org", serviceInterest: "Brand Identity", createdAt: new Date(Date.now() - 172800000), status: "Completed" }
+  ];
 
   return (
     <div className="space-y-8">

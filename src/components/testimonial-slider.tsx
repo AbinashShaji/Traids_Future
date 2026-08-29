@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Star, Quote } from "lucide-react";
 import { ImageWrapper } from "./image-wrapper";
-import { type Testimonial } from "@prisma/client";
+import { type Testimonial } from "@/mock/testimonials";
 
 const AUTOPLAY_INTERVAL = 8000;
 
@@ -123,7 +123,7 @@ export const TestimonialSlider: React.FC<{ testimonials: Testimonial[] }> = ({ t
                     {testimonials[currentIndex].clientName}
                   </cite>
                   <span className="font-sans text-base text-graphite block">
-                    {testimonials[currentIndex].designation}
+                    {testimonials[currentIndex].clientRole}
                   </span>
                   <span className="font-sans text-base font-semibold text-ink block mt-1">
                     {testimonials[currentIndex].company}

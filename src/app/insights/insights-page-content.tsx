@@ -38,7 +38,7 @@ import { TriadMark } from "../../components/triad-mark";
 import { Reveal } from "../../components/reveal";
 import { ScrollWorldContainer } from "../../components/scroll-world-container";
 import { toast } from "sonner";
-import { type BlogPost } from "@prisma/client";
+import { type Article as BlogPost } from "@/mock/articles";
 import { staggeredContainerVariants, standardFadeUpVariants, springFadeUpVariants } from "../../animations/presets";
 
 const insightSlides = [
@@ -187,7 +187,7 @@ export default function InsightsPageContent({ articles }: InsightsPageContentPro
                       <div className="flex items-center justify-between border-t border-hairline pt-6 mt-2">
                         <div>
                           <cite className="font-sans text-sm font-semibold text-ink not-italic block">
-                              {featuredArticle.authorName}
+                              {featuredArticle.author}
                           </cite>
                           <span className="font-sans text-xs text-graphite">
                             {featuredArticle.authorRole}
@@ -249,7 +249,7 @@ export default function InsightsPageContent({ articles }: InsightsPageContentPro
                       placeholder="Search perspectives..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full pl-10 pr-4 py-2.5 bg-paper border border-hairline rounded-[2px] font-sans text-sm text-ink focus:border-ink focus:ring-1 focus:ring-[#14140F] outline-none transition-all"
+                      className="w-full pl-10 pr-4 py-2.5 bg-paper border border-hairline rounded-[2px] font-sans text-sm text-ink focus:border-ink focus:ring-1 focus:ring-ink outline-none transition-all"
                     />
                     <Search className="w-4 h-4 text-graphite absolute left-3.5 top-3.5" />
                   </div>
@@ -306,7 +306,7 @@ export default function InsightsPageContent({ articles }: InsightsPageContentPro
                           <div className="flex items-center gap-3 mb-3">
                             <span className="font-sans text-xs font-semibold text-ink">{article.category}</span>
                             <span className="w-1 h-1 rounded-full bg-hairline" />
-                            <span className="font-sans text-xs text-[#57564C]">{article.authorName}</span>
+                            <span className="font-sans text-xs text-graphite">{article.author}</span>
                             <span className="w-1 h-1 rounded-full bg-hairline" />
                             <span className="font-sans text-xs text-graphite">{article.readingTime} min read</span>
                           </div>
@@ -322,7 +322,7 @@ export default function InsightsPageContent({ articles }: InsightsPageContentPro
                       </div>
                       <div className="px-6 pb-6 pt-3 flex items-center justify-between border-t border-hairline mt-auto">
                         <span className="font-sans text-xs text-graphite">
-                          {article.authorName}
+                          {article.author}
                         </span>
                         <Link href={`/insights/${article.slug}`}>
                           <Button variant="text" size="sm" className="group">

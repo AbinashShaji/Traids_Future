@@ -28,6 +28,8 @@ export interface Article {
   author: string;
   authorRole: string;
   coverImage: string;
+  featuredImage: string;
+  published: boolean;
   category: string;
   tags: string[];
   readingTime: number; // Estimated minutes it takes for a person to read the article.
@@ -106,6 +108,8 @@ If the answers are no, you know what to do.
     author: "James Okafor",
     authorRole: "Head of Strategy",
     coverImage: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80",
+    featuredImage: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80",
+    published: true,
     category: "Business Strategy",
     tags: ["Website", "Conversion", "Strategy"],
     readingTime: 5,
@@ -164,6 +168,8 @@ That is where to begin.
     author: "Sarah Chen",
     authorRole: "Technology Director",
     coverImage: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&q=80",
+    featuredImage: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&q=80",
+    published: true,
     category: "Operations",
     tags: ["Automation", "Operations", "Growth"],
     readingTime: 6,
@@ -229,6 +235,8 @@ That is your brand.
     author: "James Okafor",
     authorRole: "Head of Strategy",
     coverImage: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=1200&q=80",
+    featuredImage: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=1200&q=80",
+    published: true,
     category: "Brand & Marketing",
     tags: ["Brand", "Strategy", "Marketing"],
     readingTime: 5,

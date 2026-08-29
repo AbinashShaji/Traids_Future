@@ -36,7 +36,7 @@ import { ScrollWorldContainer } from "../../components/scroll-world-container";
 import { toast } from "sonner";
 
 import { settings } from "../../mock/settings";
-import { type FAQ } from "@prisma/client";
+import { type FAQ } from "@/mock/faq";
 
 const contactSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),

@@ -42,7 +42,9 @@ import { TriadMark, TriadPanel } from "../components/triad-mark";
 import { ScrollWorldContainer } from "../components/scroll-world-container";
 import { EditorialTestimonial } from "../components/editorial-testimonial";
 import { solutions } from "../mock/solutions";
-import { type Project, type Testimonial, type BlogPost } from "@prisma/client";
+import { type Project } from "@/mock/projects";
+import { type Testimonial } from "@/mock/testimonials";
+import { type Article as BlogPost } from "@/mock/articles";
 import { getHeroContainerVariants, getHeroItemVariants, springFadeUpVariants, staggeredContainerVariants } from "../animations/presets";
 
 const iconMap: Record<string, LucideIcon> = {

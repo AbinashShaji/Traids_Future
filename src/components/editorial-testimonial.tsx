@@ -5,7 +5,7 @@ import { useState, useEffect } from "react"
 import Image from "next/image"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { motion } from "framer-motion"
-import { type Testimonial } from "@prisma/client"
+import { type Testimonial } from "@/mock/testimonials"
 import { cn } from "../utils/cn"
 
 export function EditorialTestimonial({ testimonials }: { testimonials: Testimonial[] }) {
@@ -103,7 +103,7 @@ export function EditorialTestimonial({ testimonials }: { testimonials: Testimoni
               <div>
                 <p className="font-heading text-lg font-medium text-ink">{current.clientName}</p>
                 <p className="font-sans text-sm text-graphite">
-                  {current.designation}
+                  {current.clientRole}
                   <span className="mx-2 text-hairline">/</span>
                   <span className="font-semibold text-ink transition-colors duration-300">{current.company}</span>
                 </p>
