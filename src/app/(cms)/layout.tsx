@@ -32,7 +32,7 @@ export default function CMSLayout({ children }: { children: React.ReactNode }) {
       <div className="w-64 bg-white border-r border-gray-200 flex flex-col fixed inset-y-0 z-10">
         <div className="p-6 border-b border-gray-200">
           <Link href="/dashboard" className="text-xl font-bold tracking-tight text-gray-900">
-            Traid Future CMS
+            Triads Future CMS
           </Link>
         </div>
         

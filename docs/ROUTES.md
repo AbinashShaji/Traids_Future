@@ -1,6 +1,6 @@
 # Application Routes
 
-This document outlines the primary user-facing routes and their purpose within the Traids Future application.
+This document outlines the primary user-facing routes and their purpose within the Triads Future application.
 
 ## Public Routes
 

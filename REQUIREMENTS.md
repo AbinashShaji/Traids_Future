@@ -1,6 +1,6 @@
 # REQUIREMENTS
 
-Repository audit for the current `traids_future` codebase only. No installation or code changes were performed to produce this document.
+Repository audit for the current `triads_future` codebase only. No installation or code changes were performed to produce this document.
 
 ## Project Overview
 
@@ -162,8 +162,8 @@ These packages are listed in `package.json` but are not currently imported anywh
 ### Clone
 
 ```bash
-git clone <REPO_URL> traids_future
-cd traids_future
+git clone <REPO_URL> triads_future
+cd triads_future
 ```
 
 ### Install Dependencies

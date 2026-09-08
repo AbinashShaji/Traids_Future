@@ -53,7 +53,7 @@ Think of the technology stack like the construction materials used to build a ho
 Here is how the project files are organized on disk:
 
 ```text
-traids_future/
+triads_future/
 │
 ├── docs/                        → Documentation and guides for developers
 │   └── CODEBASE-GUIDE.md        → This file! The master beginner guide

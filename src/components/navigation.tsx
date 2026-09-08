@@ -62,7 +62,7 @@ const DesktopNavigation: React.FC = () => {
     >
       <div className="max-w-[1360px] mx-auto flex items-center justify-between">
         {/* Brand logo lockup */}
-        <BrandMark className="w-[211px] xl:w-[232px]" />
+        <BrandMark className="w-[180px] lg:w-[200px] xl:w-[220px]" />
 
         {/* Navigation links */}
         <nav className="flex items-center gap-8" aria-label="Main Navigation">
@@ -186,7 +186,7 @@ const MobileTopHeader: React.FC = () => {
     <div className="fixed top-0 left-0 right-0 z-50 md:hidden bg-[var(--paper)]/92 backdrop-blur-md border-b border-[var(--hairline)]">
       <div className="flex items-center justify-between px-6 py-4">
         {/* Brand logo */}
-        <BrandMark className="w-[160px]" />
+        <BrandMark className="w-[150px] md:w-[170px]" />
         <ThemeToggle />
       </div>
     </div>

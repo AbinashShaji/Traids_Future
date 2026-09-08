@@ -15,12 +15,12 @@ Follow these copy-pasteable commands step-by-step to get the project running loc
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/AbinashShaji/Traid_future.git
+   git clone https://github.com/AbinashShaji/Triads_future.git
    ```
 
 2. **Navigate into the project folder:**
    ```bash
-   cd traids_future
+   cd triads_future
    ```
 
 3. **Install the dependencies:**

@@ -48,9 +48,10 @@ export const GlobalLayout: React.FC<GlobalLayoutProps> = ({
       <div className="fixed inset-0 pointer-events-none overflow-hidden flex items-center justify-center z-[-1]">
         <div className="relative w-[60vw] h-[60vw] max-w-[400px] max-h-[400px] opacity-10 dark:opacity-5">
           <Image
-            src="/brand/traid_future_triangle_logo.png"
+            src="/brand/triad_future_triangle_logo.png"
             alt=""
             fill
+            sizes="(max-width: 400px) 60vw, 400px"
             className="object-contain logo-adaptive"
           />
         </div>

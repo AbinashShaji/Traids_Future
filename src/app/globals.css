@@ -1,27 +1,17 @@
 @import "tailwindcss";
 
-/* Local Canela Font Definition for Primary Heading / Display Typography */
-@font-face {
-  font-family: 'Canela';
-  src: url('/fonts/canela/Canela-Regular.woff2') format('woff2'),
-       url('/fonts/canela/Canela-Regular.woff') format('woff'),
-       local('Canela Regular'),
-       local('Canela');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
+/*
+ * Canela Font — Display / Heading Typography
+ *
+ * Canela is the intended display typeface.  The font files are NOT bundled
+ * with this repository (they are commercially licensed).  If you have a
+ * license, place the woff2/woff files in /public/fonts/canela/ and
+ * uncomment the @font-face blocks below.
+ *
+ * Until the files are present the CSS variable chain falls through:
+ *   Canela (local install) → Newsreader (Google Fonts) → Georgia → serif
+ */
 
-@font-face {
-  font-family: 'Canela';
-  src: url('/fonts/canela/Canela-Medium.woff2') format('woff2'),
-       url('/fonts/canela/Canela-Medium.woff') format('woff'),
-       local('Canela Medium'),
-       local('Canela-Medium');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
 
 :root {
   /* Color Tokens */
@@ -223,3 +213,5 @@ h1, h2, h3, h4, h5, h6 {
 .dark .logo-adaptive {
   filter: brightness(0) invert(1) !important;
 }
+
+

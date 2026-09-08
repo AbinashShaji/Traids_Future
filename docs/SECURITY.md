@@ -1,6 +1,6 @@
 # Security Audit & Hardening
 
-This document outlines the security stance of Version 1 of the Traids Future website.
+This document outlines the security stance of Version 1 of the Triads Future website.
 
 ## Current State (V1)
 Version 1 is a static frontend with mocked data. There is no backend database, authentication system, or CMS. As such, traditional backend vulnerabilities (SQL Injection, CSRF, broken authentication) do not apply to the current codebase.

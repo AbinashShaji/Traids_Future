@@ -24,9 +24,10 @@ export const LoadingLogo: React.FC<{ className?: string; containerClassName?: st
         style={size ? { width: size, height: size } : undefined}
       >
         <Image
-          src="/brand/traid_future_triangle_logo.png"
+          src="/brand/triad_future_triangle_logo.png"
           alt="Loading..."
           fill
+          sizes="96px"
           className="object-contain logo-adaptive drop-shadow-[0_0_12px_rgba(20,20,15,0.15)] dark:drop-shadow-[0_0_12px_rgba(255,255,255,0.15)] transition-all duration-1000 ease-in-out"
         />
       </div>

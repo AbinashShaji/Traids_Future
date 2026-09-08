@@ -8,8 +8,8 @@
  * - Mounted in `src/components/navigation.tsx` inside Desktop, Tablet, and Mobile headers.
  *
  * HOW IT WORKS:
- * 1. At the very top of the page (scrollY = 0), it displays the wide horizontal logo (`traids_future_header_logo.png`).
- * 2. As the visitor scrolls down 200px, Framer Motion smoothly fades and scales the full logo into the compact triangle icon (`traid_future_triangle_logo.png`).
+ * 1. At the very top of the page (scrollY = 0), it displays the wide horizontal logo (`triads_future_header_logo.webp`).
+ * 2. As the visitor scrolls down 200px, Framer Motion smoothly fades and scales the full logo into the compact triangle icon (`triad_future_triangle_logo.png`).
  * 3. On narrow tablet rails or when reduced-motion is enabled, it shows the compact logo statically.
  * 4. Always wraps the logo in `<Link href="/">` so clicking it takes you back home.
  *
@@ -61,7 +61,7 @@ export const BrandMark: React.FC<BrandMarkProps> = ({
   // - Tablet: use aspect ratio of the compact logo (281:242 ~ 1.16)
   // - Desktop/Mobile: use aspect ratio of the full logo (871:165 ~ 5.28) to prevent layout shifts.
   // During SSR/hydration, default to the desktop/mobile aspect ratio to match server-rendered output.
-  const containerAspect = (mounted && isTablet) ? "aspect-[281/242]" : "aspect-[871/165]";
+  const containerAspect = (mounted && isTablet) ? "aspect-[281/242]" : "aspect-[5/1]";
 
   // Scroll animations driven by Framer Motion:
   // Custom easing function: cubic ease-out for a smooth deceleration/settling effect
@@ -82,7 +82,7 @@ export const BrandMark: React.FC<BrandMarkProps> = ({
       <Link href="/" aria-label={ariaLabel} className={cn("inline-flex items-center", className)}>
         <div className={cn("relative w-full", containerAspect)}>
           <Image
-            src="/brand/traid_future_triangle_logo.png"
+            src="/brand/triad_future_triangle_logo.png"
             alt="Triads Future triangle logo"
             fill
             priority
@@ -107,12 +107,12 @@ export const BrandMark: React.FC<BrandMarkProps> = ({
           className="absolute inset-0"
         >
           <Image
-            src="/brand/traids_future_header_logo.png"
+            src="/brand/triads_future_header_logo.webp"
             alt="Triads Future logo"
             fill
             priority
             sizes="(max-width: 768px) 211px, 232px"
-            className={cn("object-contain object-left logo-adaptive", imageClassName)}
+            className={cn("object-cover object-center logo-adaptive", imageClassName)}
           />
         </motion.div>
 
@@ -126,7 +126,7 @@ export const BrandMark: React.FC<BrandMarkProps> = ({
           className="absolute inset-0"
         >
           <Image
-            src="/brand/traid_future_triangle_logo.png"
+            src="/brand/triad_future_triangle_logo.png"
             alt="Triads Future triangle logo mark"
             fill
             priority

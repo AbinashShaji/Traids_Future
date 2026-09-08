@@ -1,6 +1,6 @@
 # Code Guide
 
-This guide is for any developer taking over the Traids Future codebase. It outlines where code lives, how it is organized, and how to debug common issues.
+This guide is for any developer taking over the Triads Future codebase. It outlines where code lives, how it is organized, and how to debug common issues.
 
 ## Where Things Live
 
