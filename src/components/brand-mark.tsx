@@ -10,7 +10,6 @@
 import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useDevice } from "../providers/device-experience-manager";
 import { cn } from "../utils/cn";
 
 interface BrandMarkProps {
@@ -30,33 +29,32 @@ export const BrandMark: React.FC<BrandMarkProps> = ({
   inverted = false,
   variant = "auto",
 }) => {
-  const { isTablet } = useDevice();
-  const showMarkOnly = variant === "mark" || (variant === "auto" && isTablet);
+  const showMarkOnly = variant === "mark";
   const filterClass = inverted ? "brightness-0 invert" : "";
 
   const content = showMarkOnly ? (
-    <div className="relative w-full aspect-[281/242] group">
+    <div className="relative w-8 h-8 sm:w-9 sm:h-9 max-h-[38px] max-w-[38px] aspect-square flex items-center justify-center group">
       <Image
         src="/brand/triad_future_triangle_logo.png"
         alt="Triads Future logo mark"
         fill
         priority
-        sizes="37px"
+        sizes="36px"
         className={cn(
-          "object-contain object-left transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgba(225,29,72,0.65)] group-hover:scale-105",
+          "object-contain object-center transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgba(225,29,72,0.65)] group-hover:scale-105",
           filterClass,
           imageClassName
         )}
       />
     </div>
   ) : (
-    <div className="relative w-full aspect-[5/1] group">
+    <div className="relative w-full aspect-[5/1] max-h-[40px] flex items-center group">
       <Image
         src="/brand/triads_future_header_logo.webp"
         alt="Triads Future logo"
         fill
         priority
-        sizes="(max-width: 768px) 211px, 232px"
+        sizes="(max-width: 768px) 180px, 220px"
         className={cn(
           "object-cover object-center transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgba(225,29,72,0.65)]",
           filterClass,

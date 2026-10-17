@@ -36,10 +36,30 @@ export const Navigation: React.FC = () => {
 
 
 
+  // Close drawer on Escape key or when window resizes to desktop width
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && mobileMenuOpen) {
+        setMobileMenuOpen(false);
+      }
+    };
+    const handleResize = () => {
+      if (window.innerWidth >= 1024 && mobileMenuOpen) {
+        setMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [mobileMenuOpen]);
+
   return (
     <header
       className={cn(
-        "sticky top-0 left-0 right-0 z-50 w-full h-[72px] transition-all duration-300 px-6 md:px-10 flex items-center",
+        "sticky top-0 left-0 right-0 z-50 w-full h-[72px] transition-all duration-300 px-5 sm:px-6 md:px-8 lg:px-10 flex items-center",
         isScrolled || mobileMenuOpen
           ? "glass-panel shadow-sm bg-white/90 backdrop-blur-md border-b border-[#e4e4e7]"
           : "bg-white/80 backdrop-blur-sm border-b border-[#e4e4e7]/60"
@@ -47,12 +67,20 @@ export const Navigation: React.FC = () => {
     >
       <div className="w-full max-w-[1400px] mx-auto flex items-center justify-between">
         {/* Brand Logo - single semantic <a> tag */}
-        <Link href="/" className="inline-flex items-center" aria-label="Triads Future Home">
-          <BrandMark asLink={false} className="w-[180px] sm:w-[200px]" />
+        <Link 
+          href="/" 
+          className="inline-flex items-center shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0a0a0a] rounded-md" 
+          aria-label="Triads Future Home"
+        >
+          <BrandMark 
+            asLink={false} 
+            variant="full" 
+            className="w-[160px] sm:w-[180px] md:w-[195px] lg:w-[200px]" 
+          />
         </Link>
 
-        {/* Desktop Links (>= 768px) */}
-        <nav className="hidden md:flex items-center gap-8 lg:gap-10" aria-label="Main Navigation">
+        {/* Desktop Links (>= 1024px) - Clean single row where links and CTA genuinely fit */}
+        <nav className="hidden lg:flex items-center gap-7 xl:gap-9" aria-label="Main Navigation">
           {desktopNav.map((item) => {
             const isActive = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
             return (
@@ -72,28 +100,37 @@ export const Navigation: React.FC = () => {
           })}
         </nav>
 
-        {/* Desktop Primary Action */}
-        <div className="hidden md:flex items-center gap-4">
-          <ButtonLink href="/contact" variant="primary" size="md">
+        {/* Desktop Primary Action (>= 1024px) */}
+        <div className="hidden lg:flex items-center gap-4 shrink-0">
+          <ButtonLink 
+            href="/contact" 
+            variant="primary" 
+            size="md"
+            className="px-5 py-2.5 text-sm font-medium"
+          >
             Book a Strategy Call
           </ButtonLink>
         </div>
 
-        {/* Mobile Hamburger Toggle (< 768px) */}
+        {/* Mobile/Tablet Hamburger Toggle (< 1024px) */}
         <button
           type="button"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden p-2 rounded-xl text-[#0a0a0a] hover:bg-[#f4f4f5] transition-colors focus:outline-none focus:ring-2 focus:ring-[#0a0a0a]"
+          className="lg:hidden p-2 rounded-xl text-[#0a0a0a] hover:bg-[#f4f4f5] transition-colors focus:outline-none focus:ring-2 focus:ring-[#0a0a0a]"
           aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
           aria-expanded={mobileMenuOpen}
+          aria-controls="mobile-nav-drawer"
         >
           {mobileMenuOpen ? <X className="w-6 h-6 stroke-[2]" /> : <Menu className="w-6 h-6 stroke-[2]" />}
         </button>
       </div>
 
-      {/* Mobile Drawer */}
+      {/* Mobile/Tablet Drawer (< 1024px) */}
       {mobileMenuOpen && (
-        <div className="md:hidden fixed top-[72px] left-0 right-0 bg-white border-b border-[#e4e4e7] p-6 shadow-xl flex flex-col gap-4 animate-in fade-in slide-in-from-top-2 duration-200 z-50">
+        <div 
+          id="mobile-nav-drawer"
+          className="lg:hidden fixed top-[72px] left-0 right-0 bg-white/95 backdrop-blur-md border-b border-[#e4e4e7] p-6 shadow-xl flex flex-col gap-4 animate-in fade-in slide-in-from-top-2 duration-200 z-50 max-h-[calc(100vh-72px)] overflow-y-auto"
+        >
           <nav className="flex flex-col gap-1" aria-label="Mobile Navigation">
             {desktopNav.map((item) => {
               const isActive = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);

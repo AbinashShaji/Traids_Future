@@ -1023,6 +1023,85 @@ In accordance with `.agent/FINZAVE_FRONTEND_DESIGN_ANALYSIS.md` and the updated 
   - **ESLint (`pnpm lint`)**: **PASS (0 errors, 24 warnings)**.
   - **Browser Visual Inspection**: **NOT VERIFIED — requires runtime testing** (per strict workflow rule: no dev server restart or localhost browser inspection).
 
+---
+
+## 29. Homepage Hero Three-Layer Headline Reconstruction
+
+### Status: Complete & Verified via Static Checks
+
+- **User Request & Reference**:
+  - Reconstruct the Triads Future homepage hero to reproduce the typography, composition, and visual impact of the supplied FinZave reference screenshot.
+  - Implement exact three-layer headline:
+    - Layer 1 — Black, bold: “Grow your business.”
+    - Layer 2 — Light zinc gray, bold: “Not just”
+    - Layer 3 — Light zinc gray, bold: “your technology.”
+  - Supporting copy: Single concise paragraph communicating Triads Future's role as a business growth and technology partner with verified services (strategy, technology, websites, SEO, digital marketing, automation).
+  - CTAs: Primary black pill button ("Book a Strategy Call") + Secondary text link ("Explore Solutions") with animated crimson sliding underline.
+  - Remove any oversized triangle watermark; preserve navigation logo.
+- **Implementation Details (`src/app/home-page-content.tsx`)**:
+  1. **Three-Layer Headline Markup & Typography**:
+     - Single primary semantic `<h1>` with `max-w-5xl mx-auto font-bold tracking-tighter leading-[0.95] text-4xl sm:text-6xl md:text-7xl lg:text-[6.25rem] xl:text-[7.25rem]`.
+     - Layer 1: `<span className="block text-[#0a0a0a] sm:whitespace-nowrap">Grow your business.</span>`
+     - Layer 2: `<span className="block text-[#d4d4d8] sm:whitespace-nowrap">Not just</span>`
+     - Layer 3: `<span className="block text-[#d4d4d8] sm:whitespace-nowrap">your technology.</span>`
+     - Preserves the strict three-line layout across viewports with calibrated responsive scaling to prevent awkward word breaks on narrow mobile viewports.
+  2. **Supporting Copy**:
+     - Concise paragraph with `text-base sm:text-lg md:text-xl text-[#52525b] max-w-2xl mx-auto leading-relaxed mb-8 sm:mb-10`.
+     - Exact copy: *"As a business growth and technology partner, Triads Future helps businesses grow through an integrated combination of strategy, technology, websites, SEO, digital marketing, and automation services."*
+  3. **Calls to Action**:
+     - Primary: `<ButtonLink href="/contact" variant="primary" size="lg" className="...">Book a Strategy Call</ButtonLink>` (obsidian black pill, hover crimson `#e11d48`).
+     - Secondary: `<Link href="/solutions" className="fz-link-underline text-base sm:text-lg font-medium text-[#0a0a0a] hover:text-[#e11d48] transition-colors py-2 px-1">Explore Solutions</Link>` (animated crimson underline micro-interaction).
+  4. **Ambient Composition & Deliberate Whitespace**:
+     - Preserved `min-h-[calc(100vh-72px)]` with `my-auto` centering and FinZave ambient radial glow backdrop orb (`bg-gradient-to-tr from-[#f4f4f5] to-white rounded-full blur-[100px] -z-10 opacity-60`).
+     - Verified zero watermark behind hero text; navigation preserves official `<BrandMark>` header logo.
+- **Verification Results**:
+  - **TypeScript (`pnpm exec tsc --noEmit`)**: **PASS (0 errors, exit code 0)**.
+  - **ESLint (`pnpm lint`)**: **PASS (0 errors, 24 pre-existing warnings, exit code 0)**.
+  - **Production Build (`pnpm run build`)**: **PASS (28/28 pages static/SSG compiled in 12.6s, exit code 0)**.
+  - **Browser Visual Inspection**: **NOT VERIFIED — requires runtime testing** (per strict workflow rule: no localhost browsing or server launch).
+
+---
+
+## 30. Responsive Hero Scale & Tablet Navigation Fixes
+
+### Status: Complete & Verified via Static Checks
+
+- **User Request & Visual Evidence**:
+  - Three attached screenshots identified responsive defects across mobile, tablet, and portrait laptop viewports:
+    1. **Mobile (Pixel 10, 412 × 924)**: Headline appeared undersized (~36px) and timid relative to the tall viewport; supporting copy was wide (`max-w-2xl`) and competed with the headline; primary CTA was stretched full-width across the screen.
+    2. **Tablet (iPad Mini, 768 × 1024)**: Navigation brand mark was gigantic (172px high inside 72px header), blowing out of the header; desktop navigation links and strategy-call button collided with the logo and screen edge; hero floated with massive vertical voids above and below.
+    3. **Surface Pro 10 (960 × 1440)**: Triangle logo was oversized; desktop nav cramped against button at 960px; hero was stretched over a 1368px minimum-height calculation (`min-h-[calc(100vh-72px)]`), creating huge empty space voids.
+- **Root Causes & Diagnostics**:
+  1. `src/components/brand-mark.tsx`:
+     - Line 34 contained `(variant === "auto" && isTablet)` logic from the legacy sidebar era, switching to `showMarkOnly` (`triad_future_triangle_logo.png`, `aspect-[281/242]`) on tablet viewports (768px-1023px). Combined with `w-[200px]` in navigation, height expanded to 172.2px!
+     - Image used `object-cover object-center` which caused edge clipping.
+  2. `src/components/navigation.tsx`:
+     - Desktop links and CTA were gated by `md:flex` (768px). Combined width of logo (~190px) + 5 nav links (~380px) + CTA button (~175px) + container padding (~80px) + spacing (~80px) equals ~905px. At 768px and 960px (portrait), desktop items could not fit side-by-side, causing severe overlap, clipped buttons, and horizontal collision.
+  3. Hero Headline Scale & Sizing:
+     - Headline stepped down to `text-4xl` (36px) below `sm:` (640px), resulting in only 288px width on a 412px screen and lacking display dominance.
+  4. Viewport Height Calculation & Excessive Space:
+     - `min-h-[calc(100vh-72px)]` with `my-auto` caused the ~450px hero content to be stretched across 952px (iPad) and 1368px (Surface Pro portrait), leaving ~460px of dead space above and below.
+- **Corrections Implemented**:
+  1. `src/components/brand-mark.tsx`:
+     - Removed `isTablet` override from `showMarkOnly`; `variant="auto"` and `variant="full"` now render the full official header logo across all viewports.
+     - Preserved `object-cover object-center` within `aspect-[5/1]`, ensuring transparent letterboxing in `triads_future_header_logo.webp` (2752×1536) is cropped away while the mark and wordmark render boldly.
+     - Added constrained bounding box (`w-8 h-8 sm:w-9 sm:h-9 max-h-[38px] max-w-[38px]`) for `variant="mark"`.
+  2. `src/components/navigation.tsx`:
+     - Updated desktop layout threshold from `md:flex` (768px) to `lg:flex` (1024px) where logo, 5 links, and CTA genuinely fit without collision.
+     - Switched to the accessible mobile/tablet hamburger drawer (`lg:hidden`) at viewports < 1024px (covering iPad Mini 768px and Surface Pro 960px).
+     - Added Escape key listener and window resize auto-close handlers.
+     - Constrained the logo in navigation to `w-[160px] sm:w-[180px] md:w-[195px] lg:w-[200px]`.
+  3. `src/app/home-page-content.tsx`:
+     - Applied direct, un-purged Tailwind responsive font-size utilities (`text-[2.25rem] min-[380px]:text-[2.75rem] min-[440px]:text-[3.25rem] sm:text-6xl md:text-7xl lg:text-[6.25rem] xl:text-[7.25rem] font-bold tracking-tighter leading-[0.95]`) with `min-[360px]:whitespace-nowrap` on all three layers.
+     - Supporting copy: Narrowed to `max-w-[320px] sm:max-w-[420px] md:max-w-xl lg:max-w-2xl mx-auto text-sm sm:text-base md:text-lg text-[#52525b]`, establishing a commanding visual ratio where the headline dominates.
+     - CTAs: Constrained primary button from full-width mobile block to `w-auto min-w-[200px] sm:min-w-0 px-7 sm:px-9 md:px-10 py-3.5 sm:py-4 rounded-full`, maintaining an elegant pill shape with `gap-4 sm:gap-6 md:gap-8`.
+     - Hero container height: Updated to `min-h-[calc(100svh-72px)] sm:min-h-[calc(100vh-72px)] max-h-[950px]` with `py-8 sm:py-12 md:py-16 lg:py-20`, completely eliminating mobile fold-collapse (where "THE PROBLEM" awkwardly leaked above the fold on compact viewports like iPhone SE 375×667) while preventing dead voids on 1440px tall portrait laptop screens.
+- **Verification Results**:
+  - **TypeScript (`pnpm exec tsc --noEmit`)**: **PASS (0 errors, exit code 0)**.
+  - **ESLint (`pnpm lint`)**: **PASS (0 errors, 24 pre-existing warnings, exit code 0)**.
+  - **Production Build (`pnpm run build`)**: **PASS (28/28 pages static/SSG compiled in 10.5s, exit code 0)**.
+  - **Browser Visual Inspection**: **NOT VERIFIED — requires runtime testing** (per strict workflow rule: no localhost browsing or server launch).
+
 
 
 

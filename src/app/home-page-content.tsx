@@ -43,36 +43,42 @@ export default function HomePageContent(props: HomePageContentProps) {
   const projects = props.featuredProjects || props.projects || [];
   return (
     <GlobalLayout>
-      {/* 1. HERO SECTION (FinZave Editorial Brand Statement) */}
-      <section className="min-h-[calc(100vh-72px)] flex flex-col justify-center py-12 sm:py-16 md:py-20 bg-white border-b border-[#e4e4e7]">
-        <Container size="default" className="text-center flex flex-col items-center my-auto">
-          {/* Headline: Visually dominant, bold Outfit typography with intentional line break */}
-          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[6.5rem] xl:text-[7.25rem] font-bold tracking-tighter leading-[0.95] mb-6 sm:mb-8 max-w-5xl">
-            <span className="block text-[#0a0a0a]">Built for your</span>
-            <span className="block text-[#71717a]">next stage of growth.</span>
+      {/* 1. HERO SECTION (FinZave Three-Layer Editorial Headline Reconstruction) */}
+      <section className="min-h-[calc(100svh-72px)] sm:min-h-[calc(100vh-72px)] max-h-[950px] flex flex-col justify-center py-8 sm:py-12 md:py-16 lg:py-20 bg-white border-b border-[#e4e4e7] relative overflow-hidden">
+        {/* Subtle Ambient Radial Glow Orb matching FinZave forensic spec */}
+        <div 
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] sm:w-[700px] md:w-[800px] h-[500px] sm:h-[700px] md:h-[800px] bg-gradient-to-tr from-[#f4f4f5] to-white rounded-full blur-[100px] -z-10 opacity-60 pointer-events-none" 
+          aria-hidden="true" 
+        />
+
+        <Container size="default" className="text-center flex flex-col items-center justify-center my-auto relative z-10 px-4 sm:px-6 md:px-8">
+          {/* Headline: Exact Three-Layer Editorial Display matching FinZave with Direct Responsive Font Scale */}
+          <h1 className="text-[2.25rem] min-[380px]:text-[2.75rem] min-[440px]:text-[3.25rem] sm:text-6xl md:text-7xl lg:text-[6.25rem] xl:text-[7.25rem] font-bold tracking-tighter leading-[0.95] mb-5 sm:mb-6 md:mb-8 max-w-5xl mx-auto">
+            <span className="block text-[#0a0a0a] min-[360px]:whitespace-nowrap">Grow your business.</span>
+            <span className="block text-[#d4d4d8] min-[360px]:whitespace-nowrap">Not just</span>
+            <span className="block text-[#d4d4d8] min-[360px]:whitespace-nowrap">your technology.</span>
           </h1>
 
-          {/* Subtitle: Short, readable supporting statement communicating growth partner role */}
-          <p className="text-base sm:text-lg md:text-xl text-[#52525b] font-normal max-w-xl mx-auto leading-relaxed mb-8 sm:mb-10">
-            We partner with ambitious companies to accelerate growth through business strategy, high-performance websites, process automation, and scalable technology systems.
+          {/* Supporting Copy: Narrower, visually secondary plain-English positioning */}
+          <p className="text-sm sm:text-base md:text-lg text-[#52525b] font-normal max-w-[320px] sm:max-w-[420px] md:max-w-xl lg:max-w-2xl mx-auto leading-relaxed mb-6 sm:mb-8 md:mb-10">
+            As a business growth and technology partner, Triads Future helps businesses grow through an integrated combination of strategy, technology, websites, SEO, digital marketing, and automation services.
           </p>
 
-          {/* Dual CTAs - Prominent Black Pill + Crimson Underline Link */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-5 sm:gap-6 w-full sm:w-auto">
+          {/* Dual CTAs - Tactile Pill Button + Animated Crimson Underline Link */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 md:gap-8 w-full sm:w-auto">
             <ButtonLink 
               href="/contact" 
               variant="primary" 
               size="lg" 
-              className="w-full sm:w-auto px-8 sm:px-9 py-3.5 sm:py-4 rounded-full bg-[#0a0a0a] hover:bg-[#e11d48] text-white font-medium text-base shadow-sm transition-all duration-300"
+              className="w-auto min-w-[200px] sm:min-w-0 px-7 sm:px-9 md:px-10 py-3.5 sm:py-4 rounded-full bg-[#0a0a0a] hover:bg-[#e11d48] text-white font-medium text-sm sm:text-base shadow-lg shadow-black/10 hover:shadow-red-500/20 transition-all duration-300"
             >
               Book a Strategy Call
             </ButtonLink>
             <Link 
               href="/solutions" 
-              className="fz-link-underline text-base font-medium text-[#0a0a0a] hover:text-[#e11d48] transition-colors py-2 inline-flex items-center gap-1.5"
+              className="fz-link-underline text-sm sm:text-base md:text-lg font-medium text-[#0a0a0a] hover:text-[#e11d48] transition-colors py-2 px-2 inline-flex items-center"
             >
-              <span>Explore Solutions</span>
-              <ArrowRight className="w-4 h-4 ml-1" />
+              Explore Solutions
             </Link>
           </div>
         </Container>
