@@ -1,82 +1,69 @@
 /**
  * FILE: src/components/navigation.tsx
  *
- * WHAT THIS DOES:
- * Controls the entire menu navigation experience across Desktop, Tablet, and Mobile screens.
- *
- * WHERE IT IS USED:
- * - Mounted in `src/components/global-layout.tsx` so it appears on all pages.
- *
- * HOW IT WORKS:
- * Renders 3 responsive versions of navigation based on screen width:
- * 1. DesktopNavigation (>= 1024px): A floating glass header with logo, page links, and a "Book Consultation" button.
- * 2. TabletNavigationRail (768px - 1023px): A fixed left-hand vertical bar with icons and text labels.
- * 3. Mobile Navigation (< 768px): A top header bar with a slide-out hamburger drawer, plus a thumb-reachable bottom bar.
- *
- * ⚠️ BEGINNER NOTE:
- * Uses `usePathname()` to check which page the user is currently on and highlights the active link!
+ * FinZave Global Header & Responsive Navigation System:
+ * - Sticky top bar (72px) with .glass-panel frosted background
+ * - Max-width 1400px container
+ * - BrandMark with clean semantic anchor (no nested <a> tags)
+ * - Navigation links with .fz-underline-hover sliding underline
+ * - Primary pill button CTA
+ * - Mobile hamburger drawer with 1px zinc partitions
  */
 "use client";
 
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { House, LayoutGrid, BriefcaseBusiness, BookOpen, Calendar, type LucideIcon } from "lucide-react";
+import { Menu, X, ArrowRight } from "lucide-react";
 import { cn } from "../utils/cn";
-import { Button } from "./button";
+import { ButtonLink } from "./button-link";
 import { BrandMark } from "./brand-mark";
-import { ThemeToggle } from "./theme-toggle";
-import { desktopNav, mobileNav, tabletNav } from "../mock/navigation";
+import { desktopNav } from "../mock/navigation";
 
-const iconMap: Record<string, LucideIcon> = {
-  Home: House,
-  Solutions: LayoutGrid,
-  Work: BriefcaseBusiness,
-  About: BookOpen,
-  Insights: BookOpen,
-  Book: Calendar,
-};
-
-// DesktopNavigation: Sticky top header (>= 1024px)
-const DesktopNavigation: React.FC = () => {
+export const Navigation: React.FC = () => {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = React.useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
 
   React.useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 30);
+      setIsScrolled(window.scrollY > 10);
     };
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+
+
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b py-3 px-6 md:px-8 hidden lg:block",
-        isScrolled
-          ? "bg-[var(--paper)]/92 backdrop-blur-md border-[var(--hairline)] shadow-[0_1px_4px_rgba(20,20,15,0.03)]"
-          : "bg-transparent border-transparent"
+        "sticky top-0 left-0 right-0 z-50 w-full h-[72px] transition-all duration-300 px-6 md:px-10 flex items-center",
+        isScrolled || mobileMenuOpen
+          ? "glass-panel shadow-sm bg-white/90 backdrop-blur-md border-b border-[#e4e4e7]"
+          : "bg-white/80 backdrop-blur-sm border-b border-[#e4e4e7]/60"
       )}
     >
-      <div className="max-w-[1360px] mx-auto flex items-center justify-between">
-        {/* Brand logo lockup */}
-        <BrandMark className="w-[180px] lg:w-[200px] xl:w-[220px]" />
+      <div className="w-full max-w-[1400px] mx-auto flex items-center justify-between">
+        {/* Brand Logo - single semantic <a> tag */}
+        <Link href="/" className="inline-flex items-center" aria-label="Triads Future Home">
+          <BrandMark asLink={false} className="w-[180px] sm:w-[200px]" />
+        </Link>
 
-        {/* Navigation links */}
-        <nav className="flex items-center gap-8" aria-label="Main Navigation">
+        {/* Desktop Links (>= 768px) */}
+        <nav className="hidden md:flex items-center gap-8 lg:gap-10" aria-label="Main Navigation">
           {desktopNav.map((item) => {
-            const isActive = pathname === item.href;
+            const isActive = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
             return (
               <Link
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "font-sans text-xs font-semibold tracking-wider uppercase transition-colors duration-200",
+                  "font-sans text-sm font-medium tracking-normal transition-colors duration-200 fz-underline-hover py-1",
                   isActive
-                    ? "text-[var(--ink)] border-b-2 border-[var(--ink)] pb-0.5"
-                    : "text-[var(--graphite)] hover:text-[var(--ink)] pb-0.5"
+                    ? "text-[#0a0a0a] font-semibold active fz-underline-hover-red"
+                    : "text-[#71717a] hover:text-[#0a0a0a]"
                 )}
               >
                 {item.label}
@@ -85,121 +72,63 @@ const DesktopNavigation: React.FC = () => {
           })}
         </nav>
 
-        {/* Strategy Call Action & Theme */}
-        <div className="flex items-center gap-4">
-          <ThemeToggle />
-          <Link href="/contact">
-            <Button variant="primary" size="sm">
-              Book a Strategy Call
-            </Button>
-          </Link>
+        {/* Desktop Primary Action */}
+        <div className="hidden md:flex items-center gap-4">
+          <ButtonLink href="/contact" variant="primary" size="md">
+            Book a Strategy Call
+          </ButtonLink>
         </div>
+
+        {/* Mobile Hamburger Toggle (< 768px) */}
+        <button
+          type="button"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="md:hidden p-2 rounded-xl text-[#0a0a0a] hover:bg-[#f4f4f5] transition-colors focus:outline-none focus:ring-2 focus:ring-[#0a0a0a]"
+          aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={mobileMenuOpen}
+        >
+          {mobileMenuOpen ? <X className="w-6 h-6 stroke-[2]" /> : <Menu className="w-6 h-6 stroke-[2]" />}
+        </button>
       </div>
-    </header>
-  );
-};
 
-// TabletNavigationRail: Left vertical side rail (768px - 1023px)
-const TabletNavigationRail: React.FC = () => {
-  const pathname = usePathname();
+      {/* Mobile Drawer */}
+      {mobileMenuOpen && (
+        <div className="md:hidden fixed top-[72px] left-0 right-0 bg-white border-b border-[#e4e4e7] p-6 shadow-xl flex flex-col gap-4 animate-in fade-in slide-in-from-top-2 duration-200 z-50">
+          <nav className="flex flex-col gap-1" aria-label="Mobile Navigation">
+            {desktopNav.map((item) => {
+              const isActive = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={cn(
+                    "px-4 py-3 rounded-xl text-base font-medium transition-colors flex items-center justify-between border-b border-[#f4f4f5] last:border-b-0",
+                    isActive
+                      ? "bg-[#fafafa] text-[#e11d48] font-semibold"
+                      : "text-[#0a0a0a] hover:bg-[#f4f4f5]"
+                  )}
+                >
+                  <span>{item.label}</span>
+                  {isActive && <span className="w-2 h-2 rounded-full bg-[#e11d48]" />}
+                </Link>
+              );
+            })}
+          </nav>
 
-  return (
-    <aside className="fixed top-0 left-0 bottom-0 w-20 bg-[var(--paper)] border-r border-[var(--hairline)] py-8 flex flex-col items-center justify-between z-40 hidden md:flex lg:hidden">
-      {/* Compact Brand Logo */}
-      <BrandMark className="w-[37px] mb-8" />
-
-      {/* Icon Navigation */}
-      <nav className="flex flex-col gap-7 w-full px-2" aria-label="Tablet Navigation">
-        {tabletNav.map((item) => {
-          const isActive = pathname === item.href;
-          const Icon = iconMap[item.label] || House;
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={cn(
-                "flex flex-col items-center gap-1.5 py-2 w-full rounded-[2px] transition-colors",
-                isActive
-                  ? "text-[var(--ink)] bg-[var(--ink)]/8 font-semibold"
-                  : "text-[var(--graphite)] hover:text-[var(--ink)]"
-              )}
+          <div className="pt-2">
+            <ButtonLink 
+              href="/contact" 
+              variant="primary" 
+              size="lg" 
+              className="w-full justify-center"
+              onClick={() => setMobileMenuOpen(false)}
             >
-              <Icon className="w-5 h-5 stroke-[1.5]" />
-              <span className="text-[10px] font-sans font-medium tracking-tight">
-                {item.label}
-              </span>
-            </Link>
-          );
-        })}
-      </nav>
-
-      {/* Profile/Indicator & Theme */}
-      <div className="flex flex-col items-center gap-6">
-        <ThemeToggle />
-        <div className="w-4 h-4 rounded-full bg-[var(--ink)]/10" />
-      </div>
-    </aside>
-  );
-};
-
-import { LimelightNav, type NavItem } from "./ui/limelight-nav";
-import { useRouter } from "next/navigation";
-
-// MobileBottomNavigation: Thumb-reachable bottom bar (< 768px)
-const MobileBottomNavigation: React.FC = () => {
-  const pathname = usePathname();
-  const router = useRouter();
-
-  // Find active index by checking if the current path starts with the nav item's href.
-  // Special case for Home ("/") to avoid it matching every path.
-  const activeIndex = mobileNav.findIndex(item => {
-    if (item.href === "/") return pathname === "/";
-    return pathname.startsWith(item.href);
-  });
-
-  // Map to Limelight NavItem format
-  const limelightItems: NavItem[] = mobileNav.map((item) => {
-    const Icon = iconMap[item.label] || House;
-    const label = item.href === "/contact" ? "Consult" : item.label;
-    
-    return {
-      id: item.href,
-      icon: <Icon />,
-      label: label,
-      onClick: () => router.push(item.href)
-    };
-  });
-
-  return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden">
-      <LimelightNav 
-        items={limelightItems} 
-        defaultActiveIndex={activeIndex !== -1 ? activeIndex : 0}
-      />
-    </div>
-  );
-};
-
-// MobileTopHeader: Top header without toggleable panel (< 768px)
-const MobileTopHeader: React.FC = () => {
-  return (
-    <div className="fixed top-0 left-0 right-0 z-50 md:hidden bg-[var(--paper)]/92 backdrop-blur-md border-b border-[var(--hairline)]">
-      <div className="flex items-center justify-between px-6 py-4">
-        {/* Brand logo */}
-        <BrandMark className="w-[150px] md:w-[170px]" />
-        <ThemeToggle />
-      </div>
-    </div>
-  );
-};
-
-export const Navigation: React.FC = () => {
-  return (
-    <>
-      <DesktopNavigation />
-      <TabletNavigationRail />
-      <MobileTopHeader />
-      <MobileBottomNavigation />
-    </>
+              Book a Strategy Call <ArrowRight className="w-4 h-4 ml-2" />
+            </ButtonLink>
+          </div>
+        </div>
+      )}
+    </header>
   );
 };

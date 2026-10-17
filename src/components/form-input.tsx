@@ -41,7 +41,7 @@ export const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
       <div className="flex flex-col gap-2 w-full">
         <label
           htmlFor={inputId}
-          className="font-sans text-xs font-semibold uppercase tracking-[0.06em] text-graphite"
+          className="font-sans text-xs font-semibold uppercase tracking-widest text-[#71717a]"
         >
           {label}
         </label>
@@ -49,10 +49,10 @@ export const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
           ref={ref}
           id={inputId}
           className={cn(
-            "w-full px-4 py-3.5 bg-paper border rounded-[2px] font-sans text-base md:text-sm text-ink placeholder:text-graphite/60 transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] focus:outline-none focus:border-ink focus:ring-1 focus:ring-[#14140F]",
+            "w-full px-4 py-3.5 bg-white border rounded-xl font-sans text-base md:text-sm text-[#0a0a0a] placeholder:text-[#a1a1aa] transition-all duration-200 focus:outline-none focus:border-[#0a0a0a] focus:ring-2 focus:ring-[#0a0a0a]",
             error
-              ? "border-[#B3261E] focus:border-[#B3261E] focus:ring-[#B3261E]"
-              : "border-hairline",
+              ? "border-[#e11d48] focus:border-[#e11d48] focus:ring-[#e11d48]"
+              : "border-[#e4e4e7]",
             className
           )}
           aria-invalid={error ? "true" : "false"}

@@ -1,40 +1,27 @@
 /**
  * FILE: src/app/contact/contact-page-content.tsx
  *
- * WHAT THIS DOES:
- * Powers the interactive Strategy Consultation booking form and FAQ on the Contact page (/contact).
- *
- * WHERE IT IS USED:
- * - Loaded by `src/app/contact/page.tsx` inside a Suspense boundary.
- *
- * HOW IT WORKS:
- * 1. `contactSchema`: Uses Zod to define validation rules (name >= 2 characters, phone >= 6 digits, valid email).
- * 2. `useForm`: Uses React Hook Form with `zodResolver` to handle field typing, error messages, and submission state.
- * 3. On valid submit: Shows a toast popup and redirects to the `/thank-you` confirmation page.
- * 4. Slide #2: Displays self-service FAQs using the shared `<FAQItem>` accordion.
- *
- * BEGINNER TIP:
- * If you want to require extra form fields (like "Company Budget"), add them to `contactSchema` and the form JSX!
+ * Contact and consultation booking page with clean line borders and plain-English copy.
+ * - Removed pill badges and bracket tags.
+ * - Clean hairline dividers and high-contrast light layout.
+ * - Simple, accessible language for business owners.
  */
 "use client";
 
 import * as React from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Mail, Phone as PhoneIcon, MapPin, Clock, Calendar, Check } from "lucide-react";
+import { Mail, Clock, Calendar, Check, ArrowRight } from "lucide-react";
 import { GlobalLayout } from "../../components/global-layout";
 import { Container } from "../../components/container";
-import { SectionHeading } from "../../components/section-heading";
-import { Button } from "../../components/button";
 import { FormInput } from "../../components/form-input";
 import { FormTextarea } from "../../components/form-textarea";
 import { FAQItem } from "../../components/faq-item";
 import { Reveal } from "../../components/reveal";
-import { ScrollWorldContainer } from "../../components/scroll-world-container";
+import { WordReveal } from "../../components/word-reveal";
 import { toast } from "sonner";
-
 import { settings } from "../../mock/settings";
 import { type FAQ } from "@/mock/faq";
 
@@ -48,17 +35,11 @@ const contactSchema = z.object({
 
 type ContactFormValues = z.infer<typeof contactSchema>;
 
-const contactSlides = [
-  { id: "booking", label: "Consultation" },
-  { id: "faq", label: "FAQ" },
-];
-
 interface ContactPageContentProps {
   faqs: FAQ[];
 }
 
 export function ContactPageContent({ faqs }: ContactPageContentProps) {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const interest = searchParams.get("interest");
   const [activeFaq, setActiveFaq] = React.useState<string | null>(null);
@@ -85,228 +66,194 @@ export function ContactPageContent({ faqs }: ContactPageContentProps) {
     }
   }, [interest, setValue]);
 
-  /**
-   * FUNCTION: onSubmit
-   * ROLE: Form Submission Handler
-   *
-   * PURPOSE:
-   * Handles the submission of the Strategy Call consultation form.
-   *
-   * USED BY:
-   * React Hook Form's handleSubmit in the main <form> wrapper.
-   *
-   * INPUT:
-   * Implicitly receives the validated form data (though unused in this mock).
-   *
-   * FLOW:
-   * Triggers a mocked async delay (1200ms) to simulate a network request -> 
-   * displays a toast notification -> redirects visitor to the `/thank-you` page.
-   */
-  const onSubmit = async () => {
-    const promise = () => new Promise((resolve) => setTimeout(resolve, 1200));
-    toast.promise(promise(), {
-      loading: "Submitting details...",
-      success: () => {
-        router.push("/thank-you");
-        return "Strategy call request received.";
-      },
-      error: "An error occurred. Please try again.",
+  const onSubmit = async (data: ContactFormValues) => {
+    const subject = encodeURIComponent(`Discovery Call Request: ${data.name}${data.businessName ? ` (${data.businessName})` : ""}`);
+    const body = encodeURIComponent(
+      `Name: ${data.name}\n` +
+      `Phone: ${data.phone}\n` +
+      `Email: ${data.email || "Not provided"}\n` +
+      `Business: ${data.businessName || "Not provided"}\n` +
+      `Message: ${data.message || "Discovery call request"}\n`
+    );
+    if (typeof window !== "undefined") {
+      const mailtoLink = document.createElement("a");
+      mailtoLink.href = `mailto:${settings.email}?subject=${subject}&body=${body}`;
+      mailtoLink.click();
+    }
+    toast.info("Opening your email client to send your message directly to our senior team.", {
+      duration: 6000,
     });
   };
 
-  /**
-   * FUNCTION: toggleFaq
-   * ROLE: UI State Handler
-   *
-   * PURPOSE:
-   * Toggles the open/closed state of an FAQ accordion item.
-   *
-   * INPUT:
-   * `id` (string) - The unique identifier of the FAQ item being clicked.
-   *
-   * FLOW:
-   * If the clicked FAQ is already open, it closes it (null). Otherwise, it opens the clicked FAQ.
-   */
   const toggleFaq = (id: string) => {
     setActiveFaq(activeFaq === id ? null : id);
   };
 
   return (
     <GlobalLayout>
-      <ScrollWorldContainer slides={contactSlides}>
-        {/* 1. BOOKING SLIDE (Split: Value Prop & Channels Left / Form Right — 100vh narrative) */}
-        <section
-          id="booking"
-          className="slide-section min-h-[100dvh] pt-28 pb-20 md:pt-32 md:pb-24 border-b border-hairline lg:flex lg:items-center"
-        >
-          <Container>
-            <Reveal variant="fadeUp" className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 lg:gap-16 items-start">
-              {/* Left Column: Context & Direct Channels */}
-              <div className="lg:col-span-5 flex flex-col gap-8">
-                <div className="flex flex-col gap-4">
-                  <SectionHeading
-                    tag="h1"
-                    subtitle="Initiate Consultation"
-                    withTriadMark
-                  >
-                    Book a Strategy Call
-                  </SectionHeading>
-                  <p className="font-editorial text-graphite text-lg leading-relaxed">
-                    Every partnership begins with a 30-minute diagnosis call. We will examine your current software bottlenecks, identify manual drag, and map out a practical architecture roadmap.
-                  </p>
-                </div>
-
-                <div>
-                  <span className="font-sans text-xs text-ink uppercase tracking-[0.1em] block font-semibold mb-3">
-                    What we will cover:
-                  </span>
-                  <ul className="space-y-3">
-                    {[
-                      "Your primary commercial and technical friction points.",
-                      "Processes and workflows that consume excessive team hours.",
-                      "Timeline, stack selection, and fixed commercial deliverables.",
-                    ].map((item, idx) => (
-                      <li key={idx} className="font-editorial text-base text-graphite flex items-start gap-2.5">
-                        <Check className="w-4 h-4 text-ink mt-1 shrink-0" />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="border-t border-hairline pt-6 flex flex-col gap-4">
-                  <span className="font-sans text-xs text-ink uppercase tracking-[0.1em] block font-semibold">
-                    Direct Channels
-                  </span>
-                  <div className="flex flex-col gap-2.5">
-                    <a
-                      href={`mailto:${settings.email}`}
-                      className="font-sans text-sm font-medium text-ink hover:text-graphite transition-colors flex items-center gap-3"
-                    >
-                      <Mail className="w-4 h-4 text-graphite stroke-[1.5]" />
-                      <span>{settings.email}</span>
-                    </a>
-                    <a
-                      href={`tel:${settings.phone}`}
-                      className="font-sans text-sm font-medium text-ink hover:text-graphite transition-colors flex items-center gap-3"
-                    >
-                      <PhoneIcon className="w-4 h-4 text-graphite stroke-[1.5]" />
-                      <span>{settings.phone}</span>
-                    </a>
-                  </div>
-                </div>
-
-                <div className="border-t border-hairline pt-6 flex flex-col gap-3">
-                  <div className="flex items-start gap-3 font-sans text-xs text-graphite">
-                    <MapPin className="w-4 h-4 text-graphite mt-0.5 shrink-0 stroke-[1.5]" />
-                    <span>{settings.address}</span>
-                  </div>
-                  <div className="flex items-center gap-3 font-sans text-xs text-graphite">
-                    <Clock className="w-4 h-4 text-graphite shrink-0 stroke-[1.5]" />
-                    <span>{settings.businessHours}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Right Column: Clean Form */}
-              <div className="lg:col-span-7 bg-paper shadow-[0_8px_32px_rgba(20,20,15,0.03)] border border-hairline rounded-[2px] p-6 md:p-10">
-                <div className="flex items-center gap-2 mb-6">
-                  <Calendar className="w-5 h-5 text-ink" />
-                  <h3 className="font-heading text-xl font-medium text-ink">
-                    Schedule 30-Minute Consultation
-                  </h3>
-                </div>
-
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-                  <FormInput
-                    label="Full name"
-                    type="text"
-                    placeholder="Jordan Ellis"
-                    error={errors.name?.message}
-                    {...register("name")}
-                  />
-
-                  <FormInput
-                    label="Phone number"
-                    type="text"
-                    placeholder="+1 (555) 234-5678"
-                    error={errors.phone?.message}
-                    {...register("phone")}
-                  />
-
-                  <FormInput
-                    label="Work email (optional)"
-                    type="email"
-                    placeholder="jordan@company.com"
-                    error={errors.email?.message}
-                    {...register("email")}
-                  />
-
-                  <FormInput
-                    label="Business name (optional)"
-                    type="text"
-                    placeholder="Meridian Growth Corp"
-                    {...register("businessName")}
-                  />
-
-                  <FormTextarea
-                    label="Operations context or bottlenecks (optional)"
-                    placeholder="Briefly describe your current workflows and goals..."
-                    {...register("message")}
-                  />
-
-                  <div className="pt-3">
-                    <Button
-                      variant="primary"
-                      type="submit"
-                      className="w-full"
-                      disabled={isSubmitting}
-                    >
-                      {isSubmitting ? "Scheduling call..." : "Book a Strategy Call"}
-                    </Button>
-                  </div>
-                </form>
-              </div>
-            </Reveal>
-          </Container>
-        </section>
-
-        {/* 2. FAQ SLIDE (Split: Header Left / Accordion Right) */}
-        <section
-          id="faq"
-          className="slide-section py-12 md:py-24 lg:py-28"
-        >
-          <Container>
-            <Reveal variant="fadeUp" className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 lg:gap-16 items-start">
-              <div className="lg:col-span-5 flex flex-col gap-4">
-                <SectionHeading
-                  tag="h2"
-                  subtitle="Self-Service FAQ"
-                  withTriadMark
-                >
-                  Frequently asked questions
-                </SectionHeading>
-                <p className="font-editorial text-graphite text-base md:text-lg leading-relaxed">
-                  Clear answers about our engagement models, technical ownership, and sprint structure before you book.
+      {/* 1. CONSULTATION BOOKING HERO & FORM */}
+      <section className="min-h-[calc(100vh-72px)] flex flex-col justify-center py-12 sm:py-16 md:py-20 border-b border-[#e4e4e7] bg-white">
+        <Container className="my-auto">
+          <Reveal variant="fadeUp" className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            {/* Left Column: Context & Direct Channels (5 cols) */}
+            <div className="lg:col-span-5 flex flex-col gap-8">
+              <div className="flex flex-col gap-3">
+                <p className="text-sm font-semibold uppercase tracking-wider text-[#e11d48]">
+                  Discovery Call
+                </p>
+                <WordReveal
+                  text="Let's talk about what your business needs."
+                  as="h1"
+                  className="text-4xl md:text-5xl font-bold tracking-tight text-[#0a0a0a] leading-[1.08]"
+                />
+                <p className="text-[#71717a] text-base sm:text-lg leading-relaxed mt-2 font-normal">
+                  Book a quick 30-minute discovery call. We will review your current systems, spot the bottlenecks costing you time, and give you straightforward advice with zero pressure.
                 </p>
               </div>
 
-              <div className="lg:col-span-7 space-y-4">
-                {faqs.map((faq) => (
-                  <FAQItem
-                    key={faq.id}
-                    faq={faq}
-                    isOpen={activeFaq === faq.id}
-                    onToggle={() => toggleFaq(faq.id)}
-                  />
-                ))}
+              {/* Scope Checklist (Clean Lines) */}
+              <div className="border-t border-b border-[#e4e4e7] py-6">
+                <span className="text-xs text-[#0a0a0a] uppercase tracking-wider block font-bold mb-4">
+                  What we will cover on the call:
+                </span>
+                <ul className="space-y-3.5">
+                  {[
+                    "Where your team is spending too much manual time.",
+                    "Which repetitive tasks can be safely automated.",
+                    "Estimated timeline, costs, and practical next steps.",
+                  ].map((item, idx) => (
+                    <li key={idx} className="text-sm text-[#71717a] flex items-start gap-3">
+                      <div className="w-5 h-5 rounded-full bg-[#e11d48]/10 text-[#e11d48] flex items-center justify-center shrink-0 mt-0.5">
+                        <Check className="w-3 h-3 stroke-[3]" />
+                      </div>
+                      <span className="leading-snug font-medium text-[#0a0a0a]">{item}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
-            </Reveal>
-          </Container>
-        </section>
-      </ScrollWorldContainer>
+
+              {/* Direct Channels */}
+              <div className="flex flex-col gap-4">
+                <span className="text-xs text-[#71717a] uppercase tracking-wider block font-semibold">
+                  Or reach out directly:
+                </span>
+                <a
+                  href={`mailto:${settings.email}`}
+                  className="text-sm font-semibold text-[#0a0a0a] hover:text-[#e11d48] transition-colors flex items-center gap-3 group"
+                >
+                  <div className="w-9 h-9 rounded-full bg-white border border-[#e4e4e7] flex items-center justify-center text-[#e11d48] group-hover:border-[#e11d48] transition-colors">
+                    <Mail className="w-4 h-4 stroke-[2]" />
+                  </div>
+                  <span>{settings.email}</span>
+                </a>
+
+                <div className="flex items-center gap-3 text-xs text-[#71717a] pt-1">
+                  <Clock className="w-4 h-4 text-[#71717a] shrink-0 stroke-[2]" />
+                  <span>{settings.businessHours}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Form (7 cols) */}
+            <div className="lg:col-span-7 border-t lg:border-t-0 lg:border-l border-[#e4e4e7] lg:pl-12 pt-8 lg:pt-0">
+              <div className="flex flex-col gap-2 mb-8">
+                <div className="flex items-center gap-2.5">
+                  <Calendar className="w-5 h-5 text-[#e11d48]" />
+                  <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-[#0a0a0a]">
+                    Send us your details
+                  </h2>
+                </div>
+                <p className="text-sm text-[#71717a]">
+                  We typically reply within one business day with available times.
+                </p>
+              </div>
+
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+                <FormInput
+                  label="Full name"
+                  type="text"
+                  placeholder="Your Name"
+                  error={errors.name?.message}
+                  {...register("name")}
+                />
+
+                <FormInput
+                  label="Phone number"
+                  type="text"
+                  placeholder="+1 (555) 000-0000"
+                  error={errors.phone?.message}
+                  {...register("phone")}
+                />
+
+                <FormInput
+                  label="Email address (optional)"
+                  type="email"
+                  placeholder="name@company.com"
+                  error={errors.email?.message}
+                  {...register("email")}
+                />
+
+                <FormInput
+                  label="Company name (optional)"
+                  type="text"
+                  placeholder="Your Company"
+                  {...register("businessName")}
+                />
+
+                <FormTextarea
+                  label="What can we help you with? (optional)"
+                  placeholder="Tell us briefly about your current operations, software challenges, or what you want to build..."
+                  {...register("message")}
+                />
+
+                <div className="pt-2">
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-[#0a0a0a] text-white font-medium hover:bg-[#e11d48] transition-all duration-300 disabled:opacity-50 text-base"
+                  >
+                    <span>{isSubmitting ? "Sending..." : "Request a Discovery Call"}</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                  <p className="text-xs text-[#71717a] text-center pt-3">
+                    We never share your information. No spam, ever.
+                  </p>
+                </div>
+              </form>
+            </div>
+          </Reveal>
+        </Container>
+      </section>
+
+      {/* 2. FAQ SECTION */}
+      <section id="faq" className="py-20 md:py-32 bg-[#fafafa] scroll-mt-24">
+        <Container>
+          <Reveal variant="fadeUp" className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            <div className="lg:col-span-5 flex flex-col gap-4">
+              <p className="text-sm font-semibold uppercase tracking-wider text-[#e11d48]">
+                Common Questions
+              </p>
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-[#0a0a0a]">
+                Everything you need to know.
+              </h2>
+              <p className="text-[#71717a] text-base leading-relaxed">
+                Clear answers about how we work, project timelines, code handover, and ongoing support.
+              </p>
+            </div>
+
+            <div className="lg:col-span-7 space-y-4">
+              {faqs.map((faq) => (
+                <FAQItem
+                  key={faq.id}
+                  faq={faq}
+                  isOpen={activeFaq === faq.id}
+                  onToggle={() => toggleFaq(faq.id)}
+                />
+              ))}
+            </div>
+          </Reveal>
+        </Container>
+      </section>
     </GlobalLayout>
   );
 }
-
-

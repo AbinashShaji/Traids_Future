@@ -24,18 +24,29 @@ import { cn } from "../utils/cn";
 export interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
   /** If true, removes max-width and side padding for full-bleed sections */
   clean?: boolean;
+  /** Layout width scale according to FinZave: "wide" (1400px), "default" (1200px), or "narrow" (1000px) */
+  size?: "default" | "wide" | "narrow";
 }
 
 export const Container: React.FC<ContainerProps> = ({
   className,
   clean = false,
+  size = "default",
   children,
   ...props
 }) => {
+  const sizeStyles = {
+    wide: "max-w-[1400px]",
+    default: "max-w-[1200px]",
+    narrow: "max-w-[1000px]",
+  };
+
   return (
     <div
       className={cn(
-        clean ? "w-full" : "max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16 w-full",
+        clean
+          ? "w-full"
+          : cn("mx-auto px-6 md:px-10 lg:px-12 w-full", sizeStyles[size]),
         className
       )}
       {...props}

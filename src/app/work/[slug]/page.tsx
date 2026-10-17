@@ -1,47 +1,41 @@
 /**
  * FILE: src/app/work/[slug]/page.tsx
  *
- * WHAT THIS DOES:
- * Dynamic template that generates an individual, in-depth Case Study page
- * for each project (e.g. `/work/meridian-financial-digital-platform`).
- *
- * WHERE IT IS USED:
- * - Next.js matches any URL starting with `/work/...` to this file.
- *
- * HOW IT WORKS:
- * 1. `generateStaticParams()`: Tells Next.js to pre-render a static HTML page for every project slug at build time.
- * 2. `getProjectBySlug(slug)`: Looks up the matching project data from `src/mock/projects.ts`.
- * 3. If no matching project is found, it automatically calls `notFound()` to show the 404 screen.
- * 4. Renders full project details across desktop slides:
- *    - #overview: Client title, industry badge, summary, and cover image.
- *    - #metrics: Numerical results and business impact grid.
- *    - #narrative: Challenge, Strategy, and Technical Architecture cards.
- *    - #testimonial: Client quote (if available).
- *    - #gallery: UI screenshots gallery.
- *    - #cta: Booking call to action.
- *
- * BEGINNER TIP:
- * The `[slug]` folder name is Next.js syntax for a "Dynamic Route" (a URL parameter)!
+ * Case Study Detail page with clean line-border architecture.
+ * - Removed pill badges and bracket tags.
+ * - Pure white and light-zinc backgrounds with high-contrast text.
+ * - Clean hairline dividers and readable narrative sections.
  */
 
 import * as React from "react";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Check, Quote } from "lucide-react";
 import { GlobalLayout } from "../../../components/global-layout";
 import { Container } from "../../../components/container";
-import { SectionHeading } from "../../../components/section-heading";
-import { Button } from "../../../components/button";
-
+import { ButtonLink } from "../../../components/button-link";
 import { ImageWrapper } from "../../../components/image-wrapper";
-import { CTA } from "../../../components/cta";
-import { TriadMark } from "../../../components/triad-mark";
-import { ScrollWorldContainer } from "../../../components/scroll-world-container";
+import { WordReveal } from "../../../components/word-reveal";
 import { getProjects, getProjectBySlug } from "@/actions/projects";
 import { getTestimonial } from "@/actions/testimonials";
 
 interface ProjectDetailPageProps {
   params: Promise<{ slug: string }>;
+}
+
+export async function generateMetadata({ params }: ProjectDetailPageProps): Promise<Metadata> {
+  const resolvedParams = await params;
+  const project = await getProjectBySlug(resolvedParams.slug);
+  if (!project) {
+    return {
+      title: "Project Not Found — Triads Future",
+    };
+  }
+  return {
+    title: `${project.title} — Triads Future`,
+    description: project.summary,
+  };
 }
 
 export async function generateStaticParams() {
@@ -61,262 +55,214 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
 
   const testimonial = project.testimonialId ? await getTestimonial(project.testimonialId) : null;
 
-  const caseSlides = [
-    { id: "overview", label: "Overview" },
-    { id: "metrics", label: "Results" },
-    { id: "narrative", label: "Architecture" },
-    ...(testimonial ? [{ id: "testimonial", label: "Client Voice" }] : []),
-    ...(project.galleryImages && (project.galleryImages as {url: string, alt: string}[]).length > 0 ? [{ id: "gallery", label: "Interface" }] : []),
-    { id: "cta", label: "Next Step" },
-  ];
-
   return (
     <GlobalLayout>
-      <ScrollWorldContainer slides={caseSlides}>
-        {/* 1. HERO SLIDE (Split: Title Left / Meta Card Right — 100vh narrative) */}
-        <section
-          id="overview"
-          className="slide-section min-h-[100dvh] flex items-center pt-32 pb-12 md:pt-40 md:pb-20 border-b border-hairline"
-        >
-          <Container>
-            <div className="mb-8">
-              <Link
-                href="/work"
-                className="inline-flex items-center gap-2 font-sans text-xs font-semibold uppercase tracking-wider text-graphite hover:text-ink transition-colors"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                <span>Back to All Work</span>
-              </Link>
+      {/* 1. OVERVIEW HERO */}
+      <section className="min-h-[calc(100vh-72px)] flex flex-col justify-center py-12 sm:py-16 md:py-20 bg-white border-b border-[#e4e4e7]">
+        <Container size="default" className="my-auto">
+          <div className="mb-8">
+            <Link
+              href="/work"
+              className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#71717a] hover:text-[#e11d48] transition-colors fz-link-underline"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span>Back to All Work</span>
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            <div className="lg:col-span-8 flex flex-col gap-6">
+              <div className="flex items-center gap-3">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#e11d48]">
+                  {project.clientName}
+                </span>
+                <span className="w-1 h-1 rounded-full bg-[#d4d4d8]" />
+                <span className="text-xs font-semibold uppercase tracking-wider text-[#71717a]">{project.industry}</span>
+              </div>
+
+              <WordReveal
+                text={project.title}
+                as="h1"
+                className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-[#0a0a0a] leading-[1.08]"
+              />
+
+              <p className="text-lg md:text-xl text-[#71717a] leading-relaxed max-w-2xl font-normal">
+                {project.summary}
+              </p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 lg:gap-16 items-start">
-              <div className="lg:col-span-8 flex flex-col gap-5">
-                <div className="flex items-center gap-3">
-                  <TriadMark size="sm" />
-                  <span className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-graphite">
-                    {project.clientName} · {project.industry}
+            <div className="lg:col-span-4 border-t lg:border-t-0 lg:border-l border-[#e4e4e7] pt-8 lg:pt-0 lg:pl-10">
+              <span className="text-xs font-semibold uppercase tracking-wider text-[#0a0a0a] block mb-4">
+                What Was Delivered
+              </span>
+              <div className="flex flex-wrap gap-2">
+                {project.tags.map((tag, idx) => (
+                  <span key={idx} className="px-3 py-1.5 rounded-full bg-[#f4f4f5] text-xs font-medium text-[#0a0a0a]">
+                    {tag}
                   </span>
-                </div>
-                <SectionHeading tag="h1" className="leading-[1.08]">
-                  {project.title}
-                </SectionHeading>
-                <p className="font-editorial text-graphite text-lg md:text-2xl leading-relaxed mt-2 max-w-2xl">
-                  {project.summary}
+                ))}
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* 2. RESULTS METRICS BANNER (Clean Light Contrast Band) */}
+      <section className="py-16 md:py-20 bg-[#fafafa] border-b border-[#e4e4e7]">
+        <Container size="default">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
+            {((project.results as {metric: string, value: string}[]) || []).map((result, idx) => (
+              <div key={idx} className="flex flex-col gap-1 border-l-2 border-[#e11d48] pl-4">
+                <span className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#0a0a0a] tracking-tight">
+                  {result.value}
+                </span>
+                <span className="text-xs font-semibold tracking-wider text-[#71717a] uppercase mt-1">
+                  {result.metric}
+                </span>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* 3. CASE STUDY NARRATIVE (Clean 12-Col Split) */}
+      <section className="py-20 md:py-32 bg-white border-b border-[#e4e4e7]">
+        <Container size="default">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            {/* Sidebar Context */}
+            <div className="lg:col-span-4 flex flex-col gap-8 lg:sticky lg:top-28">
+              <div className="border-b border-[#e4e4e7] pb-6">
+                <span className="text-xs font-semibold text-[#71717a] uppercase tracking-wider block mb-1">
+                  Client
+                </span>
+                <p className="text-xl font-bold text-[#0a0a0a]">
+                  {project.clientName}
+                </p>
+                <p className="text-sm text-[#71717a] mt-1">
+                  Sector: {project.industry}
                 </p>
               </div>
 
-              <div className="lg:col-span-4 mt-6 lg:mt-0">
-                <div className="bg-paper text-ink theme-inverted border border-hairline rounded-[2px] p-8 shadow-[0_20px_40px_rgba(20,20,15,0.08)] flex flex-col gap-6 relative z-10 transition-colors duration-300">
-                  <span className="font-sans text-xs font-semibold text-ink uppercase tracking-wider">
-                    Technologies & Scope
+              <div>
+                <span className="text-xs font-semibold text-[#71717a] uppercase tracking-wider block mb-3">
+                  Scope & Solutions
+                </span>
+                <ul className="space-y-2.5">
+                  {project.tags.map((tag, idx) => (
+                    <li key={idx} className="text-sm text-[#0a0a0a] flex items-center gap-2.5 font-medium">
+                      <Check className="w-4 h-4 text-[#e11d48]" />
+                      <span>{tag}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            {/* Narrative Editorial Sections */}
+            <div className="lg:col-span-8 divide-y divide-[#e4e4e7]">
+              {((project.narrativeSections as {title: string, body: string}[]) || []).map((sec, idx) => (
+                <div key={idx} className="py-10 first:pt-0 last:pb-0 flex flex-col gap-4">
+                  <h2 className="text-2xl md:text-3xl font-bold text-[#0a0a0a]">
+                    {sec.title}
+                  </h2>
+                  <p className="text-base md:text-lg text-[#71717a] leading-relaxed whitespace-pre-line font-normal">
+                    {sec.body}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* 4. CLIENT TESTIMONIAL */}
+      {testimonial && (
+        <section className="py-20 md:py-32 bg-[#fafafa] border-b border-[#e4e4e7]">
+          <Container size="default">
+            <div className="max-w-4xl mx-auto py-12 px-6 sm:px-12 border-t border-b border-[#e4e4e7] bg-white flex flex-col gap-6 relative">
+              <Quote className="w-10 h-10 text-[#e11d48] opacity-30 stroke-[1.5]" />
+
+              <blockquote className="text-xl sm:text-2xl md:text-3xl font-normal leading-relaxed text-[#0a0a0a]">
+                &ldquo;{testimonial.review}&rdquo;
+              </blockquote>
+
+              <div className="border-t border-[#e4e4e7] pt-6 flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full overflow-hidden relative border border-[#e4e4e7]">
+                  <ImageWrapper
+                    src={testimonial.photo || ""}
+                    alt={testimonial.clientName}
+                    fill
+                    sizes="48px"
+                    containerClassName="w-full h-full border-none"
+                    className="object-cover"
+                  />
+                </div>
+                <div>
+                  <cite className="text-base font-bold text-[#0a0a0a] not-italic block">
+                    {testimonial.clientName}
+                  </cite>
+                  <span className="text-xs text-[#71717a]">
+                    {testimonial.clientRole}, <strong className="text-[#0a0a0a]">{testimonial.company}</strong>
                   </span>
-                  <div className="flex flex-wrap gap-2">
-                    {project.tags.map((tag, idx) => (
-                      <span key={idx} className="font-sans text-xs font-semibold text-paper bg-ink px-3 py-1.5 rounded-[2px] transition-colors duration-300">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
                 </div>
               </div>
             </div>
           </Container>
         </section>
+      )}
 
-        {/* 2. RESULTS METRICS BANNER (Full-Width 4-Column Grid) */}
-        <section
-          id="metrics"
-          className="slide-section py-16 md:py-24 bg-ink text-paper border-b border-hairline"
-        >
-          <Container>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-              {((project.results as {metric: string, value: string}[]) || []).map((result, idx) => (
-                <div key={idx} className="flex flex-col gap-2">
-                  <span className="font-heading text-4xl lg:text-5xl font-medium text-[var(--paper)]">
-                    {result.value}
-                  </span>
-                  <span className="font-sans text-sm tracking-wide text-[var(--paper)]/75 uppercase">
-                    {result.metric}
-                  </span>
+      {/* 5. INTERFACE ARCHITECTURE GALLERY */}
+      {project.galleryImages && (project.galleryImages as {url: string, alt: string}[]).length > 0 && (
+        <section className="py-20 md:py-32 bg-white border-b border-[#e4e4e7]">
+          <Container size="default">
+            <div className="max-w-2xl mb-12">
+              <p className="text-sm font-semibold uppercase tracking-wider text-[#e11d48] mb-2">
+                Visual Showcase
+              </p>
+              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#0a0a0a]">
+                Screens & Platform Features
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {((project.galleryImages as {url: string, alt: string}[]) || []).map((img, idx) => (
+                <div key={idx} className="aspect-[16/10] relative overflow-hidden border border-[#e4e4e7] bg-[#fafafa]">
+                  <ImageWrapper
+                    src={img.url}
+                    alt={img.alt || `${project.title} screenshot ${idx + 1}`}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    containerClassName="w-full h-full border-none rounded-none"
+                  />
                 </div>
               ))}
             </div>
           </Container>
         </section>
+      )}
 
-        {/* 3. CASE STUDY NARRATIVE (Split: Sticky Sidebar Left / Editorial Blocks Right) */}
-        <section
-          id="narrative"
-          className="slide-section py-12 md:py-24 lg:py-28 border-b border-hairline"
-        >
-          <Container>
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 lg:gap-16 items-start">
-              {/* Sidebar Meta */}
-              <div className="lg:col-span-4 flex flex-col gap-6 lg:sticky lg:top-28">
-                <div className="border-t border-hairline pt-6">
-                  <span className="font-sans text-xs font-semibold text-graphite uppercase tracking-wider block mb-2">
-                    Client Context
-                  </span>
-                  <p className="font-heading text-lg font-medium text-ink">
-                    {project.clientName}
-                  </p>
-                  <p className="font-editorial text-sm text-graphite mt-1">
-                    Operating in the {project.industry.toLowerCase()} sector.
-                  </p>
-                </div>
-
-                <div className="border-t border-hairline pt-6">
-                  <span className="font-sans text-xs font-semibold text-graphite uppercase tracking-wider block mb-3">
-                    Core Disciplines
-                  </span>
-                  <ul className="space-y-2.5">
-                    {project.tags.map((tag, idx) => (
-                      <li key={idx} className="font-sans text-xs text-ink flex items-center gap-2">
-                        <Check className="w-3.5 h-3.5 text-ink" />
-                        <span>{tag}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-
-              {/* Narrative Sections in Newsreader Editorial Body */}
-              <div className="lg:col-span-8 flex flex-col gap-14">
-                {((project.narrativeSections as {title: string, body: string}[]) || []).map((section, idx) => (
-                  <div key={idx} className="flex flex-col gap-4">
-                    <h3 className="font-heading text-2xl md:text-3xl font-medium text-ink border-b border-hairline pb-3">
-                      {section.title}
-                    </h3>
-                    <p className="font-editorial text-lg text-graphite leading-relaxed whitespace-pre-line">
-                      {section.body}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </Container>
-        </section>
-
-        {/* 4. CLIENT TESTIMONIAL (Full-Width Editorial Pull-Quote) */}
-        {testimonial && (
-          <section
-            id="testimonial"
-            className="slide-section py-12 md:py-24 lg:py-28"
-          >
-            <Container>
-              <div className="max-w-5xl mx-auto bg-paper text-ink theme-inverted rounded-[2px] p-10 md:p-16 lg:p-20 shadow-[0_20px_60px_rgba(20,20,15,0.08)] relative z-10 transition-colors duration-300 overflow-hidden group">
-                
-                {/* Massive Watermark Quote Icon */}
-                <Quote className="absolute -top-12 -left-12 w-48 h-48 text-graphite opacity-5 rotate-180 pointer-events-none" />
-
-                <div className="relative z-10 flex flex-col md:flex-row gap-12 lg:gap-16 items-start">
-                  {/* Left: Author Block */}
-                  <div className="w-full md:w-1/3 flex flex-col items-center md:items-start shrink-0 pt-2">
-                    <div className="flex flex-col items-center text-center w-full max-w-[280px]">
-                      {/* Pic Frame */}
-                      <div className="w-full aspect-[4/5] rounded-[2px] overflow-hidden relative border border-hairline shadow-[0_8px_30px_rgba(0,0,0,0.04)] ring-1 ring-ink/5 group-hover:ring-ink/15 transition-all duration-500 mb-6">
-                        <ImageWrapper
-                          src={testimonial.photo || ""}
-                          alt={testimonial.clientName}
-                          fill
-                          sizes="(max-width: 768px) 100vw, 33vw"
-                          containerClassName="w-full h-full border-none"
-                          className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 hover:scale-105"
-                        />
-                      </div>
-                      
-                      {/* Credentials */}
-                      <div className="flex flex-col items-center">
-                        <cite className="font-heading text-xl font-medium text-ink not-italic">
-                          {testimonial.clientName}
-                        </cite>
-                        <span className="font-sans text-sm text-graphite mt-1">
-                          {testimonial.clientRole}
-                        </span>
-                        <span className="font-sans text-sm font-semibold text-ink mt-1">
-                          {testimonial.company}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Right: The Quote */}
-                  <div className="w-full md:w-2/3 flex flex-col gap-6">
-                    <div className="flex items-center gap-2">
-                       <span className="font-sans text-[10px] font-semibold uppercase tracking-[0.14em] text-graphite flex items-center gap-2">
-                        <TriadMark size="sm" /> Client Partnership
-                      </span>
-                    </div>
-                    
-                    <blockquote className="font-editorial text-2xl md:text-3xl lg:text-4xl leading-[1.3] tracking-tight text-ink">
-                      &ldquo;{testimonial.review}&rdquo;
-                    </blockquote>
-                  </div>
-                </div>
-              </div>
-            </Container>
-          </section>
-        )}
-
-        {/* 5. GALLERY SHOWCASE (2-Column Grid) */}
-        {project.galleryImages && (project.galleryImages as {url: string, alt: string}[]).length > 0 && (
-          <section
-            id="gallery"
-            className="slide-section py-12 md:py-24 lg:py-28 border-b border-hairline"
-          >
-            <Container>
-              <div className="mb-12">
-                <SectionHeading
-                  tag="h2"
-                  subtitle="System Views"
-                  withTriadMark
-                >
-                  Production Interface Architecture
-                </SectionHeading>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {((project.galleryImages as {url: string, alt: string}[]) || []).map((img, idx) => (
-                  <div key={idx} className="aspect-[16/10] relative rounded-[2px] overflow-hidden border border-hairline">
-                    <ImageWrapper
-                      src={img.url}
-                      alt={img.alt || `${project.title} interface capture ${idx + 1}`}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      containerClassName="w-full h-full border-none rounded-none"
-                    />
-                  </div>
-                ))}
-              </div>
-            </Container>
-          </section>
-        )}
-
-        {/* 6. NEXT STEP CTA */}
-        <section
-          id="cta"
-          className="slide-section min-h-[100dvh] flex items-center justify-center py-12 pb-32 md:py-20 md:pb-20"
-        >
-          <Container>
-            <CTA
-              eyebrow="Initiate Project"
-              headline={`Ready to achieve similar results for ${project.clientName}?`}
-              description="Schedule a 30-minute consultation call. We will review your current technical bottlenecks and map out a practical execution plan."
-            >
-              <Link href="/contact">
-                <Button variant="primary" size="lg">
-                  Book a Strategy Call
-                </Button>
-              </Link>
-              <Link href="/work">
-                <Button variant="outline" size="lg">
-                  Back to All Work
-                </Button>
-              </Link>
-            </CTA>
-          </Container>
-        </section>
-      </ScrollWorldContainer>
+      {/* 6. FINAL CTA */}
+      <section className="py-24 md:py-36 bg-white">
+        <Container size="narrow" className="text-center flex flex-col items-center">
+          <p className="text-sm font-semibold uppercase tracking-wider text-[#e11d48] mb-3">
+            Start A Conversation
+          </p>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-[#0a0a0a] leading-[1.1] max-w-2xl mb-6">
+            Ready for similar results in your business?
+          </h2>
+          <p className="text-base sm:text-lg text-[#71717a] leading-relaxed max-w-xl font-normal mb-10">
+            Book an introductory 30-minute call. We will review your current software and explain how custom tools can save you time and overhead.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
+            <ButtonLink href="/contact" variant="primary" size="lg" className="w-full sm:w-auto">
+              Book a Strategy Call
+            </ButtonLink>
+            <ButtonLink href="/work" variant="outline" size="lg" className="w-full sm:w-auto">
+              Back to All Projects
+            </ButtonLink>
+          </div>
+        </Container>
+      </section>
     </GlobalLayout>
   );
 }

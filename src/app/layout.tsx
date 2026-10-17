@@ -19,12 +19,27 @@
  * This is the very foundation of the entire app. Any mistakes here will break the whole website!
  */
 
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import { Outfit, Newsreader } from "next/font/google";
 import "./globals.css";
 import { RootProviders } from "../providers/root-providers";
-import { CustomCursor } from "../components/custom-cursor";
 
-export const viewport: import("next").Viewport = {
+const outfit = Outfit({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-outfit",
+  display: "swap",
+});
+
+const newsreader = Newsreader({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  variable: "--font-newsreader",
+  display: "swap",
+});
+
+export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
@@ -44,17 +59,21 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className="h-full antialiased"
+      className={`h-full antialiased ${outfit.variable} ${newsreader.variable} ${outfit.className}`}
+      data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet" />
-      </head>
-      <body suppressHydrationWarning className="min-h-full flex flex-col bg-transparent text-[var(--ink)] selection:bg-[var(--ink)] selection:text-[var(--paper)]">
+      <body
+        suppressHydrationWarning
+        className={`${outfit.className} min-h-full flex flex-col bg-white text-[#0a0a0a] selection:bg-[#e11d48] selection:text-white`}
+      >
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-[#0a0a0a] focus:text-white focus:rounded-full focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#e11d48] text-xs font-semibold uppercase tracking-wider"
+        >
+          Skip to main content
+        </a>
         <RootProviders>
-          <CustomCursor />
           {children}
         </RootProviders>
       </body>

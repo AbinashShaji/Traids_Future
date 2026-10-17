@@ -1,19 +1,19 @@
 import { Card } from "@/components/card";
 
+// Mock mode: static dashboard statistics defined at module level for render purity
+const recentAppointments = [
+  { id: "1", name: "Sarah Jenkins", createdAt: new Date("2026-10-16T14:30:00Z"), status: "New" },
+  { id: "2", name: "Michael Chen", createdAt: new Date("2026-10-15T09:15:00Z"), status: "Completed" },
+  { id: "3", name: "David Alaba", createdAt: new Date("2026-10-14T11:45:00Z"), status: "Completed" }
+];
+
 export default async function DashboardPage() {
-  // Mock mode: static dashboard statistics
   const totalAppointments = 12;
   const newAppointments = 3;
   const publishedProjects = 3;
   const publishedArticles = 5;
   const totalTestimonials = 4;
   const totalFaqs = 6;
-
-  const recentAppointments = [
-    { id: "1", name: "Sarah Jenkins", createdAt: new Date(), status: "New" },
-    { id: "2", name: "Michael Chen", createdAt: new Date(Date.now() - 86400000), status: "Completed" },
-    { id: "3", name: "David Alaba", createdAt: new Date(Date.now() - 172800000), status: "Completed" }
-  ];
 
   return (
     <div className="space-y-8">

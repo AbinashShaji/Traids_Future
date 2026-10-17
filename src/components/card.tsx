@@ -35,19 +35,16 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
       <div
         ref={ref}
         className={cn(
-          "card relative overflow-hidden rounded-[2px] p-6 md:p-8",
-          // Premium Base
-          "bg-gradient-to-br from-paper to-bone/40",
-          "border border-hairline shadow-[0_8px_30px_rgba(0,0,0,0.03)]",
-          "ring-1 ring-inset ring-ink/10",
-          "transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
+          "card relative overflow-hidden rounded-3xl p-6 md:p-8",
+          // FinZave Architectural Base
+          "bg-white",
+          "border border-[#e4e4e7] shadow-sm",
+          "transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
           // Hover State
           hoverEffect && [
             "cursor-pointer group",
             "hover:-translate-y-1",
-            "hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.08)]",
-            "hover:border-ink/15 hover:ring-ink/20",
-            "hover:from-paper hover:to-bone/60"
+            "hover:border-[#0a0a0a] hover:shadow-md",
           ],
           className
         )}

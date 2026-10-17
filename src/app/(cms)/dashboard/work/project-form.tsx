@@ -7,22 +7,23 @@ import { FormTextarea } from "@/components/form-textarea";
 import { ImageWrapper } from "@/components/image-wrapper";
 import Link from "next/link";
 import { ArrowLeft, Plus, X } from "lucide-react";
+import type { Project, ProjectResult } from "@/mock/projects";
 
 export function ProjectForm({ 
   initialData, 
   action, 
   title 
 }: { 
-  initialData?: any; 
+  initialData?: Partial<Project>; 
   action: (formData: FormData) => Promise<void>; 
   title: string;
 }) {
   const [coverUrl, setCoverUrl] = React.useState(initialData?.coverImage || "");
-  const [results, setResults] = React.useState<{metric: string, value: string}[]>(
-    (initialData?.results as {metric: string, value: string}[]) || []
+  const [results, setResults] = React.useState<ProjectResult[]>(
+    initialData?.results || []
   );
   const [gallery, setGallery] = React.useState<string[]>(
-    initialData?.galleryImages ? (initialData.galleryImages as any[]).map(g => g.url) : []
+    initialData?.galleryImages ? initialData.galleryImages.map((g) => g.url) : []
   );
   const [newGalleryUrl, setNewGalleryUrl] = React.useState("");
 
@@ -68,9 +69,9 @@ export function ProjectForm({
           {/* Narrative Section */}
           <div className="bg-white border border-gray-200 p-6 sm:p-8 rounded-xl shadow-sm space-y-6">
             <h2 className="text-lg font-semibold text-gray-900 border-b border-gray-100 pb-4">Case Study Narrative</h2>
-            <FormTextarea label="The Challenge" name="challenge" defaultValue={(initialData?.narrativeSections as any[])?.find((s:any)=>s.title==="The Challenge")?.body} rows={5} />
-            <FormTextarea label="The Strategy" name="strategy" defaultValue={(initialData?.narrativeSections as any[])?.find((s:any)=>s.title==="The Strategy")?.body} rows={5} />
-            <FormTextarea label="The Technical Solution" name="solution" defaultValue={(initialData?.narrativeSections as any[])?.find((s:any)=>s.title==="The Technical Solution")?.body} rows={5} />
+            <FormTextarea label="The Challenge" name="challenge" defaultValue={initialData?.narrativeSections?.find((s) => s.title === "The Challenge")?.body} rows={5} />
+            <FormTextarea label="The Strategy" name="strategy" defaultValue={initialData?.narrativeSections?.find((s) => s.title === "The Strategy")?.body} rows={5} />
+            <FormTextarea label="The Technical Solution" name="solution" defaultValue={initialData?.narrativeSections?.find((s) => s.title === "The Technical Solution")?.body} rows={5} />
           </div>
 
           {/* Results Section */}

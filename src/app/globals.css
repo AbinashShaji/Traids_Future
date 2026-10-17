@@ -1,103 +1,58 @@
 @import "tailwindcss";
 
-/*
- * Canela Font — Display / Heading Typography
- *
- * Canela is the intended display typeface.  The font files are NOT bundled
- * with this repository (they are commercially licensed).  If you have a
- * license, place the woff2/woff files in /public/fonts/canela/ and
- * uncomment the @font-face blocks below.
- *
- * Until the files are present the CSS variable chain falls through:
- *   Canela (local install) → Newsreader (Google Fonts) → Georgia → serif
- */
-
-
 :root {
-  /* Color Tokens */
-  --paper: #FFFFFF; /* Pure white background */
-  --bone: #F7F7F7;  /* Subtle off-white */
-  --hairline: #EAEAEA; /* Clean light gray */
-  --ink: #14140F;
-  --graphite: #57564C;
-  --signal: #B3261E;
+  /* FinZave Strict Color System */
+  --fz-black: #0a0a0a;
+  --fz-white: #ffffff;
+  --fz-gray-50: #fafafa;
+  --fz-gray-100: #f4f4f5;
+  --fz-gray-200: #e4e4e7;
+  --fz-gray-300: #d4d4d8;
+  --fz-gray-400: #a1a1aa;
+  --fz-gray-500: #71717a;
+  --fz-gray-600: #52525b;
+  --fz-gray-700: #3f3f46;
+  --fz-gray-800: #27272a;
+  --fz-gray-900: #18181b;
+  --fz-red: #e11d48;
+  --fz-red-hover: #be123c;
 
-  /* Font Families loaded via external stylesheet */
-  --font-newsreader: 'Newsreader', Georgia, serif;
-  --font-inter-tight: 'Inter Tight', sans-serif;
+  /* Semantic Aliases */
+  --background: var(--fz-white);
+  --foreground: var(--fz-black);
+  --border: var(--fz-gray-200);
 
-  /* Typography variables: Canela is the primary display / heading family */
-  --font-canela: 'Canela', var(--font-newsreader), Georgia, serif;
-  --font-heading: 'Canela', var(--font-newsreader), Georgia, serif;
-  --font-display: 'Canela', var(--font-newsreader), Georgia, serif;
-  --font-editorial: var(--font-newsreader), Georgia, serif;
-  --font-ui: var(--font-inter-tight), sans-serif;
+  /* Typography */
+  --font-sans: var(--font-outfit), 'Outfit', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: var(--font-outfit), 'Outfit', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-newspaper: var(--font-newsreader), 'Newsreader', Georgia, 'Times New Roman', serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
 
-  /* Motion Easing */
-  --ease: cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.dark {
-  /* Dark Mode Color Tokens */
-  --paper: #14140F;
-  --bone: #1F1F17;
-  --hairline: #2C2C24;
-  --ink: #FFFFFF;
-  --graphite: #A1A097;
-  --signal: #E57373;
-}
-
-/* Invert theme automatically swaps light/dark palettes for high-contrast boxes */
-.theme-inverted {
-  --paper: #14140F;
-  --bone: #1F1F17;
-  --hairline: #2C2C24;
-  --ink: #FFFFFF;
-  --graphite: #A1A097;
-  
-  --color-paper: var(--paper);
-  --color-bone: var(--bone);
-  --color-hairline: var(--hairline);
-  --color-ink: var(--ink);
-  --color-graphite: var(--graphite);
-}
-
-.dark .theme-inverted {
-  --paper: #FFFFFF;
-  --bone: #F7F7F7;
-  --hairline: #EAEAEA;
-  --ink: #14140F;
-  --graphite: #57564C;
-
-  --color-paper: var(--paper);
-  --color-bone: var(--bone);
-  --color-hairline: var(--hairline);
-  --color-ink: var(--ink);
-  --color-graphite: var(--graphite);
+  /* Motion Timing Curves */
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
 }
 
 @theme {
-  --color-paper: var(--paper);
-  --color-bone: var(--bone);
-  --color-hairline: var(--hairline);
-  --color-ink: var(--ink);
-  --color-graphite: var(--graphite);
-  --color-signal: var(--signal);
+  --color-fz-black: #0a0a0a;
+  --color-fz-white: #ffffff;
+  --color-fz-gray-50: #fafafa;
+  --color-fz-gray-100: #f4f4f5;
+  --color-fz-gray-200: #e4e4e7;
+  --color-fz-gray-300: #d4d4d8;
+  --color-fz-gray-400: #a1a1aa;
+  --color-fz-gray-500: #71717a;
+  --color-fz-gray-600: #52525b;
+  --color-fz-gray-700: #3f3f46;
+  --color-fz-gray-800: #27272a;
+  --color-fz-gray-900: #18181b;
+  --color-fz-red: #e11d48;
+  --color-fz-red-hover: #be123c;
 
-  /* Semantic aliases */
-  --color-background: var(--paper);
-  --color-foreground: var(--ink);
-  --color-secondary: var(--graphite);
-  --color-border: var(--hairline);
-  --color-error: var(--signal);
-
-  --font-hero: var(--font-canela);
-  --font-canela: var(--font-canela);
-  --font-display: var(--font-canela);
-  --font-heading: var(--font-canela);
-  --font-editorial: var(--font-editorial);
-  --font-ui: var(--font-ui);
-  --font-sans: var(--font-ui);
+  --font-sans: var(--font-outfit), 'Outfit', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: var(--font-outfit), 'Outfit', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-newspaper: var(--font-newspaper);
+  --font-mono: var(--font-mono);
 }
 
 * {
@@ -105,57 +60,173 @@
 }
 
 html {
-  background-color: var(--paper);
-  color: var(--ink);
-  font-family: var(--font-ui);
+  background-color: #ffffff;
+  color: #0a0a0a;
+  font-family: var(--font-outfit), 'Outfit', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  scroll-behavior: smooth;
 }
 
 body {
-  background-color: transparent;
-  color: var(--ink);
-  font-family: var(--font-ui);
+  background-color: #ffffff;
+  color: #0a0a0a;
+  font-family: var(--font-outfit), 'Outfit', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   margin: 0;
   padding: 0;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
-/* Base Heading Styles defaulting to Canela */
+/* Headings strictly styled with tight negative tracking */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading);
+  font-family: var(--font-outfit), 'Outfit', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  letter-spacing: -0.035em;
+  font-weight: 700;
+  color: inherit;
 }
 
-/* Desktop Scroll Snapping (Locked to >= 1024px) */
-@media (min-width: 1024px) {
-  html.desktop-snap {
-    scroll-snap-type: y mandatory;
-    scroll-behavior: smooth;
-  }
-  
-  .slide-section {
-    scroll-snap-align: start;
-    scroll-snap-stop: normal;
-  }
+/* FinZave Glassmorphism Header */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--fz-gray-200);
 }
 
-/* Reduced Motion globally disables snap smoothing and transitions */
-@media (prefers-reduced-motion: reduce) {
-  html, html.desktop-snap {
-    scroll-behavior: auto !important;
-    scroll-snap-type: none !important;
-  }
-
-  *, *::before, *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-    scroll-behavior: auto !important;
-  }
+/* Sliding Crimson Underline Interaction (.fz-link-underline, .fz-underline-hover) */
+.fz-link-underline,
+.fz-underline-hover {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  color: #0a0a0a;
+  transition: color 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Triad Mark Signature Styling */
+.fz-link-underline::after,
+.fz-underline-hover::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #e11d48;
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fz-link-underline:hover::after,
+.fz-link-underline:focus-visible::after,
+.fz-underline-hover:hover::after,
+.fz-underline-hover:focus-visible::after,
+.fz-underline-hover.active::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+.fz-link-underline:focus-visible,
+.fz-underline-hover:focus-visible {
+  outline: 2px solid #e11d48;
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+.fz-underline-hover-red::after {
+  background-color: #e11d48 !important;
+}
+
+
+/* Primary Pill Button (.fz-btn-primary) */
+.fz-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #0a0a0a;
+  color: #ffffff;
+  border-radius: 9999px;
+  padding: 0.875rem 2.25rem;
+  font-weight: 500;
+  font-size: 0.9375rem;
+  letter-spacing: 0.01em;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+  border: 1px solid #0a0a0a;
+}
+
+.fz-btn-primary:hover {
+  background-color: #e11d48;
+  border-color: #e11d48;
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px -5px rgba(225, 29, 72, 0.25);
+}
+
+.fz-btn-primary:active {
+  transform: translateY(0);
+}
+
+/* Secondary White Pill Button */
+.fz-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  color: #0a0a0a;
+  border-radius: 9999px;
+  padding: 0.875rem 2.25rem;
+  font-weight: 500;
+  font-size: 0.9375rem;
+  letter-spacing: 0.01em;
+  border: 1px solid var(--fz-gray-200);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.03);
+}
+
+.fz-btn-secondary:hover {
+  background-color: var(--fz-gray-100);
+  border-color: var(--fz-gray-300);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.06);
+}
+
+/* Card Surface (.fz-card) */
+.fz-card {
+  background-color: #ffffff;
+  border: 1px solid var(--fz-gray-200);
+  border-radius: 1.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.03);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fz-card:hover {
+  border-color: #0a0a0a;
+  transform: translateY(-3px);
+  box-shadow: 0 16px 32px -8px rgba(0, 0, 0, 0.06);
+}
+
+/* Form Input Control */
+.fz-input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--fz-gray-200);
+  background-color: #ffffff;
+  color: #0a0a0a;
+  font-family: var(--font-outfit);
+  font-size: 0.9375rem;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fz-input:focus {
+  outline: none;
+  border-color: #0a0a0a;
+  box-shadow: 0 0 0 2px #0a0a0a;
+}
+
+/* Triad Bar Signature Motif */
 .triad-mark {
   display: inline-flex;
   align-items: center;
@@ -165,53 +236,155 @@ h1, h2, h3, h4, h5, h6 {
 .triad-mark span {
   display: block;
   height: 3px;
-  background: var(--ink);
+  background: #0a0a0a;
   border-radius: 1px;
 }
 
-.triad-mark span:nth-child(1) {
-  width: 10px;
-  opacity: 0.35;
+/* Motion Architecture: Progressive Enhancement & Scroll Reveal */
+/* Content is 100% visible by default for SSR, direct navigation, and resilient rendering */
+.observe-me {
+  opacity: 1;
+  transform: none;
 }
 
-.triad-mark span:nth-child(2) {
-  width: 10px;
-  opacity: 0.65;
+/* Progressive enhancement: only elements below the fold armed by JS animate in */
+html.js-ready .observe-me[data-reveal="armed"],
+html.js-ready .observe-me.js-armed:not(.is-visible) {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
 }
 
-.triad-mark span:nth-child(3) {
-  width: 10px;
+html.js-ready .observe-me[data-reveal="visible"],
+html.js-ready .observe-me.js-armed.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+html.js-ready .observe-me.fz-reveal-left[data-reveal="armed"],
+html.js-ready .observe-me.fz-reveal-left.js-armed:not(.is-visible) {
+  opacity: 0;
+  transform: translateX(-24px);
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html.js-ready .observe-me.fz-reveal-left[data-reveal="visible"],
+html.js-ready .observe-me.fz-reveal-left.js-armed.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+html.js-ready .observe-me.fz-reveal-right[data-reveal="armed"],
+html.js-ready .observe-me.fz-reveal-right.js-armed:not(.is-visible) {
+  opacity: 0;
+  transform: translateX(24px);
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html.js-ready .observe-me.fz-reveal-right[data-reveal="visible"],
+html.js-ready .observe-me.fz-reveal-right.js-armed.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Scroll-Spy Number Transition */
+.fz-scroll-num {
+  transition: color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fz-scroll-num[data-active="true"],
+.fz-scroll-num.is-active {
+  color: #e11d48 !important;
+}
+
+/* Staggered Word Reveal Keyframe */
+@keyframes fzWordIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fz-word-reveal {
+  display: inline-block;
   opacity: 1;
 }
 
-/* Button & Link Underline Utilities */
-.btn-text-underline {
-  position: relative;
+html.js-ready .fz-word-reveal {
+  opacity: 0;
+  animation: fzWordIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.btn-text-underline::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 1px;
-  background: var(--ink);
-  transform: scaleX(1);
-  transform-origin: left;
-  transition: transform 0.4s var(--ease);
+/* Reduced Motion Globally Disables Transitions */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .observe-me {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .fz-word-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
 }
 
-.btn-text-underline:hover::after {
-  transform: scaleX(0.4);
+/* Authentic Newspaper Editorial Headline Typography */
+.font-newspaper {
+  font-family: var(--font-newsreader), 'Newsreader', Georgia, 'Times New Roman', serif;
 }
 
-/* Force logo to be black in light mode and white in dark mode */
-.logo-adaptive {
-  filter: brightness(0) !important;
-}
-.dark .logo-adaptive {
-  filter: brightness(0) invert(1) !important;
+/* Polished Silver Chrome Headline Effect */
+.silver-chrome-headline {
+  font-family: var(--font-newsreader), 'Newsreader', Georgia, 'Times New Roman', serif;
+  background: linear-gradient(
+    135deg,
+    #0f172a 0%,
+    #334155 20%,
+    #64748b 36%,
+    #cbd5e1 50%,
+    #94a3b8 60%,
+    #334155 75%,
+    #0f172a 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 1px 1px rgba(255, 255, 255, 0.8));
 }
 
-
+.silver-chrome-word {
+  background: linear-gradient(
+    135deg,
+    #0f172a 0%,
+    #334155 20%,
+    #64748b 36%,
+    #cbd5e1 50%,
+    #94a3b8 60%,
+    #334155 75%,
+    #0f172a 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 1px 1px rgba(255, 255, 255, 0.8));
+}

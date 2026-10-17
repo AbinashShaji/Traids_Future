@@ -1,21 +1,8 @@
 /**
  * FILE: src/components/faq-item.tsx
  *
- * WHAT THIS DOES:
- * Renders a single expandable question-and-answer row (an accordion item).
- *
- * WHERE IT IS USED:
- * - Rendered in the FAQ list on the About page (`src/app/about/about-page-content.tsx`).
- * - Rendered in the FAQ list on the Contact page (`src/app/contact/contact-page-content.tsx`).
- *
- * HOW IT WORKS:
- * 1. Shows a button with the question text and a chevron arrow.
- * 2. When clicked, it calls `onToggle()` to open or close the answer.
- * 3. Uses pure CSS grid transition (`grid-rows-[1fr]` vs `grid-rows-[0fr]`) for silky-smooth animation!
- * 4. Includes `aria-expanded` so screen readers announce whether the answer is open or closed.
- *
- * BEGINNER TIP:
- * If you want to change how questions look when opened, this is the file to edit!
+ * Single expandable FAQ row with clean line-border architecture.
+ * Clean, minimal, zero card boxes.
  */
 "use client";
 
@@ -40,7 +27,7 @@ export const FAQItem: React.FC<FAQItemProps> = ({
   return (
     <div
       className={cn(
-        "border border-hairline rounded-[2px] bg-paper overflow-hidden transition-all duration-300",
+        "border-b border-[#e4e4e7] bg-transparent transition-all duration-300",
         className
       )}
     >
@@ -48,26 +35,28 @@ export const FAQItem: React.FC<FAQItemProps> = ({
         type="button"
         onClick={onToggle}
         aria-expanded={isOpen}
-        className="w-full px-6 py-4 flex items-center justify-between gap-4 text-left font-sans font-semibold text-ink hover:bg-bone/40 transition-colors"
+        className="w-full py-5 flex items-center justify-between gap-4 text-left font-sans font-semibold transition-colors focus:outline-none"
       >
-        <span className="text-sm md:text-base leading-snug">{faq.question}</span>
+        <span className={cn("text-base md:text-lg leading-snug transition-colors", isOpen ? "text-[#e11d48]" : "text-[#0a0a0a] hover:text-[#e11d48]")}>
+          {faq.question}
+        </span>
         <ChevronDown
           className={cn(
-            "w-4 h-4 text-graphite transition-transform duration-300 shrink-0",
-            isOpen && "rotate-180"
+            "w-5 h-5 transition-transform duration-300 shrink-0",
+            isOpen ? "rotate-180 text-[#e11d48]" : "text-[#71717a]"
           )}
         />
       </button>
       <div
         className={cn(
-          "grid transition-all duration-300 ease-in-out",
+          "grid transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
           isOpen
-            ? "grid-rows-[1fr] opacity-100 border-t border-hairline"
+            ? "grid-rows-[1fr] opacity-100"
             : "grid-rows-[0fr] opacity-0"
         )}
       >
         <div className="overflow-hidden">
-          <div className="p-6 font-editorial text-base text-graphite leading-relaxed bg-bone/30">
+          <div className="pb-6 font-sans text-sm sm:text-base text-[#71717a] leading-relaxed">
             {faq.answer}
           </div>
         </div>

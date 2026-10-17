@@ -1,20 +1,7 @@
 /**
  * FILE: src/app/not-found.tsx
  *
- * WHAT THIS DOES:
- * The custom 404 "Page Not Found" screen shown when someone visits an invalid web address.
- *
- * WHERE IT IS USED:
- * - Automatically shown by Next.js when a user visits a non-existent URL (e.g. `/unknown-page`)
- *   or when code calls `notFound()`.
- *
- * HOW IT WORKS:
- * 1. Renders a calm, editorial "Error 404 — Page not found" headline in Canela font.
- * 2. Reassures the visitor with a clear explanation message.
- * 3. Provides 3 quick navigation buttons: "Return to Home", "Explore Solutions", and "View Success Stories".
- *
- * BEGINNER TIP:
- * A friendly 404 page prevents visitors from getting stuck when they click a broken or outdated link!
+ * Custom 404 screen with clean typography and line borders.
  */
 
 import * as React from "react";
@@ -22,45 +9,45 @@ import Link from "next/link";
 import { House, LayoutGrid, BriefcaseBusiness } from "lucide-react";
 import { GlobalLayout } from "../components/global-layout";
 import { Container } from "../components/container";
-import { SectionHeading } from "../components/section-heading";
-import { Button } from "../components/button";
 
 export default function NotFound() {
   return (
     <GlobalLayout>
-      <section className="min-h-[50vh] md:min-h-[70vh] flex items-center justify-center pt-32 pb-20">
-        <Container className="max-w-2xl text-center flex flex-col items-center gap-6">
-          <SectionHeading
-            tag="h1"
-            subtitle="Error 404"
-            withTriadMark
-            className="text-center"
-          >
-            Page not found
-          </SectionHeading>
-          
-          <p className="font-editorial text-graphite text-lg md:text-xl leading-relaxed max-w-md">
-            The page you are looking for does not exist, was relocated, or is no longer available. Return to one of our main sections below.
+      <section className="min-h-[calc(100vh-72px)] flex flex-col justify-center py-12 sm:py-16 md:py-20 bg-white">
+        <Container className="max-w-2xl text-center flex flex-col items-center gap-6 my-auto">
+          <p className="text-sm font-semibold uppercase tracking-wider text-[#e11d48]">
+            Page Not Found
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 pt-4 w-full justify-center">
-            <Link href="/">
-              <Button variant="primary" className="w-full sm:w-auto gap-2">
-                <House className="w-4 h-4 stroke-[1.5]" />
-                Return to Home
-              </Button>
+          <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-[#0a0a0a]">
+            This page could not be found
+          </h1>
+          
+          <p className="text-[#71717a] text-lg leading-relaxed max-w-md font-normal">
+            The page you are looking for does not exist, was moved, or is no longer available. You can navigate back using the links below.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-3 pt-4 w-full justify-center">
+            <Link
+              href="/"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-[#0a0a0a] text-white font-medium hover:bg-[#e11d48] transition-all duration-300 text-sm"
+            >
+              <House className="w-4 h-4 stroke-[2]" />
+              <span>Return to Home</span>
             </Link>
-            <Link href="/solutions">
-              <Button variant="outline" className="w-full sm:w-auto gap-2">
-                <LayoutGrid className="w-4 h-4 stroke-[1.5]" />
-                Explore Solutions
-              </Button>
+            <Link
+              href="/solutions"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full border border-[#e4e4e7] bg-white text-[#0a0a0a] font-medium hover:border-[#0a0a0a] transition-all duration-300 text-sm"
+            >
+              <LayoutGrid className="w-4 h-4 stroke-[2]" />
+              <span>Explore Solutions</span>
             </Link>
-            <Link href="/work">
-              <Button variant="outline" className="w-full sm:w-auto gap-2">
-                <BriefcaseBusiness className="w-4 h-4 stroke-[1.5]" />
-                View Success Stories
-              </Button>
+            <Link
+              href="/work"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full border border-[#e4e4e7] bg-white text-[#0a0a0a] font-medium hover:border-[#0a0a0a] transition-all duration-300 text-sm"
+            >
+              <BriefcaseBusiness className="w-4 h-4 stroke-[2]" />
+              <span>See Completed Projects</span>
             </Link>
           </div>
         </Container>

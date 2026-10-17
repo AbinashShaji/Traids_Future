@@ -21,27 +21,27 @@
 import * as React from "react";
 import { DeviceExperienceManager } from "./device-experience-manager";
 import { Toaster } from "sonner";
-import { ThemeProvider } from "next-themes";
+import { ScrollObserver } from "../components/scroll-observer";
 
 export const RootProviders: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <DeviceExperienceManager>
-        {children}
-        <Toaster
-          position="bottom-right"
-          toastOptions={{
-            style: {
-              background: "var(--paper)",
-              color: "var(--ink)",
-              border: "1px solid var(--hairline)",
-              borderRadius: "2px",
-              fontFamily: "var(--font-ui, sans-serif)",
-              fontSize: "14px",
-            },
-          }}
-        />
-      </DeviceExperienceManager>
-    </ThemeProvider>
+    <DeviceExperienceManager>
+      <ScrollObserver />
+      {children}
+      <Toaster
+        position="bottom-right"
+        toastOptions={{
+          style: {
+            background: "#ffffff",
+            color: "#0a0a0a",
+            border: "1px solid #e4e4e7",
+            borderRadius: "12px",
+            fontFamily: "Outfit, sans-serif",
+            fontSize: "14px",
+          },
+        }}
+      />
+    </DeviceExperienceManager>
   );
 };
+

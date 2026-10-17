@@ -20,21 +20,16 @@ export const settings = {
   siteName: "Triads Future",
   tagline: "Business Growth & Technology Partner",
   description:
-    "We help businesses grow through simple strategy, modern technology, and practical execution.",
-  email: "partners@triadsfuture.com",
-  phone: "+1 (555) 234-5678",
-  address: "123 Editorial Boulevard, Suite 500, London, UK",
-  businessHours: "Monday – Friday, 9am – 6pm GMT",
-  // Social media accounts
-  socials: {
-    linkedin: "https://linkedin.com/company/triadsfuture",
-    twitter: "https://twitter.com/triadsfuture",
-  },
-  // SEO contains parameters that help Google find and categorize our website.
+    "We partner with growing businesses to deliver sustained growth through strategy, modern technology, and practical execution.",
+  email: "contact@triadsfuture.com",
+  businessHours: "Monday – Friday, 9:00 AM – 6:00 PM",
+  // Verified social channels (empty until official profiles are confirmed by owner)
+  socials: {},
+  // SEO configuration
   seo: {
     defaultTitle: "Triads Future — Business Growth & Technology Partner",
     defaultDescription:
-      "We help businesses grow through simple strategy, modern technology, and practical execution.",
+      "We partner with growing businesses to deliver sustained growth through strategy, modern technology, and practical execution.",
     ogImage: "/static/og-default.jpg",
   },
 };

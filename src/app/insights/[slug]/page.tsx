@@ -1,41 +1,40 @@
 /**
  * FILE: src/app/insights/[slug]/page.tsx
  *
- * WHAT THIS DOES:
- * Dynamic template that generates an individual Article reading page for each blog post
- * (e.g. `/insights/why-most-business-websites-fail`).
- *
- * WHERE IT IS USED:
- * - Next.js matches any URL starting with `/insights/...` to this file.
- *
- * HOW IT WORKS:
- * 1. `generateStaticParams()`: Tells Next.js to pre-render static HTML for every article slug at build time.
- * 2. `getArticleBySlug(slug)`: Looks up the matching article text and author details.
- * 3. `renderContent(content)`: A simple markdown parser that converts lines into headings (`###`),
- *    bullet lists (`-`), callout quotes (`>`), and paragraphs.
- * 4. Displays estimated reading time, author bio, cover image, and related articles to read next.
- *
- * BEGINNER TIP:
- * `renderContent` turns raw plain-text markdown into styled React elements automatically!
+ * Article detail page with clean line-border architecture and clear business language.
+ * - Removed pill badges and bracket tags.
+ * - Clean hairline dividers and high-contrast typography.
+ * - Accessible, friendly, and trustworthy.
  */
 
 import * as React from "react";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, Calendar, Clock } from "lucide-react";
+import { ArrowLeft, Calendar, Clock, ArrowRight } from "lucide-react";
 import { GlobalLayout } from "../../../components/global-layout";
 import { Container } from "../../../components/container";
-import { SectionHeading } from "../../../components/section-heading";
-import { Button } from "../../../components/button";
-import { Card } from "../../../components/card";
-import { Badge } from "../../../components/badge";
+import { ButtonLink } from "../../../components/button-link";
 import { ImageWrapper } from "../../../components/image-wrapper";
-import { CTA } from "../../../components/cta";
-import { ScrollWorldContainer } from "../../../components/scroll-world-container";
+import { WordReveal } from "../../../components/word-reveal";
 import { getInsights, getInsightBySlug, getRelatedInsights } from "@/actions/insights";
 
 interface ArticleDetailPageProps {
   params: Promise<{ slug: string }>;
+}
+
+export async function generateMetadata({ params }: ArticleDetailPageProps): Promise<Metadata> {
+  const resolvedParams = await params;
+  const article = await getInsightBySlug(resolvedParams.slug);
+  if (!article) {
+    return {
+      title: "Article Not Found — Triads Future",
+    };
+  }
+  return {
+    title: `${article.title} — Triads Future`,
+    description: article.excerpt,
+  };
 }
 
 export async function generateStaticParams() {
@@ -43,6 +42,23 @@ export async function generateStaticParams() {
   return articles.map((article) => ({
     slug: article.slug,
   }));
+}
+
+function parseInlineFormatting(text: string): React.ReactNode {
+  const parts = text.split(/(\*\*[^*]+\*\*|`[^`]+`)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith("**") && part.endsWith("**")) {
+      return <strong key={i} className="font-bold text-[#0a0a0a]">{part.slice(2, -2)}</strong>;
+    }
+    if (part.startsWith("`") && part.endsWith("`")) {
+      return (
+        <code key={i} className="px-1.5 py-0.5 rounded bg-[#f4f4f5] text-[#e11d48] font-mono text-sm">
+          {part.slice(1, -1)}
+        </code>
+      );
+    }
+    return part;
+  });
 }
 
 function renderContent(content: string) {
@@ -53,9 +69,9 @@ function renderContent(content: string) {
   const flushList = (key: string) => {
     if (listItems.length > 0) {
       elements.push(
-        <ul key={key} className="list-disc pl-6 mb-6 space-y-2 text-graphite font-editorial text-lg md:text-xl">
+        <ul key={key} className="list-disc pl-6 mb-6 space-y-2 text-[#71717a] text-lg">
           {listItems.map((item, idx) => (
-            <li key={idx}>{item}</li>
+            <li key={idx}>{parseInlineFormatting(item)}</li>
           ))}
         </ul>
       );
@@ -65,20 +81,27 @@ function renderContent(content: string) {
 
   lines.forEach((line, index) => {
     const trimmed = line.trim();
-    
+
     if (trimmed.startsWith("##")) {
       flushList(`list-before-h2-${index}`);
       elements.push(
-        <h3 key={`h2-${index}`} className="font-heading text-2xl md:text-3xl font-medium text-ink mt-10 mb-4 border-b border-hairline pb-3">
+        <h2 key={`h2-${index}`} className="text-2xl md:text-3xl font-bold tracking-tight text-[#0a0a0a] mt-12 mb-4 border-b border-[#e4e4e7] pb-3">
           {trimmed.replace(/^##\s*/, "")}
-        </h3>
+        </h2>
       );
     } else if (trimmed.startsWith("###")) {
       flushList(`list-before-h3-${index}`);
       elements.push(
-        <h4 key={`h3-${index}`} className="font-heading text-xl md:text-2xl font-medium text-ink mt-8 mb-3">
+        <h3 key={`h3-${index}`} className="text-xl md:text-2xl font-bold tracking-tight text-[#0a0a0a] mt-8 mb-3">
           {trimmed.replace(/^###\s*/, "")}
-        </h4>
+        </h3>
+      );
+    } else if (trimmed.startsWith(">")) {
+      flushList(`list-before-quote-${index}`);
+      elements.push(
+        <blockquote key={`quote-${index}`} className="border-l-2 border-[#e11d48] pl-6 py-3 my-6 text-xl italic text-[#0a0a0a] bg-[#fafafa] font-normal leading-relaxed">
+          {parseInlineFormatting(trimmed.replace(/^>\s*/, ""))}
+        </blockquote>
       );
     } else if (trimmed.startsWith("*") || trimmed.startsWith("-")) {
       listItems.push(trimmed.replace(/^[\*\-]\s*/, ""));
@@ -88,8 +111,8 @@ function renderContent(content: string) {
       } else {
         flushList(`list-before-p-${index}`);
         elements.push(
-          <p key={`p-${index}`} className="font-editorial text-ink text-lg md:text-xl leading-[1.7] mb-6 whitespace-pre-line">
-            {trimmed}
+          <p key={`p-${index}`} className="text-[#3f3f46] text-lg md:text-xl leading-[1.8] mb-6 whitespace-pre-line font-normal">
+            {parseInlineFormatting(trimmed)}
           </p>
         );
       }
@@ -115,83 +138,53 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
     day: "numeric",
   });
 
-  const articleSlides = [
-    { id: "hero", label: "Overview" },
-    { id: "cover", label: "Cover" },
-    { id: "body", label: "Article" },
-    ...(relatedArticles.length > 0 ? [{ id: "related", label: "Related" }] : []),
-    { id: "cta", label: "Next Step" },
-  ];
-
   return (
     <GlobalLayout>
-      <ScrollWorldContainer slides={articleSlides}>
-        {/* 1. HERO SLIDE (Split: Title Left / Meta Right — 100vh narrative) */}
-        <section
-          id="hero"
-          className="slide-section min-h-[100dvh] flex items-center pt-16 pb-12 md:pt-28 md:pb-20 border-b border-hairline"
-        >
-          <Container>
-            <div className="mb-8">
-              <Link
-                href="/insights"
-                className="inline-flex items-center gap-2 font-sans text-xs font-semibold uppercase tracking-wider text-graphite hover:text-ink transition-colors"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                <span>Back to All Insights</span>
-              </Link>
+      {/* 1. ARTICLE HEADER */}
+      <section className="min-h-[calc(100vh-72px)] flex flex-col justify-center py-12 sm:py-16 md:py-20 bg-white border-b border-[#e4e4e7]">
+        <Container size="default" className="my-auto">
+          <div className="mb-8">
+            <Link
+              href="/insights"
+              className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#71717a] hover:text-[#e11d48] transition-colors fz-link-underline"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span>Back to All Articles</span>
+            </Link>
+          </div>
+
+          <div className="max-w-4xl flex flex-col gap-6">
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#e11d48]">{article.category}</span>
+              <span className="w-1 h-1 rounded-full bg-[#d4d4d8]" />
+              <span className="flex items-center gap-1.5 text-xs text-[#71717a] font-medium">
+                <Calendar className="w-3.5 h-3.5 stroke-[1.8]" />
+                {formattedDate}
+              </span>
+              <span className="w-1 h-1 rounded-full bg-[#d4d4d8]" />
+              <span className="flex items-center gap-1.5 text-xs text-[#71717a] font-medium">
+                <Clock className="w-3.5 h-3.5 stroke-[1.8]" />
+                {article.readingTime} min read
+              </span>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-start">
-              <div className="lg:col-span-8 flex flex-col gap-5">
-                <div className="flex flex-wrap items-center gap-3">
-                  <Badge variant="filled">{article.category}</Badge>
-                  <span className="w-1 h-1 rounded-full bg-hairline" />
-                  <span className="flex items-center gap-1.5 font-sans text-xs text-graphite">
-                    <Calendar className="w-3.5 h-3.5 stroke-[1.5]" />
-                    {formattedDate}
-                  </span>
-                  <span className="w-1 h-1 rounded-full bg-hairline" />
-                  <span className="flex items-center gap-1.5 font-sans text-xs text-graphite">
-                    <Clock className="w-3.5 h-3.5 stroke-[1.5]" />
-                    {article.readingTime} min read
-                  </span>
-                </div>
+            <WordReveal
+              text={article.title}
+              as="h1"
+              className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-[#0a0a0a] leading-[1.08]"
+            />
 
-                <SectionHeading tag="h1" className="leading-[1.08]">
-                  {article.title}
-                </SectionHeading>
+            <p className="text-xl md:text-2xl text-[#71717a] leading-relaxed border-l-2 border-[#e11d48] pl-6 mt-2 font-normal">
+              {article.excerpt}
+            </p>
+          </div>
+        </Container>
+      </section>
 
-                <p className="font-editorial italic text-graphite text-xl md:text-2xl leading-relaxed border-l-2 border-ink pl-5 mt-2">
-                  {article.excerpt}
-                </p>
-              </div>
-
-              <div className="lg:col-span-4">
-                <Card variant="bone" className="theme-inverted bg-none bg-paper p-6 flex flex-col gap-4">
-                  <span className="font-sans text-xs font-semibold text-graphite uppercase tracking-wider">
-                    Author
-                  </span>
-                  <div>
-                    <cite className="font-heading text-lg font-medium text-ink not-italic block">
-                      {article.author}
-                    </cite>
-                    <span className="font-editorial text-sm text-graphite block mt-0.5">
-                      {article.authorRole}
-                    </span>
-                  </div>
-                </Card>
-              </div>
-            </div>
-          </Container>
-        </section>
-
-        {/* 2. COVER PHOTO SLIDE (Full-Width Aspect 21/9) */}
-        <section
-          id="cover"
-          className="slide-section py-0 border-b border-hairline"
-        >
-          <div className="w-full aspect-[21/9] min-h-[340px] relative">
+      {/* 2. COVER PHOTO */}
+      <section className="py-12 md:py-16 bg-[#fafafa] border-b border-[#e4e4e7]">
+        <Container size="default">
+          <div className="w-full aspect-[21/9] min-h-[360px] relative overflow-hidden border border-[#e4e4e7] bg-white">
             <ImageWrapper
               src={article.featuredImage || ""}
               alt={article.title}
@@ -199,147 +192,133 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
               sizes="100vw"
               priority
               containerClassName="w-full h-full border-none rounded-none"
+              className="object-cover"
             />
           </div>
-        </section>
+        </Container>
+      </section>
 
-        {/* 3. ARTICLE CONTENT SLIDE (Split: Meta Left / Newsreader Body Right) */}
-        <section
-          id="body"
-          className="slide-section py-12 md:py-24 lg:py-28 border-b border-hairline"
-        >
-          <Container>
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 lg:gap-16">
-              {/* Left Column: Topics */}
-              <div className="lg:col-span-4 lg:sticky lg:top-28">
-                <Card className="theme-inverted bg-none bg-paper p-6 flex flex-col gap-6">
-                  <div>
-                    <span className="font-sans text-xs font-semibold text-graphite uppercase tracking-wider block mb-3">
-                      Topics
+      {/* 3. READING BODY (4/8 Split) */}
+      <section className="py-20 md:py-32 bg-white border-b border-[#e4e4e7]">
+        <Container size="default">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            {/* Left 4 cols: Sticky Sidebar with Author and Topics */}
+            <div className="lg:col-span-4 lg:sticky lg:top-28 flex flex-col gap-6">
+              <div className="border-b border-[#e4e4e7] pb-6">
+                <span className="text-xs font-semibold text-[#71717a] uppercase tracking-wider block mb-1">
+                  Author
+                </span>
+                <p className="text-lg font-bold text-[#0a0a0a]">
+                  {article.author}
+                </p>
+                <p className="text-xs text-[#71717a] mt-0.5">
+                  {article.authorRole}
+                </p>
+              </div>
+
+              <div>
+                <span className="text-xs font-semibold text-[#71717a] uppercase tracking-wider block mb-3">
+                  Topics Covered
+                </span>
+                <div className="flex flex-wrap gap-2">
+                  {article.tags.map((tag, idx) => (
+                    <span key={idx} className="px-3 py-1 rounded-full bg-[#f4f4f5] text-xs font-medium text-[#71717a]">
+                      {tag}
                     </span>
-                    <div className="flex flex-wrap gap-2">
-                      {article.tags.map((tag, idx) => (
-                        <span key={idx} className="font-sans text-xs text-paper bg-ink px-2.5 py-1 rounded-[2px]">
-                          {tag}
-                        </span>
-                      ))}
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Right 8 cols: Long-Form Content */}
+            <div className="lg:col-span-8 max-w-3xl">
+              {renderContent(article.content)}
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* 4. RELATED ARTICLES (Clean Lined 2-Col Split) */}
+      {relatedArticles.length > 0 && (
+        <section className="py-20 md:py-32 bg-[#fafafa] border-b border-[#e4e4e7]">
+          <Container size="default">
+            <div className="max-w-2xl mb-12">
+              <p className="text-sm font-semibold uppercase tracking-wider text-[#e11d48] mb-2">
+                More Reading
+              </p>
+              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#0a0a0a]">
+                Related articles and guides.
+              </h2>
+            </div>
+
+            <div className="border-t border-b border-[#e4e4e7] divide-y md:divide-y-0 md:divide-x divide-[#e4e4e7] grid grid-cols-1 md:grid-cols-2">
+              {relatedArticles.map((rel) => (
+                <div
+                  key={rel.id}
+                  className="py-8 md:py-10 px-6 sm:px-8 flex flex-col justify-between bg-white"
+                >
+                  <div>
+                    <div className="aspect-[16/10] relative overflow-hidden border border-[#e4e4e7] bg-[#fafafa] mb-6">
+                      <ImageWrapper
+                        src={rel.featuredImage || ""}
+                        alt={rel.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        containerClassName="w-full h-full border-none rounded-none"
+                        className="object-cover hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-3 mb-2">
+                        <span className="text-xs font-bold uppercase tracking-wider text-[#e11d48]">{rel.category}</span>
+                        <span className="w-1 h-1 rounded-full bg-[#d4d4d8]" />
+                        <span className="text-xs text-[#71717a] font-medium">{rel.readingTime} min read</span>
+                      </div>
+                      <h3 className="text-xl font-bold text-[#0a0a0a] tracking-tight leading-snug mb-2">
+                        <Link href={`/insights/${rel.slug}`} className="hover:text-[#e11d48] transition-colors">
+                          {rel.title}
+                        </Link>
+                      </h3>
+                      <p className="text-sm text-[#71717a] leading-relaxed">
+                        {rel.excerpt}
+                      </p>
                     </div>
                   </div>
-
-                  <div className="border-t border-ink pt-6">
-                  <span className="font-sans text-xs font-semibold text-graphite uppercase tracking-wider block mb-3">
-                    Author
-                  </span>
-                  <div className="font-heading text-base font-medium text-ink">
-                    {article.author}
-                    <span className="block font-editorial text-xs text-graphite mt-0.5">
-                      {article.authorRole}
-                    </span>
+                  <div className="pt-6 mt-6 border-t border-[#e4e4e7] flex items-center justify-between">
+                    <span className="text-xs text-[#71717a] font-medium">{rel.author}</span>
+                    <Link href={`/insights/${rel.slug}`} className="text-xs font-semibold uppercase tracking-wider text-[#0a0a0a] hover:text-[#e11d48] transition-colors inline-flex items-center gap-1">
+                      Read Article <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
                   </div>
-                  </div>
-                </Card>
-              </div>
-
-              {/* Right Column: Newsreader Long-Form Editorial Body */}
-              <div className="lg:col-span-8 max-w-3xl">
-                {renderContent(article.content)}
-              </div>
+                </div>
+              ))}
             </div>
           </Container>
         </section>
+      )}
 
-        {/* 4. RELATED ARTICLES SLIDE (2-Column Grid) */}
-        {relatedArticles.length > 0 && (
-          <section
-            id="related"
-            className="slide-section py-12 md:py-24 lg:py-28 border-b border-hairline"
-          >
-            <Container>
-              <div className="mb-12">
-                <SectionHeading
-                  tag="h2"
-                  subtitle="Related Writing"
-                  withTriadMark
-                >
-                  Continue exploring strategy
-                </SectionHeading>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {relatedArticles.map((rel) => (
-                  <Card
-                    key={rel.id}
-                    hoverEffect
-                    className="flex flex-col justify-between p-0 overflow-hidden border border-hairline"
-                  >
-                    <div>
-                      <div className="aspect-[16/10] relative">
-                        <ImageWrapper
-                          src={rel.featuredImage || ""}
-                          alt={rel.title}
-                          fill
-                          sizes="(max-width: 768px) 100vw, 50vw"
-                          containerClassName="w-full h-full border-none rounded-none"
-                        />
-                      </div>
-                      <div className="p-6">
-                        <div className="flex items-center gap-3 mb-3">
-                          <span className="font-sans text-xs font-semibold text-ink">{rel.category}</span>
-                          <span className="w-1 h-1 rounded-full bg-hairline" />
-                          <span className="font-sans text-xs text-graphite">{rel.readingTime} min read</span>
-                        </div>
-                        <h3 className="font-heading text-xl font-medium text-ink mb-2 leading-snug">
-                          <Link href={`/insights/${rel.slug}`} className="hover:underline">
-                            {rel.title}
-                          </Link>
-                        </h3>
-                        <p className="font-editorial text-sm text-graphite leading-relaxed">
-                          {rel.excerpt}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="px-6 pb-6 pt-3 flex items-center justify-between border-t border-hairline mt-auto">
-                      <span className="font-sans text-xs text-graphite">
-                        {rel.author}
-                      </span>
-                      <Link href={`/insights/${rel.slug}`}>
-                        <Button variant="text" size="sm" className="group">
-                          Read More →
-                        </Button>
-                      </Link>
-                    </div>
-                  </Card>
-                ))}
-              </div>
-            </Container>
-          </section>
-        )}
-
-        {/* 5. NEXT STEP CTA */}
-        <section
-          id="cta"
-          className="slide-section min-h-[100dvh] flex items-center justify-center py-12 md:py-20"
-        >
-          <Container>
-            <CTA
-              eyebrow="Initiate Partnership"
-              headline="Ready to apply these systems to your business?"
-              description="Schedule a 30-minute diagnosis call. We will review your current architecture and outline high-leverage growth solutions."
-            >
-              <Link href="/contact">
-                <Button variant="primary" size="lg">
-                  Book a Strategy Call
-                </Button>
-              </Link>
-              <Link href="/insights">
-                <Button variant="outline" size="lg">
-                  Back to All Insights
-                </Button>
-              </Link>
-            </CTA>
-          </Container>
-        </section>
-      </ScrollWorldContainer>
+      {/* 5. FINAL CTA */}
+      <section className="py-24 md:py-36 bg-white">
+        <Container size="narrow" className="text-center flex flex-col items-center">
+          <p className="text-sm font-semibold uppercase tracking-wider text-[#e11d48] mb-3">
+            Start A Conversation
+          </p>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-[#0a0a0a] leading-[1.1] max-w-2xl mb-6">
+            Ready to apply these solutions to your business?
+          </h2>
+          <p className="text-base sm:text-lg text-[#71717a] leading-relaxed max-w-xl font-normal mb-10">
+            Book an introductory 30-minute discovery call. We will review your current software and explain how custom tools can save you time and overhead.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
+            <ButtonLink href="/contact" variant="primary" size="lg" className="w-full sm:w-auto">
+              Book a Strategy Call
+            </ButtonLink>
+            <ButtonLink href="/insights" variant="outline" size="lg" className="w-full sm:w-auto">
+              Back to All Articles
+            </ButtonLink>
+          </div>
+        </Container>
+      </section>
     </GlobalLayout>
   );
 }

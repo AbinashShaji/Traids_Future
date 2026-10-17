@@ -41,16 +41,16 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
   const Tag = tag;
 
   const tagStyles = {
-    h1: "text-4xl sm:text-5xl md:text-6xl lg:text-[68px] font-heading font-normal md:font-medium tracking-[-0.02em] text-ink leading-[1.08]",
-    h2: "text-3xl sm:text-4xl md:text-5xl font-heading font-normal md:font-medium tracking-[-0.015em] text-ink leading-[1.12]",
-    h3: "text-2xl md:text-3xl font-heading font-medium tracking-[-0.01em] text-ink leading-[1.2]",
-    h4: "text-lg md:text-xl font-heading font-medium text-ink leading-[1.3]",
+    h1: "text-4xl sm:text-5xl md:text-6xl lg:text-[5.5rem] font-sans font-bold tracking-tighter text-[#0a0a0a] leading-[1.04]",
+    h2: "text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-sans font-bold tracking-tighter text-[#0a0a0a] leading-[1.08]",
+    h3: "text-2xl sm:text-3xl md:text-4xl font-sans font-bold tracking-tight text-[#0a0a0a] leading-[1.15]",
+    h4: "text-xl md:text-2xl font-sans font-semibold tracking-tight text-[#0a0a0a] leading-[1.25]",
   };
 
   return (
     <div className="flex flex-col gap-3">
       {subtitle && (
-        <div className="flex items-center gap-2.5 font-sans text-xs font-semibold uppercase tracking-[0.14em] text-graphite">
+        <div className="flex items-center gap-2.5 font-sans text-xs font-semibold uppercase tracking-widest text-[#71717a]">
           {withTriadMark && <TriadMark size="sm" />}
           <span>{subtitle}</span>
         </div>
