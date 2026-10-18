@@ -60,16 +60,27 @@ export const TriadPanel: React.FC<{
   const opacities = ["opacity-35", "opacity-65", "opacity-100"];
 
   return (
-    <div className={cn("relative border-t border-b border-[#e4e4e7] py-8 md:py-10 bg-transparent", className)}>
+    <div
+      className={cn(
+        "fz-triad-panel relative border-t border-b border-[#e4e4e7] py-8 md:py-10 bg-transparent",
+        className
+      )}
+    >
       <div className="flex flex-col gap-7 w-full h-full">
         {steps.map((step, idx) => (
           <div key={idx} className="flex items-center gap-5">
             <div
-              className={cn(
-                "h-1.5 w-[22%] rounded-full transition-colors",
-                idx === 2 ? "bg-[#e11d48]" : cn("bg-[#0a0a0a]", opacities[idx])
-              )}
-            />
+              className="fz-triad-bar-track h-1.5 w-[22%] rounded-full bg-[#e4e4e7] overflow-hidden relative shrink-0"
+              aria-hidden="true"
+            >
+              <div
+                className={cn(
+                  "h-full w-full rounded-full origin-left fz-triad-bar-fill",
+                  `fz-triad-bar-fill-${idx}`,
+                  idx === 2 ? "bg-[#e11d48]" : cn("bg-[#0a0a0a]", opacities[idx])
+                )}
+              />
+            </div>
             <div className="font-sans text-sm font-semibold text-[#0a0a0a]">
               <span className={idx === 2 ? "text-[#e11d48] font-bold" : ""}>
                 {step.title}

@@ -1,10 +1,13 @@
 /**
  * FILE: src/components/word-reveal.tsx
  *
- * Staggered word-by-word headline reveal following FinZave specification:
- * - 80ms interval per word
- * - 20px vertical shift ease-out
- * - Respects prefers-reduced-motion via CSS overrides
+ * Subpage headline reveal — used on all inner pages that are NOT the homepage.
+ * Each word slides up from its clipped container with a controlled stagger.
+ *
+ * This is distinct from HeroReveal (homepage) — subpages use a slightly
+ * faster, tighter entrance to establish hierarchy without dominating the page.
+ * Triggered on page load via html.js-ready (set by ScrollObserver).
+ * Respects prefers-reduced-motion via CSS override in globals.css.
  */
 "use client";
 
@@ -17,6 +20,8 @@ interface WordRevealProps {
   wordClassName?: string;
   as?: "h1" | "h2" | "h3" | "h4" | "p" | "span" | "div";
   delayOffset?: number;
+  /** Stagger interval per word in ms (default 80) */
+  staggerMs?: number;
 }
 
 export const WordReveal: React.FC<WordRevealProps> = ({
@@ -25,6 +30,7 @@ export const WordReveal: React.FC<WordRevealProps> = ({
   wordClassName,
   as: Tag = "h1",
   delayOffset = 0,
+  staggerMs = 80,
 }) => {
   const words = React.useMemo(() => text.split(" "), [text]);
 
@@ -34,7 +40,7 @@ export const WordReveal: React.FC<WordRevealProps> = ({
         <span
           key={index}
           className={cn("fz-word-reveal mr-[0.25em] last:mr-0", wordClassName)}
-          style={{ animationDelay: `${delayOffset + index * 80}ms` }}
+          style={{ animationDelay: `${delayOffset + index * staggerMs}ms` }}
         >
           {word}
         </span>
@@ -42,3 +48,5 @@ export const WordReveal: React.FC<WordRevealProps> = ({
     </Tag>
   );
 };
+
+WordReveal.displayName = "WordReveal";

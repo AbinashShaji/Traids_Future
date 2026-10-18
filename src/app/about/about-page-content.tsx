@@ -17,6 +17,8 @@ import { TeamShowcase } from "../../components/team-showcase";
 import { FAQItem } from "../../components/faq-item";
 import { TriadPanel } from "../../components/triad-mark";
 import { WordReveal } from "../../components/word-reveal";
+import { Reveal } from "../../components/reveal";
+import { HeroSupport } from "../../components/hero-reveal";
 import { teamMembers } from "../../mock/team";
 import { type FAQ } from "@/mock/faq";
 
@@ -78,18 +80,20 @@ export default function AboutPageContent({ faqs }: AboutPageContentProps) {
             className="text-[2.25rem] min-[380px]:text-[2.75rem] min-[440px]:text-[3.25rem] sm:text-6xl md:text-7xl lg:text-[5.75rem] xl:text-[6.5rem] font-bold tracking-tighter text-[#0a0a0a] leading-[0.98] mb-5 sm:mb-6 md:mb-8 max-w-5xl mx-auto"
           />
 
-          <p className="text-sm sm:text-base md:text-lg text-[#52525b] font-normal max-w-2xl mx-auto leading-relaxed mb-6 sm:mb-8 md:mb-10">
-            Triads Future partners with business owners to eliminate repetitive manual work, streamline customer experiences, and build custom web software that stands the test of time.
-          </p>
+          <HeroSupport delayMs={300} className="w-full">
+            <p className="text-sm sm:text-base md:text-lg text-[#52525b] font-normal max-w-2xl mx-auto leading-relaxed mb-6 sm:mb-8 md:mb-10">
+              Triads Future partners with business owners to eliminate repetitive manual work, streamline customer experiences, and build custom web software that stands the test of time.
+            </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 md:gap-8 w-full sm:w-auto">
-            <ButtonLink href="/contact" variant="primary" size="lg" className="w-full sm:w-auto px-7 sm:px-9 md:px-10 py-3.5 sm:py-4 rounded-full bg-[#0a0a0a] hover:bg-[#e11d48] text-white font-medium text-sm sm:text-base shadow-lg shadow-black/10 hover:shadow-red-500/20 transition-all duration-300">
-              Book a Strategy Call
-            </ButtonLink>
-            <ButtonLink href="#our-approach" variant="outline" size="lg" className="w-full sm:w-auto px-7 sm:px-9 md:px-10 py-3.5 sm:py-4 rounded-full text-sm sm:text-base">
-              How We Work
-            </ButtonLink>
-          </div>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 md:gap-8 w-full sm:w-auto">
+              <ButtonLink href="/contact" variant="primary" size="lg" className="w-full sm:w-auto px-7 sm:px-9 md:px-10 py-3.5 sm:py-4 rounded-full bg-[#0a0a0a] hover:bg-[#e11d48] text-white font-medium text-sm sm:text-base shadow-lg shadow-black/10 hover:shadow-red-500/20 transition-all duration-300">
+                Book a Strategy Call
+              </ButtonLink>
+              <ButtonLink href="#our-approach" variant="outline" size="lg" className="w-full sm:w-auto px-7 sm:px-9 md:px-10 py-3.5 sm:py-4 rounded-full text-sm sm:text-base">
+                How We Work
+              </ButtonLink>
+            </div>
+          </HeroSupport>
         </Container>
       </section>
 
@@ -97,7 +101,7 @@ export default function AboutPageContent({ faqs }: AboutPageContentProps) {
       <section id="our-approach" className="py-20 md:py-32 bg-[#fafafa] border-b border-[#e4e4e7] scroll-mt-24">
         <Container size="default">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-            <div className="lg:col-span-6 flex flex-col gap-5">
+            <Reveal variant="slideLeft" className="lg:col-span-6 flex flex-col gap-5">
               <p className="text-sm font-semibold uppercase tracking-wider text-[#e11d48]">
                 Why We Exist
               </p>
@@ -118,9 +122,9 @@ export default function AboutPageContent({ faqs }: AboutPageContentProps) {
                   <span>See client projects we have completed</span> <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
-            </div>
+            </Reveal>
 
-            <div className="lg:col-span-6 aspect-[4/3] relative overflow-hidden border border-[#e4e4e7] bg-white">
+            <Reveal variant="slideRight" delay={1} className="lg:col-span-6 aspect-[4/3] relative overflow-hidden border border-[#e4e4e7] bg-white">
               <ImageWrapper
                 src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?w=900&q=80"
                 alt="Strategy and business technology planning"
@@ -129,7 +133,7 @@ export default function AboutPageContent({ faqs }: AboutPageContentProps) {
                 containerClassName="w-full h-full border-none rounded-none"
                 className="object-cover"
               />
-            </div>
+            </Reveal>
           </div>
         </Container>
       </section>
@@ -138,11 +142,11 @@ export default function AboutPageContent({ faqs }: AboutPageContentProps) {
       <section className="py-20 md:py-32 bg-white border-b border-[#e4e4e7]">
         <Container size="default">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-            <div className="lg:col-span-6">
+            <Reveal variant="slideLeft" className="lg:col-span-6">
               <TriadPanel />
-            </div>
+            </Reveal>
 
-            <div className="lg:col-span-6 flex flex-col gap-5">
+            <Reveal variant="slideRight" delay={1} className="lg:col-span-6 flex flex-col gap-5">
               <p className="text-sm font-semibold uppercase tracking-wider text-[#e11d48]">
                 Our Philosophy
               </p>
@@ -160,7 +164,7 @@ export default function AboutPageContent({ faqs }: AboutPageContentProps) {
                   Explore Solutions →
                 </ButtonLink>
               </div>
-            </div>
+            </Reveal>
           </div>
         </Container>
       </section>
@@ -168,29 +172,33 @@ export default function AboutPageContent({ faqs }: AboutPageContentProps) {
       {/* 4. 6 CORE PRINCIPLES (Clean Aligned 3-Column Grid) */}
       <section className="py-20 md:py-32 bg-[#fafafa] border-b border-[#e4e4e7]">
         <Container size="default">
-          <div className="max-w-2xl mb-8 sm:mb-10">
+          <Reveal variant="fadeUp" className="max-w-2xl mb-8 sm:mb-10">
             <p className="text-sm font-semibold uppercase tracking-wider text-[#e11d48] mb-2">
               Our Commitments
             </p>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#0a0a0a]">
               The standards we stand by on every project.
             </h2>
-          </div>
+          </Reveal>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {principles.map((p) => (
-              <div 
+            {principles.map((p, idx) => (
+              <Reveal 
                 key={p.num} 
-                className="fz-card p-8 sm:p-10 flex flex-col justify-between bg-white border border-[#e4e4e7] rounded-2xl hover:border-[#0a0a0a] transition-all"
+                variant="fadeUp" 
+                delay={idx + 1}
+                className="h-full"
               >
-                <div>
-                  <span className="text-xs font-mono font-bold text-[#71717a] fz-scroll-num block mb-3">{p.num}</span>
-                  <h3 className="text-lg sm:text-xl font-bold text-[#0a0a0a] mb-3 tracking-tight">{p.title}</h3>
+                <div className="fz-card p-8 sm:p-10 flex flex-col justify-between bg-white border border-[#e4e4e7] rounded-2xl hover:border-[#0a0a0a] transition-all h-full">
+                  <div>
+                    <span className="text-xs font-mono font-bold text-[#71717a] fz-scroll-num block mb-3">{p.num}</span>
+                    <h3 className="text-lg sm:text-xl font-bold text-[#0a0a0a] mb-3 tracking-tight">{p.title}</h3>
+                  </div>
+                  <p className="text-sm text-[#71717a] leading-relaxed mt-2">
+                    {p.description}
+                  </p>
                 </div>
-                <p className="text-sm text-[#71717a] leading-relaxed mt-2">
-                  {p.description}
-                </p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </Container>
@@ -210,7 +218,7 @@ export default function AboutPageContent({ faqs }: AboutPageContentProps) {
       <section id="faq" className="py-20 md:py-32 bg-[#fafafa] border-b border-[#e4e4e7] scroll-mt-24">
         <Container size="default">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-            <div className="lg:col-span-5 flex flex-col gap-5">
+            <Reveal variant="fadeUp" className="lg:col-span-5 flex flex-col gap-5">
               <p className="text-sm font-semibold uppercase tracking-wider text-[#e11d48]">
                 Common Questions
               </p>
@@ -225,9 +233,9 @@ export default function AboutPageContent({ faqs }: AboutPageContentProps) {
                   Have another question? Ask us directly →
                 </ButtonLink>
               </div>
-            </div>
+            </Reveal>
 
-            <div className="lg:col-span-7 flex flex-col gap-4">
+            <Reveal variant="fadeUp" delay={1} className="lg:col-span-7 flex flex-col gap-4">
               {faqsForPage.map((faq) => (
                 <FAQItem
                   key={faq.id}
@@ -236,7 +244,7 @@ export default function AboutPageContent({ faqs }: AboutPageContentProps) {
                   onToggle={() => setOpenFaq(openFaq === faq.id ? null : faq.id)}
                 />
               ))}
-            </div>
+            </Reveal>
           </div>
         </Container>
       </section>
@@ -244,23 +252,25 @@ export default function AboutPageContent({ faqs }: AboutPageContentProps) {
       {/* 7. FINAL CTA */}
       <section className="py-24 md:py-36 bg-white">
         <Container size="narrow" className="text-center flex flex-col items-center">
-          <p className="text-sm font-semibold uppercase tracking-wider text-[#e11d48] mb-3">
-            Start A Conversation
-          </p>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-[#0a0a0a] leading-[1.1] max-w-2xl mb-6">
-            Ready to upgrade how your business operates?
-          </h2>
-          <p className="text-base sm:text-lg text-[#71717a] leading-relaxed max-w-xl font-normal mb-10">
-            Book an introductory 30-minute call with our team. We will review your current systems, spot bottlenecks, and outline practical next steps.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
-            <ButtonLink href="/contact" variant="primary" size="lg" className="w-full sm:w-auto">
-              Book a Strategy Call
-            </ButtonLink>
-            <ButtonLink href="/solutions" variant="outline" size="lg" className="w-full sm:w-auto">
-              Explore Solutions
-            </ButtonLink>
-          </div>
+          <Reveal variant="fadeUp" className="flex flex-col items-center text-center">
+            <p className="text-sm font-semibold uppercase tracking-wider text-[#e11d48] mb-3">
+              Start A Conversation
+            </p>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-[#0a0a0a] leading-[1.1] max-w-2xl mb-6">
+              Ready to upgrade how your business operates?
+            </h2>
+            <p className="text-base sm:text-lg text-[#71717a] leading-relaxed max-w-xl font-normal mb-10">
+              Book an introductory 30-minute call with our team. We will review your current systems, spot bottlenecks, and outline practical next steps.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
+              <ButtonLink href="/contact" variant="primary" size="lg" className="w-full sm:w-auto">
+                Book a Strategy Call
+              </ButtonLink>
+              <ButtonLink href="/solutions" variant="outline" size="lg" className="w-full sm:w-auto">
+                Explore Solutions
+              </ButtonLink>
+            </div>
+          </Reveal>
         </Container>
       </section>
     </GlobalLayout>

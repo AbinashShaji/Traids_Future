@@ -17,6 +17,7 @@ import { Container } from "../../../components/container";
 import { ButtonLink } from "../../../components/button-link";
 import { ImageWrapper } from "../../../components/image-wrapper";
 import { WordReveal } from "../../../components/word-reveal";
+import { Reveal } from "../../../components/reveal";
 import { getProjects, getProjectBySlug } from "@/actions/projects";
 import { getTestimonial } from "@/actions/testimonials";
 
@@ -118,14 +119,16 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
         <Container size="default">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
             {((project.results as {metric: string, value: string}[]) || []).map((result, idx) => (
-              <div key={idx} className="flex flex-col gap-1 border-l-2 border-[#e11d48] pl-4">
-                <span className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#0a0a0a] tracking-tight">
-                  {result.value}
-                </span>
-                <span className="text-xs font-semibold tracking-wider text-[#71717a] uppercase mt-1">
-                  {result.metric}
-                </span>
-              </div>
+              <Reveal key={idx} variant="fadeUp" delay={idx + 1}>
+                <div className="flex flex-col gap-1 border-l-2 border-[#e11d48] pl-4">
+                  <span className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#0a0a0a] tracking-tight">
+                    {result.value}
+                  </span>
+                  <span className="text-xs font-semibold tracking-wider text-[#71717a] uppercase mt-1">
+                    {result.metric}
+                  </span>
+                </div>
+              </Reveal>
             ))}
           </div>
         </Container>
@@ -136,7 +139,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
         <Container size="default">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
             {/* Sidebar Context */}
-            <div className="lg:col-span-4 flex flex-col gap-8 lg:sticky lg:top-28">
+            <Reveal variant="fadeUp" className="lg:col-span-4 flex flex-col gap-8 lg:sticky lg:top-28">
               <div className="border-b border-[#e4e4e7] pb-6">
                 <span className="text-xs font-semibold text-[#71717a] uppercase tracking-wider block mb-1">
                   Client
@@ -162,10 +165,10 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                   ))}
                 </ul>
               </div>
-            </div>
+            </Reveal>
 
             {/* Narrative Editorial Sections */}
-            <div className="lg:col-span-8 divide-y divide-[#e4e4e7]">
+            <Reveal variant="fadeUp" delay={1} className="lg:col-span-8 divide-y divide-[#e4e4e7]">
               {((project.narrativeSections as {title: string, body: string}[]) || []).map((sec, idx) => (
                 <div key={idx} className="py-10 first:pt-0 last:pb-0 flex flex-col gap-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-[#0a0a0a]">
@@ -176,7 +179,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                   </p>
                 </div>
               ))}
-            </div>
+            </Reveal>
           </div>
         </Container>
       </section>
@@ -185,34 +188,36 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
       {testimonial && (
         <section className="py-20 md:py-32 bg-[#fafafa] border-b border-[#e4e4e7]">
           <Container size="default">
-            <div className="max-w-4xl mx-auto py-12 px-6 sm:px-12 border-t border-b border-[#e4e4e7] bg-white flex flex-col gap-6 relative">
-              <Quote className="w-10 h-10 text-[#e11d48] opacity-30 stroke-[1.5]" />
+            <Reveal variant="fadeUp">
+              <div className="max-w-4xl mx-auto py-12 px-6 sm:px-12 border-t border-b border-[#e4e4e7] bg-white flex flex-col gap-6 relative">
+                <Quote className="w-10 h-10 text-[#e11d48] opacity-30 stroke-[1.5]" />
 
-              <blockquote className="text-xl sm:text-2xl md:text-3xl font-normal leading-relaxed text-[#0a0a0a]">
-                &ldquo;{testimonial.review}&rdquo;
-              </blockquote>
+                <blockquote className="text-xl sm:text-2xl md:text-3xl font-normal leading-relaxed text-[#0a0a0a]">
+                  &ldquo;{testimonial.review}&rdquo;
+                </blockquote>
 
-              <div className="border-t border-[#e4e4e7] pt-6 flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full overflow-hidden relative border border-[#e4e4e7]">
-                  <ImageWrapper
-                    src={testimonial.photo || ""}
-                    alt={testimonial.clientName}
-                    fill
-                    sizes="48px"
-                    containerClassName="w-full h-full border-none"
-                    className="object-cover"
-                  />
-                </div>
-                <div>
-                  <cite className="text-base font-bold text-[#0a0a0a] not-italic block">
-                    {testimonial.clientName}
-                  </cite>
-                  <span className="text-xs text-[#71717a]">
-                    {testimonial.clientRole}, <strong className="text-[#0a0a0a]">{testimonial.company}</strong>
-                  </span>
+                <div className="border-t border-[#e4e4e7] pt-6 flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full overflow-hidden relative border border-[#e4e4e7]">
+                    <ImageWrapper
+                      src={testimonial.photo || ""}
+                      alt={testimonial.clientName}
+                      fill
+                      sizes="48px"
+                      containerClassName="w-full h-full border-none"
+                      className="object-cover"
+                    />
+                  </div>
+                  <div>
+                    <cite className="text-base font-bold text-[#0a0a0a] not-italic block">
+                      {testimonial.clientName}
+                    </cite>
+                    <span className="text-xs text-[#71717a]">
+                      {testimonial.clientRole}, <strong className="text-[#0a0a0a]">{testimonial.company}</strong>
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
+            </Reveal>
           </Container>
         </section>
       )}
@@ -221,26 +226,28 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
       {project.galleryImages && (project.galleryImages as {url: string, alt: string}[]).length > 0 && (
         <section className="py-20 md:py-32 bg-white border-b border-[#e4e4e7]">
           <Container size="default">
-            <div className="max-w-2xl mb-12">
+            <Reveal variant="fadeUp" className="max-w-2xl mb-12">
               <p className="text-sm font-semibold uppercase tracking-wider text-[#e11d48] mb-2">
                 Visual Showcase
               </p>
               <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#0a0a0a]">
                 Screens & Platform Features
               </h2>
-            </div>
+            </Reveal>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {((project.galleryImages as {url: string, alt: string}[]) || []).map((img, idx) => (
-                <div key={idx} className="aspect-[16/10] relative overflow-hidden border border-[#e4e4e7] bg-[#fafafa]">
-                  <ImageWrapper
-                    src={img.url}
-                    alt={img.alt || `${project.title} screenshot ${idx + 1}`}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    containerClassName="w-full h-full border-none rounded-none"
-                  />
-                </div>
+                <Reveal key={idx} variant="fadeUp" delay={idx + 1}>
+                  <div className="aspect-[16/10] relative overflow-hidden border border-[#e4e4e7] bg-[#fafafa]">
+                    <ImageWrapper
+                      src={img.url}
+                      alt={img.alt || `${project.title} screenshot ${idx + 1}`}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      containerClassName="w-full h-full border-none rounded-none"
+                    />
+                  </div>
+                </Reveal>
               ))}
             </div>
           </Container>
@@ -250,23 +257,25 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
       {/* 6. FINAL CTA */}
       <section className="py-24 md:py-36 bg-white">
         <Container size="narrow" className="text-center flex flex-col items-center">
-          <p className="text-sm font-semibold uppercase tracking-wider text-[#e11d48] mb-3">
-            Start A Conversation
-          </p>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-[#0a0a0a] leading-[1.1] max-w-2xl mb-6">
-            Ready for similar results in your business?
-          </h2>
-          <p className="text-base sm:text-lg text-[#71717a] leading-relaxed max-w-xl font-normal mb-10">
-            Book an introductory 30-minute call. We will review your current software and explain how custom tools can save you time and overhead.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
-            <ButtonLink href="/contact" variant="primary" size="lg" className="w-full sm:w-auto">
-              Book a Strategy Call
-            </ButtonLink>
-            <ButtonLink href="/work" variant="outline" size="lg" className="w-full sm:w-auto">
-              Back to All Projects
-            </ButtonLink>
-          </div>
+          <Reveal variant="fadeUp" className="flex flex-col items-center text-center">
+            <p className="text-sm font-semibold uppercase tracking-wider text-[#e11d48] mb-3">
+              Start A Conversation
+            </p>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-[#0a0a0a] leading-[1.1] max-w-2xl mb-6">
+              Ready for similar results in your business?
+            </h2>
+            <p className="text-base sm:text-lg text-[#71717a] leading-relaxed max-w-xl font-normal mb-10">
+              Book an introductory 30-minute call. We will review your current software and explain how custom tools can save you time and overhead.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
+              <ButtonLink href="/contact" variant="primary" size="lg" className="w-full sm:w-auto">
+                Book a Strategy Call
+              </ButtonLink>
+              <ButtonLink href="/work" variant="outline" size="lg" className="w-full sm:w-auto">
+                Back to All Projects
+              </ButtonLink>
+            </div>
+          </Reveal>
         </Container>
       </section>
     </GlobalLayout>

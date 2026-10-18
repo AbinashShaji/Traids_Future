@@ -17,6 +17,7 @@ import { Container } from "../../../components/container";
 import { ButtonLink } from "../../../components/button-link";
 import { ImageWrapper } from "../../../components/image-wrapper";
 import { WordReveal } from "../../../components/word-reveal";
+import { Reveal } from "../../../components/reveal";
 import { getInsights, getInsightBySlug, getRelatedInsights } from "@/actions/insights";
 
 interface ArticleDetailPageProps {
@@ -248,55 +249,56 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
       {relatedArticles.length > 0 && (
         <section className="py-20 md:py-32 bg-[#fafafa] border-b border-[#e4e4e7]">
           <Container size="default">
-            <div className="max-w-2xl mb-12">
+            <Reveal variant="fadeUp" className="max-w-2xl mb-12">
               <p className="text-sm font-semibold uppercase tracking-wider text-[#e11d48] mb-2">
                 More Reading
               </p>
               <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#0a0a0a]">
                 Related articles and guides.
               </h2>
-            </div>
+            </Reveal>
 
             <div className="border-t border-b border-[#e4e4e7] divide-y md:divide-y-0 md:divide-x divide-[#e4e4e7] grid grid-cols-1 md:grid-cols-2">
-              {relatedArticles.map((rel) => (
-                <div
-                  key={rel.id}
-                  className="py-8 md:py-10 px-6 sm:px-8 flex flex-col justify-between bg-white"
-                >
-                  <div>
-                    <div className="aspect-[16/10] relative overflow-hidden border border-[#e4e4e7] bg-[#fafafa] mb-6">
-                      <ImageWrapper
-                        src={rel.featuredImage || ""}
-                        alt={rel.title}
-                        fill
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                        containerClassName="w-full h-full border-none rounded-none"
-                        className="object-cover hover:scale-105 transition-transform duration-500"
-                      />
-                    </div>
+              {relatedArticles.map((rel, idx) => (
+                <Reveal key={rel.id} variant="fadeUp" delay={idx + 1} className="h-full">
+                  <div
+                    className="py-8 md:py-10 px-6 sm:px-8 flex flex-col justify-between bg-white h-full"
+                  >
                     <div>
-                      <div className="flex items-center gap-3 mb-2">
-                        <span className="text-xs font-bold uppercase tracking-wider text-[#e11d48]">{rel.category}</span>
-                        <span className="w-1 h-1 rounded-full bg-[#d4d4d8]" />
-                        <span className="text-xs text-[#71717a] font-medium">{rel.readingTime} min read</span>
+                      <div className="aspect-[16/10] relative overflow-hidden border border-[#e4e4e7] bg-[#fafafa] mb-6">
+                        <ImageWrapper
+                          src={rel.featuredImage || ""}
+                          alt={rel.title}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                          containerClassName="w-full h-full border-none rounded-none"
+                          className="object-cover hover:scale-105 transition-transform duration-500"
+                        />
                       </div>
-                      <h3 className="text-xl font-bold text-[#0a0a0a] tracking-tight leading-snug mb-2">
-                        <Link href={`/insights/${rel.slug}`} className="hover:text-[#e11d48] transition-colors">
-                          {rel.title}
-                        </Link>
-                      </h3>
-                      <p className="text-sm text-[#71717a] leading-relaxed">
-                        {rel.excerpt}
-                      </p>
+                      <div>
+                        <div className="flex items-center gap-3 mb-2">
+                          <span className="text-xs font-bold uppercase tracking-wider text-[#e11d48]">{rel.category}</span>
+                          <span className="w-1 h-1 rounded-full bg-[#d4d4d8]" />
+                          <span className="text-xs text-[#71717a] font-medium">{rel.readingTime} min read</span>
+                        </div>
+                        <h3 className="text-xl font-bold text-[#0a0a0a] tracking-tight leading-snug mb-2">
+                          <Link href={`/insights/${rel.slug}`} className="hover:text-[#e11d48] transition-colors">
+                            {rel.title}
+                          </Link>
+                        </h3>
+                        <p className="text-sm text-[#71717a] leading-relaxed">
+                          {rel.excerpt}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="pt-6 mt-6 border-t border-[#e4e4e7] flex items-center justify-between">
+                      <span className="text-xs text-[#71717a] font-medium">{rel.author}</span>
+                      <Link href={`/insights/${rel.slug}`} className="text-xs font-semibold uppercase tracking-wider text-[#0a0a0a] hover:text-[#e11d48] transition-colors inline-flex items-center gap-1">
+                        Read Article <ArrowRight className="w-3.5 h-3.5" />
+                      </Link>
                     </div>
                   </div>
-                  <div className="pt-6 mt-6 border-t border-[#e4e4e7] flex items-center justify-between">
-                    <span className="text-xs text-[#71717a] font-medium">{rel.author}</span>
-                    <Link href={`/insights/${rel.slug}`} className="text-xs font-semibold uppercase tracking-wider text-[#0a0a0a] hover:text-[#e11d48] transition-colors inline-flex items-center gap-1">
-                      Read Article <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
-                  </div>
-                </div>
+                </Reveal>
               ))}
             </div>
           </Container>
@@ -306,23 +308,25 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
       {/* 5. FINAL CTA */}
       <section className="py-24 md:py-36 bg-white">
         <Container size="narrow" className="text-center flex flex-col items-center">
-          <p className="text-sm font-semibold uppercase tracking-wider text-[#e11d48] mb-3">
-            Start A Conversation
-          </p>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-[#0a0a0a] leading-[1.1] max-w-2xl mb-6">
-            Ready to apply these solutions to your business?
-          </h2>
-          <p className="text-base sm:text-lg text-[#71717a] leading-relaxed max-w-xl font-normal mb-10">
-            Book an introductory 30-minute discovery call. We will review your current software and explain how custom tools can save you time and overhead.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
-            <ButtonLink href="/contact" variant="primary" size="lg" className="w-full sm:w-auto">
-              Book a Strategy Call
-            </ButtonLink>
-            <ButtonLink href="/insights" variant="outline" size="lg" className="w-full sm:w-auto">
-              Back to All Articles
-            </ButtonLink>
-          </div>
+          <Reveal variant="fadeUp" className="flex flex-col items-center text-center">
+            <p className="text-sm font-semibold uppercase tracking-wider text-[#e11d48] mb-3">
+              Start A Conversation
+            </p>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-[#0a0a0a] leading-[1.1] max-w-2xl mb-6">
+              Ready to apply these solutions to your business?
+            </h2>
+            <p className="text-base sm:text-lg text-[#71717a] leading-relaxed max-w-xl font-normal mb-10">
+              Book an introductory 30-minute discovery call. We will review your current software and explain how custom tools can save you time and overhead.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
+              <ButtonLink href="/contact" variant="primary" size="lg" className="w-full sm:w-auto">
+                Book a Strategy Call
+              </ButtonLink>
+              <ButtonLink href="/insights" variant="outline" size="lg" className="w-full sm:w-auto">
+                Back to All Articles
+              </ButtonLink>
+            </div>
+          </Reveal>
         </Container>
       </section>
     </GlobalLayout>

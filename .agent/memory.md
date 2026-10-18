@@ -1411,6 +1411,55 @@ In accordance with `.agent/FINZAVE_FRONTEND_DESIGN_ANALYSIS.md` and the updated 
   - **TypeScript (`pnpm exec tsc --noEmit`)**: **PASS (0 errors, exit code 0)**.
   - **ESLint (`pnpm lint`)**: **PASS (0 errors, 0 warnings, exit code 0)**.
 
+---
+
+## 39. Complete Motion System Architecture & Public Route Implementation
+
+### Status: Complete & Verified via Production Build, Lint, and Test Suite
+
+- **Date**: October 18, 2026
+- **Context & Objective**:
+  - Transform the website from mostly static into an art-directed, cohesive, high-performance motion experience.
+  - Implement an editorial masked line reveal for the homepage hero.
+  - Apply the hydration-safe `<Reveal>` system across all public marketing and detail routes.
+  - Preserve all brand language, five approved service domains, copy, and existing functional interactions.
+
+- **Completed Implementation**:
+  1. **Core Motion Tokens & Architecture (`src/app/globals.css`)**:
+     - Defined CSS motion variables: `--motion-fast: 180ms`, `--motion-standard: 300ms`, `--motion-reveal: 520ms`, `--motion-slow: 720ms`, `--motion-stagger: 90ms`, `--motion-lift: 24px`, `--motion-slide: 20px`, `--motion-travel: 18px`.
+     - Standardized timing curves: `--ease: cubic-bezier(0.16, 1, 0.3, 1)`, `--ease-out: cubic-bezier(0, 0, 0.2, 1)`.
+     - Implemented `.fz-hero-line` and `.fz-hero-line__inner` for overflow-hidden masked vertical line reveals.
+     - Implemented `.fz-hero-support` for delayed subtitle and CTA entrances.
+     - Implemented `.fz-reveal-wrap` variants: `variant-fadeUp`, `variant-fadeIn`, `variant-slideLeft`, `variant-slideRight`.
+     - Implemented `.fz-scroll-num` color transition from zinc to crimson (`#e11d48`) triggered via `ScrollObserver`.
+     - Implemented `.fz-drawer-enter` mobile navigation panel animation.
+     - Implemented comprehensive `@media (prefers-reduced-motion: reduce)` override disabling all transforms, animations, and transitions while keeping content 100% visible immediately.
+  2. **Hero Masked Editorial Entrance (`src/components/hero-reveal.tsx`)**:
+     - Created `HeroReveal` and `HeroSupport` components.
+     - Masked each visual headline line in an `overflow: hidden` bounding wrapper, lifting lines into place with staggered timing.
+     - Fully SSR safe: initial HTML renders with `opacity: 1` and `transform: translateY(0)`; arming occurs only post-mount on the client; zero layout shift.
+  3. **Refined Subpage Headline Entrance (`src/components/word-reveal.tsx`)**:
+     - Modernized with configurable `staggerMs` and clean documentation for inner pages.
+  4. **Universal Public Route Coverage**:
+     - **Homepage (`src/app/home-page-content.tsx`)**: Hero line-mask reveal; Reveal with directional entrances and staggered delays across all remaining sections (Problem section, What We Do, Process with scroll-spy numbers, Triads Difference, Roadmap, Core Capabilities, Principles, Featured Work, Final CTA).
+     - **About Page (`src/app/about/about-page-content.tsx`)**: HeroSupport entrance; asymmetric slideLeft/slideRight on Founding Story & Triad Operating Model; staggered fadeUp on 6 Principles grid with `.fz-scroll-num`; Reveal on FAQ accordion and Final CTA.
+     - **Solutions Page (`src/app/solutions/page.tsx`)**: HeroSupport entrance; sequential fadeUp across 5 core solution domains with scroll-spy numbering; staggered grid for Common Bottlenecks; Reveal on Final CTA.
+     - **Work Directory (`src/app/work/work-page-content.tsx`)**: HeroSupport entrance; promises strip; filter bar and search preserved as instantly interactive; staggered project rows with 16/10 image hover zoom; Reveal on Final CTA.
+     - **Work Detail Pages (`src/app/work/[slug]/page.tsx`)**: Preserved static cover image for fast LCP; staggered metrics banner; Reveal on sidebar context, narrative sections, testimonial, screen showcase gallery, and Final CTA.
+     - **Insights Directory (`src/app/insights/insights-page-content.tsx`)**: HeroSupport entrance; Reveal on featured guide card; immediately interactive category filters and search; staggered article list items; Reveal on newsletter subscription.
+     - **Article Detail Pages (`src/app/insights/[slug]/page.tsx`)**: Preserved calm reading experience without animating individual paragraphs; Reveal on related articles and Final CTA.
+     - **Contact Page (`src/app/contact/contact-page-content.tsx`)**: Preserved immediate interactive focus and form validation; Reveal on consultation hero and FAQ section.
+  5. **Safety, Accessibility, and Performance**:
+     - Hydration-safe: SSR markup is 100% visible; client observers arm below-fold content only; elements already in viewport remain visible immediately without flash.
+     - Complete reduced-motion support.
+     - No external animation libraries added.
+- **Verification Results**:
+  - **TypeScript (`pnpm exec tsc --noEmit`)**: **PASS (0 errors, exit code 0)**.
+  - **ESLint (`pnpm lint`)**: **PASS (0 errors, 0 warnings, exit code 0)**.
+  - **Automated Tests (`pnpm test`)**: **PASS (17/17 tests passing, exit code 0)**.
+  - **Production Build (`pnpm run build`)**: **PASS (30/30 pages compiled, prerendered, and statically generated, exit code 0)**.
+
+
 
 
 

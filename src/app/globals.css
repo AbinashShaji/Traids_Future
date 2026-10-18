@@ -31,6 +31,19 @@
   /* Motion Timing Curves */
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-out: cubic-bezier(0, 0, 0.2, 1);
+
+  /* Motion Tokens — Triads Future Design System */
+  /* Durations */
+  --motion-fast: 180ms;      /* button/link hover feedback */
+  --motion-base: 350ms;      /* short reveal, micro transitions */
+  --motion-reveal: 550ms;    /* standard section entrance */
+  --motion-slow: 700ms;      /* hero headline lines */
+  /* Distances */
+  --motion-lift: 20px;       /* hero line lift-in */
+  --motion-travel: 28px;     /* section fadeUp travel */
+  --motion-slide: 32px;      /* horizontal slide distance */
+  /* Stagger base interval */
+  --motion-stagger: 80ms;
 }
 
 @theme {
@@ -239,54 +252,69 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 1px;
 }
 
-/* Motion Architecture: Hydration-Safe Progressive Scroll Reveal */
-/* Content is 100% visible by default for SSR, crawlers, no-JS, and above-the-fold nodes */
-.fz-reveal-wrap {
-  opacity: 1;
-  transform: none;
-  will-change: opacity, transform;
+/* ============================================================
+   MOTION ARCHITECTURE — Triads Future Design System
+   ============================================================ */
+
+/* ——— 1. Hero Editorial Line Reveal ——————————————————————————
+   .fz-hero-line wraps each visual line in the hero headline.
+   Each line sits inside overflow:hidden so the rising text is
+   clipped at the containment boundary, producing a clean mask.
+   Triggered immediately on page load; no scroll dependency.
+   Respects prefers-reduced-motion via the global override below. */
+
+.fz-hero-line {
+  overflow: hidden;
+  display: block;
 }
 
-/* Armed state: applied strictly post-hydration by component useEffect for below-the-fold nodes */
-.fz-reveal-wrap[data-reveal-state="armed"] {
+.fz-hero-line__inner {
+  display: block;
+  /* Default: fully visible for SSR, no-JS, and crawlers */
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Armed state — applied post-hydration by HeroReveal useEffect */
+.fz-hero-line__inner[data-line-state="armed"] {
   opacity: 0;
-  transition: none !important;
+  transform: translateY(var(--motion-lift));
 }
 
-.fz-reveal-wrap[data-reveal-state="armed"].variant-fadeUp {
-  transform: translateY(24px);
-}
-
-.fz-reveal-wrap[data-reveal-state="armed"].variant-fadeIn {
-  transform: none;
-}
-
-.fz-reveal-wrap[data-reveal-state="armed"].variant-slideLeft {
-  transform: translateX(-24px);
-}
-
-.fz-reveal-wrap[data-reveal-state="armed"].variant-slideRight {
-  transform: translateX(24px);
-}
-
-/* Visible state: triggered upon intersection */
-.fz-reveal-wrap[data-reveal-state="visible"] {
+/* Visible state — triggered by the component timer per-line */
+.fz-hero-line__inner[data-line-state="visible"] {
   opacity: 1;
-  transform: translate(0, 0);
-  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(0);
+  transition:
+    opacity var(--motion-slow) var(--ease),
+    transform var(--motion-slow) var(--ease);
 }
 
-/* Scroll-Spy Number Transition */
-.fz-scroll-num {
-  transition: color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+/* ——— 2. Hero Support Elements (subtitle, CTA) ——————————————
+   Lighter entrance following the headline lines. */
+
+.fz-hero-support {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.fz-scroll-num[data-active="true"],
-.fz-scroll-num.is-active {
-  color: #e11d48 !important;
+.fz-hero-support[data-support-state="armed"] {
+  opacity: 0;
+  transform: translateY(14px);
 }
 
-/* Staggered Word Reveal Keyframe */
+.fz-hero-support[data-support-state="visible"] {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity var(--motion-reveal) var(--ease),
+    transform var(--motion-reveal) var(--ease);
+}
+
+/* ——— 3. Legacy Word Reveal (kept for non-hero subpage fallback) —
+   Used by WordReveal component on detail page headers.
+   Triggered globally on page load when html.js-ready is set. */
+
 @keyframes fzWordIn {
   from {
     opacity: 0;
@@ -308,7 +336,62 @@ html.js-ready .fz-word-reveal {
   animation: fzWordIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Mobile Navigation Drawer Entrance Animation */
+/* ——— 4. Section Progressive Scroll Reveal (Reveal component) ——
+   Content is 100% visible by default for SSR and no-JS.
+   Below-the-fold nodes are armed in useEffect after hydration. */
+
+.fz-reveal-wrap {
+  opacity: 1;
+  transform: none;
+  will-change: opacity, transform;
+}
+
+/* Armed state — applied below the fold strictly post-hydration */
+.fz-reveal-wrap[data-reveal-state="armed"] {
+  opacity: 0;
+  transition: none !important;
+}
+
+.fz-reveal-wrap[data-reveal-state="armed"].variant-fadeUp {
+  transform: translateY(var(--motion-travel));
+}
+
+.fz-reveal-wrap[data-reveal-state="armed"].variant-fadeIn {
+  transform: none;
+}
+
+.fz-reveal-wrap[data-reveal-state="armed"].variant-slideLeft {
+  transform: translateX(calc(-1 * var(--motion-slide)));
+}
+
+.fz-reveal-wrap[data-reveal-state="armed"].variant-slideRight {
+  transform: translateX(var(--motion-slide));
+}
+
+/* Visible state — triggered by IntersectionObserver */
+.fz-reveal-wrap[data-reveal-state="visible"] {
+  opacity: 1;
+  transform: translate(0, 0);
+  transition:
+    opacity var(--motion-reveal) var(--ease),
+    transform var(--motion-reveal) var(--ease);
+}
+
+/* ——— 5. Scroll-Spy Number Transition ———————————————————————
+   Numbers in process lists, solution IDs, guiding-principles.
+   Transition from zinc to crimson via IntersectionObserver. */
+
+.fz-scroll-num {
+  transition: color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fz-scroll-num[data-active="true"],
+.fz-scroll-num.is-active {
+  color: #e11d48 !important;
+}
+
+/* ——— 6. Mobile Navigation Drawer Entrance ——————————————————— */
+
 @keyframes fzDrawerIn {
   from {
     opacity: 0;
@@ -324,7 +407,11 @@ html.js-ready .fz-word-reveal {
   animation: fzDrawerIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Reduced Motion Globally Disables Transitions & Animations */
+/* ——— 7. Sliding Crimson Underline (Navigation & Text Links) ——
+   Handled separately above in .fz-link-underline / .fz-underline-hover */
+
+/* ——— 8. Reduced-Motion Global Override ————————————————————— */
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto !important;
@@ -337,6 +424,24 @@ html.js-ready .fz-word-reveal {
     scroll-behavior: auto !important;
   }
 
+  /* Hero reveal — show content immediately */
+  .fz-hero-line__inner,
+  .fz-hero-line__inner[data-line-state="armed"],
+  .fz-hero-line__inner[data-line-state="visible"] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .fz-hero-support,
+  .fz-hero-support[data-support-state="armed"],
+  .fz-hero-support[data-support-state="visible"] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  /* Section reveal — show content immediately */
   .fz-reveal-wrap,
   .fz-reveal-wrap[data-reveal-state="armed"],
   .fz-reveal-wrap[data-reveal-state="visible"] {
@@ -345,15 +450,72 @@ html.js-ready .fz-word-reveal {
     transition: none !important;
   }
 
+  /* Word reveal — show content immediately */
   .fz-word-reveal {
     opacity: 1 !important;
     transform: none !important;
     animation: none !important;
   }
 
+  /* Drawer — show immediately */
   .fz-drawer-enter {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
   }
+
+  /* Triad indicator lines — show immediately */
+  .fz-triad-bar-fill {
+    transform: none !important;
+    animation: none !important;
+  }
 }
+
+/* ——— 9. Triad Indicator Progress Lines (About Page Operating Model) ——
+   Sequentially animates Strategy -> Technology -> Execution indicator lines.
+   Zero layout shifts (transform: scaleX), pure CSS keyframes triggered
+   by existing parent Reveal IntersectionObserver. */
+
+@keyframes fzTriadLineProgress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.fz-triad-bar-track {
+  isolation: isolate;
+}
+
+/* Default / SSR / No-JS fallback: full width immediately */
+.fz-triad-bar-fill {
+  transform: scaleX(1);
+  transform-origin: left;
+  will-change: transform;
+}
+
+/* Armed state: when parent Reveal is armed below fold, hold bars at 0 progress */
+.fz-reveal-wrap[data-reveal-state="armed"] .fz-triad-bar-fill {
+  transform: scaleX(0);
+}
+
+/* Active sequence: triggered when parent Reveal enters viewport */
+/* Line 0: Strategy (snappy 350ms fill, begins immediately at 50ms) */
+.fz-reveal-wrap[data-reveal-state="visible"] .fz-triad-bar-fill-0 {
+  animation: fzTriadLineProgress 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
+}
+
+/* Line 1: Technology (begins at 450ms after Strategy finishes) */
+.fz-reveal-wrap[data-reveal-state="visible"] .fz-triad-bar-fill-1 {
+  animation: fzTriadLineProgress 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both;
+}
+
+/* Line 2: Execution (begins at 850ms after Technology finishes, completing sequence at ~1.2s) */
+.fz-reveal-wrap[data-reveal-state="visible"] .fz-triad-bar-fill-2 {
+  animation: fzTriadLineProgress 0.38s cubic-bezier(0.16, 1, 0.3, 1) 0.85s both;
+}
+
+
+
