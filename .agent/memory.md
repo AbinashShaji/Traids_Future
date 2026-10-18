@@ -1390,6 +1390,28 @@ In accordance with `.agent/FINZAVE_FRONTEND_DESIGN_ANALYSIS.md` and the updated 
   - **Production Build (`pnpm run build`)**: **PASS (30/30 pages compiled on Next.js 16.3.8, exit code 0)**.
   - **Production Security Audit (`pnpm audit --prod`)**: **PASS (0 vulnerabilities found, exit code 0)**.
 
+---
+
+## 38. Contact Page Mobile Navigation Overlap Correction
+
+### Status: Complete & Verified via Static Checks and Test Suite
+
+- **Date**: October 18, 2026
+- **Defect Description & Root Cause**:
+  - On mobile viewports (e.g., Galaxy Z Fold, 412x968px), the top portion of the Contact page ("Discovery Call" badge, `<h1>Let's talk about what your business needs.</h1>`, and the intro paragraph) was covered and pushed up into negative coordinates beneath the 72px sticky header.
+  - *Root Cause:* In `src/app/contact/contact-page-content.tsx`, the consultation booking hero & form `<section>` declared `min-h-[calc(100svh-72px)] sm:min-h-[calc(100vh-72px)] max-h-[950px] flex flex-col justify-center` with `overflow-hidden` and `my-auto` on `<Container>`. Because the stacked form and left-column copy naturally require ~1350px on mobile screens, `justify-center` centered the 1350px content inside the 950px container, pushing the top ~200px above the top boundary behind the header and clipping it with `overflow-hidden`.
+- **Resolution**:
+  - In `src/app/contact/contact-page-content.tsx`:
+    - Replaced `min-h-[calc(100svh-72px)] sm:min-h-[calc(100vh-72px)] max-h-[950px] flex flex-col justify-center py-8 sm:py-12 md:py-16 lg:py-20 border-b border-[#e4e4e7] bg-white relative overflow-hidden` with natural document flow:
+      `pt-8 sm:pt-12 md:pt-16 lg:pt-20 pb-16 sm:pb-20 md:pb-24 lg:pb-28 border-b border-[#e4e4e7] bg-white relative overflow-hidden`.
+    - Removed `my-auto` from `<Container>` (`className="relative z-10 px-4 sm:px-6 md:px-8"`).
+  - The hero title and form now flow naturally from top to bottom with comfortable spacing (`pt-8` on mobile, `pt-12` on tablet, `pt-16` to `pt-20` on desktop) directly below the 72px sticky header without overlapping, clipping, or height constraints.
+- **Verification Results**:
+  - **Automated Tests (`pnpm test`)**: **PASS (17/17 tests passing, exit code 0)**.
+  - **TypeScript (`pnpm exec tsc --noEmit`)**: **PASS (0 errors, exit code 0)**.
+  - **ESLint (`pnpm lint`)**: **PASS (0 errors, 0 warnings, exit code 0)**.
+
+
 
 
 

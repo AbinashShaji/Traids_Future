@@ -92,14 +92,14 @@ export function ContactPageContent({ faqs }: ContactPageContentProps) {
   return (
     <GlobalLayout>
       {/* 1. CONSULTATION BOOKING HERO & FORM */}
-      <section className="min-h-[calc(100svh-72px)] sm:min-h-[calc(100vh-72px)] max-h-[950px] flex flex-col justify-center py-8 sm:py-12 md:py-16 lg:py-20 border-b border-[#e4e4e7] bg-white relative overflow-hidden">
+      <section className="pt-8 sm:pt-12 md:pt-16 lg:pt-20 pb-16 sm:pb-20 md:pb-24 lg:pb-28 border-b border-[#e4e4e7] bg-white relative overflow-hidden">
         {/* Subtle Ambient Radial Glow Orb matching FinZave forensic spec */}
         <div 
           className="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[500px] sm:w-[700px] md:w-[800px] h-[500px] sm:h-[700px] md:h-[800px] bg-gradient-to-tr from-[#f4f4f5] to-white rounded-full blur-[100px] -z-10 opacity-60 pointer-events-none" 
           aria-hidden="true" 
         />
 
-        <Container className="my-auto relative z-10 px-4 sm:px-6 md:px-8">
+        <Container className="relative z-10 px-4 sm:px-6 md:px-8">
           <Reveal variant="fadeUp" className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
             {/* Left Column: Context & Direct Channels (5 cols) */}
             <div className="lg:col-span-5 flex flex-col gap-8">
