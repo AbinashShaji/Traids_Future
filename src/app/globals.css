@@ -266,6 +266,8 @@ h1, h2, h3, h4, h5, h6 {
 .fz-hero-line {
   overflow: hidden;
   display: block;
+  padding-bottom: 0.22em;
+  margin-bottom: -0.1em;
 }
 
 .fz-hero-line__inner {
@@ -516,6 +518,3 @@ html.js-ready .fz-word-reveal {
 .fz-reveal-wrap[data-reveal-state="visible"] .fz-triad-bar-fill-2 {
   animation: fzTriadLineProgress 0.38s cubic-bezier(0.16, 1, 0.3, 1) 0.85s both;
 }
-
-
-

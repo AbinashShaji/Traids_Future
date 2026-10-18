@@ -1459,16 +1459,49 @@ In accordance with `.agent/FINZAVE_FRONTEND_DESIGN_ANALYSIS.md` and the updated 
   - **Automated Tests (`pnpm test`)**: **PASS (17/17 tests passing, exit code 0)**.
   - **Production Build (`pnpm run build`)**: **PASS (30/30 pages compiled, prerendered, and statically generated, exit code 0)**.
 
+---
 
+## 40. Pre-Production Code Audit, Cleanup, and RSC Optimization
 
+### Status: Complete & Verified via TypeScript, ESLint, and Test Suite
 
+- **Date**: October 18, 2026
+- **Context & Objective**:
+  - Comprehensive pre-production audit across 10 phases.
+  - Safely eliminate dead/unreferenced components and obsolete dependencies without breaking concurrent work.
+  - Shift client components to React Server Components (RSC) where client state/effects are absent (`GlobalLayout`, `Footer`).
+  - Optimize root provider re-rendering by removing unused resize listeners.
+  - Fix deterministic date formatting on server-rendered CMS pages.
+  - Ensure `.env.example` is trackable while `.env*` remains strictly secret-protected.
+  - Upgrade `package.json` to `"type": "module"` to eliminate Node test module warnings.
 
+- **Changes & Cleanups Implemented**:
+  1. **Dead Code Removed**:
+     - `src/components/theme-toggle.tsx`: Deleted obsolete no-op component (`() => null`).
+     - `src/components/scroll-world-container.tsx`: Deleted obsolete container component with 0 usages in repository.
+     - `src/components/ui/`: Removed empty, unused subdirectory.
+  2. **Dependency Pruning**:
+     - Pruned `next-themes` (0 imports, project is 100% curated light mode).
+     - Pruned `image-size` (0 imports in project).
+     - Maintained `framer-motion` to protect concurrent work and avoid unwanted lockfile instability.
+     - Updated `pnpm-lock.yaml` via clean `pnpm remove next-themes image-size`.
+  3. **Module Declaration & Node Warnings**:
+     - Added `"type": "module"` to `package.json`.
+     - Eliminated Node `[MODULE_TYPELESS_PACKAGE_JSON]` warnings when running tests.
+  4. **React Server Component Boundaries**:
+     - `src/components/global-layout.tsx`: Removed `"use client"`. Converted to RSC shell; client interactive children (`Navigation`) retain client directives independently.
+     - `src/components/footer.tsx`: Removed `"use client"`. Converted to RSC; client children (`BrandMark`) manage client interactivity.
+  5. **Performance & Root Layout Re-Render Prevention**:
+     - `src/providers/root-providers.tsx`: Bypassed unused `DeviceExperienceManager` wrapper. Eliminates passive window resize listener state changes (`setDevice`) that triggered root layout re-renders on every viewport resize.
+  6. **Security & Configuration**:
+     - `.gitignore`: Added `!.env.example` following `.env*` to allow template tracking while keeping secrets strictly ignored.
+     - Verified security headers in `next.config.ts` (`X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy`, `X-DNS-Prefetch-Control`).
+  7. **Deterministic Server Rendering**:
+     - `src/app/(cms)/dashboard/page.tsx` & `src/app/(cms)/dashboard/appointments/page.tsx`: Standardized date rendering with `{ year: "numeric", month: "short", day: "numeric", timeZone: "UTC" }` to guarantee identical output across all server/client locales and timezones.
 
-
-
-
-
-
-
-
+- **Verification Results**:
+  - **TypeScript (`pnpm exec tsc --noEmit`)**: **PASS (0 errors, exit code 0)**.
+  - **ESLint (`pnpm lint`)**: **PASS (0 errors, 0 warnings, exit code 0)**.
+  - **Automated Tests (`pnpm test`)**: **PASS (17/17 tests passing, 0 warnings, exit code 0 in 565ms)**.
+  - **Git Safeguards**: Preserved all uncommitted user modifications to `globals.css`, `home-page-content.tsx`, `brand-mark.tsx`, `navigation.tsx`, brand SVGs, and `brand-assets.ts`. Zero commits or resets performed.
 

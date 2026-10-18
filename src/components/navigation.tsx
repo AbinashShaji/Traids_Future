@@ -27,7 +27,12 @@ export const Navigation: React.FC = () => {
 
   React.useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      const scrollY = window.scrollY;
+      setIsScrolled((prev) => {
+        if (!prev && scrollY > 28) return true;
+        if (prev && scrollY < 12) return false;
+        return prev;
+      });
     };
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -65,22 +70,27 @@ export const Navigation: React.FC = () => {
           : "bg-white/80 backdrop-blur-sm border-b border-[#e4e4e7]/60"
       )}
     >
-      <div className="w-full max-w-[1400px] mx-auto flex items-center justify-between">
+      <div className="relative w-full max-w-[1400px] mx-auto flex items-center justify-between">
         {/* Brand Logo - single semantic <a> tag */}
-        <Link 
-          href="/" 
-          className="inline-flex items-center shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0a0a0a] rounded-md" 
-          aria-label="Triads Future Home"
-        >
-          <BrandMark 
-            asLink={false} 
-            variant="full" 
-            className="w-[160px] sm:w-[180px] md:w-[195px] lg:w-[200px]" 
-          />
-        </Link>
+        <div className="flex items-center shrink-0 z-10">
+          <Link 
+            href="/" 
+            className="group inline-flex items-center shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e11d48] rounded-md" 
+            aria-label="Triads Future Home"
+          >
+            <BrandMark 
+              asLink={false} 
+              variant="full" 
+              compact={isScrolled}
+            />
+          </Link>
+        </div>
 
-        {/* Desktop Links (>= 1024px) - Clean single row where links and CTA genuinely fit */}
-        <nav className="hidden lg:flex items-center gap-7 xl:gap-9" aria-label="Main Navigation">
+        {/* Desktop Links (>= 1024px) - Anchored to exact viewport/container horizontal center */}
+        <nav 
+          className="hidden lg:flex items-center gap-7 xl:gap-9 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-0 pointer-events-auto" 
+          aria-label="Main Navigation"
+        >
           {desktopNav.map((item) => {
             const isActive = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
             return (
@@ -101,7 +111,7 @@ export const Navigation: React.FC = () => {
         </nav>
 
         {/* Desktop Primary Action (>= 1024px) */}
-        <div className="hidden lg:flex items-center gap-4 shrink-0">
+        <div className="hidden lg:flex items-center gap-4 shrink-0 z-10">
           <ButtonLink 
             href="/contact" 
             variant="primary" 

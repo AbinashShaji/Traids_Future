@@ -6,8 +6,6 @@
  * - Full-width main content area
  * - Full-width footer
  */
-"use client";
-
 import * as React from "react";
 import { Navigation } from "../components/navigation";
 import { Footer } from "../components/footer";

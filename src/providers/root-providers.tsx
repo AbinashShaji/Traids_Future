@@ -19,13 +19,12 @@
 "use client";
 
 import * as React from "react";
-import { DeviceExperienceManager } from "./device-experience-manager";
 import { Toaster } from "sonner";
 import { ScrollObserver } from "../components/scroll-observer";
 
 export const RootProviders: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <DeviceExperienceManager>
+    <>
       <ScrollObserver />
       {children}
       <Toaster
@@ -41,7 +40,7 @@ export const RootProviders: React.FC<{ children: React.ReactNode }> = ({ childre
           },
         }}
       />
-    </DeviceExperienceManager>
+    </>
   );
 };
 

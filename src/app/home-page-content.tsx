@@ -57,7 +57,7 @@ export default function HomePageContent(props: HomePageContentProps) {
           {/* Editorial Line-Mask Hero Headline */}
           <HeroReveal
             as="h1"
-            headingClassName="text-[2.25rem] min-[380px]:text-[2.75rem] min-[440px]:text-[3.25rem] sm:text-6xl md:text-7xl lg:text-[6.25rem] xl:text-[7.25rem] font-bold tracking-tighter leading-[0.95] mb-5 sm:mb-6 md:mb-8 max-w-5xl mx-auto"
+            headingClassName="text-[2.25rem] min-[380px]:text-[2.75rem] min-[440px]:text-[3.25rem] sm:text-6xl md:text-7xl lg:text-[6.25rem] xl:text-[7.25rem] font-bold tracking-tighter leading-[1.02] mb-5 sm:mb-6 md:mb-8 max-w-5xl mx-auto"
             baseDelay={80}
             staggerInterval={120}
             lines={[
