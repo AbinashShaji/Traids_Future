@@ -1,6 +1,6 @@
 "use server"
 
-import { projects, getProjectBySlug as mockGetProjectBySlug, getFeaturedProjects as mockGetFeaturedProjects, type Project } from "../mock/projects";
+import { projects, getProjectBySlug as mockGetProjectBySlug, getFeaturedProjects as mockGetFeaturedProjects } from "../mock/projects";
 
 export async function getProjects() {
   return projects;

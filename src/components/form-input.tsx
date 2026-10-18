@@ -65,7 +65,7 @@ export const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
           </span>
         )}
         {error && (
-          <span id={`${inputId}-error`} className="font-sans text-xs font-medium text-[#B3261E]">
+          <span id={`${inputId}-error`} className="font-sans text-xs font-medium text-[#e11d48]">
             {error}
           </span>
         )}

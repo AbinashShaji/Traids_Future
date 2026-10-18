@@ -64,23 +64,29 @@ export default function AboutPageContent({ faqs }: AboutPageContentProps) {
   return (
     <GlobalLayout>
       {/* 1. HERO */}
-      <section className="min-h-[calc(100vh-72px)] flex flex-col justify-center py-12 sm:py-16 md:py-20 bg-white border-b border-[#e4e4e7]">
-        <Container size="narrow" className="text-center flex flex-col items-center my-auto">
+      <section className="min-h-[calc(100svh-72px)] sm:min-h-[calc(100vh-72px)] max-h-[950px] flex flex-col justify-center py-8 sm:py-12 md:py-16 lg:py-20 bg-white border-b border-[#e4e4e7] relative overflow-hidden">
+        {/* Subtle Ambient Radial Glow Orb matching FinZave forensic spec */}
+        <div 
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] sm:w-[700px] md:w-[800px] h-[500px] sm:h-[700px] md:h-[800px] bg-gradient-to-tr from-[#f4f4f5] to-white rounded-full blur-[100px] -z-10 opacity-60 pointer-events-none" 
+          aria-hidden="true" 
+        />
+
+        <Container size="default" className="text-center flex flex-col items-center justify-center my-auto relative z-10 px-4 sm:px-6 md:px-8">
           <WordReveal
             text="We build technology that helps companies operate better and grow."
             as="h1"
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-[4.75rem] font-bold tracking-tight text-[#0a0a0a] leading-[1.1] mb-6"
+            className="text-[2.25rem] min-[380px]:text-[2.75rem] min-[440px]:text-[3.25rem] sm:text-6xl md:text-7xl lg:text-[5.75rem] xl:text-[6.5rem] font-bold tracking-tighter text-[#0a0a0a] leading-[0.98] mb-5 sm:mb-6 md:mb-8 max-w-5xl mx-auto"
           />
 
-          <p className="text-lg sm:text-xl text-[#71717a] font-normal max-w-2xl mx-auto leading-relaxed mb-10">
+          <p className="text-sm sm:text-base md:text-lg text-[#52525b] font-normal max-w-2xl mx-auto leading-relaxed mb-6 sm:mb-8 md:mb-10">
             Triads Future partners with business owners to eliminate repetitive manual work, streamline customer experiences, and build custom web software that stands the test of time.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
-            <ButtonLink href="/contact" variant="primary" size="lg" className="w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 md:gap-8 w-full sm:w-auto">
+            <ButtonLink href="/contact" variant="primary" size="lg" className="w-full sm:w-auto px-7 sm:px-9 md:px-10 py-3.5 sm:py-4 rounded-full bg-[#0a0a0a] hover:bg-[#e11d48] text-white font-medium text-sm sm:text-base shadow-lg shadow-black/10 hover:shadow-red-500/20 transition-all duration-300">
               Book a Strategy Call
             </ButtonLink>
-            <ButtonLink href="#our-approach" variant="outline" size="lg" className="w-full sm:w-auto">
+            <ButtonLink href="#our-approach" variant="outline" size="lg" className="w-full sm:w-auto px-7 sm:px-9 md:px-10 py-3.5 sm:py-4 rounded-full text-sm sm:text-base">
               How We Work
             </ButtonLink>
           </div>

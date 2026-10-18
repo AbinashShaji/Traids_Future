@@ -1,6 +1,6 @@
 "use server"
 
-import { testimonials, getTestimonialById, getFeaturedTestimonials as mockGetFeaturedTestimonials, type Testimonial } from "../mock/testimonials";
+import { testimonials, getTestimonialById, getFeaturedTestimonials as mockGetFeaturedTestimonials } from "../mock/testimonials";
 
 export async function getTestimonials() {
   return testimonials;

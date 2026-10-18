@@ -129,7 +129,7 @@ export const Navigation: React.FC = () => {
       {mobileMenuOpen && (
         <div 
           id="mobile-nav-drawer"
-          className="lg:hidden fixed top-[72px] left-0 right-0 bg-white/95 backdrop-blur-md border-b border-[#e4e4e7] p-6 shadow-xl flex flex-col gap-4 animate-in fade-in slide-in-from-top-2 duration-200 z-50 max-h-[calc(100vh-72px)] overflow-y-auto"
+          className="lg:hidden fixed top-[72px] left-0 right-0 bg-white/95 backdrop-blur-md border-b border-[#e4e4e7] p-6 shadow-xl flex flex-col gap-4 fz-drawer-enter z-50 max-h-[calc(100vh-72px)] overflow-y-auto"
         >
           <nav className="flex flex-col gap-1" aria-label="Mobile Navigation">
             {desktopNav.map((item) => {

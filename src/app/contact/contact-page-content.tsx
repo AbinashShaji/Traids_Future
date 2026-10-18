@@ -25,7 +25,7 @@ import { toast } from "sonner";
 import { settings } from "../../mock/settings";
 import { type FAQ } from "@/mock/faq";
 
-const contactSchema = z.object({
+export const contactSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   phone: z.string().min(6, { message: "Please enter a valid phone number." }),
   email: z.union([z.string().email({ message: "Please enter a valid email address." }), z.literal("")]).optional(),
@@ -33,7 +33,7 @@ const contactSchema = z.object({
   message: z.string().optional(),
 });
 
-type ContactFormValues = z.infer<typeof contactSchema>;
+export type ContactFormValues = z.infer<typeof contactSchema>;
 
 interface ContactPageContentProps {
   faqs: FAQ[];
@@ -92,8 +92,14 @@ export function ContactPageContent({ faqs }: ContactPageContentProps) {
   return (
     <GlobalLayout>
       {/* 1. CONSULTATION BOOKING HERO & FORM */}
-      <section className="min-h-[calc(100vh-72px)] flex flex-col justify-center py-12 sm:py-16 md:py-20 border-b border-[#e4e4e7] bg-white">
-        <Container className="my-auto">
+      <section className="min-h-[calc(100svh-72px)] sm:min-h-[calc(100vh-72px)] max-h-[950px] flex flex-col justify-center py-8 sm:py-12 md:py-16 lg:py-20 border-b border-[#e4e4e7] bg-white relative overflow-hidden">
+        {/* Subtle Ambient Radial Glow Orb matching FinZave forensic spec */}
+        <div 
+          className="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[500px] sm:w-[700px] md:w-[800px] h-[500px] sm:h-[700px] md:h-[800px] bg-gradient-to-tr from-[#f4f4f5] to-white rounded-full blur-[100px] -z-10 opacity-60 pointer-events-none" 
+          aria-hidden="true" 
+        />
+
+        <Container className="my-auto relative z-10 px-4 sm:px-6 md:px-8">
           <Reveal variant="fadeUp" className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
             {/* Left Column: Context & Direct Channels (5 cols) */}
             <div className="lg:col-span-5 flex flex-col gap-8">
@@ -101,12 +107,12 @@ export function ContactPageContent({ faqs }: ContactPageContentProps) {
                 <p className="text-sm font-semibold uppercase tracking-wider text-[#e11d48]">
                   Discovery Call
                 </p>
-                <WordReveal
-                  text="Let's talk about what your business needs."
-                  as="h1"
-                  className="text-4xl md:text-5xl font-bold tracking-tight text-[#0a0a0a] leading-[1.08]"
-                />
-                <p className="text-[#71717a] text-base sm:text-lg leading-relaxed mt-2 font-normal">
+                <h1 className="text-[2.25rem] min-[380px]:text-[2.75rem] min-[440px]:text-[3.25rem] sm:text-5xl md:text-6xl lg:text-[3.75rem] xl:text-[4.25rem] font-bold tracking-tighter text-[#0a0a0a] leading-[1.02]">
+                  <WordReveal as="span" text="Let's talk " delayOffset={0} className="block sm:inline" />
+                  <WordReveal as="span" text="about what your " delayOffset={160} className="block sm:inline" />
+                  <WordReveal as="span" text="business needs." delayOffset={400} className="block" />
+                </h1>
+                <p className="text-[#52525b] text-sm sm:text-base md:text-lg leading-relaxed mt-2 font-normal">
                   Book a quick 30-minute discovery call. We will review your current systems, spot the bottlenecks costing you time, and give you straightforward advice with zero pressure.
                 </p>
               </div>

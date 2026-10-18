@@ -1,6 +1,6 @@
 "use server"
 
-import { articles, type Article } from "../mock/articles";
+import { articles } from "../mock/articles";
 
 export async function getInsights() {
   return articles;

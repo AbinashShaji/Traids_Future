@@ -141,9 +141,15 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
   return (
     <GlobalLayout>
       {/* 1. ARTICLE HEADER */}
-      <section className="min-h-[calc(100vh-72px)] flex flex-col justify-center py-12 sm:py-16 md:py-20 bg-white border-b border-[#e4e4e7]">
-        <Container size="default" className="my-auto">
-          <div className="mb-8">
+      <section className="pt-10 sm:pt-12 md:pt-14 pb-14 sm:pb-16 md:pb-20 bg-white border-b border-[#e4e4e7] relative overflow-hidden">
+        {/* Subtle Ambient Radial Glow Orb matching FinZave forensic spec */}
+        <div 
+          className="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[500px] sm:w-[700px] md:w-[800px] h-[500px] sm:h-[700px] md:h-[800px] bg-gradient-to-tr from-[#f4f4f5] to-white rounded-full blur-[100px] -z-10 opacity-60 pointer-events-none" 
+          aria-hidden="true" 
+        />
+
+        <Container size="default" className="relative z-10 px-4 sm:px-6 md:px-8">
+          <div className="mb-6 sm:mb-8">
             <Link
               href="/insights"
               className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#71717a] hover:text-[#e11d48] transition-colors fz-link-underline"
@@ -171,10 +177,10 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
             <WordReveal
               text={article.title}
               as="h1"
-              className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-[#0a0a0a] leading-[1.08]"
+              className="text-[2.25rem] min-[380px]:text-[2.75rem] min-[440px]:text-[3.25rem] sm:text-5xl md:text-6xl lg:text-[4.25rem] xl:text-[5rem] font-bold tracking-tighter text-[#0a0a0a] leading-[1.02]"
             />
 
-            <p className="text-xl md:text-2xl text-[#71717a] leading-relaxed border-l-2 border-[#e11d48] pl-6 mt-2 font-normal">
+            <p className="text-base sm:text-lg md:text-xl text-[#52525b] leading-relaxed border-l-2 border-[#e11d48] pl-6 mt-2 font-normal">
               {article.excerpt}
             </p>
           </div>

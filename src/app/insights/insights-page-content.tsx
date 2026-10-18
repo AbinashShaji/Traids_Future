@@ -19,6 +19,7 @@ import { Container } from "../../components/container";
 import { Button } from "../../components/button";
 import { ButtonLink } from "../../components/button-link";
 import { ImageWrapper } from "../../components/image-wrapper";
+import { WordReveal } from "../../components/word-reveal";
 import { toast } from "sonner";
 import { type Article as BlogPost } from "@/mock/articles";
 
@@ -57,19 +58,26 @@ export default function InsightsPageContent({ articles }: InsightsPageContentPro
   return (
     <GlobalLayout>
       {/* 1. HERO */}
-      <section className="min-h-[calc(100vh-72px)] flex flex-col justify-center py-12 sm:py-16 md:py-20 bg-white border-b border-[#e4e4e7]">
-        <Container size="narrow" className="text-center flex flex-col items-center my-auto">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[4.75rem] font-bold tracking-tight text-[#0a0a0a] leading-[1.08] mb-6">
-            <span className="block">Practical guides for</span>
-            <span className="block">growing businesses.</span>
+      <section className="min-h-[calc(100svh-72px)] sm:min-h-[calc(100vh-72px)] max-h-[950px] flex flex-col justify-center py-8 sm:py-12 md:py-16 lg:py-20 bg-white border-b border-[#e4e4e7] relative overflow-hidden">
+        {/* Subtle Ambient Radial Glow Orb matching FinZave forensic spec */}
+        <div 
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] sm:w-[700px] md:w-[800px] h-[500px] sm:h-[700px] md:h-[800px] bg-gradient-to-tr from-[#f4f4f5] to-white rounded-full blur-[100px] -z-10 opacity-60 pointer-events-none" 
+          aria-hidden="true" 
+        />
+
+        <Container size="default" className="text-center flex flex-col items-center justify-center my-auto relative z-10 px-4 sm:px-6 md:px-8">
+          <h1 className="text-[2.25rem] min-[380px]:text-[2.75rem] min-[440px]:text-[3.25rem] sm:text-6xl md:text-7xl lg:text-[6.25rem] xl:text-[7.25rem] font-bold tracking-tighter text-[#0a0a0a] leading-[0.95] mb-6 sm:mb-8 md:mb-10 max-w-5xl mx-auto">
+            <WordReveal as="span" text="Practical guides" delayOffset={0} className="block min-[360px]:whitespace-nowrap" />
+            <WordReveal as="span" text="for growing" delayOffset={160} className="block min-[360px]:whitespace-nowrap" />
+            <WordReveal as="span" text="businesses." delayOffset={320} className="block min-[360px]:whitespace-nowrap" />
           </h1>
 
-          <p className="text-base sm:text-lg text-[#52525b] font-normal max-w-xl mx-auto leading-relaxed mb-8">
+          <p className="text-sm sm:text-base md:text-lg text-[#52525b] font-normal max-w-xl mx-auto leading-relaxed mb-6 sm:mb-8 md:mb-10">
             No confusing tech jargon. Just honest, practical advice on automating daily operations, choosing the right software, and scaling your company sustainably.
           </p>
 
           <div className="flex justify-center">
-            <ButtonLink href="#articles" variant="primary" size="lg" className="rounded-full px-8 py-3.5 bg-[#0a0a0a] hover:bg-[#e11d48] text-white">
+            <ButtonLink href="#articles" variant="primary" size="lg" className="w-auto px-7 sm:px-9 md:px-10 py-3.5 sm:py-4 rounded-full bg-[#0a0a0a] hover:bg-[#e11d48] text-white font-medium text-sm sm:text-base shadow-lg shadow-black/10 hover:shadow-red-500/20 transition-all duration-300">
               Explore Articles
             </ButtonLink>
           </div>

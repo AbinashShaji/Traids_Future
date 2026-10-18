@@ -13,9 +13,9 @@ export const metadata: Metadata = {
 export default function PrivacyPage() {
   return (
     <GlobalLayout>
-      <section className="pt-32 pb-20 md:pt-40 md:pb-28 bg-white">
+      <section className="pt-10 sm:pt-12 md:pt-14 pb-20 md:pb-28 bg-white">
         <Container className="max-w-3xl">
-          <div className="mb-8">
+          <div className="mb-6 sm:mb-8">
             <Link
               href="/"
               className="inline-flex items-center gap-2 text-sm text-[#71717a] hover:text-[#e11d48] transition-colors fz-link-underline"
@@ -32,10 +32,10 @@ export default function PrivacyPage() {
                 Legal & Governance
               </span>
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-[#0a0a0a]">
+            <h1 className="text-[2.25rem] min-[380px]:text-[2.75rem] min-[440px]:text-[3.25rem] sm:text-5xl md:text-6xl lg:text-[4.25rem] font-bold tracking-tighter text-[#0a0a0a] leading-[1.02]">
               Privacy Policy
             </h1>
-            <p className="text-[#71717a] text-lg leading-relaxed mt-4 font-normal">
+            <p className="text-[#52525b] text-base sm:text-lg leading-relaxed mt-4 font-normal">
               Last updated: August 2026. We are committed to safeguarding the personal and commercial data entrusted to us.
             </p>
           </header>

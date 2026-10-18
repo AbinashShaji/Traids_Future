@@ -25,29 +25,29 @@ export const Footer: React.FC = () => {
             <h4 className="text-xs font-semibold uppercase tracking-wider text-[#a1a1aa]">
               Navigation
             </h4>
-            <ul className="space-y-2.5 text-sm text-[#a1a1aa]">
+            <ul className="space-y-2.5 text-sm">
               <li>
-                <Link href="/" className="hover:text-white transition-colors">
+                <Link href="/" className="text-[#a1a1aa] hover:text-white transition-colors fz-link-underline">
                   Home
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="hover:text-white transition-colors">
+                <Link href="/about" className="text-[#a1a1aa] hover:text-white transition-colors fz-link-underline">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link href="/solutions" className="hover:text-white transition-colors">
+                <Link href="/solutions" className="text-[#a1a1aa] hover:text-white transition-colors fz-link-underline">
                   Solutions
                 </Link>
               </li>
               <li>
-                <Link href="/work" className="hover:text-white transition-colors">
+                <Link href="/work" className="text-[#a1a1aa] hover:text-white transition-colors fz-link-underline">
                   Work
                 </Link>
               </li>
               <li>
-                <Link href="/insights" className="hover:text-white transition-colors">
+                <Link href="/insights" className="text-[#a1a1aa] hover:text-white transition-colors fz-link-underline">
                   Insights
                 </Link>
               </li>
@@ -59,29 +59,29 @@ export const Footer: React.FC = () => {
             <h4 className="text-xs font-semibold uppercase tracking-wider text-[#a1a1aa]">
               Solutions
             </h4>
-            <ul className="space-y-2.5 text-sm text-[#a1a1aa]">
+            <ul className="space-y-2.5 text-sm">
               <li>
-                <Link href="/solutions#custom-web-applications" className="hover:text-white transition-colors">
+                <Link href="/solutions#custom-web-applications" className="text-[#a1a1aa] hover:text-white transition-colors fz-link-underline">
                   Custom Web Applications
                 </Link>
               </li>
               <li>
-                <Link href="/solutions#process-automation" className="hover:text-white transition-colors">
+                <Link href="/solutions#process-automation" className="text-[#a1a1aa] hover:text-white transition-colors fz-link-underline">
                   Process Automation
                 </Link>
               </li>
               <li>
-                <Link href="/solutions#brand-architecture" className="hover:text-white transition-colors">
+                <Link href="/solutions#brand-architecture" className="text-[#a1a1aa] hover:text-white transition-colors fz-link-underline">
                   Brand Architecture
                 </Link>
               </li>
               <li>
-                <Link href="/solutions#high-performance-websites" className="hover:text-white transition-colors">
+                <Link href="/solutions#high-performance-websites" className="text-[#a1a1aa] hover:text-white transition-colors fz-link-underline">
                   High-Performance Websites
                 </Link>
               </li>
               <li>
-                <Link href="/solutions#growth-infrastructure" className="hover:text-white transition-colors">
+                <Link href="/solutions#growth-infrastructure" className="text-[#a1a1aa] hover:text-white transition-colors fz-link-underline">
                   Growth Infrastructure
                 </Link>
               </li>
@@ -93,29 +93,29 @@ export const Footer: React.FC = () => {
             <h4 className="text-xs font-semibold uppercase tracking-wider text-[#a1a1aa]">
               Company
             </h4>
-            <ul className="space-y-2.5 text-sm text-[#a1a1aa]">
+            <ul className="space-y-2.5 text-sm">
               <li>
-                <Link href="/about" className="hover:text-white transition-colors">
+                <Link href="/about" className="text-[#a1a1aa] hover:text-white transition-colors fz-link-underline">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-white transition-colors">
+                <Link href="/contact" className="text-[#a1a1aa] hover:text-white transition-colors fz-link-underline">
                   Contact
                 </Link>
               </li>
               <li>
-                <Link href="/about#faq" className="hover:text-white transition-colors">
+                <Link href="/about#faq" className="text-[#a1a1aa] hover:text-white transition-colors fz-link-underline">
                   FAQs
                 </Link>
               </li>
               <li>
-                <Link href="/privacy" className="hover:text-white transition-colors">
+                <Link href="/privacy" className="text-[#a1a1aa] hover:text-white transition-colors fz-link-underline">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="/terms" className="hover:text-white transition-colors">
+                <Link href="/terms" className="text-[#a1a1aa] hover:text-white transition-colors fz-link-underline">
                   Terms of Service
                 </Link>
               </li>
@@ -125,16 +125,16 @@ export const Footer: React.FC = () => {
       </div>
 
       {/* Sub-Footer Bar */}
-      <div className="max-w-[1400px] mx-auto px-6 border-t border-[#27272a] pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-[#71717a]">
-        <div>&copy; {currentYear} {settings.siteName}. All rights reserved.</div>
+      <div className="max-w-[1400px] mx-auto px-6 border-t border-[#27272a] pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs">
+        <div className="text-[#71717a]">&copy; {currentYear} {settings.siteName}. All rights reserved.</div>
         <div className="flex items-center gap-6">
-          <Link href="/about#faq" className="hover:text-white transition-colors">
+          <Link href="/about#faq" className="text-[#71717a] hover:text-white transition-colors fz-link-underline">
             FAQ
           </Link>
-          <Link href="/privacy" className="hover:text-white transition-colors">
+          <Link href="/privacy" className="text-[#71717a] hover:text-white transition-colors fz-link-underline">
             Privacy
           </Link>
-          <Link href="/terms" className="hover:text-white transition-colors">
+          <Link href="/terms" className="text-[#71717a] hover:text-white transition-colors fz-link-underline">
             Terms
           </Link>
         </div>
@@ -142,4 +142,3 @@ export const Footer: React.FC = () => {
     </footer>
   );
 };
-

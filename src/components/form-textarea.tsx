@@ -63,7 +63,7 @@ export const FormTextarea = React.forwardRef<HTMLTextAreaElement, FormTextareaPr
           </span>
         )}
         {error && (
-          <span id={`${textareaId}-error`} className="font-sans text-xs font-medium text-[#B3261E]">
+          <span id={`${textareaId}-error`} className="font-sans text-xs font-medium text-[#e11d48]">
             {error}
           </span>
         )}

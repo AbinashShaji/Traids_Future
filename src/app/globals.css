@@ -101,7 +101,6 @@ h1, h2, h3, h4, h5, h6 {
   display: inline-flex;
   align-items: center;
   text-decoration: none;
-  color: #0a0a0a;
   transition: color 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -240,52 +239,41 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 1px;
 }
 
-/* Motion Architecture: Progressive Enhancement & Scroll Reveal */
-/* Content is 100% visible by default for SSR, direct navigation, and resilient rendering */
-.observe-me {
+/* Motion Architecture: Hydration-Safe Progressive Scroll Reveal */
+/* Content is 100% visible by default for SSR, crawlers, no-JS, and above-the-fold nodes */
+.fz-reveal-wrap {
   opacity: 1;
   transform: none;
-}
-
-/* Progressive enhancement: only elements below the fold armed by JS animate in */
-html.js-ready .observe-me[data-reveal="armed"],
-html.js-ready .observe-me.js-armed:not(.is-visible) {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity, transform;
 }
 
-html.js-ready .observe-me[data-reveal="visible"],
-html.js-ready .observe-me.js-armed.is-visible {
-  opacity: 1;
-  transform: translateY(0);
+/* Armed state: applied strictly post-hydration by component useEffect for below-the-fold nodes */
+.fz-reveal-wrap[data-reveal-state="armed"] {
+  opacity: 0;
+  transition: none !important;
 }
 
-html.js-ready .observe-me.fz-reveal-left[data-reveal="armed"],
-html.js-ready .observe-me.fz-reveal-left.js-armed:not(.is-visible) {
-  opacity: 0;
+.fz-reveal-wrap[data-reveal-state="armed"].variant-fadeUp {
+  transform: translateY(24px);
+}
+
+.fz-reveal-wrap[data-reveal-state="armed"].variant-fadeIn {
+  transform: none;
+}
+
+.fz-reveal-wrap[data-reveal-state="armed"].variant-slideLeft {
   transform: translateX(-24px);
-  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-html.js-ready .observe-me.fz-reveal-left[data-reveal="visible"],
-html.js-ready .observe-me.fz-reveal-left.js-armed.is-visible {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-html.js-ready .observe-me.fz-reveal-right[data-reveal="armed"],
-html.js-ready .observe-me.fz-reveal-right.js-armed:not(.is-visible) {
-  opacity: 0;
+.fz-reveal-wrap[data-reveal-state="armed"].variant-slideRight {
   transform: translateX(24px);
-  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-html.js-ready .observe-me.fz-reveal-right[data-reveal="visible"],
-html.js-ready .observe-me.fz-reveal-right.js-armed.is-visible {
+/* Visible state: triggered upon intersection */
+.fz-reveal-wrap[data-reveal-state="visible"] {
   opacity: 1;
-  transform: translateX(0);
+  transform: translate(0, 0);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Scroll-Spy Number Transition */
@@ -320,7 +308,23 @@ html.js-ready .fz-word-reveal {
   animation: fzWordIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Reduced Motion Globally Disables Transitions */
+/* Mobile Navigation Drawer Entrance Animation */
+@keyframes fzDrawerIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fz-drawer-enter {
+  animation: fzDrawerIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Reduced Motion Globally Disables Transitions & Animations */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto !important;
@@ -333,7 +337,9 @@ html.js-ready .fz-word-reveal {
     scroll-behavior: auto !important;
   }
 
-  .observe-me {
+  .fz-reveal-wrap,
+  .fz-reveal-wrap[data-reveal-state="armed"],
+  .fz-reveal-wrap[data-reveal-state="visible"] {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
@@ -344,47 +350,10 @@ html.js-ready .fz-word-reveal {
     transform: none !important;
     animation: none !important;
   }
-}
 
-/* Authentic Newspaper Editorial Headline Typography */
-.font-newspaper {
-  font-family: var(--font-newsreader), 'Newsreader', Georgia, 'Times New Roman', serif;
-}
-
-/* Polished Silver Chrome Headline Effect */
-.silver-chrome-headline {
-  font-family: var(--font-newsreader), 'Newsreader', Georgia, 'Times New Roman', serif;
-  background: linear-gradient(
-    135deg,
-    #0f172a 0%,
-    #334155 20%,
-    #64748b 36%,
-    #cbd5e1 50%,
-    #94a3b8 60%,
-    #334155 75%,
-    #0f172a 100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
-  filter: drop-shadow(0 1px 1px rgba(255, 255, 255, 0.8));
-}
-
-.silver-chrome-word {
-  background: linear-gradient(
-    135deg,
-    #0f172a 0%,
-    #334155 20%,
-    #64748b 36%,
-    #cbd5e1 50%,
-    #94a3b8 60%,
-    #334155 75%,
-    #0f172a 100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
-  filter: drop-shadow(0 1px 1px rgba(255, 255, 255, 0.8));
+  .fz-drawer-enter {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }

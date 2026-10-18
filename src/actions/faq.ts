@@ -1,6 +1,6 @@
 "use server"
 
-import { faqs, type FAQ } from "../mock/faq";
+import { faqs } from "../mock/faq";
 
 export async function getFAQs() {
   return faqs;

@@ -26,6 +26,8 @@ import { Container } from "../components/container";
 import { ButtonLink } from "../components/button-link";
 import { ImageWrapper } from "../components/image-wrapper";
 import { GlobalLayout } from "../components/global-layout";
+import { WordReveal } from "../components/word-reveal";
+import { Reveal } from "../components/reveal";
 import { type Project } from "@/mock/projects";
 import { type Testimonial } from "@/mock/testimonials";
 import { type Article as BlogPost } from "@/mock/articles";
@@ -54,9 +56,9 @@ export default function HomePageContent(props: HomePageContentProps) {
         <Container size="default" className="text-center flex flex-col items-center justify-center my-auto relative z-10 px-4 sm:px-6 md:px-8">
           {/* Headline: Exact Three-Layer Editorial Display matching FinZave with Direct Responsive Font Scale */}
           <h1 className="text-[2.25rem] min-[380px]:text-[2.75rem] min-[440px]:text-[3.25rem] sm:text-6xl md:text-7xl lg:text-[6.25rem] xl:text-[7.25rem] font-bold tracking-tighter leading-[0.95] mb-5 sm:mb-6 md:mb-8 max-w-5xl mx-auto">
-            <span className="block text-[#0a0a0a] min-[360px]:whitespace-nowrap">Grow your business.</span>
-            <span className="block text-[#d4d4d8] min-[360px]:whitespace-nowrap">Not just</span>
-            <span className="block text-[#d4d4d8] min-[360px]:whitespace-nowrap">your technology.</span>
+            <WordReveal as="span" text="Grow your business." delayOffset={0} className="block text-[#0a0a0a] min-[360px]:whitespace-nowrap" />
+            <WordReveal as="span" text="Not just" delayOffset={240} className="block text-[#d4d4d8] min-[360px]:whitespace-nowrap" />
+            <WordReveal as="span" text="your technology." delayOffset={400} className="block text-[#d4d4d8] min-[360px]:whitespace-nowrap" />
           </h1>
 
           {/* Supporting Copy: Narrower, visually secondary plain-English positioning */}
@@ -313,11 +315,11 @@ export default function HomePageContent(props: HomePageContentProps) {
               { phase: "Step 03", name: "Build & Ship", detail: "Weekly Progress Demos" },
               { phase: "Step 04", name: "Handover", detail: "Training & Full Ownership" },
             ].map((p, idx) => (
-              <div key={idx} className="py-4 md:py-0 px-4 md:px-8 flex flex-col gap-1.5">
+              <Reveal key={idx} variant="fadeUp" delay={idx + 1} className="py-4 md:py-0 px-4 md:px-8 flex flex-col gap-1.5">
                 <span className="text-xs font-semibold uppercase tracking-widest text-[#71717a] fz-scroll-num">{p.phase}</span>
                 <span className="text-lg font-bold text-[#0a0a0a]">{p.name}</span>
                 <span className="text-xs text-[#71717a]">{p.detail}</span>
-              </div>
+              </Reveal>
             ))}
           </div>
         </Container>

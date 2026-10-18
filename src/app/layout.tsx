@@ -46,9 +46,32 @@ export const viewport: Viewport = {
   userScalable: true,
 };
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://triadsfuture.com";
+
 export const metadata: Metadata = {
-  title: "Triads Future — Business Growth & Technology Partner",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "Triads Future — Business Growth & Technology Partner",
+    template: "%s | Triads Future",
+  },
   description: "We partner with growing businesses to deliver sustained growth through strategy, modern technology, and practical execution.",
+  openGraph: {
+    title: "Triads Future — Business Growth & Technology Partner",
+    description: "We partner with growing businesses to deliver sustained growth through strategy, modern technology, and practical execution.",
+    url: siteUrl,
+    siteName: "Triads Future",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Triads Future — Business Growth & Technology Partner",
+    description: "We partner with growing businesses to deliver sustained growth through strategy, modern technology, and practical execution.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({

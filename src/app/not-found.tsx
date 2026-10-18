@@ -13,17 +13,25 @@ import { Container } from "../components/container";
 export default function NotFound() {
   return (
     <GlobalLayout>
-      <section className="min-h-[calc(100vh-72px)] flex flex-col justify-center py-12 sm:py-16 md:py-20 bg-white">
-        <Container className="max-w-2xl text-center flex flex-col items-center gap-6 my-auto">
+      <section className="min-h-[calc(100svh-72px)] sm:min-h-[calc(100vh-72px)] max-h-[950px] flex flex-col justify-center py-8 sm:py-12 md:py-16 lg:py-20 bg-white relative overflow-hidden">
+        {/* Subtle Ambient Radial Glow Orb matching FinZave forensic spec */}
+        <div 
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] sm:w-[700px] md:w-[800px] h-[500px] sm:h-[700px] md:h-[800px] bg-gradient-to-tr from-[#f4f4f5] to-white rounded-full blur-[100px] -z-10 opacity-60 pointer-events-none" 
+          aria-hidden="true" 
+        />
+
+        <Container className="max-w-3xl text-center flex flex-col items-center gap-6 my-auto relative z-10 px-4 sm:px-6 md:px-8">
           <p className="text-sm font-semibold uppercase tracking-wider text-[#e11d48]">
             Page Not Found
           </p>
 
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-[#0a0a0a]">
-            This page could not be found
+          <h1 className="text-[2.25rem] min-[380px]:text-[2.75rem] min-[440px]:text-[3.25rem] sm:text-5xl md:text-6xl lg:text-[4.25rem] font-bold tracking-tighter text-[#0a0a0a] leading-[1.02]">
+            <span className="block sm:inline">This page </span>
+            <span className="block sm:inline">could not </span>
+            <span className="block">be found</span>
           </h1>
           
-          <p className="text-[#71717a] text-lg leading-relaxed max-w-md font-normal">
+          <p className="text-[#52525b] text-sm sm:text-base md:text-lg leading-relaxed max-w-md font-normal">
             The page you are looking for does not exist, was moved, or is no longer available. You can navigate back using the links below.
           </p>
 

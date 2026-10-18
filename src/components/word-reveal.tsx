@@ -15,7 +15,7 @@ interface WordRevealProps {
   text: string;
   className?: string;
   wordClassName?: string;
-  as?: "h1" | "h2" | "h3" | "p" | "span";
+  as?: "h1" | "h2" | "h3" | "h4" | "p" | "span" | "div";
   delayOffset?: number;
 }
 
