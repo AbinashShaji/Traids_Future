@@ -20,7 +20,7 @@ interface WordRevealProps {
   wordClassName?: string;
   as?: "h1" | "h2" | "h3" | "h4" | "p" | "span" | "div";
   delayOffset?: number;
-  /** Stagger interval per word in ms (default 80) */
+  /** Stagger interval per word in ms (default 95) */
   staggerMs?: number;
 }
 
@@ -30,7 +30,7 @@ export const WordReveal: React.FC<WordRevealProps> = ({
   wordClassName,
   as: Tag = "h1",
   delayOffset = 0,
-  staggerMs = 80,
+  staggerMs = 95,
 }) => {
   const words = React.useMemo(() => text.split(" "), [text]);
 

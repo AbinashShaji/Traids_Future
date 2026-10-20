@@ -62,25 +62,34 @@ export const HeroReveal: React.FC<HeroRevealProps> = ({
   headingClassName,
   lineWrapperClassName,
   baseDelay = 80,
-  staggerInterval = 65,
+  staggerInterval = 24,
 }) => {
-  const wordRefs = React.useRef<(HTMLSpanElement | null)[]>([]);
+  const letterRefs = React.useRef<(HTMLSpanElement | null)[]>([]);
 
-  // Split lines into structured word segments with global continuous index
+  // Split lines into structured word segments and individual letter glyphs
   const structuredLines = React.useMemo(() => {
     let globalIndex = 0;
     return lines.map((line) => {
       const words = line.text.trim().split(/\s+/).filter(Boolean);
-      const lineWords = words.map((word) => ({
-        word,
-        globalIndex: globalIndex++,
-      }));
+      const lineWords = words.map((word) => {
+        const letters = word.split("").map((char) => ({
+          char,
+          globalIndex: globalIndex++,
+        }));
+        return {
+          word,
+          letters,
+        };
+      });
       return {
         ...line,
         words: lineWords,
       };
     });
   }, [lines]);
+
+  // Support both direct letter interval and fallback calculation if caller passes an old word interval (e.g. 120)
+  const effectiveStagger = staggerInterval > 50 ? Math.round(staggerInterval / 4.5) : staggerInterval;
 
   React.useEffect(() => {
     // If reduced-motion is requested, leave everything visible and sharp
@@ -91,21 +100,21 @@ export const HeroReveal: React.FC<HeroRevealProps> = ({
       return;
     }
 
-    const inners = wordRefs.current.filter(Boolean) as HTMLSpanElement[];
+    const inners = letterRefs.current.filter(Boolean) as HTMLSpanElement[];
     if (inners.length === 0) return;
 
-    // Step 1: Arm all words simultaneously (hide with subtle blur and displacement)
+    // Step 1: Arm all letters simultaneously (hide with subtle blur and displacement)
     inners.forEach((el) => {
-      el.setAttribute("data-word-state", "armed");
+      el.setAttribute("data-letter-state", "armed");
     });
 
-    // Step 2: Reveal each word in sequence with progressive blur resolving to sharp text
+    // Step 2: Reveal each letter in sequence with progressive blur resolving to sharp text
     const timers: ReturnType<typeof setTimeout>[] = [];
 
     inners.forEach((el, idx) => {
-      const delay = baseDelay + idx * staggerInterval;
+      const delay = baseDelay + idx * effectiveStagger;
       const t = setTimeout(() => {
-        el.setAttribute("data-word-state", "visible");
+        el.setAttribute("data-letter-state", "visible");
       }, delay);
       timers.push(t);
     });
@@ -113,26 +122,30 @@ export const HeroReveal: React.FC<HeroRevealProps> = ({
     return () => {
       timers.forEach(clearTimeout);
     };
-  }, [baseDelay, staggerInterval, structuredLines]);
+  }, [baseDelay, effectiveStagger, structuredLines]);
 
   return (
     <Tag className={cn("block", headingClassName)}>
       {structuredLines.map((line, lineIdx) => (
         <span
           key={lineIdx}
-          className={cn("fz-hero-line", lineWrapperClassName)}
+          className={cn("fz-hero-line", line.className, lineWrapperClassName)}
           aria-hidden={undefined}
         >
-          {line.words.map(({ word, globalIndex }) => (
-            <span key={globalIndex} className="fz-hero-word-wrap">
-              <span
-                ref={(el) => {
-                  wordRefs.current[globalIndex] = el;
-                }}
-                className={cn("fz-hero-word", line.className)}
-              >
-                {word}
-              </span>
+          {line.words.map(({ word, letters }, wordIdx) => (
+            <span key={wordIdx} className="fz-hero-word-wrap" aria-label={word}>
+              {letters.map(({ char, globalIndex }) => (
+                <span
+                  key={globalIndex}
+                  ref={(el) => {
+                    letterRefs.current[globalIndex] = el;
+                  }}
+                  className={cn("fz-hero-letter", line.className)}
+                  aria-hidden="true"
+                >
+                  {char}
+                </span>
+              ))}
             </span>
           ))}
         </span>

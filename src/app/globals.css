@@ -34,15 +34,15 @@
   /* Motion Tokens — Triads Future Design System */
   /* Durations */
   --motion-fast: 180ms;      /* button/link hover feedback */
-  --motion-base: 350ms;      /* short reveal, micro transitions */
-  --motion-reveal: 550ms;    /* standard section entrance */
-  --motion-slow: 700ms;      /* hero headline lines */
+  --motion-base: 400ms;      /* short reveal, micro transitions — increased from 350ms (+50ms) */
+  --motion-reveal: 620ms;    /* standard section entrance — increased from 550ms (+70ms) */
+  --motion-slow: 780ms;      /* hero headline lines — increased from 700ms (+80ms) */
   /* Distances */
   --motion-lift: 20px;       /* hero line lift-in */
   --motion-travel: 28px;     /* section fadeUp travel */
   --motion-slide: 32px;      /* horizontal slide distance */
   /* Stagger base interval */
-  --motion-stagger: 80ms;
+  --motion-stagger: 95ms;    /* increased from 80ms (+15ms) */
 }
 
 @theme {
@@ -264,19 +264,47 @@ h1, h2, h3, h4, h5, h6 {
 .fz-hero-line {
   overflow: hidden;
   display: block;
+  white-space: nowrap;
   padding-bottom: 0.15em;
   margin-bottom: -0.05em;
 }
 
 .fz-hero-word-wrap {
   display: inline-block;
-  overflow: hidden;
+  white-space: nowrap;
   vertical-align: top;
-  margin-right: 0.25em;
+  margin-right: 0.28em;
 }
 
 .fz-hero-word-wrap:last-child {
   margin-right: 0;
+}
+
+.fz-hero-letter {
+  display: inline-block;
+  /* Default: fully visible for SSR, no-JS, and crawlers */
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0px);
+}
+
+/* Armed state — applied post-hydration by HeroReveal useEffect */
+.fz-hero-letter[data-letter-state="armed"] {
+  opacity: 0;
+  transform: translateY(22px);
+  filter: blur(8px);
+}
+
+/* Visible state — letter-by-letter masked reveal with progressive blur resolving into sharp text */
+.fz-hero-letter[data-letter-state="visible"] {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0px);
+  transition:
+    opacity 560ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 560ms cubic-bezier(0.16, 1, 0.3, 1),
+    filter 560ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity, filter;
 }
 
 .fz-hero-word {
@@ -300,9 +328,9 @@ h1, h2, h3, h4, h5, h6 {
   transform: translateY(0);
   filter: blur(0px);
   transition:
-    opacity 520ms cubic-bezier(0.16, 1, 0.3, 1),
-    transform 520ms cubic-bezier(0.16, 1, 0.3, 1),
-    filter 520ms cubic-bezier(0.16, 1, 0.3, 1);
+    opacity 560ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 560ms cubic-bezier(0.16, 1, 0.3, 1),
+    filter 560ms cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform, opacity, filter;
 }
 
@@ -369,7 +397,7 @@ h1, h2, h3, h4, h5, h6 {
 
 html.js-ready .fz-word-reveal {
   opacity: 0;
-  animation: fzWordIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fzWordIn 0.56s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* ——— 4. Section Progressive Scroll Reveal (Reveal component) ——
@@ -418,7 +446,7 @@ html.js-ready .fz-word-reveal {
    Transition from zinc to crimson via IntersectionObserver. */
 
 .fz-scroll-num {
-  transition: color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: color 0.46s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .fz-scroll-num[data-active="true"],
@@ -513,7 +541,8 @@ html.js-ready .fz-word-reveal {
     animation: none !important;
   }
 
-  /* Hero words — show immediately without blur or displacement */
+  /* Hero letters and words — show immediately without blur or displacement */
+  .fz-hero-letter,
   .fz-hero-word {
     opacity: 1 !important;
     transform: none !important;
@@ -573,17 +602,17 @@ html.js-ready .fz-word-reveal {
 }
 
 /* Active sequence: triggered when parent Reveal enters viewport */
-/* Line 0: Strategy (snappy 350ms fill, begins immediately at 50ms) */
+/* Line 0: Strategy (400ms fill, begins at 50ms) */
 .fz-reveal-wrap[data-reveal-state="visible"] .fz-triad-bar-fill-0 {
-  animation: fzTriadLineProgress 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
+  animation: fzTriadLineProgress 0.40s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
 }
 
-/* Line 1: Technology (begins at 450ms after Strategy finishes) */
+/* Line 1: Technology (begins at 480ms after Strategy finishes) */
 .fz-reveal-wrap[data-reveal-state="visible"] .fz-triad-bar-fill-1 {
-  animation: fzTriadLineProgress 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both;
+  animation: fzTriadLineProgress 0.40s cubic-bezier(0.16, 1, 0.3, 1) 0.48s both;
 }
 
-/* Line 2: Execution (begins at 850ms after Technology finishes, completing sequence at ~1.2s) */
+/* Line 2: Execution (begins at 920ms after Technology finishes) */
 .fz-reveal-wrap[data-reveal-state="visible"] .fz-triad-bar-fill-2 {
-  animation: fzTriadLineProgress 0.38s cubic-bezier(0.16, 1, 0.3, 1) 0.85s both;
+  animation: fzTriadLineProgress 0.44s cubic-bezier(0.16, 1, 0.3, 1) 0.92s both;
 }

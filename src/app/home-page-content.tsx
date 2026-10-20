@@ -57,18 +57,18 @@ export default function HomePageContent(props: HomePageContentProps) {
           {/* Editorial Line-Mask Hero Headline */}
           <HeroReveal
             as="h1"
-            headingClassName="text-[2.25rem] min-[380px]:text-[2.75rem] min-[440px]:text-[3.25rem] sm:text-6xl md:text-7xl lg:text-[6.25rem] xl:text-[7.25rem] font-bold tracking-tighter leading-[1.02] mb-5 sm:mb-6 md:mb-8 max-w-5xl mx-auto"
+            headingClassName="text-[1.85rem] min-[360px]:text-[2.1rem] min-[400px]:text-[2.4rem] min-[480px]:text-[2.85rem] sm:text-[3.75rem] md:text-[4.5rem] lg:text-[5.25rem] xl:text-[6rem] 2xl:text-[6.75rem] font-bold tracking-tighter leading-[1.04] mb-5 sm:mb-6 md:mb-8 max-w-6xl mx-auto"
             baseDelay={80}
-            staggerInterval={120}
+            staggerInterval={24}
             lines={[
-              { text: "Grow your business.", className: "text-[#0a0a0a] min-[360px]:whitespace-nowrap" },
-              { text: "Not just", className: "text-[#d4d4d8] min-[360px]:whitespace-nowrap" },
-              { text: "your technology.", className: "text-[#d4d4d8] min-[360px]:whitespace-nowrap" },
+              { text: "Grow your business.", className: "text-[#0a0a0a] whitespace-nowrap" },
+              { text: "Not just", className: "text-[#d4d4d8] whitespace-nowrap" },
+              { text: "your technology.", className: "text-[#d4d4d8] whitespace-nowrap" },
             ]}
           />
 
           {/* Supporting content — coordinated entrance resolving right after headline */}
-          <HeroSupport delay={720} className="flex flex-col items-center gap-6 sm:gap-8 w-full">
+          <HeroSupport delay={780} className="flex flex-col items-center gap-6 sm:gap-8 w-full">
             <p className="text-sm sm:text-base md:text-lg text-[#52525b] font-normal max-w-[320px] sm:max-w-[420px] md:max-w-xl lg:max-w-2xl mx-auto leading-relaxed">
               As a business growth and technology partner, Triads Future helps businesses grow through an integrated combination of strategy, technology, websites, SEO, digital marketing, and automation services.
             </p>

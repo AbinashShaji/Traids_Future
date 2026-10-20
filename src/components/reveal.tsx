@@ -46,8 +46,8 @@ export const Reveal: React.FC<RevealProps> = ({
   const ref = useRef<HTMLElement | null>(null);
   const [revealState, setRevealState] = useState<"armed" | "visible" | undefined>(undefined);
 
-  // Normalize delay: if <= 10, treat as stagger step index (e.g. 1 -> 80ms, 2 -> 160ms), else raw ms
-  const delayMs = delay > 0 ? (delay <= 10 ? delay * 80 : delay) : 0;
+  // Normalize delay: if <= 10, treat as stagger step index (e.g. 1 -> 95ms, 2 -> 190ms), else raw ms
+  const delayMs = delay > 0 ? (delay <= 10 ? delay * 95 : delay) : 0;
 
   useEffect(() => {
     const el = ref.current;
