@@ -8,7 +8,7 @@
  * - Automatically called by Next.js around every route in the `src/app/` folder.
  *
  * HOW IT WORKS:
- * 1. Loads Google Fonts (`Newsreader` for editorial serif and `Inter_Tight` for UI & body text).
+ * 1. Loads Google Font (`Outfit` for geometric sans typography).
  * 2. Injects global stylesheet (`globals.css`).
  * 3. Sets default SEO metadata (page title and search engine description).
  * 4. Mounts `<RootProviders>` (device detection + popup toaster).
@@ -20,7 +20,7 @@
  */
 
 import type { Metadata, Viewport } from "next";
-import { Outfit, Newsreader } from "next/font/google";
+import { Outfit } from "next/font/google";
 import "./globals.css";
 import { RootProviders } from "../providers/root-providers";
 
@@ -28,14 +28,6 @@ const outfit = Outfit({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
   variable: "--font-outfit",
-  display: "swap",
-});
-
-const newsreader = Newsreader({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  style: ["normal", "italic"],
-  variable: "--font-newsreader",
   display: "swap",
 });
 
@@ -82,7 +74,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`h-full antialiased ${outfit.variable} ${newsreader.variable} ${outfit.className}`}
+      className={`h-full antialiased ${outfit.variable} ${outfit.className}`}
       data-scroll-behavior="smooth"
       suppressHydrationWarning
     >

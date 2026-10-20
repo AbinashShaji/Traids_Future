@@ -26,13 +26,15 @@ export const GlobalLayout: React.FC<GlobalLayoutProps> = ({
       {/* Top Glassmorphism Navigation */}
       <Navigation />
 
-      {/* Main Content Viewport */}
-      <main id="main-content" className={cn("flex-1 w-full flex flex-col relative z-10", className)}>
-        {children}
-      </main>
+      {/* Main Content Viewport & Footer — Offset on Tablet for Left Navigation Rail */}
+      <div className="flex-1 w-full flex flex-col md:pl-[72px] lg:pl-0 transition-[padding] duration-200">
+        <main id="main-content" className={cn("flex-1 w-full flex flex-col relative z-10", className)}>
+          {children}
+        </main>
 
-      {/* Footer */}
-      <Footer />
+        {/* Footer */}
+        <Footer />
+      </div>
     </div>
   );
 };

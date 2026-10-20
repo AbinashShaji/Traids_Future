@@ -8,7 +8,7 @@
  * - Mounted in `src/app/layout.tsx` around all page contents (`{children}`).
  *
  * HOW IT WORKS:
- * 1. <DeviceExperienceManager>: Detects if the visitor is on a phone, tablet, or laptop.
+ * 1. <ScrollObserver>: Manages native scroll-spy number transitions.
  * 2. <Toaster>: A popup notification tool (Sonner) that displays subtle alerts
  *    in the bottom-right corner when actions happen (like booking a call).
  *

@@ -1505,3 +1505,87 @@ In accordance with `.agent/FINZAVE_FRONTEND_DESIGN_ANALYSIS.md` and the updated 
   - **Automated Tests (`pnpm test`)**: **PASS (17/17 tests passing, 0 warnings, exit code 0 in 565ms)**.
   - **Git Safeguards**: Preserved all uncommitted user modifications to `globals.css`, `home-page-content.tsx`, `brand-mark.tsx`, `navigation.tsx`, brand SVGs, and `brand-assets.ts`. Zero commits or resets performed.
 
+---
+
+## 41. Production Optimization Pass: Tablet Navigation Rail & Core Web Vitals Hardening
+
+### Status: Complete & Independently Verified (Build, Lint, Tests, Typecheck)
+
+- **Date**: October 20, 2026
+- **Context & Objectives**:
+  - Implement tablet-only left icon navigation rail (768px - 1023px) replacing horizontal menu, vertically centered like Instagram.
+  - Audit codebase for unnecessary dependencies, dead font weights, and performance bottlenecks.
+  - Optimize font loading, Next.js configuration, and test coverage before production release.
+
+- **Completed Implementation & Optimizations**:
+  1. **Tablet Navigation Rail (Instagram-style Vertically Centered)**:
+     - `src/components/navigation.tsx`: Added `TabletNavigationRail` for viewports between `768px` and `1023px` (`hidden md:flex lg:hidden`).
+     - Vertically centered via `my-auto` with symmetric 24px boundary anchors and `gap-4 sm:gap-5` spacing.
+     - Mapped routes to official Lucide icons (`House`, `Layers`, `BriefcaseBusiness`, `Users`, `Newspaper`).
+     - Added `#e11d48` active indicator line, tooltips with pointer arrows on hover/focus, accessible `aria-label`, and `focus-visible` ring.
+     - Preserved sticky header BrandMark (scroll-morphing full-to-compact triangle logo) and "Book a Strategy Call" button (`hidden md:flex`).
+     - Mobile hamburger drawer restricted strictly to `< 768px` (`md:hidden`).
+  2. **Tablet Responsive Layout Offset**:
+     - `src/components/global-layout.tsx`: Added shared layout wrapper around `<main>` and `<Footer>` with `md:pl-[72px] lg:pl-0`, preventing content overlap across all 12 public routes.
+  3. **Web Font Payload Elimination (Core Web Vitals)**:
+     - `src/app/layout.tsx`: Removed unused `Newsreader` font loader (4 weights in normal and italic).
+     - `src/app/globals.css`: Removed unused `--font-newspaper` variables.
+     - Eliminates multiple redundant `.woff2` font file requests on initial page load, boosting FCP and LCP.
+  4. **Next.js Production Hardening**:
+     - `next.config.ts`: Configured `reactStrictMode: true` and `poweredByHeader: false` (hides framework signature).
+  5. **Automated Test Coverage**:
+     - `tests/routes-and-metadata.test.mjs`: Added automated test validating desktop and tablet navigation menu routes and labels.
+     - Total test suite expanded to **18/18 passing tests** in ~500ms.
+
+- **Verification Results**:
+  - **TypeScript (`pnpm exec tsc --noEmit`)**: **PASS (0 errors, exit code 0)**.
+  - **ESLint (`pnpm lint`)**: **PASS (0 errors, 0 warnings, exit code 0)**.
+  - **Automated Tests (`pnpm test`)**: **PASS (18/18 tests passing, exit code 0 in ~500ms)**.
+  - **Production Build (`pnpm run build`)**: **PASS (30/30 pages compiled, prerendered, and statically generated in 9.8s, exit code 0)**.
+  - **Git Diff Inspection**: Verified only targeted files modified; zero commits or destructive operations performed.
+
+---
+
+## 42. Independent Release Engineering Verification & Artifact Cleanup Pass
+
+### Status: Complete & Verified (18/18 Tests, 0 Lint/Type Errors, 30/30 Static Build Routes)
+
+- **Date**: October 20, 2026
+- **Context & Objectives**:
+  - Senior Next.js Release Engineering audit and verification of reported changes against active working tree.
+  - Inspection of tablet navigation (768–1023px), shared content offset, breakpoint boundaries, and scroll-responsive BrandMark.
+  - Verification of complete `Newsreader` font removal and validity of Next.js security headers.
+  - Audit and removal of obsolete development, debugging, and migration artifacts without breaking active tests or configs.
+  - Execution of independent verification suite (typecheck, lint, test, build).
+
+- **Verified Architecture & Defect Corrections**:
+  1. **Tablet Navigation System (768px - 1023px)**:
+     - Verified `TabletNavigationRail` is strictly isolated to tablet viewports via Tailwind `hidden md:flex lg:hidden`.
+     - Vertically centered via `my-auto` with top/bottom spacers matching Instagram's navigation layout.
+     - 48×48px touch targets (`w-12 h-12`), crimson `#e11d48` active indicators, accessible `aria-label`, and keyboard focus rings.
+     - Header BrandMark scroll-collapse and "Book a Strategy Call" button operate cleanly above the rail (`z-50` vs `z-40`, rail starts at `top-[72px]`).
+     - Shared layout offset `md:pl-[72px] lg:pl-0` in `GlobalLayout` eliminates content overlap across all routes.
+  2. **Zero-Usage Verification for Newsreader Font**:
+     - Verified zero active imports or CSS usages of `Newsreader` or `--font-newspaper`.
+     - Corrected outdated docstring in `src/app/layout.tsx` to reference `Outfit`.
+  3. **Security Headers & Config**:
+     - Confirmed valid syntax and OWASP-compliant headers in `next.config.ts`: `reactStrictMode: true`, `poweredByHeader: false`, `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy`, and `X-DNS-Prefetch-Control: on`.
+
+- **Audit & Removal of Unnecessary Testing/Development Artifacts**:
+  1. **Deleted `dev.stderr.log` (86 KB)**: Runtime server error log accidentally committed in June 2026.
+  2. **Deleted `dev.stdout.log` (18 KB)**: Runtime server standard output log accidentally committed in June 2026.
+  3. **Deleted `scratch/fix-articles.js` (378 B)**: Obsolete one-off regex patch script from mock data conversion.
+  4. **Deleted `scratch/replace-imports.js` (2.3 KB)**: Obsolete one-off CommonJS script from Prisma replacement.
+  5. **Deleted `scratch/update-mock.js` (4.2 KB)**: Obsolete one-off script used to add mock gallery and narrative fields.
+  6. **Deleted `scratch/` directory**: Removed empty directory.
+  7. **Updated `eslint.config.mjs`**: Removed redundant `"scratch/**"` from `globalIgnores`.
+  8. **Updated `.gitignore`**: Added `*.log` under `# debug` to prevent future runtime logs from being tracked.
+  9. **Retained for Review**: `src/providers/device-experience-manager.tsx` was retained safely (active file in user's IDE).
+
+- **Independent Test & Build Results**:
+  - `pnpm exec tsc --noEmit`: **Exit code 0** (0 type errors).
+  - `pnpm lint`: **Exit code 0** (0 ESLint errors, 0 warnings).
+  - `pnpm test`: **Exit code 0** (18/18 tests passing in 2314ms).
+  - `pnpm build`: **Exit code 0** (30/30 pages compiled, prerendered, and statically generated in 12.4s).
+
+

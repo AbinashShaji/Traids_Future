@@ -6,6 +6,7 @@ import { solutions } from "../src/mock/solutions.ts";
 import { projects } from "../src/mock/projects.ts";
 import { articles } from "../src/mock/articles.ts";
 import { settings } from "../src/mock/settings.ts";
+import { desktopNav, tabletNav } from "../src/mock/navigation.ts";
 
 test("robots generator: permits indexing of public routes and shields internal paths", () => {
   const robots = robotsGenerator();
@@ -82,4 +83,17 @@ test("settings dataset: business contact information and SEO fallback configurat
   assert.equal(settings.email, "contact@triadsfuture.com");
   assert.equal(settings.siteName, "Triads Future");
   assert.ok(settings.description.length > 20);
+});
+
+test("navigation datasets: desktop and tablet menus contain valid routes and labels", () => {
+  const expectedRoutes = ["/", "/solutions", "/work", "/about", "/insights"];
+  assert.equal(desktopNav.length, 5);
+  for (const route of expectedRoutes) {
+    const desktopItem = desktopNav.find((item) => item.href === route);
+    assert.ok(desktopItem, `desktopNav missing route ${route}`);
+    assert.ok(desktopItem.label.length > 0, `desktopNav label empty for ${route}`);
+
+    const tabletItem = tabletNav.find((item) => item.href === route);
+    assert.ok(tabletItem, `tabletNav missing route ${route}`);
+  }
 });
