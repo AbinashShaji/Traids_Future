@@ -71,7 +71,7 @@ export default function WorkPageContent({ projects }: WorkPageContentProps) {
       {/* 2. OUR PROMISES (Clean Lined Strip) */}
       <section className="py-12 md:py-16 bg-[#fafafa] border-b border-[#e4e4e7]">
         <Container size="default">
-          <Reveal variant="fadeUp">
+          <Reveal variant="slideLeft">
             <div className="border-t border-b border-[#e4e4e7] divide-y md:divide-y-0 md:divide-x divide-[#e4e4e7] grid grid-cols-1 md:grid-cols-3">
               <div className="py-6 px-6 sm:px-8 flex flex-col justify-center bg-white">
                 <span className="text-xs font-bold uppercase tracking-wider text-[#e11d48] mb-1">
@@ -106,7 +106,7 @@ export default function WorkPageContent({ projects }: WorkPageContentProps) {
       <section id="cases" className="py-20 md:py-32 bg-white border-b border-[#e4e4e7] scroll-mt-24">
         <Container size="default">
           {/* Header + Filters */}
-          <Reveal variant="fadeUp" className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+          <Reveal variant="slideLeft" className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
             <div>
               <p className="text-sm font-semibold uppercase tracking-wider text-[#e11d48] mb-2">
                 Featured Work

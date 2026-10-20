@@ -139,7 +139,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
         <Container size="default">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
             {/* Sidebar Context */}
-            <Reveal variant="fadeUp" className="lg:col-span-4 flex flex-col gap-8 lg:sticky lg:top-28">
+            <Reveal variant="slideLeft" className="lg:col-span-4 flex flex-col gap-8 lg:sticky lg:top-28">
               <div className="border-b border-[#e4e4e7] pb-6">
                 <span className="text-xs font-semibold text-[#71717a] uppercase tracking-wider block mb-1">
                   Client
@@ -168,7 +168,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
             </Reveal>
 
             {/* Narrative Editorial Sections */}
-            <Reveal variant="fadeUp" delay={1} className="lg:col-span-8 divide-y divide-[#e4e4e7]">
+            <Reveal variant="slideRight" delay={1} className="lg:col-span-8 divide-y divide-[#e4e4e7]">
               {((project.narrativeSections as {title: string, body: string}[]) || []).map((sec, idx) => (
                 <div key={idx} className="py-10 first:pt-0 last:pb-0 flex flex-col gap-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-[#0a0a0a]">

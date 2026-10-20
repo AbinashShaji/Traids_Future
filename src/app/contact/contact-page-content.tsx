@@ -100,9 +100,9 @@ export function ContactPageContent({ faqs }: ContactPageContentProps) {
         />
 
         <Container className="relative z-10 px-4 sm:px-6 md:px-8">
-          <Reveal variant="fadeUp" className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
             {/* Left Column: Context & Direct Channels (5 cols) */}
-            <div className="lg:col-span-5 flex flex-col gap-8">
+            <Reveal variant="slideLeft" className="lg:col-span-5 flex flex-col gap-8">
               <div className="flex flex-col gap-3">
                 <p className="text-sm font-semibold uppercase tracking-wider text-[#e11d48]">
                   Discovery Call
@@ -158,10 +158,10 @@ export function ContactPageContent({ faqs }: ContactPageContentProps) {
                   <span>{settings.businessHours}</span>
                 </div>
               </div>
-            </div>
+            </Reveal>
 
             {/* Right Column: Form (7 cols) */}
-            <div className="lg:col-span-7 border-t lg:border-t-0 lg:border-l border-[#e4e4e7] lg:pl-12 pt-8 lg:pt-0">
+            <Reveal variant="slideRight" delay={1} className="lg:col-span-7 border-t lg:border-t-0 lg:border-l border-[#e4e4e7] lg:pl-12 pt-8 lg:pt-0">
               <div className="flex flex-col gap-2 mb-8">
                 <div className="flex items-center gap-2.5">
                   <Calendar className="w-5 h-5 text-[#e11d48]" />
@@ -226,16 +226,16 @@ export function ContactPageContent({ faqs }: ContactPageContentProps) {
                   </p>
                 </div>
               </form>
-            </div>
-          </Reveal>
+            </Reveal>
+          </div>
         </Container>
       </section>
 
       {/* 2. FAQ SECTION */}
       <section id="faq" className="py-20 md:py-32 bg-[#fafafa] scroll-mt-24">
         <Container>
-          <Reveal variant="fadeUp" className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-            <div className="lg:col-span-5 flex flex-col gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            <Reveal variant="slideLeft" className="lg:col-span-5 flex flex-col gap-4">
               <p className="text-sm font-semibold uppercase tracking-wider text-[#e11d48]">
                 Common Questions
               </p>
@@ -245,9 +245,9 @@ export function ContactPageContent({ faqs }: ContactPageContentProps) {
               <p className="text-[#71717a] text-base leading-relaxed">
                 Clear answers about how we work, project timelines, code handover, and ongoing support.
               </p>
-            </div>
+            </Reveal>
 
-            <div className="lg:col-span-7 space-y-4">
+            <Reveal variant="slideRight" delay={1} className="lg:col-span-7 space-y-4">
               {faqs.map((faq) => (
                 <FAQItem
                   key={faq.id}
@@ -256,8 +256,8 @@ export function ContactPageContent({ faqs }: ContactPageContentProps) {
                   onToggle={() => toggleFaq(faq.id)}
                 />
               ))}
-            </div>
-          </Reveal>
+            </Reveal>
+          </div>
         </Container>
       </section>
     </GlobalLayout>

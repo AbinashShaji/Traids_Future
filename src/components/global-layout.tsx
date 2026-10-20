@@ -9,6 +9,7 @@
 import * as React from "react";
 import { Navigation } from "../components/navigation";
 import { Footer } from "../components/footer";
+import { FloatingContactOrb } from "../components/floating-contact-orb";
 import { cn } from "../utils/cn";
 
 interface GlobalLayoutProps {
@@ -35,6 +36,9 @@ export const GlobalLayout: React.FC<GlobalLayoutProps> = ({
         {/* Footer */}
         <Footer />
       </div>
+
+      {/* AssistiveTouch-style Draggable Floating Contact Orb */}
+      <FloatingContactOrb />
     </div>
   );
 };

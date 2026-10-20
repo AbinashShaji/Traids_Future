@@ -172,7 +172,7 @@ export default function AboutPageContent({ faqs }: AboutPageContentProps) {
       {/* 4. 6 CORE PRINCIPLES (Clean Aligned 3-Column Grid) */}
       <section className="py-20 md:py-32 bg-[#fafafa] border-b border-[#e4e4e7]">
         <Container size="default">
-          <Reveal variant="fadeUp" className="max-w-2xl mb-8 sm:mb-10">
+          <Reveal variant="slideLeft" className="max-w-2xl mb-8 sm:mb-10">
             <p className="text-sm font-semibold uppercase tracking-wider text-[#e11d48] mb-2">
               Our Commitments
             </p>
@@ -218,7 +218,7 @@ export default function AboutPageContent({ faqs }: AboutPageContentProps) {
       <section id="faq" className="py-20 md:py-32 bg-[#fafafa] border-b border-[#e4e4e7] scroll-mt-24">
         <Container size="default">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-            <Reveal variant="fadeUp" className="lg:col-span-5 flex flex-col gap-5">
+            <Reveal variant="slideLeft" className="lg:col-span-5 flex flex-col gap-5">
               <p className="text-sm font-semibold uppercase tracking-wider text-[#e11d48]">
                 Common Questions
               </p>
@@ -235,7 +235,7 @@ export default function AboutPageContent({ faqs }: AboutPageContentProps) {
               </div>
             </Reveal>
 
-            <Reveal variant="fadeUp" delay={1} className="lg:col-span-7 flex flex-col gap-4">
+            <Reveal variant="slideRight" delay={1} className="lg:col-span-7 flex flex-col gap-4">
               {faqsForPage.map((faq) => (
                 <FAQItem
                   key={faq.id}

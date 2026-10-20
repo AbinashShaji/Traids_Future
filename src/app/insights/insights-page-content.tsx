@@ -92,53 +92,51 @@ export default function InsightsPageContent({ articles }: InsightsPageContentPro
       {featuredArticle && (
         <section className="py-20 md:py-28 bg-[#fafafa] border-b border-[#e4e4e7]">
           <Container size="default">
-            <Reveal variant="fadeUp">
-              <div className="border-t border-b border-[#e4e4e7] py-12 md:py-16">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-14 items-center">
-                  <div className="lg:col-span-7 relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-[#e4e4e7]">
-                    <ImageWrapper
-                      src={featuredArticle.featuredImage || ""}
-                      alt={featuredArticle.title}
-                      fill
-                      sizes="(max-width: 1024px) 100vw, 60vw"
-                      containerClassName="w-full h-full border-none rounded-none"
-                      className="object-cover hover:scale-105 transition-transform duration-700"
-                    />
+            <div className="border-t border-b border-[#e4e4e7] py-12 md:py-16">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-14 items-center">
+                <Reveal variant="slideLeft" className="lg:col-span-7 relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-[#e4e4e7]">
+                  <ImageWrapper
+                    src={featuredArticle.featuredImage || ""}
+                    alt={featuredArticle.title}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 60vw"
+                    containerClassName="w-full h-full border-none rounded-none"
+                    className="object-cover hover:scale-105 transition-transform duration-700"
+                  />
+                </Reveal>
+
+                <Reveal variant="slideRight" delay={1} className="lg:col-span-5 flex flex-col gap-6">
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs font-bold uppercase tracking-wider text-[#e11d48]">{featuredArticle.category}</span>
+                    <span className="w-1 h-1 rounded-full bg-[#d4d4d8]" />
+                    <span className="text-xs text-[#71717a] font-medium">{featuredArticle.readingTime} min read</span>
                   </div>
 
-                  <div className="lg:col-span-5 flex flex-col gap-6">
-                    <div className="flex items-center gap-3">
-                      <span className="text-xs font-bold uppercase tracking-wider text-[#e11d48]">{featuredArticle.category}</span>
-                      <span className="w-1 h-1 rounded-full bg-[#d4d4d8]" />
-                      <span className="text-xs text-[#71717a] font-medium">{featuredArticle.readingTime} min read</span>
+                  <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#0a0a0a] tracking-tight leading-tight">
+                    <Link href={`/insights/${featuredArticle.slug}`} className="hover:text-[#e11d48] transition-colors">
+                      {featuredArticle.title}
+                    </Link>
+                  </h2>
+
+                  <p className="text-base text-[#52525b] leading-relaxed">
+                    {featuredArticle.excerpt}
+                  </p>
+
+                  <div className="flex items-center justify-between border-t border-[#e4e4e7] pt-6 mt-2">
+                    <div>
+                      <cite className="text-sm font-bold text-[#0a0a0a] not-italic block">
+                        {featuredArticle.author}
+                      </cite>
+                      <span className="text-xs text-[#71717a]">{featuredArticle.authorRole}</span>
                     </div>
 
-                    <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#0a0a0a] tracking-tight leading-tight">
-                      <Link href={`/insights/${featuredArticle.slug}`} className="hover:text-[#e11d48] transition-colors">
-                        {featuredArticle.title}
-                      </Link>
-                    </h2>
-
-                    <p className="text-base text-[#52525b] leading-relaxed">
-                      {featuredArticle.excerpt}
-                    </p>
-
-                    <div className="flex items-center justify-between border-t border-[#e4e4e7] pt-6 mt-2">
-                      <div>
-                        <cite className="text-sm font-bold text-[#0a0a0a] not-italic block">
-                          {featuredArticle.author}
-                        </cite>
-                        <span className="text-xs text-[#71717a]">{featuredArticle.authorRole}</span>
-                      </div>
-
-                      <ButtonLink href={`/insights/${featuredArticle.slug}`} variant="primary" size="sm" className="rounded-full px-5 py-2">
-                        Read Guide <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
-                      </ButtonLink>
-                    </div>
+                    <ButtonLink href={`/insights/${featuredArticle.slug}`} variant="primary" size="sm" className="rounded-full px-5 py-2">
+                      Read Guide <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
+                    </ButtonLink>
                   </div>
-                </div>
+                </Reveal>
               </div>
-            </Reveal>
+            </div>
           </Container>
         </section>
       )}
@@ -147,7 +145,7 @@ export default function InsightsPageContent({ articles }: InsightsPageContentPro
       <section id="articles" className="py-24 md:py-36 bg-white border-b border-[#e4e4e7]">
         <Container size="default">
           {/* Filter Bar & Search */}
-          <Reveal variant="fadeUp" className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+          <Reveal variant="slideLeft" className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
             <div className="flex flex-col gap-3">
               <span className="text-xs font-semibold uppercase tracking-wider text-[#71717a]">
                 Filter by Category

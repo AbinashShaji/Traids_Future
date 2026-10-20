@@ -71,7 +71,7 @@ export default function SolutionsPage() {
       {/* 2. SOLUTION DOMAINS (Clean Lined Rows) */}
       <section id="solutions-list" className="py-20 md:py-32 bg-white border-b border-[#e4e4e7] scroll-mt-24">
         <Container size="default">
-          <Reveal variant="fadeUp" className="max-w-3xl mb-16">
+          <Reveal variant="slideLeft" className="max-w-3xl mb-16">
             <p className="text-sm font-semibold uppercase tracking-wider text-[#e11d48] mb-2">
               What We Build
             </p>
@@ -89,7 +89,7 @@ export default function SolutionsPage() {
               return (
                 <Reveal 
                   key={sol.id} 
-                  variant="fadeUp" 
+                  variant="slideLeft" 
                   delay={index + 1}
                 >
                   <div 
@@ -187,7 +187,7 @@ export default function SolutionsPage() {
       {/* 3. COMMON BOTTLENECKS (Clean Lined Grid - No Box Cards) */}
       <section className="py-20 md:py-32 bg-[#fafafa] border-b border-[#e4e4e7]">
         <Container size="default">
-          <Reveal variant="fadeUp" className="max-w-2xl mb-14">
+          <Reveal variant="slideLeft" className="max-w-2xl mb-14">
             <p className="text-sm font-semibold uppercase tracking-wider text-[#e11d48] mb-2">
               Common Problems We Fix
             </p>

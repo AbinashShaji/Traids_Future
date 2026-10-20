@@ -249,7 +249,7 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
       {relatedArticles.length > 0 && (
         <section className="py-20 md:py-32 bg-[#fafafa] border-b border-[#e4e4e7]">
           <Container size="default">
-            <Reveal variant="fadeUp" className="max-w-2xl mb-12">
+            <Reveal variant="slideLeft" className="max-w-2xl mb-12">
               <p className="text-sm font-semibold uppercase tracking-wider text-[#e11d48] mb-2">
                 More Reading
               </p>

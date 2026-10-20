@@ -1588,4 +1588,77 @@ In accordance with `.agent/FINZAVE_FRONTEND_DESIGN_ANALYSIS.md` and the updated 
   - `pnpm test`: **Exit code 0** (18/18 tests passing in 2314ms).
   - `pnpm build`: **Exit code 0** (30/30 pages compiled, prerendered, and statically generated in 12.4s).
 
+---
+
+## 43. AssistiveTouch Floating Contact Orb & Directional Coordinated Motion System
+
+### Status: Complete & Verified via Production Build, Lint, and Automated Tests
+
+- **Date**: October 20, 2026
+- **Context & Objectives**:
+  1. **Floating Contact Orb**: Add a compact, draggable AssistiveTouch-style contact button across all public pages, strictly styled with Triads Future design tokens (`#e11d48` crimson accent, frosted white background, zinc borders; no blue theme).
+  2. **Real Contact Details**: Expand on tap/click into accessible WhatsApp, Email, and Phone actions using authentic configured project details (`settings.email`: `contact@triadsfuture.com`, prefilled WhatsApp commercial inquiry URL, and strategy call booking via `/contact` since no phone number exists in repository; never inventing fake contact information).
+  3. **Interaction Physics & Accessibility**: Support pointer and touch dragging, distinguish dragging from clicking (6px threshold), snap gently to the nearest viewport edge on release (`cubic-bezier(0.22, 1, 0.36, 1)`), contain within viewport boundaries, clear sticky 72px top header (`minY = 88px`) and 72px tablet rail (`minX = 88px` on 768px–1023px viewports). Provide full keyboard operation (`Escape` to close, `aria-expanded`, `role="dialog"`, focus ring), reduced-motion support, and hydration-safe mounting via `useSyncExternalStore` + `sessionStorage` position persistence.
+  4. **Hero Headline Animation**: Replace layer reveal with a word-by-word masked reveal featuring progressive blur resolving into sharp text (`filter: blur(8px) translateY(28px)` into `filter: blur(0px) translateY(0)` over 520ms `cubic-bezier(0.16, 1, 0.3, 1)` with 65ms per-word stagger), followed by coordinated entrance of supporting copy and CTAs (`<HeroSupport delay={720}>`).
+  5. **Directional Section Reveals**: Audit all public pages and implement directional entrances tailored to content hierarchy and layout (split sections enter from left/right, problem section reveals heading -> intro paragraph -> items 1, 2, 3 individually, features/processes stagger in sequence).
+  6. **Performance & Accessibility**: GPU-friendly transforms, full `@media (prefers-reduced-motion: reduce)` overrides, zero hydration mismatches, zero layout shift (CLS), zero added dependencies.
+
+- **Completed Implementation**:
+  1. **Floating Contact Orb Component (`src/components/floating-contact-orb.tsx`)**:
+     - Built draggable AssistiveTouch-style contact button with pointer capture (`onPointerDown`, `onPointerMove`, `onPointerUp`).
+     - Distinguishes drags from clicks with 6px distance threshold.
+     - Automatically calculates viewport bounds (`minX`, `maxX`, `minY`, `maxY`) ensuring clearance of the sticky 72px top header (`minY = 88`) and the 768–1023px tablet left rail (`minX = 88px` on tablet, `16px` elsewhere).
+     - Snaps to left or right edge on pointer release with smooth CSS transition (`cubic-bezier(0.22, 1, 0.36, 1)`).
+     - Uses `useSyncExternalStore` for SSR/client hydration safety without cascading render warnings; persists snapped position to `sessionStorage`.
+     - Real contact channels configured:
+       - **WhatsApp**: Direct link via `https://wa.me/?text=...` with prefilled commercial consultation inquiry (or `settings.whatsapp` if configured).
+       - **Email**: Direct `mailto:${settings.email}` (`contact@triadsfuture.com`) with encoded subject line.
+       - **Phone**: Links to `/contact` ("Book a Strategy Call") or `tel:${settings.phone}` if configured, never inventing fake numbers.
+     - Keyboard accessible (`Escape` to close, `aria-expanded`, `role="dialog"`, `focus-visible:ring-2 focus-visible:ring-[#e11d48]`).
+  2. **Mounted in Global Layout (`src/components/global-layout.tsx`)**:
+     - Mounted `<FloatingContactOrb />` inside `GlobalLayout`, providing coverage across all 12 public routes without modifying individual pages.
+  3. **Hero Headline Progressive Blur Reveal (`src/components/hero-reveal.tsx` & `src/app/globals.css`)**:
+     - Upgraded `HeroReveal` to split lines into structured words with continuous global indexing.
+     - Styled `.fz-hero-word` in `globals.css` with progressive blur (`filter: blur(8px) translateY(28px)` resolving into `filter: blur(0px) translateY(0)` over 520ms `cubic-bezier(0.16, 1, 0.3, 1)`).
+     - Staggered words at 65ms intervals.
+     - Added reduced motion override in `@media (prefers-reduced-motion: reduce)` (`filter: none !important; transform: none !important; opacity: 1 !important`).
+     - In `src/app/home-page-content.tsx`, coordinated `<HeroSupport delay={720}>` to seamlessly follow headline completion.
+  4. **Directional Section Reveals Applied Across Pages**:
+     - `src/app/home-page-content.tsx`:
+       - Problem section: Heading `slideLeft`, intro paragraph `slideLeft delay={1}`, items 01, 02, 03 individually `slideLeft delay={2}`, `delay={3}`, `delay={4}`.
+       - What We Do: Split section with heading `slideLeft` and capability rows sequenced `slideLeft delay={1, 2, 3}`.
+       - Process: Heading `slideLeft`, steps 01-04 staggered `fadeUp delay={1, 2, 3, 4}`.
+       - Core Capabilities: Heading `slideLeft`, rows staggered `slideLeft delay={idx + 1}`.
+       - Featured Work: Heading `slideLeft`, alternating image/narrative reveals (`slideLeft` / `slideRight`).
+     - `src/app/about/about-page-content.tsx`:
+       - 6 Core Principles header: `slideLeft`, cards staggered `fadeUp`.
+       - FAQ section: Split section with heading `slideLeft` and accordion `slideRight delay={1}`.
+     - `src/app/solutions/page.tsx`:
+       - Solution domains header: `slideLeft`, rows staggered `slideLeft`.
+       - Common bottlenecks header: `slideLeft`.
+     - `src/app/work/work-page-content.tsx`:
+       - Promises strip: `slideLeft`.
+       - Case studies directory header: `slideLeft`.
+     - `src/app/contact/contact-page-content.tsx`:
+       - Discovery call split layout: Context column `slideLeft`, form column `slideRight delay={1}`.
+       - Contact FAQ split layout: Heading `slideLeft`, FAQ list `slideRight delay={1}`.
+     - `src/app/insights/insights-page-content.tsx`:
+       - Featured article: Image `slideLeft`, text column `slideRight delay={1}`.
+       - Directory filter bar: `slideLeft`.
+     - `src/app/work/[slug]/page.tsx`:
+       - Sticky context sidebar: `slideLeft`, narrative sections: `slideRight delay={1}`.
+     - `src/app/insights/[slug]/page.tsx`:
+       - Related articles header: `slideLeft`.
+
+- **Verification Results**:
+  - **TypeScript (`pnpm exec tsc --noEmit`)**: **PASS (0 errors, exit code 0)**.
+  - **ESLint (`pnpm lint`)**: **PASS (0 errors, 0 warnings, exit code 0)**.
+  - **Automated Tests (`pnpm test`)**: **PASS (18/18 tests passing in ~2000ms, exit code 0)**.
+  - **Production Build (`pnpm run build`)**: **PASS (30/30 pages compiled, prerendered, and statically generated in 13.6s, exit code 0)**.
+
+- **Distinction Between Static & Visual Verification**:
+  - Static verification (TypeScript compile, ESLint clean pass, 18 automated unit/integration tests, production build SSG generation) is 100% verified.
+  - Per explicit constraints, no development server was launched, no localhost opened, and no browser automation ran. Visual drag feel, physical snap inertia on specific mobile hardware, and subjective blur-to-sharp progression remain for real-world browser review.
+
+
 

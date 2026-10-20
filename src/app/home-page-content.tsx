@@ -67,8 +67,8 @@ export default function HomePageContent(props: HomePageContentProps) {
             ]}
           />
 
-          {/* Supporting content — delayed entrance after headline */}
-          <HeroSupport delay={560} className="flex flex-col items-center gap-6 sm:gap-8 w-full">
+          {/* Supporting content — coordinated entrance resolving right after headline */}
+          <HeroSupport delay={720} className="flex flex-col items-center gap-6 sm:gap-8 w-full">
             <p className="text-sm sm:text-base md:text-lg text-[#52525b] font-normal max-w-[320px] sm:max-w-[420px] md:max-w-xl lg:max-w-2xl mx-auto leading-relaxed">
               As a business growth and technology partner, Triads Future helps businesses grow through an integrated combination of strategy, technology, websites, SEO, digital marketing, and automation services.
             </p>
@@ -97,8 +97,8 @@ export default function HomePageContent(props: HomePageContentProps) {
       <section className="py-24 md:py-36 bg-[#fafafa] border-b border-[#e4e4e7]">
         <Container size="default">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-            {/* Left 5 Columns */}
-            <Reveal variant="fadeUp" className="lg:col-span-5 flex flex-col gap-3">
+            {/* Left 5 Columns: Reveal heading from the left */}
+            <Reveal variant="slideLeft" className="lg:col-span-5 flex flex-col gap-3">
               <p className="text-sm font-semibold uppercase tracking-wider text-[#e11d48]">
                 The Problem
               </p>
@@ -107,43 +107,53 @@ export default function HomePageContent(props: HomePageContentProps) {
               </h2>
             </Reveal>
 
-            {/* Right 7 Columns */}
-            <Reveal variant="fadeUp" delay={1} className="lg:col-span-7 flex flex-col gap-6">
-              <p className="text-lg text-[#71717a] leading-relaxed">
-                Most businesses hit a growth wall not because they lack clients, but because their staff spends hours copying information between messy spreadsheets and disconnected subscription apps.
-              </p>
+            {/* Right 7 Columns: Introductory paragraph, followed by items 1, 2, and 3 individually */}
+            <div className="lg:col-span-7 flex flex-col gap-6">
+              <Reveal variant="slideLeft" delay={1}>
+                <p className="text-lg text-[#71717a] leading-relaxed">
+                  Most businesses hit a growth wall not because they lack clients, but because their staff spends hours copying information between messy spreadsheets and disconnected subscription apps.
+                </p>
+              </Reveal>
 
               <div className="border-t border-[#e4e4e7] divide-y divide-[#e4e4e7] mt-2">
-                <div className="py-4 flex flex-col sm:flex-row sm:items-baseline justify-between gap-3">
-                  <span className="text-sm font-bold text-[#e11d48] shrink-0">01. Disjointed Apps</span>
-                  <p className="text-sm text-[#52525b] max-w-sm leading-relaxed">
-                    Customer data is scattered across five different logins, causing confusion and delays.
-                  </p>
-                </div>
-                <div className="py-4 flex flex-col sm:flex-row sm:items-baseline justify-between gap-3">
-                  <span className="text-sm font-bold text-[#e11d48] shrink-0">02. Manual Copy-Pasting</span>
-                  <p className="text-sm text-[#52525b] max-w-sm leading-relaxed">
-                    Valuable employees spend hours re-typing details instead of focusing on customers.
-                  </p>
-                </div>
-                <div className="py-4 flex flex-col sm:flex-row sm:items-baseline justify-between gap-3">
-                  <span className="text-sm font-bold text-[#e11d48] shrink-0">03. Cookie-Cutter Agencies</span>
-                  <p className="text-sm text-[#52525b] max-w-sm leading-relaxed">
-                    Marketing agencies deliver flashy surface designs that don&apos;t fix core operational headaches.
-                  </p>
-                </div>
+                <Reveal variant="slideLeft" delay={2}>
+                  <div className="py-4 flex flex-col sm:flex-row sm:items-baseline justify-between gap-3">
+                    <span className="text-sm font-bold text-[#e11d48] shrink-0">01. Disjointed Apps</span>
+                    <p className="text-sm text-[#52525b] max-w-sm leading-relaxed">
+                      Customer data is scattered across five different logins, causing confusion and delays.
+                    </p>
+                  </div>
+                </Reveal>
+
+                <Reveal variant="slideLeft" delay={3}>
+                  <div className="py-4 flex flex-col sm:flex-row sm:items-baseline justify-between gap-3">
+                    <span className="text-sm font-bold text-[#e11d48] shrink-0">02. Manual Copy-Pasting</span>
+                    <p className="text-sm text-[#52525b] max-w-sm leading-relaxed">
+                      Valuable employees spend hours re-typing details instead of focusing on customers.
+                    </p>
+                  </div>
+                </Reveal>
+
+                <Reveal variant="slideLeft" delay={4}>
+                  <div className="py-4 flex flex-col sm:flex-row sm:items-baseline justify-between gap-3">
+                    <span className="text-sm font-bold text-[#e11d48] shrink-0">03. Cookie-Cutter Agencies</span>
+                    <p className="text-sm text-[#52525b] max-w-sm leading-relaxed">
+                      Marketing agencies deliver flashy surface designs that don&apos;t fix core operational headaches.
+                    </p>
+                  </div>
+                </Reveal>
               </div>
-            </Reveal>
+            </div>
           </div>
         </Container>
       </section>
 
-      {/* 3. WHAT TRIADS FUTURE DOES (Clean Contrast Section) */}
+      {/* 3. WHAT TRIADS FUTURE DOES (Clean Contrast Split Section) */}
       <section className="py-24 md:py-32 bg-[#0a0a0a] text-white border-b border-[#18181b]">
         <Container size="default">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-            {/* Left Column: Heading & Summary */}
-            <Reveal variant="fadeUp" className="lg:col-span-5 flex flex-col gap-4">
+            {/* Left Column: Heading & Summary from left */}
+            <Reveal variant="slideLeft" className="lg:col-span-5 flex flex-col gap-4">
               <p className="text-sm font-semibold uppercase tracking-wider text-[#e11d48]">
                 What We Do
               </p>
@@ -155,41 +165,47 @@ export default function HomePageContent(props: HomePageContentProps) {
               </p>
             </Reveal>
 
-            {/* Right Column: Capability rows */}
-            <Reveal variant="fadeUp" delay={1} className="lg:col-span-7 flex flex-col border-t border-[#27272a] divide-y divide-[#27272a]">
-              <div className="py-8 flex flex-col gap-3">
-                <div className="flex items-center gap-3">
-                  <Layers className="w-5 h-5 text-[#e11d48]" />
-                  <h3 className="text-xl font-bold text-white tracking-tight">Business Strategy &amp; Positioning</h3>
+            {/* Right Column: Sequenced capability rows from left */}
+            <div className="lg:col-span-7 flex flex-col border-t border-[#27272a] divide-y divide-[#27272a]">
+              <Reveal variant="slideLeft" delay={1}>
+                <div className="py-8 flex flex-col gap-3">
+                  <div className="flex items-center gap-3">
+                    <Layers className="w-5 h-5 text-[#e11d48]" />
+                    <h3 className="text-xl font-bold text-white tracking-tight">Business Strategy &amp; Positioning</h3>
+                  </div>
+                  <div className="space-y-1.5 text-xs text-[#a1a1aa] leading-relaxed pl-8">
+                    <p><strong className="text-white uppercase tracking-wider text-[11px] block">WHAT IT DOES:</strong> Pinpoints operational bottlenecks and crafts a verified growth roadmap before writing code.</p>
+                    <p><strong className="text-white uppercase tracking-wider text-[11px] block pt-1">WHY IT HELPS:</strong> Avoids expensive technical debt and ensures every system built directly generates commercial ROI.</p>
+                  </div>
                 </div>
-                <div className="space-y-1.5 text-xs text-[#a1a1aa] leading-relaxed pl-8">
-                  <p><strong className="text-white uppercase tracking-wider text-[11px] block">WHAT IT DOES:</strong> Pinpoints operational bottlenecks and crafts a verified growth roadmap before writing code.</p>
-                  <p><strong className="text-white uppercase tracking-wider text-[11px] block pt-1">WHY IT HELPS:</strong> Avoids expensive technical debt and ensures every system built directly generates commercial ROI.</p>
-                </div>
-              </div>
+              </Reveal>
 
-              <div className="py-8 flex flex-col gap-3">
-                <div className="flex items-center gap-3">
-                  <Cpu className="w-5 h-5 text-[#e11d48]" />
-                  <h3 className="text-xl font-bold text-white tracking-tight">Custom Web Applications</h3>
+              <Reveal variant="slideLeft" delay={2}>
+                <div className="py-8 flex flex-col gap-3">
+                  <div className="flex items-center gap-3">
+                    <Cpu className="w-5 h-5 text-[#e11d48]" />
+                    <h3 className="text-xl font-bold text-white tracking-tight">Custom Web Applications</h3>
+                  </div>
+                  <div className="space-y-1.5 text-xs text-[#a1a1aa] leading-relaxed pl-8">
+                    <p><strong className="text-white uppercase tracking-wider text-[11px] block">WHAT IT DOES:</strong> Builds self-service client portals, internal operations dashboards, and bespoke software tools.</p>
+                    <p><strong className="text-white uppercase tracking-wider text-[11px] block pt-1">WHY IT HELPS:</strong> Replaces fragmented third-party subscriptions with tailor-made systems you own 100%.</p>
+                  </div>
                 </div>
-                <div className="space-y-1.5 text-xs text-[#a1a1aa] leading-relaxed pl-8">
-                  <p><strong className="text-white uppercase tracking-wider text-[11px] block">WHAT IT DOES:</strong> Builds self-service client portals, internal operations dashboards, and bespoke software tools.</p>
-                  <p><strong className="text-white uppercase tracking-wider text-[11px] block pt-1">WHY IT HELPS:</strong> Replaces fragmented third-party subscriptions with tailor-made systems you own 100%.</p>
-                </div>
-              </div>
+              </Reveal>
 
-              <div className="py-8 flex flex-col gap-3">
-                <div className="flex items-center gap-3">
-                  <Zap className="w-5 h-5 text-[#e11d48]" />
-                  <h3 className="text-xl font-bold text-white tracking-tight">Process Automation &amp; Integration</h3>
+              <Reveal variant="slideLeft" delay={3}>
+                <div className="py-8 flex flex-col gap-3">
+                  <div className="flex items-center gap-3">
+                    <Zap className="w-5 h-5 text-[#e11d48]" />
+                    <h3 className="text-xl font-bold text-white tracking-tight">Process Automation &amp; Integration</h3>
+                  </div>
+                  <div className="space-y-1.5 text-xs text-[#a1a1aa] leading-relaxed pl-8">
+                    <p><strong className="text-white uppercase tracking-wider text-[11px] block">WHAT IT DOES:</strong> Connects your business apps, CRM, and pipelines so data moves automatically without manual intervention.</p>
+                    <p><strong className="text-white uppercase tracking-wider text-[11px] block pt-1">WHY IT HELPS:</strong> Saves 30+ team hours weekly, prevents errors, and speeds up customer fulfillment times.</p>
+                  </div>
                 </div>
-                <div className="space-y-1.5 text-xs text-[#a1a1aa] leading-relaxed pl-8">
-                  <p><strong className="text-white uppercase tracking-wider text-[11px] block">WHAT IT DOES:</strong> Connects your business apps, CRM, and pipelines so data moves automatically without manual intervention.</p>
-                  <p><strong className="text-white uppercase tracking-wider text-[11px] block pt-1">WHY IT HELPS:</strong> Saves 30+ team hours weekly, prevents errors, and speeds up customer fulfillment times.</p>
-                </div>
-              </div>
-            </Reveal>
+              </Reveal>
+            </div>
           </div>
         </Container>
       </section>
@@ -197,7 +213,7 @@ export default function HomePageContent(props: HomePageContentProps) {
       {/* 4. HOW WE HELP (Lined List) */}
       <section className="py-24 md:py-36 bg-white border-b border-[#e4e4e7]">
         <Container size="default">
-          <Reveal variant="fadeUp" className="max-w-3xl mb-16">
+          <Reveal variant="slideLeft" className="max-w-3xl mb-16">
             <p className="text-sm font-semibold uppercase tracking-wider text-[#e11d48] mb-2">
               Our Process
             </p>
@@ -302,7 +318,7 @@ export default function HomePageContent(props: HomePageContentProps) {
       {/* 6. WORKFLOW SEQUENCE (Clean Lined Strip) */}
       <section className="py-20 md:py-28 bg-[#fafafa] border-b border-[#e4e4e7]">
         <Container size="default">
-          <Reveal variant="fadeUp" className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+          <Reveal variant="slideLeft" className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div>
               <p className="text-sm font-semibold uppercase tracking-wider text-[#e11d48] mb-1">
                 Project Roadmap
@@ -336,7 +352,7 @@ export default function HomePageContent(props: HomePageContentProps) {
       {/* 7. CORE CAPABILITIES (Clean Lined Layout) */}
       <section className="py-24 md:py-36 bg-white border-b border-[#e4e4e7]">
         <Container size="default">
-          <Reveal variant="fadeUp" className="max-w-2xl mb-16">
+          <Reveal variant="slideLeft" className="max-w-2xl mb-16">
             <p className="text-sm font-semibold uppercase tracking-wider text-[#e11d48] mb-2">
               Capabilities
             </p>
@@ -353,7 +369,7 @@ export default function HomePageContent(props: HomePageContentProps) {
               { Icon: Activity, title: "High-Performance Websites", href: "/solutions#high-performance-websites", desc: "Fast, responsive websites that build trust, rank higher on Google search, and turn interested visitors into qualified inbound leads." },
               { Icon: Zap, title: "Growth Infrastructure & SEO", href: "/solutions#growth-infrastructure", desc: "Scalable technical foundations and digital marketing systems engineered to handle expanding customer acquisition volume effortlessly." },
             ].map(({ Icon, title, href, desc }, idx) => (
-              <Reveal key={idx} variant="fadeUp" delay={idx + 1} as="div">
+              <Reveal key={idx} variant="slideLeft" delay={idx + 1} as="div">
                 <div className="py-8 grid grid-cols-1 md:grid-cols-12 gap-6 items-baseline">
                   <div className="md:col-span-4 flex items-center gap-3">
                     <Icon className="w-5 h-5 text-[#e11d48]" />
@@ -404,7 +420,7 @@ export default function HomePageContent(props: HomePageContentProps) {
       {/* 9. DOCUMENTED OUTCOMES (Clean Lined Rows) */}
       <section className="py-24 md:py-36 bg-white border-b border-[#e4e4e7]">
         <Container size="default">
-          <Reveal variant="fadeUp" className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+          <Reveal variant="slideLeft" className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
             <div className="max-w-xl">
               <p className="text-sm font-semibold uppercase tracking-wider text-[#e11d48] mb-2">
                 Featured Work
@@ -420,36 +436,43 @@ export default function HomePageContent(props: HomePageContentProps) {
 
           <div className="divide-y divide-[#e4e4e7] border-t border-b border-[#e4e4e7]">
             {projects.slice(0, 2).map((project, idx) => (
-              <Reveal key={project.id} variant="fadeUp" delay={idx + 1} as="div">
-                <div className="py-16 md:py-20 grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-14 items-center">
-                  <div className={`lg:col-span-6 relative aspect-[16/10] w-full overflow-hidden border border-[#e4e4e7] bg-[#fafafa] ${idx % 2 === 1 ? "lg:order-2" : ""}`}>
-                    <Link href={`/work/${project.slug}`}>
-                      <ImageWrapper
-                        src={project.coverImage || ""}
-                        alt={project.title}
-                        fill
-                        sizes="(max-width: 1024px) 100vw, 50vw"
-                        containerClassName="w-full h-full border-none rounded-none"
-                        className="object-cover hover:scale-105 transition-transform duration-500"
-                      />
-                    </Link>
+              <div key={project.id} className="py-16 md:py-20 grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-14 items-center">
+                <Reveal 
+                  variant={idx % 2 === 1 ? "slideRight" : "slideLeft"} 
+                  delay={1} 
+                  className={`lg:col-span-6 relative aspect-[16/10] w-full overflow-hidden border border-[#e4e4e7] bg-[#fafafa] ${idx % 2 === 1 ? "lg:order-2" : ""}`}
+                >
+                  <Link href={`/work/${project.slug}`}>
+                    <ImageWrapper
+                      src={project.coverImage || ""}
+                      alt={project.title}
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                      containerClassName="w-full h-full border-none rounded-none"
+                      className="object-cover hover:scale-105 transition-transform duration-500"
+                    />
+                  </Link>
+                </Reveal>
+                <Reveal 
+                  variant={idx % 2 === 1 ? "slideLeft" : "slideRight"} 
+                  delay={2} 
+                  className={`lg:col-span-6 flex flex-col gap-5 ${idx % 2 === 1 ? "lg:order-1" : ""}`}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs font-semibold uppercase tracking-widest text-[#71717a]">{project.clientName}</span>
+                    <span className="w-1 h-1 rounded-full bg-[#d4d4d8]" />
+                    <span className="text-xs font-bold uppercase tracking-wider text-[#e11d48]">{project.industry}</span>
                   </div>
-                  <div className={`lg:col-span-6 flex flex-col gap-5 ${idx % 2 === 1 ? "lg:order-1" : ""}`}>
-                    <div className="flex items-center gap-3">
-                      <span className="text-xs font-semibold uppercase tracking-widest text-[#71717a]">{project.clientName}</span>
-                      <span className="w-1 h-1 rounded-full bg-[#d4d4d8]" />
-                      <span className="text-xs font-bold uppercase tracking-wider text-[#e11d48]">{project.industry}</span>
-                    </div>
 
-                    <h3 className="text-2xl md:text-3xl font-bold text-[#0a0a0a] tracking-tight">
-                      <Link href={`/work/${project.slug}`} className="hover:text-[#e11d48] transition-colors">
-                        {project.title}
-                      </Link>
-                    </h3>
+                  <h3 className="text-2xl md:text-3xl font-bold text-[#0a0a0a] tracking-tight">
+                    <Link href={`/work/${project.slug}`} className="hover:text-[#e11d48] transition-colors">
+                      {project.title}
+                    </Link>
+                  </h3>
 
-                    <p className="text-base text-[#71717a] leading-relaxed">
-                      {project.summary}
-                    </p>
+                  <p className="text-base text-[#71717a] leading-relaxed">
+                    {project.summary}
+                  </p>
 
                     <div className="grid grid-cols-2 gap-4 py-4 border-y border-[#e4e4e7]">
                       {((Array.isArray(project.results) ? project.results : []) as {metric: string, value: string}[]).slice(0, 2).map((res, rIdx) => (
@@ -465,9 +488,8 @@ export default function HomePageContent(props: HomePageContentProps) {
                         Read Project Story <ArrowRight className="w-4 h-4 ml-1.5" />
                       </ButtonLink>
                     </div>
-                  </div>
+                  </Reveal>
                 </div>
-              </Reveal>
             ))}
           </div>
         </Container>

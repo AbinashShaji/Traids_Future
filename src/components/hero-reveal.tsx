@@ -61,13 +61,29 @@ export const HeroReveal: React.FC<HeroRevealProps> = ({
   as: Tag = "h1",
   headingClassName,
   lineWrapperClassName,
-  baseDelay = 0,
-  staggerInterval = 120,
+  baseDelay = 80,
+  staggerInterval = 65,
 }) => {
-  const lineRefs = React.useRef<(HTMLSpanElement | null)[]>([]);
+  const wordRefs = React.useRef<(HTMLSpanElement | null)[]>([]);
+
+  // Split lines into structured word segments with global continuous index
+  const structuredLines = React.useMemo(() => {
+    let globalIndex = 0;
+    return lines.map((line) => {
+      const words = line.text.trim().split(/\s+/).filter(Boolean);
+      const lineWords = words.map((word) => ({
+        word,
+        globalIndex: globalIndex++,
+      }));
+      return {
+        ...line,
+        words: lineWords,
+      };
+    });
+  }, [lines]);
 
   React.useEffect(() => {
-    // If reduced-motion is requested, leave everything visible
+    // If reduced-motion is requested, leave everything visible and sharp
     if (
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches
@@ -75,21 +91,21 @@ export const HeroReveal: React.FC<HeroRevealProps> = ({
       return;
     }
 
-    const inners = lineRefs.current.filter(Boolean) as HTMLSpanElement[];
+    const inners = wordRefs.current.filter(Boolean) as HTMLSpanElement[];
     if (inners.length === 0) return;
 
-    // Step 1: Arm all lines simultaneously (hide them below the clip)
+    // Step 1: Arm all words simultaneously (hide with subtle blur and displacement)
     inners.forEach((el) => {
-      el.setAttribute("data-line-state", "armed");
+      el.setAttribute("data-word-state", "armed");
     });
 
-    // Step 2: Reveal each line with a staggered delay
+    // Step 2: Reveal each word in sequence with progressive blur resolving to sharp text
     const timers: ReturnType<typeof setTimeout>[] = [];
 
     inners.forEach((el, idx) => {
       const delay = baseDelay + idx * staggerInterval;
       const t = setTimeout(() => {
-        el.setAttribute("data-line-state", "visible");
+        el.setAttribute("data-word-state", "visible");
       }, delay);
       timers.push(t);
     });
@@ -97,24 +113,28 @@ export const HeroReveal: React.FC<HeroRevealProps> = ({
     return () => {
       timers.forEach(clearTimeout);
     };
-  }, [baseDelay, staggerInterval]);
+  }, [baseDelay, staggerInterval, structuredLines]);
 
   return (
     <Tag className={cn("block", headingClassName)}>
-      {lines.map((line, idx) => (
+      {structuredLines.map((line, lineIdx) => (
         <span
-          key={idx}
+          key={lineIdx}
           className={cn("fz-hero-line", lineWrapperClassName)}
           aria-hidden={undefined}
         >
-          <span
-            ref={(el) => {
-              lineRefs.current[idx] = el;
-            }}
-            className={cn("fz-hero-line__inner", line.className)}
-          >
-            {line.text}
-          </span>
+          {line.words.map(({ word, globalIndex }) => (
+            <span key={globalIndex} className="fz-hero-word-wrap">
+              <span
+                ref={(el) => {
+                  wordRefs.current[globalIndex] = el;
+                }}
+                className={cn("fz-hero-word", line.className)}
+              >
+                {word}
+              </span>
+            </span>
+          ))}
         </span>
       ))}
     </Tag>

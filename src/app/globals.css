@@ -264,24 +264,60 @@ h1, h2, h3, h4, h5, h6 {
 .fz-hero-line {
   overflow: hidden;
   display: block;
-  padding-bottom: 0.22em;
-  margin-bottom: -0.1em;
+  padding-bottom: 0.15em;
+  margin-bottom: -0.05em;
 }
 
+.fz-hero-word-wrap {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  margin-right: 0.25em;
+}
+
+.fz-hero-word-wrap:last-child {
+  margin-right: 0;
+}
+
+.fz-hero-word {
+  display: inline-block;
+  /* Default: fully visible for SSR, no-JS, and crawlers */
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0px);
+}
+
+/* Armed state — applied post-hydration by HeroReveal useEffect */
+.fz-hero-word[data-word-state="armed"] {
+  opacity: 0;
+  transform: translateY(28px);
+  filter: blur(8px);
+}
+
+/* Visible state — word-by-word masked reveal with progressive blur resolving into sharp text */
+.fz-hero-word[data-word-state="visible"] {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0px);
+  transition:
+    opacity 520ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 520ms cubic-bezier(0.16, 1, 0.3, 1),
+    filter 520ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity, filter;
+}
+
+/* Backward compatibility for line-level inner elements if used */
 .fz-hero-line__inner {
   display: block;
-  /* Default: fully visible for SSR, no-JS, and crawlers */
   opacity: 1;
   transform: translateY(0);
 }
 
-/* Armed state — applied post-hydration by HeroReveal useEffect */
 .fz-hero-line__inner[data-line-state="armed"] {
   opacity: 0;
   transform: translateY(var(--motion-lift));
 }
 
-/* Visible state — triggered by the component timer per-line */
 .fz-hero-line__inner[data-line-state="visible"] {
   opacity: 1;
   transform: translateY(0);
@@ -475,6 +511,14 @@ html.js-ready .fz-word-reveal {
     opacity: 1 !important;
     transform: none !important;
     animation: none !important;
+  }
+
+  /* Hero words — show immediately without blur or displacement */
+  .fz-hero-word {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
   }
 
   /* Drawer — show immediately */
